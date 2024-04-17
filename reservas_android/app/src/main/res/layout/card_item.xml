@@ -21,7 +21,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tvTlfReserva"
-            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintEnd_toStartOf="@+id/btBorrarReserva"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,14 +35,14 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button3"
+            app:layout_constraintEnd_toStartOf="@+id/btLlamarReserva"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPrincipal"
             app:layout_constraintVertical_bias="0.5" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btBorrarReserva"
             android:layout_width="55dp"
             android:layout_height="40dp"
             app:icon="@drawable/papelera"
@@ -56,7 +56,7 @@
             app:layout_constraintVertical_bias="0.5" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btLlamarReserva"
             android:layout_width="55dp"
             android:layout_height="40dp"
             app:icon="@drawable/telefono"

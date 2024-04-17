@@ -7,52 +7,6 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        style="@android:style/Widget.Holo.Light.CalendarView"
-        android:layout_width="348dp"
-        android:layout_height="0dp"
-        android:background="#F6B8B8"
-        android:clickable="true"
-        android:contextClickable="true"
-        android:dateTextAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:onClick="@android:string/ok"
-        android:scrollbarStyle="outsideInset"
-        android:showWeekNumber="false"
-        android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintBottom_toTopOf="@+id/btnReservar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ScrollView
-        android:id="@+id/svReservas"
-        android:layout_width="342dp"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/calendarView"
-        app:layout_constraintTop_toBottomOf="@+id/tvReservasDiaHora">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clReservasFechas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvOcupacion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-
     <Button
         android:id="@+id/btnReservar"
         android:layout_width="wrap_content"
@@ -81,8 +35,9 @@
     <TextView
         android:id="@+id/tvReservasDiaHora"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSiguienteDia"
         app:layout_constraintEnd_toEndOf="@+id/btnSiguienteDia"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,5 +62,63 @@
         android:text="Button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnReservar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvReservasDiaHora">
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            style="@android:style/Widget.Holo.Light.CalendarView"
+            android:layout_width="348dp"
+            android:layout_height="0dp"
+            android:background="#F6B8B8"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:dateTextAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:onClick="@android:string/ok"
+            android:scrollbarStyle="outsideInset"
+            android:showWeekNumber="false"
+            android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:id="@+id/svReservas"
+            android:layout_width="342dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clReservasFechas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvOcupacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

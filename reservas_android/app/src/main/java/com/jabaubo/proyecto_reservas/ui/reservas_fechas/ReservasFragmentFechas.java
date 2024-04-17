@@ -1,12 +1,15 @@
 package com.jabaubo.proyecto_reservas.ui.reservas_fechas;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,6 +60,7 @@ public class ReservasFragmentFechas extends Fragment {
     private Button btSiguienteDia;
     private Button btAnteriorDia;
     private Button btLayoutCalendario;
+    private ScrollView scrollView;
     private LocalTime incremento;
     private LocalDateTime hora_inicio_m;
     private LocalDateTime hora_fin_m;
@@ -91,6 +95,7 @@ public class ReservasFragmentFechas extends Fragment {
         btAnteriorDia = root.findViewById(R.id.btnAnteriorDia);
         btnReservar = root.findViewById(R.id.btnReservar);
         btLayoutCalendario = root.findViewById(R.id.btCalendarReservaFechas);
+        scrollView = root.findViewById(R.id.svReservas);
         rvOcupacion.setLayoutManager(new LinearLayoutManager(this.getContext()));
         incremento = leerIncremento();
         System.out.println("INCREMENTO = " + incremento);
@@ -147,7 +152,8 @@ public class ReservasFragmentFechas extends Fragment {
             }
 
         });
-        rvOcupacion.setAdapter(new ReservasFechaAdapter(getActivity().getSupportFragmentManager(),rvOcupacion,tvReservasDiaHora,lista[0]));
+        rvOcupacion.setAdapter(new ReservasFechaAdapter(getActivity().getSupportFragmentManager(),rvOcupacion,tvReservasDiaHora,lista[0],this));
+        ReservasFragmentFechas reservasFragmentFechas = this;
         btnReservar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,7 +174,7 @@ public class ReservasFragmentFechas extends Fragment {
                     }
                     fecha+=calendar.get(Calendar.DAY_OF_MONTH);
                     String hora = tvReservasDiaHora.getText().toString().substring(tvReservasDiaHora.getText().toString().indexOf("Tramo")+6);
-                    ReservaDialog reservaDialog = new ReservaDialog(getView(),hora,fecha);
+                    ReservaDialog reservaDialog = new ReservaDialog(getView(),hora,fecha,reservasFragmentFechas);
                     reservaDialog.show(getActivity().getSupportFragmentManager(), "A");
                     ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
                     layoutParams.height = 1;
@@ -271,7 +277,7 @@ public class ReservasFragmentFechas extends Fragment {
             Thread thread = new Thread(runnable);
             thread.start();
             thread.join();
-            rvOcupacion.setAdapter(new ReservasFechaAdapter(getActivity().getSupportFragmentManager(),rvOcupacion,tvReservasDiaHora,lista));
+            rvOcupacion.setAdapter(new ReservasFechaAdapter(getActivity().getSupportFragmentManager(),rvOcupacion,tvReservasDiaHora,lista,this));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -359,7 +365,7 @@ public class ReservasFragmentFechas extends Fragment {
                     }
                 }
             }
-            rvOcupacion.setAdapter(new MyAdapter(lista,getActivity().getSupportFragmentManager()));
+            rvOcupacion.setAdapter(new MyAdapter(lista,getActivity().getSupportFragmentManager(),rvOcupacion));
             tvReservasDiaHora.setText(fecha + " Tramo " + horaTramo);
 
         }
@@ -453,7 +459,7 @@ public class ReservasFragmentFechas extends Fragment {
                     }
                 }
             }
-            rvOcupacion.setAdapter(new MyAdapter(lista,getActivity().getSupportFragmentManager()));
+            rvOcupacion.setAdapter(new MyAdapter(lista,getActivity().getSupportFragmentManager(),rvOcupacion));
             tvReservasDiaHora.setText(fecha + " Tramo " + horaTramo);
 
         }
@@ -777,5 +783,16 @@ public class ReservasFragmentFechas extends Fragment {
         }
         return null;
     }
+    public void avisarBorradoRecyclerView(int position){
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                rvOcupacion.getAdapter().notifyItemRemoved(position);
+            }
+        });
+    }
 
+    public RecyclerView getRvOcupacion() {
+        return rvOcupacion;
+    }
 }

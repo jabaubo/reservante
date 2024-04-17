@@ -42,6 +42,7 @@ public class ReservasFragment  extends Fragment {
     private FragmentReservasBinding binding;
     private TextView tvPruebas;
     private RecyclerView recyclerView;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -131,7 +132,7 @@ public class ReservasFragment  extends Fragment {
         }
 
         // Add more items as needed
-        MyAdapter adapter = new MyAdapter(lista,getActivity().getSupportFragmentManager());
+        MyAdapter adapter = new MyAdapter(lista,getActivity().getSupportFragmentManager(),recyclerView);
         recyclerView.setAdapter(adapter);
 
     }

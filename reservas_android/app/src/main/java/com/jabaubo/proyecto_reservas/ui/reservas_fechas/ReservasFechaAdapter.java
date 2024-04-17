@@ -29,19 +29,21 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdapter.MyViewHolder>implements View.OnClickListener {
+public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdapter.MyViewHolder>{
 
 
     private FragmentManager fragmentManager;
+    private ReservasFragmentFechas reservasFragmentFechas;
     private RecyclerView recyclerView;
     private TextView textView;
     private List<ReservaFechas> dataList;
 
-    public ReservasFechaAdapter(FragmentManager fragmentManager, RecyclerView recyclerView, TextView textView, List<ReservaFechas> dataList) {
+    public ReservasFechaAdapter(FragmentManager fragmentManager, RecyclerView recyclerView, TextView textView, List<ReservaFechas> dataList, ReservasFragmentFechas reservasFragmentFechas) {
         this.fragmentManager = fragmentManager;
         this.recyclerView = recyclerView;
         this.textView = textView;
         this.dataList = dataList;
+        this.reservasFragmentFechas = reservasFragmentFechas;
     }
 
     @NonNull
@@ -98,7 +100,7 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
                     }
                 }
             }
-            recyclerView.setAdapter(new MyAdapter(lista,fragmentManager));
+            recyclerView.setAdapter(new MyAdapter(lista,fragmentManager,this.reservasFragmentFechas,recyclerView));
             textView.setText(data.getFecha() + " Tramo " + data.getHora());
         });
     }
@@ -106,11 +108,6 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
     @Override
     public int getItemCount() {
         return dataList.size();
-    }
-
-    @Override
-    public void onClick(View v) {
-        System.out.println("holaaa");
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
