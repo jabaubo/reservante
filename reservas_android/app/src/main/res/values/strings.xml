@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Reservante</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Inicio</string>
+    <string name="menu_config">Configuración</string>
+    <string name="menu_reservas">Reservas</string>
+    <string name="menu_horario">Horario</string>
+    <string name="menu_vacaciones">Vacaciones</string>
+
+    <string name="horario_tarde">Horario de tarde</string>
+    <string name="horario_manana">Horario de Mañana</string>
+    <string name="horario_cerrado">Cerrado</string>
+
+    <string name="horario_lunes">Lunes</string>
+    <string name="horario_martes">Martes</string>
+    <string name="horario_miercoles">Miércoles</string>
+    <string name="horario_jueves">Jueves</string>
+    <string name="horario_viernes">Viernes</string>
+    <string name="horario_sabado">Sábado</string>
+    <string name="horario_domingo">Domingo</string>
+
+    <string name="fecha_inicio">Fecha de inicio</string>
+    <string name="fecha_fin">Fecha de fin</string>
+
+    <string name="dialogo_nombre_apellidos">Nombre y apellidos</string>
+    <string name="dialogo_telefono">Teléfono</string>
+    <string name="dialogo_email">Email</string>
+    <string name="dialogo_comensales">Comensales</string>
+    <string name="dialogo_salon">Salón</string>
+    <string name="dialogo_observaciones">Observaciones</string>
+    <string name="dialogo_cancelar">Cancelar</string>
+    <string name="dialogo_guardar">Guardar</string>
+
+
+
+</resources>

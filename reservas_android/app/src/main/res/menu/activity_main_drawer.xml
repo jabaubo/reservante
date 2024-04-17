@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_reservas"
+            android:icon="@drawable/calendario"
+            android:title="@string/menu_reservas" />
+
+        <item
+            android:id="@+id/nav_config"
+            android:icon="@drawable/configuracion"
+            android:title="@string/menu_config" />
+
+        <item
+            android:id="@+id/nav_horario"
+            android:icon="@drawable/horario"
+            android:title="@string/menu_horario" />
+
+        <item
+            android:id="@+id/nav_vacaciones"
+            android:icon="@drawable/configuracion"
+            android:title="@string/menu_vacaciones" />
+
+        <item
+            android:id="@+id/nav_reservas_fecha"
+            android:icon="@drawable/calendario"
+            android:title="@string/menu_reservas" />
+    </group>
+</menu>
