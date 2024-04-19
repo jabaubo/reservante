@@ -8,11 +8,20 @@
     android:layout_marginStart="0dp"
     tools:context=".ui.config.ConfigFragment">
 
+    <Button
+        android:id="@+id/btGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btGuardar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,17 +33,18 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                style="@android:style/Widget.DeviceDefault.Light.TextView"
+                android:layout_width="194dp"
                 android:layout_height="wrap_content"
                 android:text="Nombre restaurante"
-                tools:layout_editor_absoluteX="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:layout_editor_absoluteX="1dp"
                 tools:layout_editor_absoluteY="16dp" />
 
             <EditText
                 android:id="@+id/etNombre"
-                android:layout_width="wrap_content"
+                android:layout_width="195dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="47dp"
                 android:ems="10"
                 android:inputType="text"
                 android:text="Name"
@@ -43,54 +53,68 @@
 
             <TextView
                 android:id="@+id/textView7"
-                android:layout_width="wrap_content"
+                style="@android:style/Widget.DeviceDefault.Light.TextView"
+                android:layout_width="194dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
                 android:text="Logo"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/etCorreo"
                 app:layout_constraintTop_toBottomOf="@+id/etCorreo" />
 
             <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:id="@+id/textView15"
+                style="@android:style/Widget.DeviceDefault.Light.TextView"
+                android:layout_width="195dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:text="Logo"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="@+id/imageLogoConfig"
+                app:layout_constraintTop_toBottomOf="@+id/imageLogoConfig" />
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@android:style/Widget.DeviceDefault.Light.TextView"
+                android:layout_width="194dp"
+                android:layout_height="wrap_content"
                 android:text="Dirección"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/etTlf2"
                 app:layout_constraintTop_toBottomOf="@+id/etTlf2" />
 
             <TextView
                 android:id="@+id/textView8"
-                android:layout_width="wrap_content"
+                style="@android:style/Widget.DeviceDefault.Light.TextView"
+                android:layout_width="390dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
                 android:text="Correo"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/etDireccion"
                 app:layout_constraintTop_toBottomOf="@+id/etDireccion" />
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="wrap_content"
+                style="@android:style/Widget.DeviceDefault.Light.TextView"
+                android:layout_width="390dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
                 android:text="Teléfono 2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/etTlf1"
                 app:layout_constraintTop_toBottomOf="@+id/etTlf1" />
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="wrap_content"
+                style="@android:style/Widget.DeviceDefault.Light.TextView"
+                android:layout_width="390dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
                 android:text="Teléfono 1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/etNombre"
                 app:layout_constraintTop_toBottomOf="@+id/etNombre" />
 
             <EditText
                 android:id="@+id/etDireccion"
-                android:layout_width="wrap_content"
+                android:layout_width="390dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="47dp"
                 android:ems="10"
                 android:inputType="text"
                 android:text="Name"
@@ -99,9 +123,8 @@
 
             <EditText
                 android:id="@+id/etCorreo"
-                android:layout_width="wrap_content"
+                android:layout_width="390dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
                 android:ems="10"
                 android:inputType="text"
                 android:text="Name"
@@ -110,9 +133,8 @@
 
             <EditText
                 android:id="@+id/etTlf1"
-                android:layout_width="wrap_content"
+                android:layout_width="390dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
                 android:ems="10"
                 android:inputType="phone"
                 app:layout_constraintStart_toStartOf="@+id/textView5"
@@ -120,32 +142,38 @@
 
             <EditText
                 android:id="@+id/etTlf2"
-                android:layout_width="wrap_content"
+                android:layout_width="195dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
                 android:ems="10"
                 android:inputType="phone"
                 app:layout_constraintStart_toStartOf="@+id/textView4"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-            <Button
-                android:id="@+id/btGuardar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:text="Guardar"
-                app:layout_constraintStart_toStartOf="@+id/imageLogoConfig"
-                app:layout_constraintTop_toBottomOf="@+id/imageLogoConfig" />
-
             <ImageView
                 android:id="@+id/imageLogoConfig"
-                android:layout_width="129dp"
+                android:layout_width="195dp"
                 android:layout_height="127dp"
-                android:layout_marginTop="48dp"
                 android:background="#FF0000"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
                 tools:src="@tools:sample/avatars" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSalones"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textView15"
+                app:layout_constraintStart_toStartOf="@+id/textView15"
+                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+            <Button
+                android:id="@+id/btAgregarSalon"
+                android:layout_width="390dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="Button"
+                app:layout_constraintStart_toStartOf="@+id/rvSalones"
+                app:layout_constraintTop_toBottomOf="@+id/rvSalones" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

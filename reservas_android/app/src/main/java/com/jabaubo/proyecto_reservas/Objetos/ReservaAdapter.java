@@ -1,4 +1,4 @@
-package com.jabaubo.proyecto_reservas.ui.reservas;
+package com.jabaubo.proyecto_reservas.Objetos;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,9 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
@@ -18,13 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.ui.ReservaDialog;
-import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservaFechas;
 import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFragmentFechas;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,7 +34,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
+public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHolder>{
 
     private List<Reserva> dataList;
     private FragmentManager fragmentManager;
@@ -47,7 +43,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     private ReservasFragmentFechas reservasFragmentFechas;
     private RecyclerView recyclerView;
 
-    public MyAdapter(List<Reserva> dataList, FragmentManager fragmentManager,RecyclerView recyclerView) {
+    public ReservaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, RecyclerView recyclerView) {
         this.dataList = dataList;
         this.recyclerView = recyclerView;
         this.fragmentManager = fragmentManager;
@@ -56,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         }
     }
 
-    public MyAdapter(List<Reserva> dataList, FragmentManager fragmentManager,ReservasFragmentFechas reservasFragmentFechas, RecyclerView  recyclerView) {
+    public ReservaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, ReservasFragmentFechas reservasFragmentFechas, RecyclerView  recyclerView) {
         this.dataList = dataList;
         this.recyclerView = recyclerView;
         this.fragmentManager = fragmentManager;
@@ -295,7 +291,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             }
         }
         lista = new ArrayList<>(null);
-        recyclerView.setAdapter(new MyAdapter(lista,this.getFragmentManager(),getReservasFragmentFechas(),recyclerView));
+        recyclerView.setAdapter(new ReservaAdapter(lista,this.getFragmentManager(),getReservasFragmentFechas(),recyclerView));
         recyclerView.refreshDrawableState();
     }
 

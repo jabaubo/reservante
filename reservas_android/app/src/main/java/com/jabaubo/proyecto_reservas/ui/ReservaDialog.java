@@ -21,8 +21,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.R;
-import com.jabaubo.proyecto_reservas.ui.reservas.MyAdapter;
-import com.jabaubo.proyecto_reservas.ui.reservas.Reserva;
+import com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter;
+import com.jabaubo.proyecto_reservas.Objetos.Reserva;
 import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFragmentFechas;
 
 import org.json.JSONArray;
@@ -206,7 +206,7 @@ public class ReservaDialog extends DialogFragment {
                                         throw new RuntimeException(e);
                                     }
 
-                                    Reserva r =((MyAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().get(adapterPosition);
+                                    Reserva r =((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().get(adapterPosition);
                                     JSONObject jsonObj;
                                     try {
                                         jsonObj = new JSONObject(json);
@@ -216,7 +216,7 @@ public class ReservaDialog extends DialogFragment {
                                         r.setNombre_apellidos(jsonObj.getString("nombre_apellidos"));
                                         r.setTelefono(jsonObj.getString("telefono"));
                                         r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));
-                                        ((MyAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().set(adapterPosition,r);
+                                        ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().set(adapterPosition,r);
                                         reservasFragmentFechas.getRvOcupacion().getAdapter().notifyDataSetChanged();
                                     } catch (JSONException e) {
                                         throw new RuntimeException(e);
@@ -437,7 +437,7 @@ public class ReservaDialog extends DialogFragment {
                                     r.setNombre_apellidos(jsonObj.getString("nombre_apellidos"));
                                     r.setTelefono(jsonObj.getString("telefono"));
                                     r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));;
-                                    ((MyAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
+                                    ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
                                     reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
                                     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + (reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1));
                                 } catch (JSONException e) {
@@ -534,7 +534,7 @@ public class ReservaDialog extends DialogFragment {
                     r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));
                     r.setFecha(jsonObj.getString("fecha"));
                     r.setHora(jsonObj.getString("hora"));
-                    ((MyAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
+                    ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
                     reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
                     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa" + (reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1));
                 } catch (JSONException e) {

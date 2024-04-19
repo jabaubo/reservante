@@ -1,17 +1,15 @@
-package com.jabaubo.proyecto_reservas.ui.reservas_fechas;
+package com.jabaubo.proyecto_reservas.Objetos;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jabaubo.proyecto_reservas.R;
-import com.jabaubo.proyecto_reservas.ui.reservas.MyAdapter;
-import com.jabaubo.proyecto_reservas.ui.reservas.Reserva;
+import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFragmentFechas;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,7 +98,7 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
                     }
                 }
             }
-            recyclerView.setAdapter(new MyAdapter(lista,fragmentManager,this.reservasFragmentFechas,recyclerView));
+            recyclerView.setAdapter(new ReservaAdapter(lista,fragmentManager,this.reservasFragmentFechas,recyclerView));
             textView.setText(data.getFecha() + " Tramo " + data.getHora());
         });
     }

@@ -1,12 +1,10 @@
 package com.jabaubo.proyecto_reservas.ui.reservas_fechas;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ScrollView;
@@ -18,11 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.jabaubo.proyecto_reservas.Objetos.ReservaFechas;
+import com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.databinding.FragmentReservasFechaBinding;
 import com.jabaubo.proyecto_reservas.ui.ReservaDialog;
-import com.jabaubo.proyecto_reservas.ui.reservas.MyAdapter;
-import com.jabaubo.proyecto_reservas.ui.reservas.Reserva;
+import com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter;
+import com.jabaubo.proyecto_reservas.Objetos.Reserva;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,10 +42,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ReservasFragmentFechas extends Fragment {
     /*
@@ -158,7 +156,7 @@ public class ReservasFragmentFechas extends Fragment {
             @Override
             public void onClick(View v) {
                 String clase = rvOcupacion.getAdapter().getClass().toString();
-                if (clase.equals("class com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFechaAdapter")){
+                if (clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter")){
                     Snackbar.make(root, "Ocupacion", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }else {
@@ -284,7 +282,7 @@ public class ReservasFragmentFechas extends Fragment {
     }
     public void siguienteDia(CalendarView calendarView){
         String clase = rvOcupacion.getAdapter().getClass().toString();
-        if (clase.equals("class com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFechaAdapter")){
+        if (clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter")){
             calendarView.setDate(calendarView.getDate()+86400000);
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(calendarView.getDate());
@@ -365,14 +363,14 @@ public class ReservasFragmentFechas extends Fragment {
                     }
                 }
             }
-            rvOcupacion.setAdapter(new MyAdapter(lista,getActivity().getSupportFragmentManager(),this,rvOcupacion));
+            rvOcupacion.setAdapter(new ReservaAdapter(lista,getActivity().getSupportFragmentManager(),this,rvOcupacion));
             tvReservasDiaHora.setText(fecha + " Tramo " + horaTramo);
 
         }
     }
     public void anteriorDia(CalendarView calendarView){
         String clase = rvOcupacion.getAdapter().getClass().toString();
-        if (clase.equals("class com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFechaAdapter")){
+        if (clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter")){
             calendarView.setDate(calendarView.getDate()-86400000);
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(calendarView.getDate());
@@ -459,7 +457,7 @@ public class ReservasFragmentFechas extends Fragment {
                     }
                 }
             }
-            rvOcupacion.setAdapter(new MyAdapter(lista,getActivity().getSupportFragmentManager(),this,rvOcupacion));
+            rvOcupacion.setAdapter(new ReservaAdapter(lista,getActivity().getSupportFragmentManager(),this,rvOcupacion));
             tvReservasDiaHora.setText(fecha + " Tramo " + horaTramo);
 
         }

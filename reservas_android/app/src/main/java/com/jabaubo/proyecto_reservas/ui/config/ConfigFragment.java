@@ -22,14 +22,31 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.BaseDeDatos;
+import com.jabaubo.proyecto_reservas.Objetos.Salon;
+import com.jabaubo.proyecto_reservas.Objetos.SalonAdapter;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.databinding.FragmentConfigBinding;
+import com.jabaubo.proyecto_reservas.ui.SalonDialog;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class ConfigFragment extends Fragment {
 
@@ -44,7 +61,8 @@ public class ConfigFragment extends Fragment {
     private EditText etDireccion;
     private EditText etCorreo;
     private ImageView imageViewLogo;
-
+    private RecyclerView rvSalones;
+    private Button btAgregarSalon;
     private Button btGuardar;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +81,10 @@ public class ConfigFragment extends Fragment {
         btGuardar =  root.findViewById(R.id.btGuardar);
         imageViewLogo = root.findViewById(R.id.imageLogoConfig);
         etCorreo = root.findViewById(R.id.etCorreo);
+        rvSalones = root.findViewById(R.id.rvSalones);
+        btAgregarSalon = root.findViewById(R.id.btAgregarSalon);
+        rvSalones.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        cargarSalones();
 
         ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
                 registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
@@ -92,7 +114,12 @@ public class ConfigFragment extends Fragment {
 
             }
         });
-
+        btAgregarSalon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickAgregarSalon();
+            }
+        });
 
         etNombre.setText(datos[0]);
         etTlf1.setText(datos[1]);
@@ -113,7 +140,73 @@ public class ConfigFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+    public void cargarSalones(){
+        String[] responseStr = new String[1];
+        Runnable runnable= new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/getsalones");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    int responseCode = connection.getResponseCode();
 
+                    //Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        responseStr[0] = response.toString();
+                        connection.disconnect();
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
+        JSONArray jsonArray;
+        try {
+            jsonArray = new JSONObject(responseStr[0]).getJSONArray("resultado");
+            ArrayList<Salon> lista = new ArrayList<>();
+            for (int i = 0 ; i < jsonArray.length() ; i++){
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                Salon s = new Salon(jsonObject.getInt("id_salon"),jsonObject.getString("nombre"),jsonObject.getInt("aforo"));
+                lista.add(s);
+            }
+            for (int i = 0 ; i < lista.size()  ;i++){
+                System.out.println(lista.get(i));
+            }
+            SalonAdapter salonAdapter = new SalonAdapter(lista,this);
+            rvSalones.setAdapter(salonAdapter);
+            rvSalones.refreshDrawableState();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void clickAgregarSalon(){
+        SalonDialog salonDialog = new SalonDialog();
+        salonDialog.show(this.getActivity().getSupportFragmentManager(),"a");
+    }
     @Override
     public void onStop() {
         super.onStop();

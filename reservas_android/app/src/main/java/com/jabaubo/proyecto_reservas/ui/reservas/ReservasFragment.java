@@ -4,15 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jabaubo.proyecto_reservas.Objetos.Reserva;
+import com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.databinding.FragmentReservasBinding;
 
@@ -27,8 +27,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +60,6 @@ public class ReservasFragment  extends Fragment {
     private void cargarReservas (RecyclerView recyclerView){
         final String[] responseStr = new String[1];
         try {
-            System.out.println("Pa dentro");
             Runnable runnable= new Runnable() {
                 @Override
                 public void run() {
@@ -132,7 +129,7 @@ public class ReservasFragment  extends Fragment {
         }
 
         // Add more items as needed
-        MyAdapter adapter = new MyAdapter(lista,getActivity().getSupportFragmentManager(),recyclerView);
+        ReservaAdapter adapter = new ReservaAdapter(lista,getActivity().getSupportFragmentManager(),recyclerView);
         recyclerView.setAdapter(adapter);
 
     }

@@ -1,4 +1,4 @@
-package com.jabaubo.proyecto_reservas.ui.reservas;
+package com.jabaubo.proyecto_reservas.Objetos;
 
 import java.time.LocalDate;
 
