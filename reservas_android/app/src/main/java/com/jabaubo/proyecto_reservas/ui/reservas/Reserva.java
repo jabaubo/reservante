@@ -3,17 +3,6 @@ package com.jabaubo.proyecto_reservas.ui.reservas;
 import java.time.LocalDate;
 
 public class Reserva {
-    /*
-                    "id_reserva":"1",
-                    "nombre_apellidos":"pepe",
-                    "telefono":"123",
-                    "email":"pepepepepepe1",
-                    "n_personas":"1",
-                    "id_salon":"1",
-                    "fecha":"2024-04-02",
-                    "hora":"34:20",
-                    "observaciones":"AAAAAAAAAAAAAAAAAAAAAAA"}
-                     */
     private int id;
     private String nombre_apellidos;
     private String telefono;
@@ -35,6 +24,9 @@ public class Reserva {
         this.hora = hora;
         this.observaciones = observaciones;
     }
+    public Reserva(){
+
+    };
 
     public int getId() {
         return id;
@@ -106,5 +98,20 @@ public class Reserva {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    @Override
+    public String toString() {
+        return "Reserva{" +
+                "id=" + id +
+                ", nombre_apellidos='" + nombre_apellidos + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", email='" + email + '\'' +
+                ", n_personas=" + n_personas +
+                ", id_salon=" + id_salon +
+                ", fecha='" + fecha + '\'' +
+                ", hora='" + hora + '\'' +
+                ", observaciones='" + observaciones + '\'' +
+                '}';
     }
 }

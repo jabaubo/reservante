@@ -365,7 +365,7 @@ public class ReservasFragmentFechas extends Fragment {
                     }
                 }
             }
-            rvOcupacion.setAdapter(new MyAdapter(lista,getActivity().getSupportFragmentManager(),rvOcupacion));
+            rvOcupacion.setAdapter(new MyAdapter(lista,getActivity().getSupportFragmentManager(),this,rvOcupacion));
             tvReservasDiaHora.setText(fecha + " Tramo " + horaTramo);
 
         }
@@ -459,7 +459,7 @@ public class ReservasFragmentFechas extends Fragment {
                     }
                 }
             }
-            rvOcupacion.setAdapter(new MyAdapter(lista,getActivity().getSupportFragmentManager(),rvOcupacion));
+            rvOcupacion.setAdapter(new MyAdapter(lista,getActivity().getSupportFragmentManager(),this,rvOcupacion));
             tvReservasDiaHora.setText(fecha + " Tramo " + horaTramo);
 
         }

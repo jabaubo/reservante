@@ -5,16 +5,14 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.telephony.SignalStrength;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,8 +23,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.ui.reservas.MyAdapter;
 import com.jabaubo.proyecto_reservas.ui.reservas.Reserva;
-import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservaFechas;
-import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFechaAdapter;
 import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFragmentFechas;
 
 import org.json.JSONArray;
@@ -42,7 +38,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class ReservaDialog extends DialogFragment {
     private View vistaPadre;
@@ -65,6 +60,7 @@ public class ReservaDialog extends DialogFragment {
     private EditText etComensales;
     private EditText etSalon;
     private EditText etObservaciones;
+    private Spinner sSalones;
 
 
     private Button btBorrado;
@@ -110,11 +106,14 @@ public class ReservaDialog extends DialogFragment {
         etTlf = view.findViewById(R.id.etTlfRD);
         etEmail = view.findViewById(R.id.etEmailRD);
         etComensales = view.findViewById(R.id.etComensalesRD);
-        etSalon = view.findViewById(R.id.etSalonRD);
         etObservaciones = view.findViewById(R.id.etObservacionesRD);
         btBorrado = view.findViewById(R.id.btBorrarDialog);
         btCorreo = view.findViewById(R.id.btCorreoDialog);
         btLLamar = view.findViewById(R.id.btLlamarDialog);
+        sSalones = view.findViewById(R.id.sSalones);
+        String[] salones = leerSalones(); ;
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_dropdown_item,salones);
+        sSalones.setAdapter(adapter);
         if (!editando) {
             btCorreo.setEnabled(false);
             btLLamar.setEnabled(false);
@@ -130,10 +129,8 @@ public class ReservaDialog extends DialogFragment {
                         String telefono = etTlf.getText().toString();
                         String email = etEmail.getText().toString();
                         String comensales = etComensales.getText().toString();
-                        String salon = etSalon.getText().toString();
+                        String salon = sSalones.getSelectedItem().toString().substring(0,sSalones.getSelectedItem().toString().indexOf(" -"));
                         String observaciones = etObservaciones.getText().toString();
-                        System.out.println(observaciones.equals(""));
-                        System.out.println(observaciones == null);
                         if (nombre.equals("") | telefono.equals("") | email.equals("") | comensales.equals("") | salon.equals("") | observaciones.equals("")) {
                             String error = "";
                             if (nombre.equals("")) {
@@ -160,6 +157,7 @@ public class ReservaDialog extends DialogFragment {
                         } else {
                             if (editando) {
                                 String json = crearJsonActualizar();
+                                System.out.println("JSON actualizar: " + json);
                                 if (json.equals("No hay diferencias")){
                                     Snackbar.make(vistaPadre, json, Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
@@ -253,7 +251,7 @@ public class ReservaDialog extends DialogFragment {
                 etComensales.setText(comensales);
             }
             if (salon != null) {
-                etSalon.setText(salon);
+                sSalones.setSelection(Integer.valueOf(salon)-1);
             }
             if (observaciones != null) {
                 etObservaciones.setText(observaciones);
@@ -295,7 +293,8 @@ public class ReservaDialog extends DialogFragment {
         String tlf_n = etTlf.getText().toString();
         String email_n = etEmail.getText().toString();
         String n_personas_n = etComensales.getText().toString();
-        String id_salon_n = etSalon.getText().toString();
+        String id_salon_n = sSalones.getSelectedItem().toString().substring(0,sSalones.getSelectedItem().toString().indexOf(" -"));
+        System.out.println(id_salon_n);
         String observaciones_n = etObservaciones.getText().toString();
         if (!nombre_n.equals(nombre) || !tlf_n.equals(tlf) || !email_n.equals(email) || !n_personas_n.equals(comensales) || !id_salon_n.equals(salon) || !observaciones_n.equals(observaciones)) {
             String json = "{\n" +
@@ -309,17 +308,26 @@ public class ReservaDialog extends DialogFragment {
                     "\"hora\": \"#PARAMhora#\",\n" +
                     "\"observaciones\": \"#PARAMobservaciones#\"\n" +
                     "}";
+            System.out.println("JSON pre replaces: " + json);json = json.replace("#PARAMid_reserva#", idReserva);
+            System.out.println("Replace 1: " + json);
+            json = json.replace("#PARAMnombre_apellidos#", nombre_n);
+            System.out.println("Replace 2: " + json);
+            json = json.replace("#PARAMtelefono#", tlf_n);
+            System.out.println("Replace 3: " + json);
+            json = json.replace("#PARAMemail#", email_n);
+            System.out.println("Replace 4: " + json);
+            json = json.replace("#PARAMn_personas#", n_personas_n);
+            System.out.println("Replace 5: " + json);
+            json = json.replace("#PARAMid_salon#", id_salon_n);
+            System.out.println("Replace 6: " + json);
+            json = json.replace("#PARAMobservaciones#", observaciones_n);
+            System.out.println("Replace 7: " + json);
+            json = json.replace("#PARAMhora#", hora);
+            System.out.println("Replace 8: " + json);
+            json = json.replace("#PARAMfecha#", fecha);
+            System.out.println("Replace 9: " + json);
 
-            json = json.replace("#PARAMid_reserva#", idReserva)
-                    .replace("#PARAMnombre_apellidos#", nombre_n)
-                    .replace("#PARAMtelefono#", tlf_n)
-                    .replace("#PARAMemail#", email_n)
-                    .replace("#PARAMn_personas#", n_personas_n)
-                    .replace("#PARAMid_salon#", id_salon_n)
-                    .replace("#PARAMobservaciones#", observaciones_n)
-                    .replace("#PARAMhora#", hora)
-                    .replace("#PARAMfecha#", fecha);
-
+            System.out.println("JSON En el método" + json);
             return json;
         }else{
             return "No hay diferencias";
@@ -331,10 +339,217 @@ public class ReservaDialog extends DialogFragment {
         String tlf = etTlf.getText().toString();
         String email = etEmail.getText().toString();
         String n_personas = etComensales.getText().toString();
-        String id_salon = etSalon.getText().toString();
+        //String id_salon = etSalon.getText().toString();
+        String salon = sSalones.getSelectedItem().toString();
+        String id_salon = salon.substring(0,sSalones.getSelectedItem().toString().indexOf(" -"));
+        String aforoLibre = salon.substring(salon.indexOf("libre: ")+7,salon.indexOf("/"));
+        System.out.println("Id salon: " + id_salon);
+        System.out.println("aforo libre: " + aforoLibre);
         String observaciones = etObservaciones.getText().toString();
-        String[] aforoLibre = new String[1];
         final boolean[] permitir = {true};
+        final boolean[] fin = {false};
+        AlertDialog alertDialog = null;
+        final String[] json = {""};
+            if (Integer.valueOf(n_personas) > Integer.valueOf(aforoLibre)) {
+                alertDialog = new AlertDialog.Builder(vistaPadre.getContext())
+                        .setTitle("Exceso de aforo")
+                        .setMessage("Si guardas esta reserva pasarás tu aforo")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Runnable runnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // Conectamos a la pagina con el método que queramos
+                                        try {
+                                            json[0] = "{\n" +
+                                                    "\"nombre_apellidos\": \"#PARAMnombre_apellidos#\",\n" +
+                                                    "\"telefono\": \"#PARAMtelefono#\",\n" +
+                                                    "\"email\": \"#PARAMemail#\",\n" +
+                                                    "\"n_personas\": \"#PARAMn_personas#\",\n" +
+                                                    "\"id_salon\": \"#PARAMid_salon#\",\n" +
+                                                    "\"fecha\": \"#PARAMfecha#\",\n" +
+                                                    "\"hora\": \"#PARAMhora#\",\n" +
+                                                    "\"observaciones\": \"#PARAMobservaciones#\"\n" +
+                                                    "}";
+                                            json[0] = json[0].replace("#PARAMnombre_apellidos#", nombre)
+                                                    .replace("#PARAMtelefono#", tlf)
+                                                    .replace("#PARAMemail#", email)
+                                                    .replace("#PARAMn_personas#", n_personas)
+                                                    .replace("#PARAMid_salon#", id_salon)
+                                                    .replace("#PARAMobservaciones#", observaciones)
+                                                    .replace("#PARAMhora#", hora)
+                                                    .replace("#PARAMfecha#", fecha);
+                                            URL url = new URL("https://reservante.mjhudesings.com/slim/addreserva");
+                                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                            connection.setRequestMethod("POST");
+                                            OutputStream os = connection.getOutputStream();
+                                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                            osw.write(json[0]);
+                                            System.out.println("JSON EN LA PETICIÓN: " + json[0]);
+                                            osw.flush();
+                                            int responseCode = connection.getResponseCode();
+
+                                            //Ver si la respuesta es correcta
+                                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                                // Si es correcta la leemos
+                                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                                String line;
+                                                StringBuilder response = new StringBuilder();
+                                                while ((line = reader.readLine()) != null) {
+                                                    response.append(line);
+                                                }
+                                                System.out.println(response);
+                                                reader.close();
+                                                connection.disconnect();
+                                            } else {
+                                                connection.disconnect();
+                                            }
+                                        } catch (MalformedURLException e) {
+                                            throw new RuntimeException(e);
+                                        } catch (ProtocolException e) {
+                                            throw new RuntimeException(e);
+                                        } catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
+
+                                    }
+                                };
+                                Thread thread = new Thread(runnable);
+                                thread.start();
+                                try {
+                                    thread.join();
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                Snackbar.make(vistaPadre, "Guardando", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+
+                                JSONObject jsonObj ;
+                                Reserva r = new Reserva();
+                                try {
+                                    jsonObj = new JSONObject(json[0]);
+                                    r.setEmail(jsonObj.getString("email"));
+                                    r.setId_salon(Integer.valueOf(jsonObj.getString("id_salon")));
+                                    r.setObservaciones(jsonObj.getString("observaciones"));
+                                    r.setNombre_apellidos(jsonObj.getString("nombre_apellidos"));
+                                    r.setTelefono(jsonObj.getString("telefono"));
+                                    r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));;
+                                    ((MyAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
+                                    reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
+                                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + (reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1));
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Snackbar.make(vistaPadre, "Intento de reserva cancelado", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert).create();
+                alertDialog.show();
+            } else {
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        // Conectamos a la pagina con el método que queramos
+                        try {
+                            json[0] = "{\n" +
+                                    "\"nombre_apellidos\": \"#PARAMnombre_apellidos#\",\n" +
+                                    "\"telefono\": \"#PARAMtelefono#\",\n" +
+                                    "\"email\": \"#PARAMemail#\",\n" +
+                                    "\"n_personas\": \"#PARAMn_personas#\",\n" +
+                                    "\"id_salon\": \"#PARAMid_salon#\",\n" +
+                                    "\"fecha\": \"#PARAMfecha#\",\n" +
+                                    "\"hora\": \"#PARAMhora#\",\n" +
+                                    "\"observaciones\": \"#PARAMobservaciones#\"\n" +
+                                    "}";
+                            json[0] = json[0].replace("#PARAMnombre_apellidos#", nombre)
+                                    .replace("#PARAMtelefono#", tlf)
+                                    .replace("#PARAMemail#", email)
+                                    .replace("#PARAMn_personas#", n_personas)
+                                    .replace("#PARAMid_salon#", id_salon)
+                                    .replace("#PARAMobservaciones#", observaciones)
+                                    .replace("#PARAMhora#", hora)
+                                    .replace("#PARAMfecha#", fecha);
+                            URL url = new URL("https://reservante.mjhudesings.com/slim/addreserva");
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("POST");
+                            OutputStream os = connection.getOutputStream();
+                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                            osw.write(json[0]);
+                            System.out.println("JSON EN LA PETICIÓN: " + json[0]);
+                            osw.flush();
+                            int responseCode = connection.getResponseCode();
+
+                            //Ver si la respuesta es correcta
+                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                // Si es correcta la leemos
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                String line;
+                                StringBuilder response = new StringBuilder();
+                                while ((line = reader.readLine()) != null) {
+                                    response.append(line);
+                                }
+                                System.out.println(response);
+                                reader.close();
+                                connection.disconnect();
+                            } else {
+                                connection.disconnect();
+                            }
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException(e);
+                        } catch (ProtocolException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                JSONObject jsonObj ;
+                Reserva r = new Reserva();
+                try {
+                    jsonObj = new JSONObject(json[0]);
+                    r.setEmail(jsonObj.getString("email"));
+                    r.setId_salon(Integer.valueOf(jsonObj.getString("id_salon")));
+                    r.setObservaciones(jsonObj.getString("observaciones"));
+                    r.setNombre_apellidos(jsonObj.getString("nombre_apellidos"));
+                    r.setTelefono(jsonObj.getString("telefono"));
+                    r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));
+                    r.setFecha(jsonObj.getString("fecha"));
+                    r.setHora(jsonObj.getString("hora"));
+                    ((MyAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
+                    reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
+                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa" + (reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                Snackbar.make(vistaPadre, "Guardando", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                
+            }
+        }
+
+
+
+    public String[] leerSalones(){
+        final JSONArray[] jsonArray = new JSONArray[1];
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -352,6 +567,7 @@ public class ReservaDialog extends DialogFragment {
                     json = json.replace("#FECHA#", fecha);
                     json = json.replace("#HORA#", hora);
                     osw.write(json);
+                    System.out.println("MANDO :" + json);
                     osw.flush();
                     int responseCode = connection.getResponseCode();
                     System.out.println("Respuesta insertar aforo" + (responseCode == HttpURLConnection.HTTP_OK));
@@ -364,11 +580,11 @@ public class ReservaDialog extends DialogFragment {
                         while ((line = reader.readLine()) != null) {
                             response.append(line);
                         }
-                        System.out.println("Respuesta insertar aforo" + response);
-                        JSONObject jsonObject = new JSONObject(String.valueOf(response)).getJSONArray("aforo").getJSONObject(0);
-                        aforoLibre[0] = jsonObject.getString("disponible");
                         reader.close();
                         connection.disconnect();
+                        System.out.println("Respuesta insertar aforo" + response);
+                        jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
+                        System.out.println(jsonArray[0]);
                     } else {
                         connection.disconnect();
                     }
@@ -391,170 +607,22 @@ public class ReservaDialog extends DialogFragment {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        final boolean[] fin = {false};
-        AlertDialog alertDialog = null;
-        final String[] json = {""};
-        if (Integer.valueOf(n_personas) > Integer.valueOf(aforoLibre[0])) {
-            alertDialog = new AlertDialog.Builder(vistaPadre.getContext())
-                    .setTitle("Exceso de aforo")
-                    .setMessage("Si guardas esta reserva pasarás tu aforo")
-
-                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Runnable runnable = new Runnable() {
-                                @Override
-                                public void run() {
-                                    // Conectamos a la pagina con el método que queramos
-                                    try {
-                                        json[0] = "{\n" +
-                                                "\"nombre_apellidos\": \"#PARAMnombre_apellidos#\",\n" +
-                                                "\"telefono\": \"#PARAMtelefono#\",\n" +
-                                                "\"email\": \"#PARAMemail#\",\n" +
-                                                "\"n_personas\": \"#PARAMn_personas#\",\n" +
-                                                "\"id_salon\": \"#PARAMid_salon#\",\n" +
-                                                "\"fecha\": \"#PARAMfecha#\",\n" +
-                                                "\"hora\": \"#PARAMhora#\",\n" +
-                                                "\"observaciones\": \"#PARAMobservaciones#\"\n" +
-                                                "}";
-                                        json[0] = json[0].replace("#PARAMnombre_apellidos#", nombre)
-                                                .replace("#PARAMtelefono#", tlf)
-                                                .replace("#PARAMemail#", email)
-                                                .replace("#PARAMn_personas#", n_personas)
-                                                .replace("#PARAMid_salon#", id_salon)
-                                                .replace("#PARAMobservaciones#", observaciones)
-                                                .replace("#PARAMhora#", hora)
-                                                .replace("#PARAMfecha#", fecha);
-                                        URL url = new URL("https://reservante.mjhudesings.com/slim/addreserva");
-                                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                                        connection.setRequestMethod("POST");
-                                        OutputStream os = connection.getOutputStream();
-                                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                                        osw.write(json[0]);
-                                        System.out.println("JSON EN LA PETICIÓN: " + json[0]);
-                                        osw.flush();
-                                        int responseCode = connection.getResponseCode();
-
-                                        //Ver si la respuesta es correcta
-                                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                                            // Si es correcta la leemos
-                                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                            String line;
-                                            StringBuilder response = new StringBuilder();
-                                            while ((line = reader.readLine()) != null) {
-                                                response.append(line);
-                                            }
-                                            System.out.println(response);
-                                            reader.close();
-                                            connection.disconnect();
-                                        } else {
-                                            connection.disconnect();
-                                        }
-                                    } catch (MalformedURLException e) {
-                                        throw new RuntimeException(e);
-                                    } catch (ProtocolException e) {
-                                        throw new RuntimeException(e);
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
-
-                                }
-                            };
-                            Thread thread = new Thread(runnable);
-                            thread.start();
-                            try {
-                                thread.join();
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
-                            }
-                            Snackbar.make(vistaPadre, "Guardando", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-                        }
-                    })
-
-                    // A null listener allows the button to dismiss the dialog and take no further action.
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Snackbar.make(vistaPadre, "Intento de reserva cancelado", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert).create();
-            alertDialog.show();
-        } else {
-
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    try {
-                        json[0] = "{\n" +
-                                "\"nombre_apellidos\": \"#PARAMnombre_apellidos#\",\n" +
-                                "\"telefono\": \"#PARAMtelefono#\",\n" +
-                                "\"email\": \"#PARAMemail#\",\n" +
-                                "\"n_personas\": \"#PARAMn_personas#\",\n" +
-                                "\"id_salon\": \"#PARAMid_salon#\",\n" +
-                                "\"fecha\": \"#PARAMfecha#\",\n" +
-                                "\"hora\": \"#PARAMhora#\",\n" +
-                                "\"observaciones\": \"#PARAMobservaciones#\"\n" +
-                                "}";
-                        json[0] = json[0].replace("#PARAMnombre_apellidos#", nombre)
-                                .replace("#PARAMtelefono#", tlf)
-                                .replace("#PARAMemail#", email)
-                                .replace("#PARAMn_personas#", n_personas)
-                                .replace("#PARAMid_salon#", id_salon)
-                                .replace("#PARAMobservaciones#", observaciones)
-                                .replace("#PARAMhora#", hora)
-                                .replace("#PARAMfecha#", fecha);
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/addreserva");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("POST");
-                        OutputStream os = connection.getOutputStream();
-                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        osw.write(json[0]);
-                        System.out.println("JSON EN LA PETICIÓN: " + json[0]);
-                        osw.flush();
-                        int responseCode = connection.getResponseCode();
-
-                        //Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            System.out.println(response);
-                            reader.close();
-                            connection.disconnect();
-                        } else {
-                            connection.disconnect();
-                        }
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
-            };
-            thread = new Thread(runnable);
-            thread.start();
+        String[] textos = new String[jsonArray[0].length()];
+        for (int i = 0 ; i < jsonArray[0].length() ; i++){
             try {
-                thread.join();
-            } catch (InterruptedException e) {
+                JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
+                textos[i] = String.format("%s - %s libre: %s/%s ",jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
+
+            } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
-            Snackbar.make(vistaPadre, "Guardando", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-        }
-    }
 
+        }
+        for (String t:textos){
+            System.out.println(t);
+        }
+        return textos;
+    }
     public void clickBorrar() {
         ReservaDialog reservaDialog = this;
         String jsonStr = "{\n" +
@@ -594,7 +662,6 @@ public class ReservaDialog extends DialogFragment {
                                         System.out.println(response);
                                         reader.close();
                                         connection.disconnect();
-                                        //actualizarLista();
                                     } else {
                                         connection.disconnect();
                                     }

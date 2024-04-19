@@ -86,6 +86,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (int i = 0 ; i < dataList.size(); i++){
+                    System.out.println(dataList.get(i));
+                }
+                System.out.println("Position boom; " + position + " " + dataList.size());
+                System.out.println("FEcha data  "  + data.getFecha());
                 ReservaDialog reservaDialog = new ReservaDialog(true
                         ,v
                         ,data.getNombre_apellidos()
