@@ -9,125 +9,147 @@
         android:id="@+id/etClienteRD"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_margin="5dp"
         android:hint="@string/dialogo_nombre_apellidos"
         android:inputType="text"
-        tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="83dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <EditText
         android:id="@+id/etTlfRD"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_margin="5dp"
         android:fontFamily="sans-serif"
         android:hint="@string/dialogo_telefono"
         android:inputType="phone"
-        tools:layout_editor_absoluteY="143dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <EditText
         android:id="@+id/etEmailRD"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_margin="5dp"
         android:fontFamily="sans-serif"
         android:hint="@string/dialogo_email"
         android:inputType="textEmailAddress"
-        tools:layout_editor_absoluteY="202dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <EditText
         android:id="@+id/etComensalesRD"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_margin="5dp"
         android:fontFamily="sans-serif"
         android:hint="@string/dialogo_comensales"
         android:inputType="number"
-        tools:layout_editor_absoluteY="262dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/textView11"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <EditText
         android:id="@+id/etObservacionesRD"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_margin="5dp"
         android:fontFamily="sans-serif"
         android:hint="@string/dialogo_observaciones"
         android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintBottom_toTopOf="@+id/btBorrarDialog"
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:text="@string/dialogo_nombre_apellidos"
-        tools:layout_editor_absoluteY="64dp" />
+        app:layout_constraintBottom_toTopOf="@+id/etClienteRD"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:text="@string/dialogo_telefono"
-        tools:layout_editor_absoluteY="123dp" />
+        app:layout_constraintBottom_toTopOf="@+id/etTlfRD"
+        app:layout_constraintTop_toBottomOf="@+id/etClienteRD"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:text="@string/dialogo_email"
-        tools:layout_editor_absoluteY="183dp" />
+        app:layout_constraintBottom_toTopOf="@+id/etEmailRD"
+        app:layout_constraintTop_toBottomOf="@+id/etTlfRD"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:text="@string/dialogo_comensales"
-        tools:layout_editor_absoluteY="242dp" />
+        app:layout_constraintBottom_toTopOf="@+id/etComensalesRD"
+        app:layout_constraintTop_toBottomOf="@+id/etEmailRD"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:text="@string/dialogo_salon"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="302dp" />
+        app:layout_constraintBottom_toTopOf="@+id/sSalones"
+        app:layout_constraintTop_toBottomOf="@+id/etComensalesRD"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:text="@string/dialogo_observaciones"
-        app:layout_constraintTop_toBottomOf="@+id/sSalones" />
+        app:layout_constraintBottom_toTopOf="@+id/etObservacionesRD"
+        app:layout_constraintTop_toBottomOf="@+id/sSalones"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="5dp" />
 
     <Button
         android:id="@+id/btCorreoDialog"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
         app:icon="@drawable/correo"
         app:iconPadding="0dp"
-        app:layout_constraintEnd_toStartOf="@+id/btBorrarDialog"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btLlamarDialog"
-        app:layout_constraintTop_toBottomOf="@+id/etObservacionesRD" />
+        app:layout_constraintTop_toBottomOf="@+id/etObservacionesRD"
+        app:layout_constraintVertical_bias="0.5" />
 
     <Button
         android:id="@+id/btBorrarDialog"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="61dp"
         app:icon="@drawable/papelera"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btCorreoDialog"
-        app:layout_constraintTop_toBottomOf="@+id/etObservacionesRD" />
+        app:layout_constraintTop_toBottomOf="@+id/etObservacionesRD"
+        app:layout_constraintVertical_bias="0.5" />
 
     <Button
         android:id="@+id/btLlamarDialog"
@@ -137,17 +159,18 @@
         app:icon="@drawable/telefono"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
-        app:layout_constraintEnd_toStartOf="@+id/btCorreoDialog"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etObservacionesRD" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etObservacionesRD"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="61dp" />
 
     <Spinner
         android:id="@+id/sSalones"
         android:layout_width="411dp"
         android:layout_height="40dp"
-        android:layout_margin="5dp"
-        tools:layout_editor_absoluteY="321dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -157,7 +180,9 @@
         android:contentDescription="@string/app_name"
         android:scaleType="center"
         android:src="@drawable/logo_nombre_oscuro"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="1dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

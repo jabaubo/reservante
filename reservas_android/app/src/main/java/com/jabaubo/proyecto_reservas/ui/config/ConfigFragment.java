@@ -51,7 +51,6 @@ import java.util.ArrayList;
 public class ConfigFragment extends Fragment {
 
     private FragmentConfigBinding binding;
-    private Activity activity;
     private BaseDeDatos baseDeDatos;
     private Uri uriImg;
     //Componentes
@@ -66,7 +65,6 @@ public class ConfigFragment extends Fragment {
     private Button btGuardar;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        activity = this.getActivity();
         binding = FragmentConfigBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -204,11 +202,11 @@ public class ConfigFragment extends Fragment {
         }
     }
     public void clickAgregarSalon(){
-        SalonDialog salonDialog = new SalonDialog();
+        SalonDialog salonDialog = new SalonDialog(this);
         salonDialog.show(this.getActivity().getSupportFragmentManager(),"a");
     }
-    @Override
-    public void onStop() {
-        super.onStop();
+
+    public RecyclerView getRvSalones() {
+        return rvSalones;
     }
 }

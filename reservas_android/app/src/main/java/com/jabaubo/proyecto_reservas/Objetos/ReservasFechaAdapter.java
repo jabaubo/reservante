@@ -44,6 +44,12 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
         this.reservasFragmentFechas = reservasFragmentFechas;
     }
 
+    public ReservasFechaAdapter(FragmentManager fragmentManager, RecyclerView recyclerView, TextView textView, List<ReservaFechas> dataList) {
+        this.fragmentManager = fragmentManager;
+        this.recyclerView = recyclerView;
+        this.textView = textView;
+        this.dataList = dataList;
+    }
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

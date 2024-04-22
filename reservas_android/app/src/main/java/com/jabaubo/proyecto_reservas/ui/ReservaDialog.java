@@ -339,7 +339,6 @@ public class ReservaDialog extends DialogFragment {
         String tlf = etTlf.getText().toString();
         String email = etEmail.getText().toString();
         String n_personas = etComensales.getText().toString();
-        //String id_salon = etSalon.getText().toString();
         String salon = sSalones.getSelectedItem().toString();
         String id_salon = salon.substring(0,sSalones.getSelectedItem().toString().indexOf(" -"));
         String aforoLibre = salon.substring(salon.indexOf("libre: ")+7,salon.indexOf("/"));
@@ -536,7 +535,6 @@ public class ReservaDialog extends DialogFragment {
                     r.setHora(jsonObj.getString("hora"));
                     ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
                     reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
-                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa" + (reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1));
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }

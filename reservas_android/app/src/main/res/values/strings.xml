@@ -37,6 +37,8 @@
     <string name="dialogo_cancelar">Cancelar</string>
     <string name="dialogo_guardar">Guardar</string>
 
+    <string name="dialogo_nombre_salon">Nombre del salón</string>
+    <string name="dialogo_aforo_salon">Aforo del salón</string>
 
 
 </resources>

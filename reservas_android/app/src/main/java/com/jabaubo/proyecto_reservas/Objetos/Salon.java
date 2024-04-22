@@ -5,6 +5,9 @@ public class Salon {
     private String nombre;
     private int aforo;
 
+    public Salon() {
+    }
+
     public Salon(int id, String nombre, int aforo) {
         this.id = id;
         this.nombre = nombre;
