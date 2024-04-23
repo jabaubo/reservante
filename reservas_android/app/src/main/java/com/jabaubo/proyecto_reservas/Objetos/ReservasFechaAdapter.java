@@ -1,5 +1,6 @@
 package com.jabaubo.proyecto_reservas.Objetos;
 import android.graphics.Color;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jabaubo.proyecto_reservas.R;
+import com.jabaubo.proyecto_reservas.ui.home.HomeFragment;
 import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFragmentFechas;
 
 import org.json.JSONArray;
@@ -24,14 +26,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdapter.MyViewHolder>{
 
-
     private FragmentManager fragmentManager;
     private ReservasFragmentFechas reservasFragmentFechas;
+    private HomeFragment homeFragment;
     private RecyclerView recyclerView;
     private TextView textView;
     private List<ReservaFechas> dataList;
@@ -44,11 +47,12 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
         this.reservasFragmentFechas = reservasFragmentFechas;
     }
 
-    public ReservasFechaAdapter(FragmentManager fragmentManager, RecyclerView recyclerView, TextView textView, List<ReservaFechas> dataList) {
+    public ReservasFechaAdapter(FragmentManager fragmentManager, RecyclerView recyclerView, TextView textView, List<ReservaFechas> dataList , HomeFragment homeFragment) {
         this.fragmentManager = fragmentManager;
         this.recyclerView = recyclerView;
         this.textView = textView;
         this.dataList = dataList;
+        this.homeFragment = homeFragment;
     }
     @NonNull
     @Override
@@ -66,9 +70,9 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
 
         ReservaFechas data = dataList.get(position);
         holder.tvHora.setText(data.getHora());
-        holder.tvReservas.setText("Reservas: " + data.getN_reservas());
-        holder.tvAforo.setText("Aforo: " + data.getN_personas()+"/"+data.getAforo());
-        Float ratio = (float)data.getN_personas()/(float)data.getAforo();
+        holder.tvReservas.setText("Reservas: " + data.getnReservas());
+        holder.tvAforo.setText(Html.fromHtml(formatearOcupacion(data.getOcupacion()),Html.FROM_HTML_MODE_LEGACY));
+        /*Float ratio = (float)data.getN_personas()/(float)data.getAforo();
         if (ratio<(0.3)){
             holder.tvAforo.setTextColor(Color.GREEN);
         }
@@ -77,7 +81,7 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
         }
         else {
             holder.tvAforo.setTextColor(Color.RED);
-        }
+        }*/
         holder.itemView.setOnClickListener(view -> {
             System.out.println(data.getFecha() + " " + data.getHora());
             JSONArray jsonArray = verReservas(data.getFecha(),data.getHora());
@@ -106,6 +110,9 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
             }
             recyclerView.setAdapter(new ReservaAdapter(lista,fragmentManager,this.reservasFragmentFechas,recyclerView));
             textView.setText(data.getFecha() + " Tramo " + data.getHora());
+            if (homeFragment!=null){
+                homeFragment.comprobarBotones();
+            }
         });
     }
 
@@ -184,5 +191,28 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
             e.printStackTrace();
         }
         return jsonArray[0];
+    }
+    public String formatearOcupacion(String texto){
+        String base = texto;
+
+        String[] baseArray = base.split("\n");
+        String formateado = "";
+        for (int i = 0 ; i < baseArray.length ; i++){
+            System.out.println(baseArray[i]);
+            String division = baseArray[i].substring(baseArray[i].lastIndexOf(" ")+1);
+            String valores[] = division.split("/");
+            float ratio = Float.valueOf(valores[0])/Float.valueOf(valores[1]);
+            System.out.println(baseArray[i] + " RATIO : " + ratio);
+            if (ratio<0.33f){
+                baseArray[i] = baseArray[i].replace(division,"<font color='#008000'>"+valores[0]+"</font>/"+valores[1]+"<br></br>");
+            } else if (ratio > 0.33f && ratio<0.66f ) {
+                baseArray[i] = baseArray[i].replace(division,"<font color='#FFEB00'>"+valores[0]+"</font>/"+valores[1]+"<br></br>");
+            } else if (ratio > 0.66f){
+                baseArray[i] = baseArray[i].replace(division,"<font color='#8B0000'>"+valores[0]+"</font>/"+valores[1]+"<br></br>");
+            }
+            System.out.println();
+            formateado += baseArray[i];
+        }
+        return formateado;
     }
 }

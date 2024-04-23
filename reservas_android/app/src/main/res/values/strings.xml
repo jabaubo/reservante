@@ -9,9 +9,10 @@
 
     <string name="menu_home">Inicio</string>
     <string name="menu_config">Configuración</string>
-    <string name="menu_reservas">Reservas</string>
+    <string name="menu_reservas">Reservas pendientes</string>
     <string name="menu_horario">Horario</string>
     <string name="menu_vacaciones">Vacaciones</string>
+    <string name="menu_agenda">Agenda</string>
 
     <string name="horario_tarde">Horario de tarde</string>
     <string name="horario_manana">Horario de Mañana</string>

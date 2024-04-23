@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHolder>{
-
+    private List<Reserva> fullList;
     private List<Reserva> dataList;
     private FragmentManager fragmentManager;
     private Button btBorrar;
@@ -44,6 +44,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
     private RecyclerView recyclerView;
 
     public ReservaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, RecyclerView recyclerView) {
+        this.fullList = dataList;
         this.dataList = dataList;
         this.recyclerView = recyclerView;
         this.fragmentManager = fragmentManager;
@@ -53,6 +54,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
     }
 
     public ReservaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, ReservasFragmentFechas reservasFragmentFechas, RecyclerView  recyclerView) {
+        this.fullList = dataList;
         this.dataList = dataList;
         this.recyclerView = recyclerView;
         this.fragmentManager = fragmentManager;
@@ -76,7 +78,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Reserva data = dataList.get(position);
-        holder.textViewTitle.setText(String.format("%s\nComensales: %d",data.getNombre_apellidos(),data.getN_personas(),data.getHora()));
+        holder.textViewTitle.setText(String.format("%s\nComensales: %d\nSalon:%s",data.getNombre_apellidos(),data.getN_personas(),data.getId_salon()));
         holder.textViewDescription.setText("Teléfono " + data.getTelefono());
         holder.itemView.setOnClickListener(view -> {});
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -301,5 +303,21 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
 
     public ReservasFragmentFechas getReservasFragmentFechas() {
         return reservasFragmentFechas;
+    }
+
+    public void filtrarId(int id){
+        this.dataList = new ArrayList<>();
+        for (int i = 0 ; i < fullList.size() ; i++){
+            if (fullList.get(i).getId_salon()==id){
+                dataList.add(fullList.get(i));
+            }
+        }
+        notifyDataSetChanged();
+        for (int i = 0 ; i < dataList.size() ; i++){
+            System.out.println(dataList.get(i));
+        }
+    }
+    public void restaurarDatos(){
+        this.dataList = fullList;
     }
 }

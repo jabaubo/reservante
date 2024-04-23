@@ -111,7 +111,7 @@ public class ReservaDialog extends DialogFragment {
         btCorreo = view.findViewById(R.id.btCorreoDialog);
         btLLamar = view.findViewById(R.id.btLlamarDialog);
         sSalones = view.findViewById(R.id.sSalones);
-        String[] salones = leerSalones(); ;
+        String[] salones = leerSalones();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_dropdown_item,salones);
         sSalones.setAdapter(adapter);
         if (!editando) {
@@ -119,7 +119,8 @@ public class ReservaDialog extends DialogFragment {
             btLLamar.setEnabled(false);
             btBorrado.setEnabled(false);
         }
-        System.out.println((this.getContext() == null) + " contex");
+        System.out.println(view);
+        //alertDialogBuilder.setView(view).setPositiveButton(R.string.dialogo_guardar,null).setNegativeButton(R.string.dialogo_guardar,null);
         alertDialogBuilder.setView(view)
                 // Add action buttons
                 .setPositiveButton(R.string.dialogo_guardar, new DialogInterface.OnClickListener() {
@@ -130,6 +131,7 @@ public class ReservaDialog extends DialogFragment {
                         String email = etEmail.getText().toString();
                         String comensales = etComensales.getText().toString();
                         String salon = sSalones.getSelectedItem().toString().substring(0,sSalones.getSelectedItem().toString().indexOf(" -"));
+                        System.out.println("postsalon");
                         String observaciones = etObservaciones.getText().toString();
                         if (nombre.equals("") | telefono.equals("") | email.equals("") | comensales.equals("") | salon.equals("") | observaciones.equals("")) {
                             String error = "";
@@ -251,7 +253,14 @@ public class ReservaDialog extends DialogFragment {
                 etComensales.setText(comensales);
             }
             if (salon != null) {
-                sSalones.setSelection(Integer.valueOf(salon)-1);
+                for (int i = 0; i < salones.length ; i++){
+                    System.out.println(salon + " " + salones[i].substring(0,salones[i].indexOf("-")-1).length() );
+                    if (salones[i].substring(0,salones[i].indexOf("-")-1).equals(salon)){
+                        sSalones.setSelection(i);
+                        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + i);
+                        break;
+                    }
+                }
             }
             if (observaciones != null) {
                 etObservaciones.setText(observaciones);

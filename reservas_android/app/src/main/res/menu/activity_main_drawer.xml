@@ -21,12 +21,12 @@
 
         <item
             android:id="@+id/nav_vacaciones"
-            android:icon="@drawable/configuracion"
+            android:icon="@drawable/vacaciones"
             android:title="@string/menu_vacaciones" />
 
         <item
             android:id="@+id/nav_reservas_fecha"
-            android:icon="@drawable/calendario"
-            android:title="@string/menu_reservas" />
+            android:icon="@drawable/agenda"
+            android:title="@string/menu_agenda" />
     </group>
 </menu>

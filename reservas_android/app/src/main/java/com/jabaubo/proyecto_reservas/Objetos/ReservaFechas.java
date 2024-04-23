@@ -2,17 +2,26 @@ package com.jabaubo.proyecto_reservas.Objetos;
 
 public class ReservaFechas {
     private String hora;
-    private int n_reservas;
-    private int n_personas;
-    private int aforo;
+    private int nReservas;
     private String fecha;
+    private String ocupacion;
 
-    public ReservaFechas(String hora, int n_reservas, int n_personas, int aforo,String fecha) {
+    public ReservaFechas() {
+    }
+
+    public ReservaFechas(String hora, String fecha, String ocupacion, int nReservas) {
         this.hora = hora;
-        this.n_reservas = n_reservas;
-        this.n_personas = n_personas;
-        this.aforo = aforo;
         this.fecha = fecha;
+        this.ocupacion = ocupacion;
+        this.nReservas = nReservas;
+    }
+
+    public int getnReservas() {
+        return nReservas;
+    }
+
+    public void setnReservas(int nReservas) {
+        this.nReservas = nReservas;
     }
 
     public String getHora() {
@@ -23,28 +32,12 @@ public class ReservaFechas {
         this.hora = hora;
     }
 
-    public int getN_reservas() {
-        return n_reservas;
+    public String getOcupacion() {
+        return ocupacion;
     }
 
-    public void setN_reservas(int n_reservas) {
-        this.n_reservas = n_reservas;
-    }
-
-    public int getN_personas() {
-        return n_personas;
-    }
-
-    public void setN_personas(int n_personas) {
-        this.n_personas = n_personas;
-    }
-
-    public int getAforo() {
-        return aforo;
-    }
-
-    public void setAforo(int aforo) {
-        this.aforo = aforo;
+    public void setOcupacion(String ocupacion) {
+        this.ocupacion = ocupacion;
     }
 
     public String getFecha() {
@@ -59,10 +52,9 @@ public class ReservaFechas {
     public String toString() {
         return "ReservaFechas{" +
                 "hora='" + hora + '\'' +
-                ", n_reservas=" + n_reservas +
-                ", n_personas=" + n_personas +
-                ", aforo=" + aforo +
+                ", nReservas=" + nReservas +
                 ", fecha='" + fecha + '\'' +
+                ", ocupacion='" + ocupacion + '\'' +
                 '}';
     }
 }
