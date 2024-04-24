@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+    <Spinner
+        android:id="@+id/spinFiltroInicio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btReservarInicio"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView5"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/scrollView5" />
+
     <TextView
         android:id="@+id/tvReservasDiaHoraInicio"
         android:layout_width="0dp"
@@ -36,7 +45,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btReservarInicio"
+        app:layout_constraintBottom_toTopOf="@+id/spinFiltroInicio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

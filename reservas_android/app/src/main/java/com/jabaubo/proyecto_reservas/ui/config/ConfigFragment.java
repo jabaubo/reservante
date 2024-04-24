@@ -184,7 +184,8 @@ public class ConfigFragment extends Fragment {
         }
         JSONArray jsonArray;
         try {
-            jsonArray = new JSONObject(responseStr[0]).getJSONArray("resultado");
+            System.out.println("Respuesta json: " + responseStr[0]);
+            jsonArray = new JSONObject(responseStr[0]).getJSONArray("aforo");
             ArrayList<Salon> lista = new ArrayList<>();
             for (int i = 0 ; i < jsonArray.length() ; i++){
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);

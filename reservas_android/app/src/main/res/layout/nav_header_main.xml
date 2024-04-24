@@ -32,25 +32,16 @@
         android:id="@+id/tvNombreMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="#4DFFFFFF"
         android:backgroundTint="@color/cardview_dark_background"
         android:backgroundTintMode="multiply"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/nav_header_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="#4DFFFFFF"
-        android:backgroundTint="@color/cardview_dark_background"
-        android:backgroundTintMode="multiply"
-        android:text="@string/nav_header_subtitle"
-        app:layout_constraintStart_toStartOf="@+id/tvNombreMenu"
-        app:layout_constraintTop_toBottomOf="@+id/tvNombreMenu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

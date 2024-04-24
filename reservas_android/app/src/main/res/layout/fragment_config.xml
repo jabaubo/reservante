@@ -43,7 +43,7 @@
 
             <EditText
                 android:id="@+id/etNombre"
-                android:layout_width="195dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
@@ -142,7 +142,7 @@
 
             <EditText
                 android:id="@+id/etTlf2"
-                android:layout_width="195dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="phone"

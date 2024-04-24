@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="8dp">
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvHorarioDia"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="5dp"
+            android:background="#C85151"
+            android:gravity="center_horizontal"
+            android:text="Día"
+            android:textAlignment="gravity"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/sCerrado"
+            app:layout_constraintEnd_toStartOf="@+id/sCerrado"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sCerrado"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/etFinM"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:width="80dp"
+            android:height="40dp"
+            android:ems="10"
+            android:inputType="time"
+            android:text="00:00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sCerrado" />
+
+        <TextView
+            android:id="@+id/tvHorarioTarde"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="@string/horario_tarde"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/etInicioT"
+            app:layout_constraintEnd_toEndOf="@+id/tvHorarioDia"
+            app:layout_constraintStart_toStartOf="@+id/tvHorarioM"
+            app:layout_constraintTop_toTopOf="@+id/etInicioT" />
+
+        <EditText
+            android:id="@+id/etInicioT"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:width="80dp"
+            android:height="40dp"
+            android:ems="10"
+            android:inputType="time"
+            android:text="00:00"
+            app:layout_constraintBottom_toBottomOf="@+id/etFinT"
+            app:layout_constraintEnd_toStartOf="@+id/etFinT"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/tvHorarioTarde"
+            app:layout_constraintTop_toTopOf="@+id/etFinT"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/etFinT"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:width="80dp"
+            android:height="40dp"
+            android:ems="10"
+            android:inputType="time"
+            android:text="00:00"
+            app:layout_constraintEnd_toEndOf="@+id/etFinM"
+            app:layout_constraintTop_toBottomOf="@+id/etFinM" />
+
+        <Switch
+            android:id="@+id/sCerrado"
+            android:layout_width="195dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/horario_cerrado"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvHorarioM"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="@string/horario_manana"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/etInicioM"
+            app:layout_constraintEnd_toEndOf="@+id/tvHorarioDia"
+            app:layout_constraintStart_toStartOf="@+id/tvHorarioDia"
+            app:layout_constraintTop_toTopOf="@+id/etInicioM" />
+
+
+        <EditText
+            android:id="@+id/etInicioM"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:width="80dp"
+            android:height="40dp"
+            android:ems="10"
+            android:inputType="time"
+            android:text="00:00"
+            app:layout_constraintBottom_toBottomOf="@+id/etFinM"
+            app:layout_constraintEnd_toStartOf="@+id/etFinM"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/tvHorarioM"
+            app:layout_constraintTop_toTopOf="@+id/etFinM"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

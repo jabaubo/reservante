@@ -17,13 +17,28 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.jabaubo.proyecto_reservas.BaseDeDatos;
+import com.jabaubo.proyecto_reservas.Objetos.Horario;
+import com.jabaubo.proyecto_reservas.Objetos.HorarioAdapter;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.databinding.FragmentHomeBinding;
 import com.jabaubo.proyecto_reservas.databinding.FragmentHorarioBinding;
 import com.jabaubo.proyecto_reservas.ui.home.HomeViewModel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -31,6 +46,7 @@ public class HorarioFragment extends Fragment {
     private FragmentHorarioBinding binding;
     private BaseDeDatos baseDeDatos;
     //ELEMENTOS
+    private RecyclerView rvHorario;
     private Switch sLunes;
     private EditText etInicioMLunes;
     private EditText etFinMLunes;
@@ -79,534 +95,39 @@ public class HorarioFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHorarioBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        baseDeDatos = new BaseDeDatos(this.getContext());
-        sLunes = root.findViewById(R.id.sCerrado);
-        etInicioMLunes = root.findViewById(R.id.etInicioM);
-        etFinMLunes = root.findViewById(R.id.etFinM);
-        etInicioTLunes = root.findViewById(R.id.etInicioT);
-        etFinTLunes = root.findViewById(R.id.etFinT);
-
-        sMartes = root.findViewById(R.id.sCerradoMartes);
-        etInicioMMartes = root.findViewById(R.id.etInicioMMartes);
-        etFinMMartes = root.findViewById(R.id.etFinMMartes);
-        etInicioTMartes = root.findViewById(R.id.etInicioTMartes);
-        etFinTMartes = root.findViewById(R.id.etFinTMartes);
-
-        sMiercoles = root.findViewById(R.id.sCerradoMiercoles);
-        etInicioMMiercoles = root.findViewById(R.id.etInicioMMiercoles);
-        etFinMMiercoles = root.findViewById(R.id.etFinMMiercoles);
-        etInicioTMiercoles = root.findViewById(R.id.etInicioTMiercoles);
-        etFinTMiercoles = root.findViewById(R.id.etFinTMiercoles);
-
-        sJueves = root.findViewById(R.id.sCerradoJueves);
-        etInicioMJueves = root.findViewById(R.id.etInicioMJueves);
-        etFinMJueves = root.findViewById(R.id.etFinMJueves);
-        etInicioTJueves = root.findViewById(R.id.etInicioTJueves);
-        etFinTJueves = root.findViewById(R.id.etFinTJueves);
-
-        sViernes = root.findViewById(R.id.sCerradoViernes);
-        etInicioMViernes = root.findViewById(R.id.etInicioMViernes);
-        etFinMViernes = root.findViewById(R.id.etFinMViernes);
-        etInicioTViernes = root.findViewById(R.id.etInicioTViernes);
-        etFinTViernes = root.findViewById(R.id.etFinTViernes);
-
-        sSabado = root.findViewById(R.id.sCerradoSabado);
-        etInicioMSabado = root.findViewById(R.id.etInicioMSabado);
-        etFinMSabado = root.findViewById(R.id.etFinMSabado);
-        etInicioTSabado = root.findViewById(R.id.etInicioTSabado);
-        etFinTSabado = root.findViewById(R.id.etFinTSabado);
-
-        sDomingo = root.findViewById(R.id.sCerradoDomingo);
-        etInicioMDomingo = root.findViewById(R.id.etInicioMDomingo);
-        etFinMDomingo = root.findViewById(R.id.etFinMDomingo);
-        etInicioTDomingo = root.findViewById(R.id.etInicioTDomingo);
-        etFinTDomingo = root.findViewById(R.id.etFinTDomingo);
-
+        JSONArray jsonArray = cargarHorarioAPI();
+        ArrayList<Horario> lista = new ArrayList<>();
+        for (int i = 0 ; i < jsonArray.length() ; i++){
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String dia = jsonObject.getString("dia");
+                Boolean cerrado = jsonObject.getInt("cerrado")==1;
+                String hora_inicio_m = jsonObject.getString("hora_inicio_m");
+                String hora_fin_m = jsonObject.getString("hora_fin_m");
+                String hora_inicio_t = jsonObject.getString("hora_inicio_t");
+                String hora_fin_t = jsonObject.getString("hora_fin_t");
+                Horario h = new Horario(dia,cerrado,hora_inicio_m,hora_fin_m,hora_inicio_t,hora_fin_t);
+                lista.add(h);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        rvHorario = root.findViewById(R.id.rvHorario);
         btGuardarHorario = root.findViewById(R.id.btGuardarHorario);
-        sLunes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                clickSwitchLunes();
-            }
-        });
-
-        sMartes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                clickSwitchMartes();
-            }
-        });
-
-        sMiercoles.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                clickSwitchMiercoles();
-            }
-        });
-
-        sJueves.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                clickSwitchJueves();
-            }
-        });
-
-        sViernes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                clickSwitchViernes();
-            }
-        });
-
-        sSabado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                clickSwitchSabado();
-            }
-        });
-
-        sDomingo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                clickSwitchDomingo();
-            }
-        });
-
-        etInicioMLunes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioMLunes);
-                }
-                return false;
-            }
-        });
-        etFinMLunes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinMLunes);
-                }
-                return false;
-            }
-        });
-        etInicioTLunes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioTLunes);
-                }
-                return false;
-            }
-        });
-        etFinTLunes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinTLunes);
-                }
-                return false;
-            }
-        });
-
-// Para el martes
-        etInicioMMartes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioMMartes);
-                }
-                return false;
-            }
-        });
-        etFinMMartes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinMMartes);
-                }
-                return false;
-            }
-        });
-        etInicioTMartes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioTMartes);
-                }
-                return false;
-            }
-        });
-        etFinTMartes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinTMartes);
-                }
-                return false;
-            }
-        });
-
-// Para el miércoles
-        etInicioMMiercoles.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioMMiercoles);
-                }
-                return false;
-            }
-        });
-        etFinMMiercoles.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinMMiercoles);
-                }
-                return false;
-            }
-        });
-        etInicioTMiercoles.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioTMiercoles);
-                }
-                return false;
-            }
-        });
-        etFinTMiercoles.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinTMiercoles);
-                }
-                return false;
-            }
-        });
-// Para el jueves
-        etInicioMJueves.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioMJueves);
-                }
-                return false;
-            }
-        });
-        etFinMJueves.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinMJueves);
-                }
-                return false;
-            }
-        });
-        etInicioTJueves.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioTJueves);
-                }
-                return false;
-            }
-        });
-        etFinTJueves.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinTJueves);
-                }
-                return false;
-            }
-        });
-// Para el viernes
-        etInicioMViernes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioMViernes);
-                }
-                return false;
-            }
-        });
-        etFinMViernes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinMViernes);
-                }
-                return false;
-            }
-        });
-        etInicioTViernes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioTViernes);
-                }
-                return false;
-            }
-        });
-        etFinTViernes.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinTViernes);
-                }
-                return false;
-            }
-        });
-// Para el sábado
-        etInicioMSabado.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioMSabado);
-                }
-                return false;
-            }
-        });
-        etFinMSabado.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinMSabado);
-                }
-                return false;
-            }
-        });
-        etInicioTSabado.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioTSabado);
-                }
-                return false;
-            }
-        });
-        etFinTSabado.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinTSabado);
-                }
-                return false;
-            }
-        });
-// Para el domingo
-        etInicioMDomingo.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioMDomingo);
-                }
-                return false;
-            }
-        });
-        etFinMDomingo.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinMDomingo);
-                }
-                return false;
-            }
-        });
-        etInicioTDomingo.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etInicioTDomingo);
-                }
-                return false;
-            }
-        });
-        etFinTDomingo.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(etFinTDomingo);
-                }
-                return false;
-            }
-        });
-
         btGuardarHorario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickGuardarHorario();
+                guardarHorarioEnAPI();
             }
         });
-
-        cargarHorario();
+        HorarioAdapter adapter = new HorarioAdapter(lista);
+        rvHorario.setAdapter(adapter);
+        rvHorario.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         return root;
 
     }
 
-    public void cargarHorario(){
-        String[][] horario = baseDeDatos.leerHorario();
-        for (int i = 0 ; i < horario.length ; i++){
-
-            String dia = horario[i][0];
-            System.out.println("Dia " + dia + " " +  i);
-            boolean abierto = (horario[i][1].equals("1"));
-            String hora_inicio_m  = horario[i][2];
-            String hora_fin_m  = horario[i][3];
-            String hora_inicio_t  = horario[i][4];
-            String hora_fin_t  = horario[i][5];
-            switch (dia) {
-                case "Lunes":
-                    sLunes.setChecked(abierto);
-                    etInicioMLunes.setText(hora_inicio_m);
-                    etFinMLunes.setText(hora_fin_m);
-                    etInicioTLunes.setText(hora_inicio_t);
-                    etFinTLunes.setText(hora_fin_t);
-                    break;
-                case "Martes":
-                    sMartes.setChecked(abierto);
-                    etInicioMMartes.setText(hora_inicio_m);
-                    etFinMMartes.setText(hora_fin_m);
-                    etInicioTMartes.setText(hora_inicio_t);
-                    etFinTMartes.setText(hora_fin_t);
-                    break;
-                case "Miércoles":
-                    sMiercoles.setChecked(abierto);
-                    etInicioMMiercoles.setText(hora_inicio_m);
-                    etFinMMiercoles.setText(hora_fin_m);
-                    etInicioTMiercoles.setText(hora_inicio_t);
-                    etFinTMiercoles.setText(hora_fin_t);
-                    break;
-                case "Jueves":
-                    sJueves.setChecked(abierto);
-                    etInicioMJueves.setText(hora_inicio_m);
-                    etFinMJueves.setText(hora_fin_m);
-                    etInicioTJueves.setText(hora_inicio_t);
-                    etFinTJueves.setText(hora_fin_t);
-                    break;
-                case "Viernes":
-                    sViernes.setChecked(abierto);
-                    etInicioMViernes.setText(hora_inicio_m);
-                    etFinMViernes.setText(hora_fin_m);
-                    etInicioTViernes.setText(hora_inicio_t);
-                    etFinTViernes.setText(hora_fin_t);
-                    break;
-                case "Sábado":
-                    sSabado.setChecked(abierto);
-                    etInicioMSabado.setText(hora_inicio_m);
-                    etFinMSabado.setText(hora_fin_m);
-                    etInicioTSabado.setText(hora_inicio_t);
-                    etFinTSabado.setText(hora_fin_t);
-                    break;
-                case "Domingo":
-                    sDomingo.setChecked(abierto);
-                    etInicioMDomingo.setText(hora_inicio_m);
-                    etFinMDomingo.setText(hora_fin_m);
-                    etInicioTDomingo.setText(hora_inicio_t);
-                    etFinTDomingo.setText(hora_fin_t);
-                    break;
-                default:
-                    // Manejo de un caso no esperado
-                    break;
-            }
-
-        }
-    }
-    public void clickSwitchLunes(){
-        if (sLunes.isChecked()){
-            System.out.println("Entro en el if");
-            etInicioMLunes.setEnabled(false);
-            etFinMLunes.setEnabled(false);
-            etInicioTLunes.setEnabled(false);
-            etFinTLunes.setEnabled(false);
-        }else {
-            System.out.println("Entro en el else");
-            etInicioMLunes.setEnabled(true);
-            etFinMLunes.setEnabled(true);
-            etInicioTLunes.setEnabled(true);
-            etFinTLunes.setEnabled(true);
-        }
-    }
-    public void clickSwitchMartes() {
-        if (sMartes.isChecked()) {
-            etInicioMMartes.setEnabled(false);
-            etFinMMartes.setEnabled(false);
-            etInicioTMartes.setEnabled(false);
-            etFinTMartes.setEnabled(false);
-        } else {
-            etInicioMMartes.setEnabled(true);
-            etFinMMartes.setEnabled(true);
-            etInicioTMartes.setEnabled(true);
-            etFinTMartes.setEnabled(true);
-        }
-    }
-    public void clickSwitchMiercoles() {
-        if (sMiercoles.isChecked()) {
-            etInicioMMiercoles.setEnabled(false);
-            etFinMMiercoles.setEnabled(false);
-            etInicioTMiercoles.setEnabled(false);
-            etFinTMiercoles.setEnabled(false);
-        } else {
-            etInicioMMiercoles.setEnabled(true);
-            etFinMMiercoles.setEnabled(true);
-            etInicioTMiercoles.setEnabled(true);
-            etFinTMiercoles.setEnabled(true);
-        }
-    }
-    public void clickSwitchJueves() {
-        if (sJueves.isChecked()) {
-            etInicioMJueves.setEnabled(false);
-            etFinMJueves.setEnabled(false);
-            etInicioTJueves.setEnabled(false);
-            etFinTJueves.setEnabled(false);
-        } else {
-            etInicioMJueves.setEnabled(true);
-            etFinMJueves.setEnabled(true);
-            etInicioTJueves.setEnabled(true);
-            etFinTJueves.setEnabled(true);
-        }
-    }
-    public void clickSwitchViernes() {
-        if (sViernes.isChecked()) {
-            etInicioMViernes.setEnabled(false);
-            etFinMViernes.setEnabled(false);
-            etInicioTViernes.setEnabled(false);
-            etFinTViernes.setEnabled(false);
-        } else {
-            etInicioMViernes.setEnabled(true);
-            etFinMViernes.setEnabled(true);
-            etInicioTViernes.setEnabled(true);
-            etFinTViernes.setEnabled(true);
-        }
-    }
-    public void clickSwitchSabado() {
-        if (sSabado.isChecked()) {
-            etInicioMSabado.setEnabled(false);
-            etFinMSabado.setEnabled(false);
-            etInicioTSabado.setEnabled(false);
-            etFinTSabado.setEnabled(false);
-        } else {
-            etInicioMSabado.setEnabled(true);
-            etFinMSabado.setEnabled(true);
-            etInicioTSabado.setEnabled(true);
-            etFinTSabado.setEnabled(true);
-        }
-    }
-    public void clickSwitchDomingo() {
-        if (sDomingo.isChecked()) {
-            etInicioMDomingo.setEnabled(false);
-            etFinMDomingo.setEnabled(false);
-            etInicioTDomingo.setEnabled(false);
-            etFinTDomingo.setEnabled(false);
-        } else {
-            etInicioMDomingo.setEnabled(true);
-            etFinMDomingo.setEnabled(true);
-            etInicioTDomingo.setEnabled(true);
-            etFinTDomingo.setEnabled(true);
-        }
-    }
 
     public void clickHoras(EditText campo){
         final Calendar calendar = Calendar.getInstance();
@@ -728,9 +249,67 @@ public class HorarioFragment extends Fragment {
         baseDeDatos.guardarHorario(horario);
 
     }
+    public JSONArray cargarHorarioAPI(){
+        String[] responseStr = new String[1];
+        Runnable runnable= new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    int responseCode = connection.getResponseCode();
+
+                    //Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        responseStr[0] = response.toString();
+                        connection.disconnect();
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
+        try {
+            JSONArray jsonArray = new JSONObject(responseStr[0]).getJSONArray("horarios");
+            return jsonArray;
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
+    public void  guardarHorarioEnAPI(){
+        ArrayList<Horario> lista = ((HorarioAdapter)rvHorario.getAdapter()).getDatalist();
+        for (int i = 0 ; i < lista.size() ; i++){
+            System.out.println(lista.get(i));
+        }
+    }
+    //826
 }

@@ -309,41 +309,6 @@ public class ReservasFragmentFechas extends Fragment {
                                 rf.setOcupacion(ocupacion);
                                 lista.add(rf);
                             }
-                            /*for (int i = 0 ; i < jsonArray.length() ; i+=n_salones){
-                                ReservaFechas rf = new ReservaFechas();
-                                rf.setFecha(fecha);
-                                rf.setHora(jsonArray.getJSONObject(i).getString("value"));
-                                System.out.println(rf);
-                                String ocupacion = "";
-                                int tope = i+n_salones;
-                                for (int j = i ; j < tope ; j++){
-                                    System.out.println("I " + i);
-                                    System.out.println("j " + j);
-                                    System.out.println("(i+n_salones)" + (i+n_salones));
-                                    JSONObject jsonObject = jsonArray.getJSONObject(j);
-                                    System.out.println("JSON OBJECT BUCLE " + jsonObject );
-                                    String nombreSalon = jsonObject.getString("nombre");
-                                    String nReservas = jsonObject.getString("n_reservas");
-                                    String nPersonas = jsonObject.getString("personas");
-                                    String aforoSalon = jsonObject.getString("aforo");
-                                    System.out.printf("%s %s %s/%s\n",nombreSalon,nReservas,nPersonas,aforoSalon);
-                                }
-                            }*/
-                                /*JSONObject json = jsonArray.getJSONObject(i);
-                                System.out.println(json);
-                                String hora = json.getString("value");
-                                int n_personas = 0;
-                                if (!json.get("n_personas").equals(null)) {
-                                    n_personas = json.getInt("n_personas");
-                                }
-                                int n_reservas = 0;
-                                if (n_personas > 0 && !json.get("n_reservas").equals(null)) {
-                                    n_reservas = json.getInt("n_reservas");
-                                }
-                                int aforo = json.getInt("aforo");*/
-                                //ReservaFechas rf = new ReservaFechas(hora,n_reservas,n_personas,aforo,fecha);
-                                //lista.add(rf);
-
                         }
                         connection.disconnect();
                     } catch (MalformedURLException e) {

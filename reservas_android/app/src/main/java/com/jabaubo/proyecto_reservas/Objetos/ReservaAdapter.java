@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHolder>{
+
     private List<Reserva> fullList;
     private List<Reserva> dataList;
     private FragmentManager fragmentManager;
@@ -313,11 +314,9 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
             }
         }
         notifyDataSetChanged();
-        for (int i = 0 ; i < dataList.size() ; i++){
-            System.out.println(dataList.get(i));
-        }
     }
     public void restaurarDatos(){
         this.dataList = fullList;
+        notifyDataSetChanged();
     }
 }
