@@ -17,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="5dp"
-            android:background="#C85151"
+            android:background="#FFFFFF"
             android:gravity="center_horizontal"
             android:text="Día"
             android:textAlignment="gravity"

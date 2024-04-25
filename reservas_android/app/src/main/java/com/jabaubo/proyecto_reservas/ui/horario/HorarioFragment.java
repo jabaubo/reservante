@@ -102,10 +102,10 @@ public class HorarioFragment extends Fragment {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String dia = jsonObject.getString("dia");
                 Boolean cerrado = jsonObject.getInt("cerrado")==1;
-                String hora_inicio_m = jsonObject.getString("hora_inicio_m");
-                String hora_fin_m = jsonObject.getString("hora_fin_m");
-                String hora_inicio_t = jsonObject.getString("hora_inicio_t");
-                String hora_fin_t = jsonObject.getString("hora_fin_t");
+                String hora_inicio_m = jsonObject.getString("hora_inicio_m").substring(0,jsonObject.getString("hora_inicio_m").lastIndexOf(":"));
+                String hora_fin_m = jsonObject.getString("hora_fin_m").substring(0,jsonObject.getString("hora_fin_m").lastIndexOf(":"));
+                String hora_inicio_t = jsonObject.getString("hora_inicio_t").substring(0,jsonObject.getString("hora_inicio_t").lastIndexOf(":"));
+                String hora_fin_t = jsonObject.getString("hora_fin_t").substring(0,jsonObject.getString("hora_fin_t").lastIndexOf(":"));
                 Horario h = new Horario(dia,cerrado,hora_inicio_m,hora_fin_m,hora_inicio_t,hora_fin_t);
                 lista.add(h);
             } catch (JSONException e) {
@@ -120,7 +120,7 @@ public class HorarioFragment extends Fragment {
                 guardarHorarioEnAPI();
             }
         });
-        HorarioAdapter adapter = new HorarioAdapter(lista);
+        HorarioAdapter adapter = new HorarioAdapter(lista,this);
         rvHorario.setAdapter(adapter);
         rvHorario.setLayoutManager(new LinearLayoutManager(this.getContext()));
 

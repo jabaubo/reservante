@@ -32,12 +32,15 @@
 
     <Button
         android:id="@+id/btReservarInicio"
+        style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:backgroundTint="#6D226D"
+        android:text="@string/boton_reservar"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btVolverInicio"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
@@ -59,8 +62,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvOcupacionInicio"
+                style="@style/Widget.Material3.Button"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,13 +74,15 @@
 
     <Button
         android:id="@+id/btAnteriorInicio"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="18dp"
+        android:backgroundTint="#6D226D"
         app:icon="@drawable/flecha_izquierda"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
+        app:iconTint="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/tvReservasDiaHoraInicio"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,11 +90,13 @@
 
     <Button
         android:id="@+id/btSiguienteInicio"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#6D226D"
         app:icon="@drawable/flecha_derecha"
         app:iconPadding="0dp"
+        app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvReservasDiaHoraInicio"
@@ -96,13 +104,15 @@
 
     <Button
         android:id="@+id/btVolverInicio"
-        android:layout_width="wrap_content"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="87dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/btReservarInicio"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btReservarInicio"
-        app:layout_constraintTop_toTopOf="@+id/btReservarInicio" />
+        android:backgroundTint="#6D226D"
+        android:textSize="16sp"
+        app:icon="@drawable/calendario"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

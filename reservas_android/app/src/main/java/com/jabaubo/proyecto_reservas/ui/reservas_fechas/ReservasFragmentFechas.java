@@ -63,7 +63,6 @@ public class ReservasFragmentFechas extends Fragment {
     private Button btSiguienteDia;
     private Button btAnteriorDia;
     private Button btLayoutCalendario;
-    private Button btFiltrar;
     private ScrollView scrollView;
     private Spinner spinnerFiltro;
 
@@ -96,7 +95,6 @@ public class ReservasFragmentFechas extends Fragment {
         ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
         layoutParams.height = (int) (root.getHeight()*0.9);
         calendarView.setLayoutParams(layoutParams);
-        btFiltrar  = root.findViewById(R.id.btFiltrar);
         rvOcupacion = root.findViewById(R.id.rvOcupacion);
         tvReservasDiaHora = root.findViewById(R.id.tvReservasDiaHora);
         btSiguienteDia = root.findViewById(R.id.btnSiguienteDia);
@@ -177,20 +175,6 @@ public class ReservasFragmentFechas extends Fragment {
             }
 
         });
-        btFiltrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println(rvOcupacion.getAdapter().getClass());
-
-                if (rvOcupacion.getAdapter().getClass().toString().equals("class com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter")){
-                    ReservaAdapter reservaAdapter = (ReservaAdapter) rvOcupacion.getAdapter();
-                    reservaAdapter.filtrarId(30);
-                }
-                else {
-                    System.out.println("tu mami");
-                }
-            }
-        });
         rvOcupacion.setAdapter(new ReservasFechaAdapter(getActivity().getSupportFragmentManager(),rvOcupacion,tvReservasDiaHora,lista[0],this));
         ReservasFragmentFechas reservasFragmentFechas = this;
         btnReservar.setOnClickListener(new View.OnClickListener() {
@@ -239,6 +223,7 @@ public class ReservasFragmentFechas extends Fragment {
                 layoutConCalendario();
             }
         });
+        comprobarBotones();
         return root;
     }
 
@@ -520,13 +505,15 @@ public class ReservasFragmentFechas extends Fragment {
         layoutParams.height = (int) (this.getView().getHeight()*0.9);
         calendarView.setLayoutParams(layoutParams);
         tvReservasDiaHora.setText("");
-        rvOcupacion.setAdapter(null);
+        System.out.println("Texto actual: " + tvReservasDiaHora.getText());
+        rvOcupacion.setAdapter(null);/*
         btLayoutCalendario.setAlpha(0);
         btLayoutCalendario.setClickable(false);
         btAnteriorDia.setAlpha(0);
         btAnteriorDia.setEnabled(false);
         btSiguienteDia.setAlpha(0);
-        btSiguienteDia.setEnabled(false);
+        btSiguienteDia.setEnabled(false);*/
+        comprobarBotones();
     }
     public JSONArray verReservas(String fecha , String hora){
         final JSONArray[] jsonArray = new JSONArray[1];
@@ -918,5 +905,18 @@ public class ReservasFragmentFechas extends Fragment {
         else{
             reservaAdapter.filtrarId(Integer.valueOf(opcion.substring(0,opcion.indexOf("-")-1)));
         }
+    }
+    public void comprobarBotones() {
+        boolean adapterNull = rvOcupacion.getAdapter() == null;
+        boolean flag = false;
+        if (!adapterNull){
+            String clase = rvOcupacion.getAdapter().getClass().toString();
+            flag= !clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter");
+        }
+        btnReservar.setEnabled(flag);
+        btAnteriorDia.setEnabled(flag);
+        btSiguienteDia.setEnabled(flag);
+        btLayoutCalendario.setEnabled(flag);
+        spinnerFiltro.setEnabled(flag);
     }
 }

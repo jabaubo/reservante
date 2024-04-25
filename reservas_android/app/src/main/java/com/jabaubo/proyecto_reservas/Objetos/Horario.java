@@ -65,20 +65,8 @@ public class Horario {
         this.hora_fin_t = hora_fin_t;
     }
 
-    @Override
-    public String toString() {
-        return "Horario{" +
-                "dia='" + dia + '\'' +
-                ", cerrado=" + cerrado +
-                ", hora_inicio_m='" + hora_inicio_m + '\'' +
-                ", hora_fin_m='" + hora_fin_m + '\'' +
-                ", hora_inicio_t='" + hora_inicio_t + '\'' +
-                ", hora_fin_t='" + hora_fin_t + '\'' +
-                '}';
-    }
 
-    @Override
-    public String toString() {
+    public String jar() {
         return "{" +
                 "\"dia\":\"" + dia + "\"" +
                 ", \"cerrado\":\"" + cerrado + "\""+

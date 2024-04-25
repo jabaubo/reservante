@@ -10,10 +10,14 @@
 
     <Button
         android:id="@+id/btGuardarHorario"
+        style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
+        android:backgroundTint="#6D226D"
         android:text="Button"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -35,8 +39,8 @@
             android:id="@+id/rvHorario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/horario_layout"
-            tools:itemCount="7"/>
+            tools:itemCount="7"
+            tools:listitem="@layout/horario_layout" />
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

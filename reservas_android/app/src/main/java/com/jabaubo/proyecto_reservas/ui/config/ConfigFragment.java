@@ -4,17 +4,21 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
@@ -59,6 +63,7 @@ public class ConfigFragment extends Fragment {
     private EditText etTlf2;
     private EditText etDireccion;
     private EditText etCorreo;
+    private EditText etDuracionReservas;
     private ImageView imageViewLogo;
     private RecyclerView rvSalones;
     private Button btAgregarSalon;
@@ -81,6 +86,7 @@ public class ConfigFragment extends Fragment {
         etCorreo = root.findViewById(R.id.etCorreo);
         rvSalones = root.findViewById(R.id.rvSalones);
         btAgregarSalon = root.findViewById(R.id.btAgregarSalon);
+        etDuracionReservas = root.findViewById(R.id.etIntervalo);
         rvSalones.setLayoutManager(new LinearLayoutManager(this.getContext()));
         cargarSalones();
 
@@ -118,7 +124,15 @@ public class ConfigFragment extends Fragment {
                 clickAgregarSalon();
             }
         });
-
+        etDuracionReservas.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    clickHoras(etDuracionReservas);
+                }
+                return false;
+            }
+        });
         etNombre.setText(datos[0]);
         etTlf1.setText(datos[1]);
         etTlf2.setText(datos[2]);
@@ -206,7 +220,23 @@ public class ConfigFragment extends Fragment {
         SalonDialog salonDialog = new SalonDialog(this);
         salonDialog.show(this.getActivity().getSupportFragmentManager(),"a");
     }
-
+    public void clickHoras(EditText campo){
+        final Calendar calendar = Calendar.getInstance();
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this.getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                String hora = String.valueOf(hourOfDay);
+                String minuto = String.valueOf(minute);
+                if (hora.length()==1){
+                    hora= "0"+hora;
+                }if (minuto.length()==1){
+                    minuto="0"+minuto;
+                }
+                campo.setText(hora+":"+minuto);
+            }
+        },calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE),true);
+        timePickerDialog.show();
+    }
     public RecyclerView getRvSalones() {
         return rvSalones;
     }

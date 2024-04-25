@@ -25,7 +25,7 @@
             android:title="@string/menu_vacaciones" />
 
         <item
-            android:id="@+id/nav_reservas_fecha"
+            android:id="@+id/nav_agenda"
             android:icon="@drawable/agenda"
             android:title="@string/menu_agenda" />
     </group>

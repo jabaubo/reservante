@@ -14,6 +14,15 @@
     <string name="menu_vacaciones">Vacaciones</string>
     <string name="menu_agenda">Agenda</string>
 
+    <string name="nombre_configuracion">Nombre del restaurante</string>
+    <string name="tlf1_configuracion">Teléfono 1</string>
+    <string name="tlf2_configuracion">Teléfono 2</string>
+    <string name="direccion_configuracion">Dirección</string>
+    <string name="salones_configuracion">Salones</string>
+    <string name="correo_configuracion">Correo</string>
+    <string name="logo_configuracion">Logo</string>
+    <string name="duracion_reservas_configuracion">Duracion de las reservas</string>
+
     <string name="horario_tarde">Tarde</string>
     <string name="horario_manana">Mañana</string>
     <string name="horario_cerrado">Cerrado</string>
@@ -41,5 +50,5 @@
     <string name="dialogo_nombre_salon">Nombre del salón</string>
     <string name="dialogo_aforo_salon">Aforo del salón</string>
 
-
+    <string name="boton_reservar">Reservar</string>
 </resources>

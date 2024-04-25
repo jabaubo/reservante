@@ -72,16 +72,6 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
         holder.tvHora.setText(data.getHora());
         holder.tvReservas.setText("Reservas: " + data.getnReservas());
         holder.tvAforo.setText(Html.fromHtml(formatearOcupacion(data.getOcupacion()),Html.FROM_HTML_MODE_LEGACY));
-        /*Float ratio = (float)data.getN_personas()/(float)data.getAforo();
-        if (ratio<(0.3)){
-            holder.tvAforo.setTextColor(Color.GREEN);
-        }
-        else if (ratio<(0.6)){
-            holder.tvAforo.setTextColor(0xFFFF6701);
-        }
-        else {
-            holder.tvAforo.setTextColor(Color.RED);
-        }*/
         holder.itemView.setOnClickListener(view -> {
             System.out.println(data.getFecha() + " " + data.getHora());
             JSONArray jsonArray = verReservas(data.getFecha(),data.getHora());
@@ -113,6 +103,7 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
             if (homeFragment!=null){
                 homeFragment.comprobarBotones();
             }
+            this.reservasFragmentFechas.comprobarBotones();
         });
     }
 

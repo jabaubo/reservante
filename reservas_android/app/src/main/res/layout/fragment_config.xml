@@ -12,7 +12,9 @@
         android:id="@+id/btGuardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#6D226D"
         android:text="Guardar"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -31,19 +33,98 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/btAgregarSalon">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvInicioVacaciones"
+                        android:layout_width="158dp"
+                        android:layout_height="21dp"
+                        android:text="@string/fecha_inicio"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:layout_editor_absoluteY="16dp" />
+
+                    <TextView
+                        android:id="@+id/tvInicioVacaciones3"
+                        android:layout_width="158dp"
+                        android:layout_height="21dp"
+                        android:text="@string/fecha_fin"
+                        app:layout_constraintStart_toStartOf="@+id/tvInicioVacaciones"
+                        app:layout_constraintTop_toBottomOf="@+id/tvFechaInicio" />
+
+                    <TextView
+                        android:id="@+id/tvFechaInicio"
+                        android:layout_width="335dp"
+                        android:layout_height="60dp"
+                        android:elegantTextHeight="true"
+                        android:text="TextView"
+                        android:textSize="34sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvInicioVacaciones" />
+
+                    <TextView
+                        android:id="@+id/tvFechaFin"
+                        android:layout_width="335dp"
+                        android:layout_height="60dp"
+                        android:elegantTextHeight="true"
+                        android:text="TextView"
+                        android:textSize="34sp"
+                        app:layout_constraintEnd_toEndOf="@+id/tvFechaInicio"
+                        app:layout_constraintStart_toStartOf="@+id/tvFechaInicio"
+                        app:layout_constraintTop_toBottomOf="@+id/tvInicioVacaciones3" />
+
+                    <Button
+                        android:id="@+id/btFechaFin"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:backgroundTint="#6D226D"
+                        app:icon="@drawable/calendario"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tvFechaFin"
+                        app:layout_constraintTop_toTopOf="@+id/tvFechaFin" />
+
+                    <Button
+                        android:id="@+id/btFechaInicio"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="62dp"
+                        android:width="60dp"
+                        android:backgroundTint="#6D226D"
+                        app:icon="@drawable/calendario"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvFechaInicio"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tvFechaInicio"
+                        app:layout_constraintTop_toTopOf="@+id/tvFechaInicio" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:id="@+id/textView3"
                 style="@android:style/Widget.DeviceDefault.Light.TextView"
-                android:layout_width="194dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre restaurante"
+                android:text="@string/nombre_configuracion"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:layout_editor_absoluteX="1dp"
                 tools:layout_editor_absoluteY="16dp" />
 
             <EditText
                 android:id="@+id/etNombre"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
@@ -54,19 +135,19 @@
             <TextView
                 android:id="@+id/textView7"
                 style="@android:style/Widget.DeviceDefault.Light.TextView"
-                android:layout_width="194dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Logo"
+                android:text="@string/logo_configuracion"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/etCorreo"
-                app:layout_constraintTop_toBottomOf="@+id/etCorreo" />
+                app:layout_constraintTop_toBottomOf="@+id/etIntervalo" />
 
             <TextView
                 android:id="@+id/textView15"
                 style="@android:style/Widget.DeviceDefault.Light.TextView"
-                android:layout_width="195dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Logo"
+                android:text="@string/salones_configuracion"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/imageLogoConfig"
                 app:layout_constraintTop_toBottomOf="@+id/imageLogoConfig" />
@@ -74,9 +155,9 @@
             <TextView
                 android:id="@+id/textView2"
                 style="@android:style/Widget.DeviceDefault.Light.TextView"
-                android:layout_width="194dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dirección"
+                android:text="@string/direccion_configuracion"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/etTlf2"
                 app:layout_constraintTop_toBottomOf="@+id/etTlf2" />
@@ -84,19 +165,28 @@
             <TextView
                 android:id="@+id/textView8"
                 style="@android:style/Widget.DeviceDefault.Light.TextView"
-                android:layout_width="390dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Correo"
+                android:text="@string/correo_configuracion"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/etDireccion"
                 app:layout_constraintTop_toBottomOf="@+id/etDireccion" />
 
             <TextView
+                android:id="@+id/textView"
+                style="@android:style/Widget.DeviceDefault.Light.TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/duracion_reservas_configuracion"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintTop_toBottomOf="@+id/etCorreo" />
+
+            <TextView
                 android:id="@+id/textView4"
                 style="@android:style/Widget.DeviceDefault.Light.TextView"
-                android:layout_width="390dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Teléfono 2"
+                android:text="@string/tlf2_configuracion"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/etTlf1"
                 app:layout_constraintTop_toBottomOf="@+id/etTlf1" />
@@ -104,16 +194,16 @@
             <TextView
                 android:id="@+id/textView5"
                 style="@android:style/Widget.DeviceDefault.Light.TextView"
-                android:layout_width="390dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Teléfono 1"
+                android:text="@string/tlf1_configuracion"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/etNombre"
                 app:layout_constraintTop_toBottomOf="@+id/etNombre" />
 
             <EditText
                 android:id="@+id/etDireccion"
-                android:layout_width="390dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
@@ -123,7 +213,7 @@
 
             <EditText
                 android:id="@+id/etCorreo"
-                android:layout_width="390dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
@@ -133,7 +223,7 @@
 
             <EditText
                 android:id="@+id/etTlf1"
-                android:layout_width="390dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="phone"
@@ -141,8 +231,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
             <EditText
+                android:id="@+id/etIntervalo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <EditText
                 android:id="@+id/etTlf2"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="phone"
@@ -151,7 +249,7 @@
 
             <ImageView
                 android:id="@+id/imageLogoConfig"
-                android:layout_width="195dp"
+                android:layout_width="match_parent"
                 android:layout_height="127dp"
                 android:background="#FF0000"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
@@ -160,7 +258,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSalones"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@+id/textView15"
                 app:layout_constraintStart_toStartOf="@+id/textView15"
@@ -168,10 +266,12 @@
 
             <Button
                 android:id="@+id/btAgregarSalon"
-                android:layout_width="390dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:backgroundTint="#6D226D"
                 android:text="Button"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="@+id/rvSalones"
                 app:layout_constraintTop_toBottomOf="@+id/rvSalones" />
 

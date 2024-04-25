@@ -9,25 +9,35 @@
 
     <Button
         android:id="@+id/btnReservar"
+        style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Button"
+        android:backgroundTint="#6D226D"
+        android:text="@string/boton_reservar"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:iconPadding="0dp"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btCalendarReservaFechas"
-        style="@style/Widget.AppCompat.Button.Small"
+        style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:alpha="0"
+        android:alpha="1"
+        android:backgroundTint="#6D226D"
         android:clickable="false"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:icon="@drawable/calendario"
         app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.934"
@@ -35,32 +45,46 @@
 
     <TextView
         android:id="@+id/tvReservasDiaHora"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnSiguienteDia"
-        app:layout_constraintEnd_toEndOf="@+id/btnSiguienteDia"
+        app:layout_constraintEnd_toStartOf="@+id/btnSiguienteDia"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/btnAnteriorDia"
+        app:layout_constraintTop_toTopOf="@+id/btnSiguienteDia" />
 
     <Button
         android:id="@+id/btnSiguienteDia"
-        android:layout_width="0px"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:alpha="0"
+        android:alpha="1"
+        android:backgroundTint="#6D226D"
         android:enabled="true"
-        android:text="Button"
+        android:textColor="@color/white"
+        app:icon="@drawable/flecha_derecha"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnAnteriorDia"
-        android:layout_width="0px"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:alpha="0"
+        android:alpha="1"
+        android:backgroundTint="#6D226D"
         android:enabled="true"
-        android:text="Button"
+        android:textColor="@color/white"
+        app:icon="@drawable/flecha_izquierda"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconTint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,14 +101,14 @@
         <CalendarView
             android:id="@+id/calendarView"
             style="@android:style/Widget.Holo.Light.CalendarView"
-            android:layout_width="348dp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#F6B8B8"
+            android:background="#00F6B8B8"
             android:clickable="true"
             android:contextClickable="true"
             android:dateTextAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:onClick="@android:string/ok"
             android:scrollbarStyle="outsideInset"
+            android:selectedWeekBackgroundColor="#C6A8C4"
             android:showWeekNumber="false"
             android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -94,7 +118,7 @@
 
         <ScrollView
             android:id="@+id/svReservas"
-            android:layout_width="342dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -122,18 +146,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/btFiltrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="16dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnReservar"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="1.0" />
 
     <Spinner
         android:id="@+id/spinFiltro"

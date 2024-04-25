@@ -119,9 +119,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        rvOcupacion.setLayoutManager(new LinearLayoutManager(this.getContext()));
         cargarOcupacion();
-        System.out.println("TENGO " + rvOcupacion.getAdapter().getItemCount());
         ;
         return root;
 
@@ -215,6 +213,7 @@ public class HomeFragment extends Fragment {
             thread.start();
             thread.join();
             rvOcupacion.setAdapter(new ReservasFechaAdapter(getActivity().getSupportFragmentManager(),rvOcupacion,tvReservasDiaHora,lista,this));
+            rvOcupacion.setLayoutManager(new LinearLayoutManager(this.getContext()));
         } catch (Exception e) {
             e.printStackTrace();
         }
