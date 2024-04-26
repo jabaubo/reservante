@@ -4,6 +4,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.icu.util.Calendar;
@@ -15,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +48,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -56,6 +60,7 @@ public class ConfigFragment extends Fragment {
 
     private FragmentConfigBinding binding;
     private BaseDeDatos baseDeDatos;
+    private String id = "";
     private Uri uriImg;
     //Componentes
     private EditText etNombre;
@@ -68,15 +73,18 @@ public class ConfigFragment extends Fragment {
     private RecyclerView rvSalones;
     private Button btAgregarSalon;
     private Button btGuardar;
+    private TextView tvFechaInicio;
+    private TextView tvFechaFin;
+    private Button btFechaInicio;
+    private Button btFechaFin;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentConfigBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 
-        baseDeDatos = new BaseDeDatos(this.getContext());
-        String[] datos = baseDeDatos.leerRestaurante();
-
+        JSONObject json = leerDatosRestaurante();
         etNombre = root.findViewById(R.id.etNombre);
         etTlf1 = root.findViewById(R.id.etTlf1);
         etTlf2 = root.findViewById(R.id.etTlf2);
@@ -87,6 +95,11 @@ public class ConfigFragment extends Fragment {
         rvSalones = root.findViewById(R.id.rvSalones);
         btAgregarSalon = root.findViewById(R.id.btAgregarSalon);
         etDuracionReservas = root.findViewById(R.id.etIntervalo);
+        tvFechaFin = root.findViewById(R.id.tvFechaFin);
+        tvFechaInicio = root.findViewById(R.id.tvFechaInicio);
+        btFechaInicio = root.findViewById(R.id.btFechaInicio);
+        btFechaFin = root.findViewById(R.id.btFechaFin);
+
         rvSalones.setLayoutManager(new LinearLayoutManager(this.getContext()));
         cargarSalones();
 
@@ -133,17 +146,117 @@ public class ConfigFragment extends Fragment {
                 return false;
             }
         });
-        etNombre.setText(datos[0]);
-        etTlf1.setText(datos[1]);
-        etTlf2.setText(datos[2]);
-        etDireccion.setText(datos[3]);
+        try {
+            JSONObject jsonRestaurante = json.getJSONArray("resultado").getJSONObject(0);
+            id = jsonRestaurante.getString("id");
+            etNombre.setText(jsonRestaurante.getString("nombre"));
+            etTlf1.setText(jsonRestaurante.getString("telefono1"));
+            etTlf2.setText(jsonRestaurante.getString("telefono2"));
+            etCorreo.setText(jsonRestaurante.getString("email"));
+            etDireccion.setText(jsonRestaurante.getString("direccion"));
+            etDuracionReservas.setText(jsonRestaurante.getString("duracion_reservas"));
+            JSONObject jsonVacaciones = json.getJSONArray("resultado2").getJSONObject(0);
+            tvFechaInicio.setText(formatearFecha(jsonVacaciones.getString("inicio")));
+            tvFechaFin.setText(formatearFecha(jsonVacaciones.getString("fin")));
 
-        System.out.println("macarron3");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        btFechaFin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFecha(tvFechaFin);
+            }
+        });
+
+        tvFechaFin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFecha(tvFechaFin);
+            }
+        });
+        btFechaInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFecha(tvFechaInicio);
+            }
+        });
+        tvFechaInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFecha(tvFechaInicio);
+            }
+        });
         return root;
     }
 
     public void btGuardarClick(View root){
-        baseDeDatos.guardarRestaurante(etNombre.getText().toString(), Integer.valueOf(etTlf1.getText().toString()), Integer.valueOf(etTlf2.getText().toString()), etDireccion.getText().toString());
+        //baseDeDatos.guardarRestaurante(etNombre.getText().toString(), Integer.valueOf(etTlf1.getText().toString()), Integer.valueOf(etTlf2.getText().toString()), etDireccion.getText().toString());
+        //{"id":"1","nombre":"Restaurante pepe","telefono1":"604205805","telefono2":"957788921","email":"manuelhidalgourbano@gmail.com","direccion":"calle san marcos 135","duracion_reservas":"01:30:00","inicio":"2024-04-10","fin":"2024-04-18"}
+        String json =  "{\n" +
+                "  \"id\": \"#PARAMID#\",\n" +
+                "  \"nombre\": \"#PARAMNOMBRE#\",\n" +
+                "  \"telefono1\": \"#PARAMTELEFONO1#\",\n" +
+                "  \"telefono2\": \"#PARAMTELEFONO2#\",\n" +
+                "  \"email\": \"#PARAMEMAIL#\",\n" +
+                "  \"direccion\": \"#PARAMDIRECCION#\",\n" +
+                "  \"duracion_reservas\": \"#PARAMDURACION_RESERVAS#\",\n" +
+                "  \"inicio\": \"#PARAMINICIO#\",\n" +
+                "  \"fin\": \"#PARAMFIN#\"\n" +
+                "}\n";
+        json = json.replace("#PARAMID#", id)
+                .replace("#PARAMNOMBRE#", etNombre.getText().toString())
+                .replace("#PARAMTELEFONO1#", etTlf1.getText().toString())
+                .replace("#PARAMTELEFONO2#", etTlf2.getText().toString())
+                .replace("#PARAMEMAIL#", etCorreo.getText().toString())
+                .replace("#PARAMDIRECCION#", etDireccion.getText().toString())
+                .replace("#PARAMDURACION_RESERVAS#", etDuracionReservas.getText().toString())
+                .replace("#PARAMINICIO#", tvFechaInicio.getText().toString())
+                .replace("#PARAMFIN#", tvFechaFin.getText().toString());
+        String finalJson = json;
+        Runnable runnable= new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("PUT");
+                    OutputStream os = connection.getOutputStream();
+                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                    osw.write(finalJson);
+                    osw.flush();
+                    int responseCode = connection.getResponseCode();
+                    //Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        System.out.println(response);
+                    }
+                    connection.disconnect();
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         Snackbar.make(root, "Guardando datos", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
@@ -237,7 +350,82 @@ public class ConfigFragment extends Fragment {
         },calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE),true);
         timePickerDialog.show();
     }
+
+    public void clickFecha(TextView tvFecha){
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this.getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        if (month < 10){
+                            tvFecha.setText(String.format("%d/0%d/%d",dayOfMonth,month,year));
+                        }
+                        else{
+                            tvFecha.setText(String.format("%d/%d/%d",dayOfMonth,month,year));
+                        }
+
+                    }
+                },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
     public RecyclerView getRvSalones() {
         return rvSalones;
+    }
+    public String formatearFecha (String fecha){
+        String[] fechaSplit = fecha.split("-");
+        return fechaSplit[2]+"/"+fechaSplit[1]+"/"+fechaSplit[0];
+    }
+    public JSONObject leerDatosRestaurante(){
+        String[] responseStr = new String[1];
+        Runnable runnable= new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/getdatos");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    int responseCode = connection.getResponseCode();
+
+                    //Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        responseStr[0] = response.toString();
+                        connection.disconnect();
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
+        try {
+            System.out.println(responseStr[0]);
+            JSONObject jsonObject = new JSONObject(responseStr[0]);
+            System.out.println("JSONNNNNNNNNNNNNNNNNNNNNNNN : " + jsonObject);
+            return jsonObject;
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

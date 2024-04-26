@@ -103,7 +103,9 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
             if (homeFragment!=null){
                 homeFragment.comprobarBotones();
             }
-            this.reservasFragmentFechas.comprobarBotones();
+            else if (reservasFragmentFechas != null){
+                reservasFragmentFechas.comprobarBotones();
+            }
         });
     }
 

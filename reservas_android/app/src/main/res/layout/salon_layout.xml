@@ -14,9 +14,11 @@
 
         <Button
             android:id="@+id/btBorrarSD"
-            style="@style/Widget.AppCompat.Button.Small"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:backgroundTint="#6D226D"
+            android:backgroundTintMode="add"
             app:icon="@drawable/papelera"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
@@ -28,9 +30,10 @@
 
         <Button
             android:id="@+id/btEditarSD"
-            style="@style/Widget.AppCompat.Button.Small"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:backgroundTint="#6D226D"
             app:icon="@drawable/calendario"
             app:iconGravity="textStart"
             app:iconPadding="0dp"

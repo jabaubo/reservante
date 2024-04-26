@@ -384,7 +384,9 @@ public class HomeFragment extends Fragment {
             }
             tramo = inicio_t;
             while (fin_t.isAfter(tramo)) {
-                tramos[contador] = tramo;
+                if (contador < tramos.length){
+                    tramos[contador] = tramo;
+                }
                 System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
                 contador++;
                 tramo = tramo.plusHours(incremento.getHour());
@@ -395,10 +397,12 @@ public class HomeFragment extends Fragment {
             }
             String texto = "SELECT '#PARAM1#' AS value ";
             for (LocalDateTime t : tramos) {
-                if (texto.contains("'#PARAM1#'")) {
+                if (texto.contains("'#PARAM1#'") ) {
                     texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
                 } else {
-                    texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                    if (t != null){
+                        texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                    }
                 }
             }
             System.out.println(texto);
@@ -740,10 +744,16 @@ public class HomeFragment extends Fragment {
         boolean flag = !clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter");
         System.out.println(clase);
         btReservar.setEnabled(flag);
+        btReservar.setBac
         btAnterior.setEnabled(flag);
         btSiguiente.setEnabled(flag);
         btVolverInicio.setEnabled(flag);
         spinnerFiltro.setEnabled(flag);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        cargarOcupacion();
+    }
 }

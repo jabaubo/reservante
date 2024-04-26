@@ -14,11 +14,13 @@
     <string name="menu_vacaciones">Vacaciones</string>
     <string name="menu_agenda">Agenda</string>
 
+    <string name="datos_configuracion">Datos del restaurante</string>
     <string name="nombre_configuracion">Nombre del restaurante</string>
     <string name="tlf1_configuracion">Teléfono 1</string>
     <string name="tlf2_configuracion">Teléfono 2</string>
     <string name="direccion_configuracion">Dirección</string>
     <string name="salones_configuracion">Salones</string>
+    <string name="add_salones_configuracion">Añadir salón</string>
     <string name="correo_configuracion">Correo</string>
     <string name="logo_configuracion">Logo</string>
     <string name="duracion_reservas_configuracion">Duracion de las reservas</string>
