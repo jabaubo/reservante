@@ -4,11 +4,19 @@
  */
 package com.jabaubo.proyecto_reservas.Interfaces;
 
+import com.jabaubo.proyecto_reservas.Clases.Ocupacion;
+import java.time.LocalTime;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.plaf.metal.OceanTheme;
+
 /**
  *
- * @author pokem
+ * @author pokem    
  */
 public class ReservasUI extends javax.swing.JFrame {
+
+    DefaultListModel<String> lista = new DefaultListModel<>();
 
     /**
      * Creates new form Reservas
@@ -26,17 +34,28 @@ public class ReservasUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListOcupacionReservas = new JList<>(lista);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jScrollPane1.setViewportView(jListOcupacionReservas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(201, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         pack();
@@ -45,6 +64,15 @@ public class ReservasUI extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    public void cargarOcupacionPruebas() {
+        String o1 = new Ocupacion(LocalTime.NOON, 1, "hola").toString();
+        String o2 = new Ocupacion(LocalTime.NOON, 1, "hola").toString();
+
+        lista = new DefaultListModel<>();
+        lista.addElement(o1);
+        lista.addElement(o2);
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -79,5 +107,7 @@ public class ReservasUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> jListOcupacionReservas;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

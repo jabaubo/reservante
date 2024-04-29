@@ -5,6 +5,8 @@
 package com.jabaubo.proyecto_reservas.Interfaces;
 
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.time.LocalDate;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,7 +17,8 @@ import javax.swing.UIManager;
  * @author pokem
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
-    MiRestauranteUI panel2 = new MiRestauranteUI();
+    MiRestauranteUI panelConfiguracion = new MiRestauranteUI();
+    PanelCalendario panelCalendario = new PanelCalendario(4, 2024);
     
     /**
      * Creates new form UI
@@ -103,15 +106,26 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCambioActionPerformed
-        // TODO add your handling code here:
-        
+        // TODO add  code here:
+        jpVista.removeAll();
+        for (Component c : jpVista.getComponents()) {
+            c.setVisible(false);
+        }
+        panelCalendario.setVisible(true);
+        jpVista.add(panelCalendario);
+        jpVista.validate();
+        jpVista.repaint(); 
     }//GEN-LAST:event_jbCambioActionPerformed
 
     private void jbCambio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCambio1ActionPerformed
-        
-        panel2.setVisible(true);
-        jpVista.add(panel2);
+        jpVista.removeAll();
+        for (Component c : jpVista.getComponents()) {
+            c.setVisible(false);
+        }
+        panelConfiguracion.setVisible(true);
+        jpVista.add(panelConfiguracion);
         jpVista.validate();
+        jpVista.repaint();
     }//GEN-LAST:event_jbCambio1ActionPerformed
 
     /**
