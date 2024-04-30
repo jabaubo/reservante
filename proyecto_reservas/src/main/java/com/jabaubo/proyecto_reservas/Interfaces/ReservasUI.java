@@ -64,14 +64,6 @@ public class ReservasUI extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public void cargarOcupacionPruebas() {
-        String o1 = new Ocupacion(LocalTime.NOON, 1, "hola").toString();
-        String o2 = new Ocupacion(LocalTime.NOON, 1, "hola").toString();
-
-        lista = new DefaultListModel<>();
-        lista.addElement(o1);
-        lista.addElement(o2);
-    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

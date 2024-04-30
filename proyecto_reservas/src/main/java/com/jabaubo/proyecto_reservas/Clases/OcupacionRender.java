@@ -20,7 +20,6 @@ import javax.swing.text.Style;
  * @author pokem
  */
 public class OcupacionRender extends JButton implements ListCellRenderer<Ocupacion>{
-
     @Override
     public Component getListCellRendererComponent(JList<? extends Ocupacion> list, Ocupacion value, int index, boolean isSelected, boolean cellHasFocus) {
         String base = "<html>#PARAMHORA#\tReservas:#PARAMRESERVAS#<br></br>#OCUPACION#</html>";
@@ -29,6 +28,7 @@ public class OcupacionRender extends JButton implements ListCellRenderer<Ocupaci
                 replace("#OCUPACION#", value.getOcupacion());
         this.setText(base);
         this.setFont(new Font("Segoe",Font.BOLD,24));
+        
         return this;
     }
     

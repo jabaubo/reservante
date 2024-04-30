@@ -806,11 +806,12 @@ public class ReservasFragmentFechas extends Fragment {
             }
             String texto = "SELECT '#PARAM1#' AS value ";
             for (LocalDateTime t:tramos){
-                if (texto.contains("'#PARAM1#'")){
-                    texto = texto.replace("#PARAM1#",t.toLocalTime().toString());
-                }
-                else {
-                    texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                if (t != null) {
+                    if (texto.contains("'#PARAM1#'")) {
+                        texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
+                    } else {
+                        texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                    }
                 }
             }
             System.out.println(texto);

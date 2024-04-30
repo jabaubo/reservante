@@ -16,504 +16,580 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="panelCalendario" pref="634" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel1" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="249" max="-2" attributes="0"/>
+              <Component id="jPanel3" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="panelCalendario" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="jScrollPane1" pref="372" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-              </Group>
+              <Component id="jPanel2" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
+          <Component id="jPanel3" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JList" name="jListOcupacionReservas">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="24" style="0"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jListOcupacionReservasMouseClicked"/>
-          </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JList&lt;&gt;()"/>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Ocupacion&gt;"/>
-          </AuxValues>
-        </Component>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JPanel" name="panelCalendario">
-      <AuxValues>
-        <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,44,0,0,3,105"/>
-      </AuxValues>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-        <Property name="columns" type="int" value="7"/>
-        <Property name="rows" type="int" value="7"/>
-      </Layout>
-      <SubComponents>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaLunes">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Lunes"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="celdaLunesActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaMartes">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Martes"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="celdaMartesActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaMiercoles">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Miercoles"/>
-          </Properties>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaJueves">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Jueves"/>
-          </Properties>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaViernes">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Viernes"/>
-          </Properties>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaSabado">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="S&#xe1;bado"/>
-          </Properties>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaDomingo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Domingo"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="celdaDomingoActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario8">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario9">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario10">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario11">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario12">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario13">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario14">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario15">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario16">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario17">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario18">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario19">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario20">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario21">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario22">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario23">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario24">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario25">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario26">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario27">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario28">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario29">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario30">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario31">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario32">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario33">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario34">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario35">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario36">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario37">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario38">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario39">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario40">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario41">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario42">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario43">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario44">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario45">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario46">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario47">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario48">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-        <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario49">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
-          </Events>
-        </Component>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="jPanel2">
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel1" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jlFechaSeleccionada" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="343" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButton1" pref="38" max="32767" attributes="0"/>
-                      <Component id="jButton2" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                  </Group>
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jlFechaSeleccionada" min="-2" pref="44" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButton1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JList" name="jListOcupacionReservas">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="27" green="27" red="27" type="rgb"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                    <MatteColorBorder/>
+                  </Border>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="24" style="0"/>
+                </Property>
+                <Property name="opaque" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jListOcupacionReservasMouseClicked"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JList&lt;&gt;()"/>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Ocupacion&gt;"/>
+              </AuxValues>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JLabel" name="jlFechaSeleccionada">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="a"/>
+            <Property name="text" type="java.lang.String" value="Fecha:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
-          </Events>
-        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="jPanel3">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="panelCalendario" max="32767" attributes="0"/>
+                      <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                  <Component id="panelCalendario" pref="360" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="panelCalendario">
+          <AuxValues>
+            <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,44,0,0,3,105"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+            <Property name="columns" type="int" value="7"/>
+            <Property name="rows" type="int" value="7"/>
+          </Layout>
+          <SubComponents>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaLunes">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Lunes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="celdaLunesActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaMartes">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Martes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="celdaMartesActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaMiercoles">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Miercoles"/>
+              </Properties>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaJueves">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Jueves"/>
+              </Properties>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaViernes">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Viernes"/>
+              </Properties>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaSabado">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="S&#xe1;bado"/>
+              </Properties>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaDomingo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Domingo"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="celdaDomingoActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario8">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario9">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario10">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario11">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario12">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario13">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario14">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario15">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario16">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario17">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario18">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario19">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario20">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario21">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario22">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario23">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario24">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario25">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario26">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario27">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario28">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario29">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario30">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario31">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario32">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario33">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario34">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario35">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario36">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario37">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario38">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario39">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario40">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario41">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario42">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario43">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario44">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario45">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario46">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario47">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario48">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario49">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Selecione el dia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel1">
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
+                          <Component id="jlFechaCalendario" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jButton1" pref="38" max="32767" attributes="0"/>
+                          <Component id="jButton2" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jlFechaCalendario" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JButton" name="jButton1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jButton1"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jButton1"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jlFechaCalendario">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="a"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
   </SubComponents>

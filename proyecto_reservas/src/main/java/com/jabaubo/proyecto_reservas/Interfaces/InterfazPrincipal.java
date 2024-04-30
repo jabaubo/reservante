@@ -6,7 +6,13 @@ package com.jabaubo.proyecto_reservas.Interfaces;
 
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,14 +23,26 @@ import javax.swing.UIManager;
  * @author pokem
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
+
     MiRestauranteUI panelConfiguracion = new MiRestauranteUI();
-    PanelCalendario panelCalendario = new PanelCalendario(4, 2024);
-    
+    PanelCalendario panelCalendario = new PanelCalendario(4, 2024, this);
+
     /**
      * Creates new form UI
      */
     public InterfazPrincipal() {
         initComponents();
+        URL url;
+        try {
+            url = new URL("http://www.google.com");
+            HttpURLConnection urlConnect = (HttpURLConnection) url.openConnection();
+// trying to retrieve data from the source. If offline, this line will fail:
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(InterfazPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(InterfazPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -114,7 +132,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         panelCalendario.setVisible(true);
         jpVista.add(panelCalendario);
         jpVista.validate();
-        jpVista.repaint(); 
+        jpVista.repaint();
     }//GEN-LAST:event_jbCambioActionPerformed
 
     private void jbCambio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCambio1ActionPerformed
@@ -137,6 +155,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+
         try {
             javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {

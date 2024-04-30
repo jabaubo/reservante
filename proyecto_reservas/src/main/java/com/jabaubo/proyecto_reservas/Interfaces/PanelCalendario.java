@@ -6,12 +6,35 @@ package com.jabaubo.proyecto_reservas.Interfaces;
 
 import com.jabaubo.proyecto_reservas.Clases.Ocupacion;
 import com.jabaubo.proyecto_reservas.Clases.OcupacionRender;
+import com.jabaubo.proyecto_reservas.Clases.Reserva;
+import com.jabaubo.proyecto_reservas.Clases.ReservaFechas;
 import java.awt.Component;
+import java.awt.Frame;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -21,16 +44,19 @@ public class PanelCalendario extends javax.swing.JPanel {
 
     private int month;
     private int year;
-    private Calendar fecha; 
+    private Calendar fecha;
+    private InterfazPrincipal interfazPrincipal;
+
     public PanelCalendario() {
         initComponents();
         month = LocalDate.now().getMonth().getValue();
         year = LocalDate.now().getYear();
     }
 
-    public PanelCalendario(int month, int year) {
+    public PanelCalendario(int month, int year, InterfazPrincipal interfazPrincipal) {
         this.month = month;
         this.year = year;
+        this.interfazPrincipal = interfazPrincipal;
         initComponents();
         init();
     }
@@ -43,13 +69,13 @@ public class PanelCalendario extends javax.swing.JPanel {
         celdaViernes.setTitle(true);
         celdaSabado.setTitle(true);
         celdaDomingo.setTitle(true);
+        jListOcupacionReservas.setCellRenderer(new OcupacionRender());
         setDate();
-        cargarOcupacionPruebas();
     }
 
     public void setDate() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, month -1);
+        calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         int start = calendar.get(Calendar.DAY_OF_WEEK) - 2;
@@ -67,7 +93,7 @@ public class PanelCalendario extends javax.swing.JPanel {
                 calendar.add(Calendar.DATE, 1);
             }
         }
-        
+
     }
 
     /**
@@ -79,8 +105,11 @@ public class PanelCalendario extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListOcupacionReservas = new JList<>();
+        jlFechaSeleccionada = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         panelCalendario = new javax.swing.JPanel();
         celdaLunes = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
         celdaMartes = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
@@ -133,16 +162,43 @@ public class PanelCalendario extends javax.swing.JPanel {
         celdaCalendario49 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jlFechaCalendario = new javax.swing.JLabel();
 
+        jListOcupacionReservas.setBackground(new java.awt.Color(39, 39, 39));
+        jListOcupacionReservas.setBorder(new javax.swing.border.MatteBorder(null));
         jListOcupacionReservas.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jListOcupacionReservas.setOpaque(false);
         jListOcupacionReservas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jListOcupacionReservasMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jListOcupacionReservas);
+
+        jlFechaSeleccionada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlFechaSeleccionada.setText("Fecha:");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jlFechaSeleccionada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlFechaSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
 
         panelCalendario.setLayout(new java.awt.GridLayout(7, 7));
 
@@ -182,7 +238,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaDomingo);
 
-        celdaCalendario8.setToolTipText("");
+        celdaCalendario8.setToolTipText("Selecione el dia");
         celdaCalendario8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -190,7 +246,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario8);
 
-        celdaCalendario9.setToolTipText("");
+        celdaCalendario9.setToolTipText("Selecione el dia");
         celdaCalendario9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -198,7 +254,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario9);
 
-        celdaCalendario10.setToolTipText("");
+        celdaCalendario10.setToolTipText("Selecione el dia");
         celdaCalendario10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -206,7 +262,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario10);
 
-        celdaCalendario11.setToolTipText("");
+        celdaCalendario11.setToolTipText("Selecione el dia");
         celdaCalendario11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -214,7 +270,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario11);
 
-        celdaCalendario12.setToolTipText("");
+        celdaCalendario12.setToolTipText("Selecione el dia");
         celdaCalendario12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -222,7 +278,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario12);
 
-        celdaCalendario13.setToolTipText("");
+        celdaCalendario13.setToolTipText("Selecione el dia");
         celdaCalendario13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -230,7 +286,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario13);
 
-        celdaCalendario14.setToolTipText("");
+        celdaCalendario14.setToolTipText("Selecione el dia");
         celdaCalendario14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -238,7 +294,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario14);
 
-        celdaCalendario15.setToolTipText("");
+        celdaCalendario15.setToolTipText("Selecione el dia");
         celdaCalendario15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -246,7 +302,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario15);
 
-        celdaCalendario16.setToolTipText("");
+        celdaCalendario16.setToolTipText("Selecione el dia");
         celdaCalendario16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -254,7 +310,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario16);
 
-        celdaCalendario17.setToolTipText("");
+        celdaCalendario17.setToolTipText("Selecione el dia");
         celdaCalendario17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -262,7 +318,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario17);
 
-        celdaCalendario18.setToolTipText("");
+        celdaCalendario18.setToolTipText("Selecione el dia");
         celdaCalendario18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -270,7 +326,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario18);
 
-        celdaCalendario19.setToolTipText("");
+        celdaCalendario19.setToolTipText("Selecione el dia");
         celdaCalendario19.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -278,7 +334,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario19);
 
-        celdaCalendario20.setToolTipText("");
+        celdaCalendario20.setToolTipText("Selecione el dia");
         celdaCalendario20.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -286,7 +342,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario20);
 
-        celdaCalendario21.setToolTipText("");
+        celdaCalendario21.setToolTipText("Selecione el dia");
         celdaCalendario21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -294,7 +350,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario21);
 
-        celdaCalendario22.setToolTipText("");
+        celdaCalendario22.setToolTipText("Selecione el dia");
         celdaCalendario22.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -302,7 +358,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario22);
 
-        celdaCalendario23.setToolTipText("");
+        celdaCalendario23.setToolTipText("Selecione el dia");
         celdaCalendario23.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -310,7 +366,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario23);
 
-        celdaCalendario24.setToolTipText("");
+        celdaCalendario24.setToolTipText("Selecione el dia");
         celdaCalendario24.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -318,7 +374,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario24);
 
-        celdaCalendario25.setToolTipText("");
+        celdaCalendario25.setToolTipText("Selecione el dia");
         celdaCalendario25.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -326,7 +382,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario25);
 
-        celdaCalendario26.setToolTipText("");
+        celdaCalendario26.setToolTipText("Selecione el dia");
         celdaCalendario26.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -334,7 +390,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario26);
 
-        celdaCalendario27.setToolTipText("");
+        celdaCalendario27.setToolTipText("Selecione el dia");
         celdaCalendario27.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -342,7 +398,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario27);
 
-        celdaCalendario28.setToolTipText("");
+        celdaCalendario28.setToolTipText("Selecione el dia");
         celdaCalendario28.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -350,7 +406,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario28);
 
-        celdaCalendario29.setToolTipText("");
+        celdaCalendario29.setToolTipText("Selecione el dia");
         celdaCalendario29.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -358,7 +414,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario29);
 
-        celdaCalendario30.setToolTipText("");
+        celdaCalendario30.setToolTipText("Selecione el dia");
         celdaCalendario30.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -366,7 +422,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario30);
 
-        celdaCalendario31.setToolTipText("");
+        celdaCalendario31.setToolTipText("Selecione el dia");
         celdaCalendario31.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -374,7 +430,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario31);
 
-        celdaCalendario32.setToolTipText("");
+        celdaCalendario32.setToolTipText("Selecione el dia");
         celdaCalendario32.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -382,7 +438,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario32);
 
-        celdaCalendario33.setToolTipText("");
+        celdaCalendario33.setToolTipText("Selecione el dia");
         celdaCalendario33.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -390,7 +446,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario33);
 
-        celdaCalendario34.setToolTipText("");
+        celdaCalendario34.setToolTipText("Selecione el dia");
         celdaCalendario34.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -398,7 +454,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario34);
 
-        celdaCalendario35.setToolTipText("");
+        celdaCalendario35.setToolTipText("Selecione el dia");
         celdaCalendario35.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -406,7 +462,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario35);
 
-        celdaCalendario36.setToolTipText("");
+        celdaCalendario36.setToolTipText("Selecione el dia");
         celdaCalendario36.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -414,7 +470,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario36);
 
-        celdaCalendario37.setToolTipText("");
+        celdaCalendario37.setToolTipText("Selecione el dia");
         celdaCalendario37.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -422,7 +478,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario37);
 
-        celdaCalendario38.setToolTipText("");
+        celdaCalendario38.setToolTipText("Selecione el dia");
         celdaCalendario38.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -430,7 +486,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario38);
 
-        celdaCalendario39.setToolTipText("");
+        celdaCalendario39.setToolTipText("Selecione el dia");
         celdaCalendario39.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -438,7 +494,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario39);
 
-        celdaCalendario40.setToolTipText("");
+        celdaCalendario40.setToolTipText("Selecione el dia");
         celdaCalendario40.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -446,7 +502,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario40);
 
-        celdaCalendario41.setToolTipText("");
+        celdaCalendario41.setToolTipText("Selecione el dia");
         celdaCalendario41.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -454,7 +510,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario41);
 
-        celdaCalendario42.setToolTipText("");
+        celdaCalendario42.setToolTipText("Selecione el dia");
         celdaCalendario42.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -462,7 +518,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario42);
 
-        celdaCalendario43.setToolTipText("");
+        celdaCalendario43.setToolTipText("Selecione el dia");
         celdaCalendario43.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -470,7 +526,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario43);
 
-        celdaCalendario44.setToolTipText("");
+        celdaCalendario44.setToolTipText("Selecione el dia");
         celdaCalendario44.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -478,7 +534,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario44);
 
-        celdaCalendario45.setToolTipText("");
+        celdaCalendario45.setToolTipText("Selecione el dia");
         celdaCalendario45.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -486,7 +542,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario45);
 
-        celdaCalendario46.setToolTipText("");
+        celdaCalendario46.setToolTipText("Selecione el dia");
         celdaCalendario46.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -494,7 +550,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario46);
 
-        celdaCalendario47.setToolTipText("");
+        celdaCalendario47.setToolTipText("Selecione el dia");
         celdaCalendario47.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -502,7 +558,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario47);
 
-        celdaCalendario48.setToolTipText("");
+        celdaCalendario48.setToolTipText("Selecione el dia");
         celdaCalendario48.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -510,7 +566,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         panelCalendario.add(celdaCalendario48);
 
-        celdaCalendario49.setToolTipText("");
+        celdaCalendario49.setToolTipText("Selecione el dia");
         celdaCalendario49.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onClickDia(evt);
@@ -525,15 +581,15 @@ public class PanelCalendario extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("a");
-
         jButton2.setText("jButton1");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
+
+        jlFechaCalendario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlFechaCalendario.setText("a");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -542,11 +598,14 @@ public class PanelCalendario extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(101, 101, 101)
+                    .addComponent(jlFechaCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(81, 81, 81)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -554,8 +613,33 @@ public class PanelCalendario extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jlFechaCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(panelCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -563,25 +647,19 @@ public class PanelCalendario extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
-                        .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -600,55 +678,57 @@ public class PanelCalendario extends javax.swing.JPanel {
     private void onClickDia(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onClickDia
         CeldaCalendario celda = (CeldaCalendario) evt.getSource();
         System.out.println(celda.fechaFormateada());
+        cargarOcupacion(celda.fechaFormateada());
+        jlFechaSeleccionada.setText("Fecha :" + celda.fechaFormateada());
     }//GEN-LAST:event_onClickDia
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.MONTH, month-1);
+        c.set(Calendar.MONTH, month - 1);
         c.set(Calendar.YEAR, year);
         c.add(Calendar.MONTH, 1);
-        month = c.get(Calendar.MONTH)+1;
+        month = c.get(Calendar.MONTH) + 1;
         year = c.get(Calendar.YEAR);
         switch (c.get(Calendar.MONTH)) {
             case Calendar.JANUARY:
-                jLabel1.setText("Enero de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Enero de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.FEBRUARY:
-                jLabel1.setText("Febrero de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Febrero de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.MARCH:
-                jLabel1.setText("Marzo de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Marzo de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.APRIL:
-                jLabel1.setText("Abril de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Abril de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.MAY:
-                jLabel1.setText("Mayo de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Mayo de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.JUNE:
-                jLabel1.setText("Junio de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Junio de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.JULY:
-                jLabel1.setText("Julio de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Julio de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.AUGUST:
-                jLabel1.setText("Agosto de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Agosto de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.SEPTEMBER:
-                jLabel1.setText("Septiembre de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Septiembre de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.OCTOBER:
-                jLabel1.setText("Octubre de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Octubre de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.NOVEMBER:
-                jLabel1.setText("Noviembre de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Noviembre de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.DECEMBER:
-                jLabel1.setText("Diciembre de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Diciembre de " + c.get(Calendar.YEAR));
                 break;
             default:
-                jLabel1.setText("Error al obtener el mes");
+                jlFechaCalendario.setText("Error al obtener el mes");
                 break;
         }
         setDate();
@@ -657,50 +737,50 @@ public class PanelCalendario extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.MONTH, month-1);
+        c.set(Calendar.MONTH, month - 1);
         c.set(Calendar.YEAR, year);
         c.add(Calendar.MONTH, -1);
-        month = c.get(Calendar.MONTH)+1;
+        month = c.get(Calendar.MONTH) + 1;
         year = c.get(Calendar.YEAR);
         switch (c.get(Calendar.MONTH)) {
             case Calendar.JANUARY:
-                jLabel1.setText("Enero de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Enero de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.FEBRUARY:
-                jLabel1.setText("Febrero de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Febrero de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.MARCH:
-                jLabel1.setText("Marzo de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Marzo de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.APRIL:
-                jLabel1.setText("Abril de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Abril de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.MAY:
-                jLabel1.setText("Mayo de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Mayo de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.JUNE:
-                jLabel1.setText("Junio de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Junio de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.JULY:
-                jLabel1.setText("Julio de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Julio de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.AUGUST:
-                jLabel1.setText("Agosto de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Agosto de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.SEPTEMBER:
-                jLabel1.setText("Septiembre de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Septiembre de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.OCTOBER:
-                jLabel1.setText("Octubre de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Octubre de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.NOVEMBER:
-                jLabel1.setText("Noviembre de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Noviembre de " + c.get(Calendar.YEAR));
                 break;
             case Calendar.DECEMBER:
-                jLabel1.setText("Diciembre de " + c.get(Calendar.YEAR));
+                jlFechaCalendario.setText("Diciembre de " + c.get(Calendar.YEAR));
                 break;
             default:
-                jLabel1.setText("Error al obtener el mes");
+                jlFechaCalendario.setText("Error al obtener el mes");
                 break;
         }
         setDate();
@@ -709,20 +789,339 @@ public class PanelCalendario extends javax.swing.JPanel {
 
     private void jListOcupacionReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListOcupacionReservasMouseClicked
         // TODO add your handling code here:
-        System.err.println(jListOcupacionReservas.getSelectedValue());
+        Ocupacion o = jListOcupacionReservas.getSelectedValue();
+
+        ArrayList<Reserva> lista = verReservas(o.getFecha().toString(), o.getHora().toString());;
+        ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), lista);
+        reservasDialog.setVisible(true);
     }//GEN-LAST:event_jListOcupacionReservasMouseClicked
 
-    public void cargarOcupacionPruebas() {
-        DefaultListModel<Ocupacion> lista = new DefaultListModel<>();
-        Ocupacion o1 = new Ocupacion(LocalTime.NOON, 1, "hola");
-        Ocupacion o2 = new Ocupacion(LocalTime.NOON, 1, "hola");
-        
-        lista.addElement(o1);
-        lista.addElement(o2);
-        jListOcupacionReservas.setModel(lista);
-        jListOcupacionReservas.setCellRenderer(new OcupacionRender());
+    public static ArrayList<Reserva> verReservas(String fecha, String hora) {
+        final JSONArray[] jsonArray = new JSONArray[1];
+        ArrayList<Reserva> lista = new ArrayList<>();
+        try {
+            System.out.println("Pa dentro");
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/getreservahora");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.setDoOutput(true);
+                        OutputStream os = connection.getOutputStream();
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\"\n}";
+                        jsonRequest = jsonRequest.replace("#PARAMFECHA#", fecha);
+                        jsonRequest = jsonRequest.replace("#PARAMHORA#", hora);
+                        System.out.println("jsonRequest " + jsonRequest);
+                        osw.write(jsonRequest);
+                        osw.flush();
+                        int responseCode = connection.getResponseCode();
+                        System.out.println((responseCode == HttpURLConnection.HTTP_OK) + " " + responseCode);
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            reader.close();
+                            jsonArray[0] = new JSONObject(response.toString()).getJSONArray("reservas");
+                            for (int i = 0; i < jsonArray[0].length(); i++) {
+                                Reserva r = new Reserva();
+                                JSONObject json = jsonArray[0].getJSONObject(i);
+                                r.setId(json.getInt("id_reserva"));
+                                r.setFecha(json.getString("fecha"));
+                                r.setId_salon(json.getInt("id_salon"));
+                                r.setN_personas(json.getInt("n_personas"));
+                                r.setHora(json.getString("hora"));
+                                r.setObservaciones(json.getString("observaciones"));
+                                r.setNombre_apellidos(json.getString("nombre_apellidos"));
+                                r.setTelefono(json.getString("telefono"));
+                                r.setEmail(json.getString("email"));
+                                lista.add(r);
+                            }
+                            connection.disconnect();
+                        } else {
+                            connection.disconnect();
+                        }
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                    }
+
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 
+    public void cargarOcupacion(String fecha) {
+        DefaultListModel<Ocupacion> modelo = new DefaultListModel<>();
+        try {
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/getocupacion");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.setDoOutput(true);
+                        connection.setRequestProperty("Content-Type", "application/json");
+                        connection.setRequestProperty("Accept", "application/json");
+                        OutputStream os = connection.getOutputStream();
+                        System.out.println("TETica");
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        String consulta = leerTramos(fecha);
+                        String jsonFecha = "    {\"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo FROM (#TRAMOS#) AS range_values CROSS JOIN salones LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon GROUP BY range_values.value, salones.id_salon ORDER BY range_values.value ASC;\"}";
+                        jsonFecha = jsonFecha.replace("#TRAMOS#", consulta);
+                        jsonFecha = jsonFecha.replace("#PARAMFECHA#", fecha);
+                        System.out.println(jsonFecha);
+                        osw.write(jsonFecha);
+                        osw.flush();
+                        int responseCode = connection.getResponseCode();
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            reader.close();
+                            System.out.println(response);
+                            JSONArray jsonArray = new JSONObject(response.toString()).getJSONArray("reservas");
+                            int n_salones = jsonArray.getJSONObject(0).getInt("n_salones");
+                            System.out.println("tope :" + n_salones);
+                            System.out.println("JSON ARRAY: " + jsonArray);
+                            System.out.println("JSON ARRAY LENGTH: " + jsonArray.length());
+
+                            //while ()
+                            for (int i = 0; i < jsonArray.length(); i += n_salones) {
+                                int reservasTotal = 0;
+                                String ocupacion = "";
+                                for (int j = i; j < (i + n_salones); j++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(j);
+                                    String nombreSalon = jsonObject.getString("nombre");
+                                    String nReservas = jsonObject.getString("n_reservas");
+                                    reservasTotal += Integer.valueOf(nReservas);
+                                    String nPersonas = jsonObject.getString("n_personas");
+                                    String aforoSalon = jsonObject.getString("aforo");
+                                    float ratio = Float.parseFloat(nPersonas) / Float.parseFloat(aforoSalon);
+                                    if (ratio < 0.33f) {
+                                        ocupacion += String.format("%s Reservas:%s   <font color='#008000'>%s</font>/%s<br></br>", nombreSalon, nReservas, nPersonas, aforoSalon);
+                                    } else if (ratio < 0.66f) {
+                                        ocupacion += String.format("%s Reservas:%s   <font color='#FFEB00'>%s</font>/%s<br></br>", nombreSalon, nReservas, nPersonas, aforoSalon);
+                                    } else {
+                                        ocupacion += String.format("%s Reservas:%s   <font color='#8B0000'>%s</font>/%s<br></br>", nombreSalon, nReservas, nPersonas, aforoSalon);
+                                    }
+
+                                }
+                                Ocupacion o = new Ocupacion();
+                                o.setHora(LocalTime.parse(jsonArray.getJSONObject(i).getString("value")));
+                                o.setnReservas(reservasTotal);
+                                o.setOcupacion(ocupacion);
+                                o.setFecha(LocalDate.parse(fecha));
+                                modelo.addElement(o);
+                            }
+                        }
+                        connection.disconnect();
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        System.out.println(e.getMessage());
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException ex) {
+                        Logger.getLogger(PanelCalendario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            thread.join();
+            jListOcupacionReservas.setModel(modelo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public String leerTramos(String fecha) {
+        LocalDate fechaDate = LocalDate.parse(fecha);
+        final JSONArray[] horario = {new JSONArray()};
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+
+                    int responseCode = connection.getResponseCode();
+                    //Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
+                        connection.disconnect();
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (JSONException e) {
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        int dia = fechaDate.getDayOfWeek().getValue();
+        JSONObject jsonObject;
+        try {
+            jsonObject = (horario[0].getJSONObject(dia - 1));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        LocalTime incremento = leerIncremento();
+        LocalDateTime inicio_m;
+        LocalDateTime fin_m;
+        LocalDateTime inicio_t;
+        LocalDateTime fin_t;
+        LocalDateTime[] tramos;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try {
+            inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
+            fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
+            inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
+            fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
+            Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+            Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+            tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
+            System.out.println("En teoría se ejecuta " + tramos.length);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        int contador = 0;
+        LocalDateTime tramo = inicio_m;
+        while (fin_m.isAfter(tramo)) {
+            tramos[contador] = tramo;
+            System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
+            contador++;
+            tramo = tramo.plusHours(incremento.getHour());
+            tramo = tramo.plusMinutes(incremento.getMinute());
+            if (fin_m.isBefore(tramo)) {
+                break;
+            }
+
+        }
+        tramo = inicio_t;
+        while (fin_t.isAfter(tramo)) {
+            tramos[contador] = tramo;
+            System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
+            contador++;
+            tramo = tramo.plusHours(incremento.getHour());
+            tramo = tramo.plusMinutes(incremento.getMinute());
+            if (fin_t.isBefore(tramo)) {
+                break;
+            }
+        }
+        String texto = "SELECT '#PARAM1#' AS value ";
+        for (LocalDateTime t : tramos) {
+            if (t != null) {
+                if (texto.contains("'#PARAM1#'")) {
+                    texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
+                } else {
+                    texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                }
+            }
+        }
+        System.out.println(texto);
+        return texto;
+    }
+
+    public LocalTime leerIncremento() {
+        final LocalTime[] incremento = new LocalTime[1];
+        try {
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/getincremento");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("GET");
+                        int responseCode = connection.getResponseCode();
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            reader.close();
+                            JSONObject jsonObject = new JSONObject(response.toString()).getJSONObject("resultado");
+                            String incrementoStr = jsonObject.getString("duracion_reservas");
+                            incremento[0] = LocalTime.parse(incrementoStr);
+                            connection.disconnect();
+                        } else {
+                            connection.disconnect();
+                        }
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                    }
+
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return incremento[0];
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario10;
     private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario11;
@@ -775,10 +1174,13 @@ public class PanelCalendario extends javax.swing.JPanel {
     private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaViernes;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JList<Ocupacion> jListOcupacionReservas;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jlFechaCalendario;
+    private javax.swing.JLabel jlFechaSeleccionada;
     private javax.swing.JPanel panelCalendario;
     // End of variables declaration//GEN-END:variables
 }

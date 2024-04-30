@@ -744,7 +744,6 @@ public class HomeFragment extends Fragment {
         boolean flag = !clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter");
         System.out.println(clase);
         btReservar.setEnabled(flag);
-        btReservar.setBac
         btAnterior.setEnabled(flag);
         btSiguiente.setEnabled(flag);
         btVolverInicio.setEnabled(flag);

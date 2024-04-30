@@ -59,10 +59,10 @@ public class CeldaCalendario extends JButton{
     
     public void currentMonth(boolean act) {
         if (act) {
-            setForeground(Color.red);
+            setForeground(Color.black);
         }
         else{
-            setForeground(Color.black);
+            setForeground(Color.lightGray);
         }
     }
 

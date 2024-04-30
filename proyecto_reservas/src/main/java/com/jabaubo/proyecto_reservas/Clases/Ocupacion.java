@@ -4,6 +4,7 @@
  */
 package com.jabaubo.proyecto_reservas.Clases;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
@@ -12,13 +13,26 @@ import java.time.LocalTime;
  */
 public class Ocupacion {
     private LocalTime hora;
+    private LocalDate fecha;
     private int nReservas;
     private String ocupacion;
 
-    public Ocupacion(LocalTime hora, int nReservas, String ocupacion) {
+    public Ocupacion(LocalTime hora, int nReservas, String ocupacion,LocalDate fecha) {
         this.hora = hora;
         this.nReservas = nReservas;
         this.ocupacion = ocupacion;
+        this.fecha = fecha;
+    }
+    public Ocupacion(){
+        
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public LocalTime getHora() {
