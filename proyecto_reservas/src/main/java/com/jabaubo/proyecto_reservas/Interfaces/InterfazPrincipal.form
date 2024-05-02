@@ -26,7 +26,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="jpVista" pref="537" max="32767" attributes="0"/>
+              <Component id="jpVista" pref="379" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -47,31 +47,25 @@
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="cc" type="rgb"/>
+          <Color blue="6d" green="22" red="6d" type="rgb"/>
         </Property>
       </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jbCambio1" pref="196" max="32767" attributes="0"/>
-                      <Component id="jbCambio" alignment="0" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
+              <Component id="jbCambio" max="32767" attributes="0"/>
+              <Component id="jbCambio1" alignment="0" pref="132" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                  <Component id="jbCambio1" min="-2" pref="68" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jbCambio" min="-2" pref="68" max="-2" attributes="0"/>
-                  <EmptySpace pref="297" max="32767" attributes="0"/>
+                  <Component id="jbCambio" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jbCambio1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="380" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -79,7 +73,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="jbCambio">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Reservas"/>
+            <Property name="text" type="java.lang.String" value="Agenda"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCambioActionPerformed"/>
@@ -87,7 +81,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jbCambio1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Mi restaurante"/>
+            <Property name="text" type="java.lang.String" value="Configuracion"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCambio1ActionPerformed"/>

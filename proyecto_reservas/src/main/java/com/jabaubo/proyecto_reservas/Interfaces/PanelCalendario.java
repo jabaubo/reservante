@@ -8,6 +8,7 @@ import com.jabaubo.proyecto_reservas.Clases.Ocupacion;
 import com.jabaubo.proyecto_reservas.Clases.OcupacionRender;
 import com.jabaubo.proyecto_reservas.Clases.Reserva;
 import com.jabaubo.proyecto_reservas.Clases.ReservaFechas;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
 import java.io.BufferedReader;
@@ -35,6 +36,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ColorUIResource;
 
 /**
  *
@@ -59,6 +61,52 @@ public class PanelCalendario extends javax.swing.JPanel {
         this.interfazPrincipal = interfazPrincipal;
         initComponents();
         init();
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.MONTH, month - 1);
+        c.set(Calendar.YEAR, year);
+        month = c.get(Calendar.MONTH) + 1;
+        year = c.get(Calendar.YEAR);
+        switch (c.get(Calendar.MONTH)) {
+            case Calendar.JANUARY:
+                jlFechaCalendario.setText("Enero de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.FEBRUARY:
+                jlFechaCalendario.setText("Febrero de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.MARCH:
+                jlFechaCalendario.setText("Marzo de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.APRIL:
+                jlFechaCalendario.setText("Abril de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.MAY:
+                jlFechaCalendario.setText("Mayo de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.JUNE:
+                jlFechaCalendario.setText("Junio de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.JULY:
+                jlFechaCalendario.setText("Julio de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.AUGUST:
+                jlFechaCalendario.setText("Agosto de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.SEPTEMBER:
+                jlFechaCalendario.setText("Septiembre de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.OCTOBER:
+                jlFechaCalendario.setText("Octubre de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.NOVEMBER:
+                jlFechaCalendario.setText("Noviembre de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.DECEMBER:
+                jlFechaCalendario.setText("Diciembre de " + c.get(Calendar.YEAR));
+                break;
+            default:
+                jlFechaCalendario.setText("Error al obtener el mes");
+                break;
+        }
     }
 
     public void init() {
@@ -89,8 +137,13 @@ public class PanelCalendario extends javax.swing.JPanel {
                 c.setFocusPainted(true);
                 c.setText(calendar.get(Calendar.DATE) + "");
                 c.setDate(calendar.getTime());
+                c.setBackground(new ColorUIResource(243,244,248));
                 c.currentMonth(calendar.get(Calendar.MONTH) == month - 1);
-                calendar.add(Calendar.DATE, 1);
+                calendar.add(Calendar.DATE, 1);                
+            }
+            else{
+                c.setBackground(new ColorUIResource(109, 34, 109));
+                c.setForeground(Color.WHITE);
             }
         }
 
@@ -105,9 +158,10 @@ public class PanelCalendario extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jListOcupacionReservas = new JList<>();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jlFechaCalendario = new javax.swing.JLabel();
         jlFechaSeleccionada = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         panelCalendario = new javax.swing.JPanel();
@@ -160,10 +214,501 @@ public class PanelCalendario extends javax.swing.JPanel {
         celdaCalendario47 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
         celdaCalendario48 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
         celdaCalendario49 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jlFechaCalendario = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListOcupacionReservas = new JList<>();
+
+        setBackground(new java.awt.Color(243, 244, 248));
+
+        jPanel1.setBackground(new java.awt.Color(109, 34, 109));
+
+        jButton1.setText("Mes anterior");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Mes siguiente");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jlFechaCalendario.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlFechaCalendario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlFechaCalendario.setText("a");
+        jlFechaCalendario.setRequestFocusEnabled(false);
+
+        jlFechaSeleccionada.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlFechaSeleccionada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlFechaSeleccionada.setText("Fecha:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlFechaCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jlFechaSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlFechaSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jlFechaCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        jPanel3.setOpaque(false);
+
+        panelCalendario.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.darkGray));
+        panelCalendario.setOpaque(false);
+        panelCalendario.setLayout(new java.awt.GridLayout(7, 7));
+
+        celdaLunes.setBackground(new java.awt.Color(255, 255, 102));
+        celdaLunes.setText("Lunes");
+        celdaLunes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                celdaLunesActionPerformed(evt);
+            }
+        });
+        panelCalendario.add(celdaLunes);
+
+        celdaMartes.setBackground(new java.awt.Color(255, 255, 102));
+        celdaMartes.setText("Martes");
+        celdaMartes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                celdaMartesActionPerformed(evt);
+            }
+        });
+        panelCalendario.add(celdaMartes);
+
+        celdaMiercoles.setBackground(new java.awt.Color(255, 255, 102));
+        celdaMiercoles.setText("Miercoles");
+        panelCalendario.add(celdaMiercoles);
+
+        celdaJueves.setBackground(new java.awt.Color(255, 255, 102));
+        celdaJueves.setText("Jueves");
+        panelCalendario.add(celdaJueves);
+
+        celdaViernes.setBackground(new java.awt.Color(255, 255, 102));
+        celdaViernes.setText("Viernes");
+        panelCalendario.add(celdaViernes);
+
+        celdaSabado.setBackground(new java.awt.Color(255, 255, 102));
+        celdaSabado.setText("Sábado");
+        panelCalendario.add(celdaSabado);
+
+        celdaDomingo.setBackground(new java.awt.Color(255, 255, 102));
+        celdaDomingo.setText("Domingo");
+        celdaDomingo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                celdaDomingoActionPerformed(evt);
+            }
+        });
+        panelCalendario.add(celdaDomingo);
+
+        celdaCalendario8.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario8.setToolTipText("Selecione el dia");
+        celdaCalendario8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario8);
+
+        celdaCalendario9.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario9.setToolTipText("Selecione el dia");
+        celdaCalendario9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario9);
+
+        celdaCalendario10.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario10.setToolTipText("Selecione el dia");
+        celdaCalendario10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario10);
+
+        celdaCalendario11.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario11.setToolTipText("Selecione el dia");
+        celdaCalendario11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario11);
+
+        celdaCalendario12.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario12.setToolTipText("Selecione el dia");
+        celdaCalendario12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario12);
+
+        celdaCalendario13.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario13.setToolTipText("Selecione el dia");
+        celdaCalendario13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario13);
+
+        celdaCalendario14.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario14.setToolTipText("Selecione el dia");
+        celdaCalendario14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario14);
+
+        celdaCalendario15.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario15.setToolTipText("Selecione el dia");
+        celdaCalendario15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario15);
+
+        celdaCalendario16.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario16.setToolTipText("Selecione el dia");
+        celdaCalendario16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario16);
+
+        celdaCalendario17.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario17.setToolTipText("Selecione el dia");
+        celdaCalendario17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario17);
+
+        celdaCalendario18.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario18.setToolTipText("Selecione el dia");
+        celdaCalendario18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario18);
+
+        celdaCalendario19.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario19.setToolTipText("Selecione el dia");
+        celdaCalendario19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario19);
+
+        celdaCalendario20.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario20.setToolTipText("Selecione el dia");
+        celdaCalendario20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario20);
+
+        celdaCalendario21.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario21.setToolTipText("Selecione el dia");
+        celdaCalendario21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario21);
+
+        celdaCalendario22.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario22.setToolTipText("Selecione el dia");
+        celdaCalendario22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario22);
+
+        celdaCalendario23.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario23.setToolTipText("Selecione el dia");
+        celdaCalendario23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario23);
+
+        celdaCalendario24.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario24.setToolTipText("Selecione el dia");
+        celdaCalendario24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario24);
+
+        celdaCalendario25.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario25.setToolTipText("Selecione el dia");
+        celdaCalendario25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario25);
+
+        celdaCalendario26.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario26.setToolTipText("Selecione el dia");
+        celdaCalendario26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario26);
+
+        celdaCalendario27.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario27.setToolTipText("Selecione el dia");
+        celdaCalendario27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario27);
+
+        celdaCalendario28.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario28.setToolTipText("Selecione el dia");
+        celdaCalendario28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario28);
+
+        celdaCalendario29.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario29.setToolTipText("Selecione el dia");
+        celdaCalendario29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario29);
+
+        celdaCalendario30.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario30.setToolTipText("Selecione el dia");
+        celdaCalendario30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario30);
+
+        celdaCalendario31.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario31.setToolTipText("Selecione el dia");
+        celdaCalendario31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario31);
+
+        celdaCalendario32.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario32.setToolTipText("Selecione el dia");
+        celdaCalendario32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario32);
+
+        celdaCalendario33.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario33.setToolTipText("Selecione el dia");
+        celdaCalendario33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario33);
+
+        celdaCalendario34.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario34.setToolTipText("Selecione el dia");
+        celdaCalendario34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario34);
+
+        celdaCalendario35.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario35.setToolTipText("Selecione el dia");
+        celdaCalendario35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario35);
+
+        celdaCalendario36.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario36.setToolTipText("Selecione el dia");
+        celdaCalendario36.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario36);
+
+        celdaCalendario37.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario37.setToolTipText("Selecione el dia");
+        celdaCalendario37.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario37);
+
+        celdaCalendario38.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario38.setToolTipText("Selecione el dia");
+        celdaCalendario38.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario38);
+
+        celdaCalendario39.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario39.setToolTipText("Selecione el dia");
+        celdaCalendario39.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario39);
+
+        celdaCalendario40.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario40.setToolTipText("Selecione el dia");
+        celdaCalendario40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario40);
+
+        celdaCalendario41.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario41.setToolTipText("Selecione el dia");
+        celdaCalendario41.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario41);
+
+        celdaCalendario42.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario42.setToolTipText("Selecione el dia");
+        celdaCalendario42.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario42);
+
+        celdaCalendario43.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario43.setToolTipText("Selecione el dia");
+        celdaCalendario43.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario43);
+
+        celdaCalendario44.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario44.setToolTipText("Selecione el dia");
+        celdaCalendario44.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario44);
+
+        celdaCalendario45.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario45.setToolTipText("Selecione el dia");
+        celdaCalendario45.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario45);
+
+        celdaCalendario46.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario46.setToolTipText("Selecione el dia");
+        celdaCalendario46.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario46);
+
+        celdaCalendario47.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario47.setToolTipText("Selecione el dia");
+        celdaCalendario47.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario47);
+
+        celdaCalendario48.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario48.setToolTipText("Selecione el dia");
+        celdaCalendario48.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario48);
+
+        celdaCalendario49.setBackground(new java.awt.Color(255, 255, 102));
+        celdaCalendario49.setToolTipText("Selecione el dia");
+        celdaCalendario49.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onClickDia(evt);
+            }
+        });
+        panelCalendario.add(celdaCalendario49);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelCalendario, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelCalendario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+        );
 
         jListOcupacionReservas.setBackground(new java.awt.Color(39, 39, 39));
         jListOcupacionReservas.setBorder(new javax.swing.border.MatteBorder(null));
@@ -176,472 +721,6 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jListOcupacionReservas);
 
-        jlFechaSeleccionada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlFechaSeleccionada.setText("Fecha:");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jlFechaSeleccionada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlFechaSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-        );
-
-        panelCalendario.setLayout(new java.awt.GridLayout(7, 7));
-
-        celdaLunes.setText("Lunes");
-        celdaLunes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                celdaLunesActionPerformed(evt);
-            }
-        });
-        panelCalendario.add(celdaLunes);
-
-        celdaMartes.setText("Martes");
-        celdaMartes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                celdaMartesActionPerformed(evt);
-            }
-        });
-        panelCalendario.add(celdaMartes);
-
-        celdaMiercoles.setText("Miercoles");
-        panelCalendario.add(celdaMiercoles);
-
-        celdaJueves.setText("Jueves");
-        panelCalendario.add(celdaJueves);
-
-        celdaViernes.setText("Viernes");
-        panelCalendario.add(celdaViernes);
-
-        celdaSabado.setText("Sábado");
-        panelCalendario.add(celdaSabado);
-
-        celdaDomingo.setText("Domingo");
-        celdaDomingo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                celdaDomingoActionPerformed(evt);
-            }
-        });
-        panelCalendario.add(celdaDomingo);
-
-        celdaCalendario8.setToolTipText("Selecione el dia");
-        celdaCalendario8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario8);
-
-        celdaCalendario9.setToolTipText("Selecione el dia");
-        celdaCalendario9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario9);
-
-        celdaCalendario10.setToolTipText("Selecione el dia");
-        celdaCalendario10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario10);
-
-        celdaCalendario11.setToolTipText("Selecione el dia");
-        celdaCalendario11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario11);
-
-        celdaCalendario12.setToolTipText("Selecione el dia");
-        celdaCalendario12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario12);
-
-        celdaCalendario13.setToolTipText("Selecione el dia");
-        celdaCalendario13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario13);
-
-        celdaCalendario14.setToolTipText("Selecione el dia");
-        celdaCalendario14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario14);
-
-        celdaCalendario15.setToolTipText("Selecione el dia");
-        celdaCalendario15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario15);
-
-        celdaCalendario16.setToolTipText("Selecione el dia");
-        celdaCalendario16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario16);
-
-        celdaCalendario17.setToolTipText("Selecione el dia");
-        celdaCalendario17.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario17);
-
-        celdaCalendario18.setToolTipText("Selecione el dia");
-        celdaCalendario18.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario18);
-
-        celdaCalendario19.setToolTipText("Selecione el dia");
-        celdaCalendario19.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario19);
-
-        celdaCalendario20.setToolTipText("Selecione el dia");
-        celdaCalendario20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario20);
-
-        celdaCalendario21.setToolTipText("Selecione el dia");
-        celdaCalendario21.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario21);
-
-        celdaCalendario22.setToolTipText("Selecione el dia");
-        celdaCalendario22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario22);
-
-        celdaCalendario23.setToolTipText("Selecione el dia");
-        celdaCalendario23.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario23);
-
-        celdaCalendario24.setToolTipText("Selecione el dia");
-        celdaCalendario24.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario24);
-
-        celdaCalendario25.setToolTipText("Selecione el dia");
-        celdaCalendario25.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario25);
-
-        celdaCalendario26.setToolTipText("Selecione el dia");
-        celdaCalendario26.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario26);
-
-        celdaCalendario27.setToolTipText("Selecione el dia");
-        celdaCalendario27.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario27);
-
-        celdaCalendario28.setToolTipText("Selecione el dia");
-        celdaCalendario28.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario28);
-
-        celdaCalendario29.setToolTipText("Selecione el dia");
-        celdaCalendario29.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario29);
-
-        celdaCalendario30.setToolTipText("Selecione el dia");
-        celdaCalendario30.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario30);
-
-        celdaCalendario31.setToolTipText("Selecione el dia");
-        celdaCalendario31.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario31);
-
-        celdaCalendario32.setToolTipText("Selecione el dia");
-        celdaCalendario32.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario32);
-
-        celdaCalendario33.setToolTipText("Selecione el dia");
-        celdaCalendario33.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario33);
-
-        celdaCalendario34.setToolTipText("Selecione el dia");
-        celdaCalendario34.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario34);
-
-        celdaCalendario35.setToolTipText("Selecione el dia");
-        celdaCalendario35.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario35);
-
-        celdaCalendario36.setToolTipText("Selecione el dia");
-        celdaCalendario36.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario36);
-
-        celdaCalendario37.setToolTipText("Selecione el dia");
-        celdaCalendario37.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario37);
-
-        celdaCalendario38.setToolTipText("Selecione el dia");
-        celdaCalendario38.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario38);
-
-        celdaCalendario39.setToolTipText("Selecione el dia");
-        celdaCalendario39.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario39);
-
-        celdaCalendario40.setToolTipText("Selecione el dia");
-        celdaCalendario40.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario40);
-
-        celdaCalendario41.setToolTipText("Selecione el dia");
-        celdaCalendario41.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario41);
-
-        celdaCalendario42.setToolTipText("Selecione el dia");
-        celdaCalendario42.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario42);
-
-        celdaCalendario43.setToolTipText("Selecione el dia");
-        celdaCalendario43.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario43);
-
-        celdaCalendario44.setToolTipText("Selecione el dia");
-        celdaCalendario44.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario44);
-
-        celdaCalendario45.setToolTipText("Selecione el dia");
-        celdaCalendario45.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario45);
-
-        celdaCalendario46.setToolTipText("Selecione el dia");
-        celdaCalendario46.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario46);
-
-        celdaCalendario47.setToolTipText("Selecione el dia");
-        celdaCalendario47.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario47);
-
-        celdaCalendario48.setToolTipText("Selecione el dia");
-        celdaCalendario48.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario48);
-
-        celdaCalendario49.setToolTipText("Selecione el dia");
-        celdaCalendario49.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickDia(evt);
-            }
-        });
-        panelCalendario.add(celdaCalendario49);
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("jButton1");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jlFechaCalendario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlFechaCalendario.setText("a");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(101, 101, 101)
-                    .addComponent(jlFechaCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(81, 81, 81)))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jlFechaCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(panelCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -650,16 +729,19 @@ public class PanelCalendario extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -790,10 +872,10 @@ public class PanelCalendario extends javax.swing.JPanel {
     private void jListOcupacionReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListOcupacionReservasMouseClicked
         // TODO add your handling code here:
         Ocupacion o = jListOcupacionReservas.getSelectedValue();
-
         ArrayList<Reserva> lista = verReservas(o.getFecha().toString(), o.getHora().toString());;
         ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), lista);
         reservasDialog.setVisible(true);
+        cargarOcupacion(o.getFecha().toString());
     }//GEN-LAST:event_jListOcupacionReservasMouseClicked
 
     public static ArrayList<Reserva> verReservas(String fecha, String hora) {
@@ -1176,7 +1258,6 @@ public class PanelCalendario extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JList<Ocupacion> jListOcupacionReservas;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlFechaCalendario;

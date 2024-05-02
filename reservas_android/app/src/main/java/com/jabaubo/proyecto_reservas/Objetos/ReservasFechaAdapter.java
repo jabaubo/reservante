@@ -67,7 +67,6 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
         ReservaFechas data = dataList.get(position);
         holder.tvHora.setText(data.getHora());
         holder.tvReservas.setText("Reservas: " + data.getnReservas());
@@ -187,7 +186,6 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
     }
     public String formatearOcupacion(String texto){
         String base = texto;
-
         String[] baseArray = base.split("\n");
         String formateado = "";
         for (int i = 0 ; i < baseArray.length ; i++){

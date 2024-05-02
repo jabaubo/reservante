@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashSet;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.plaf.ColorUIResource;
 
 /**
  *
@@ -23,7 +24,8 @@ public class CeldaCalendario extends JButton{
    
     
     public CeldaCalendario(){
-        setContentAreaFilled(false);
+        setOpaque(true);
+        setContentAreaFilled(true);
         setBorder(null);
         setHorizontalAlignment(JLabel.CENTER);
         Font f = new Font("Segoe", Font.PLAIN, 20);

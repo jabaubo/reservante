@@ -5,10 +5,30 @@
 package com.jabaubo.proyecto_reservas.Interfaces;
 
 import com.jabaubo.proyecto_reservas.Clases.Reserva;
+import java.awt.Desktop;
+import java.awt.Frame;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -19,23 +39,175 @@ public class ReservasDialog extends javax.swing.JDialog {
     /**
      * Creates new form ReservasDialog
      */
+    private ArrayList<Reserva> listaCompleta;
     private ArrayList<Reserva> lista;
-    
-    public ReservasDialog(java.awt.Frame parent, boolean modal , LocalDate fecha, LocalTime tramo , ArrayList<Reserva> lista) {
+    private String[] salones;
+
+    public ReservasDialog(java.awt.Frame parent, boolean modal, LocalDate fecha, LocalTime tramo, ArrayList<Reserva> lista) {
         super(parent, modal);
         initComponents();
-        jlTitulo.setText(String.format("FECHA: %s TRAMO: %s", fecha.toString() , tramo.toString()));
+        jlTitulo.setText(String.format("FECHA: %s TRAMO: %s", fecha.toString(), tramo.toString()));
         this.lista = lista;
+        this.listaCompleta = lista;
+        salones = leerSalones();
         cargarReservas();
+        jbActualizar.setEnabled(false);
+        jbBorrar.setEnabled(false);
     }
-    public void cargarReservas(){
+
+    public void cargarReservas() {
         DefaultListModel<String> modelo = new DefaultListModel<>();
-        for (int i = 0 ; i < lista.size() ; i++){
+        for (int i = 0; i < lista.size(); i++) {
             Reserva r = lista.get(i);
             modelo.addElement("Cliente : " + r.getNombre_apellidos() + " Comensales : " + r.getN_personas());
         }
         jListReservas.setModel(modelo);
     }
+
+    /*
+    public String[] leerSalones() {
+        final JSONArray[] jsonArray = new JSONArray[1];
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/getsalones");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    int responseCode = connection.getResponseCode();
+                    System.out.println("Respuesta insertar aforo" + (responseCode == HttpURLConnection.HTTP_OK));
+                    //Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        connection.disconnect();
+                        System.out.println("Respuesta insertar aforo" + response);
+                        jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
+                        System.out.println(jsonArray[0]);
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        String[] textos = new String[jsonArray[0].length() + 1];
+        textos[0] = "--- Seleccione filtro ---";
+        for (int i = 0; i < jsonArray[0].length(); i++) {
+            try {
+                JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
+                System.out.println("SALON json" + jsonObject);
+                textos[i + 1] = String.format("%s - %s", jsonObject.getString("id_salon"), jsonObject.getString("nombre"));
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        for (String s : textos) {
+            jcbFiltro.addItem(s);
+        }
+        return textos;
+    }
+     */
+    public String[] leerSalones() {
+        final JSONArray[] jsonArray = new JSONArray[1];
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/getaforotramo");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
+                    OutputStream os = connection.getOutputStream();
+                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                    String json = "{\n"
+                            + "    \"fecha\":\"#FECHA#\",\n"
+                            + "    \"hora\":\"#HORA#\"   \n"
+                            + "}";
+                    json = json.replace("#FECHA#", listaCompleta.get(0).getFecha());
+                    json = json.replace("#HORA#", listaCompleta.get(0).getHora());
+                    osw.write(json);
+                    System.out.println("MANDO :" + json);
+                    osw.flush();
+                    int responseCode = connection.getResponseCode();
+                    System.out.println("Respuesta insertar aforo" + (responseCode == HttpURLConnection.HTTP_OK));
+                    //Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        connection.disconnect();
+                        System.out.println("Respuesta insertar aforo" + response);
+                        jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
+                        System.out.println(jsonArray[0]);
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        String[] textos = new String[jsonArray[0].length() + 1];
+        textos[0] = "--- Seleccione filtro ---";
+        for (int i = 0; i < jsonArray[0].length(); i++) {
+            try {
+                JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
+                System.out.println(jsonObject);
+                textos[i + 1] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        for (String s : textos) {
+            jcbFiltro.addItem(s);
+        }
+        return textos;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,25 +221,27 @@ public class ReservasDialog extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListReservas = new javax.swing.JList<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jcbFiltro = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jbActualizar = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jlCliente = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jlTelefono = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        jbInsertar = new javax.swing.JButton();
+        jbBorrar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jlEmail = new javax.swing.JLabel();
-        jlSalon = new javax.swing.JLabel();
-        jlComensales = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jlEmail = new javax.swing.JLabel();
+        jlTelefono = new javax.swing.JLabel();
         jlObservaciones = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jlComensales = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        jlSalon = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jlCliente = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -87,56 +261,129 @@ public class ReservasDialog extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jListReservas);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbFiltroActionPerformed(evt);
+            }
+        });
+        jcbFiltro.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jcbFiltroPropertyChange(evt);
+            }
+        });
 
         jLabel15.setText("Filtro");
 
         jLabel16.setText("Reservas");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbActualizar.setText("Editar");
+        jbActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbActualizarActionPerformed(evt);
             }
         });
 
         jLabel14.setText("Datos");
 
-        jButton3.setText("jButton3");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jbInsertar.setText("Insertar");
+        jbInsertar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jbInsertarActionPerformed(evt);
             }
         });
 
-        jlCliente.setText("jLabel2");
+        jbBorrar.setText("Borrar");
+        jbBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBorrarActionPerformed(evt);
+            }
+        });
 
-        jLabel13.setText("Observaciones");
-
-        jlTelefono.setText("jLabel2");
-
-        jLabel11.setText("Salón");
-
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Cliente");
 
-        jLabel5.setText("Teléfono");
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel11.setText("Salón");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel7.setText("Email");
 
         jlEmail.setText("jLabel2");
 
-        jlSalon.setText("jLabel2");
-
-        jlComensales.setText("jLabel2");
-
-        jLabel7.setText("Email");
+        jlTelefono.setText("jLabel2");
 
         jlObservaciones.setText("jLabel2");
 
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel13.setText("Observaciones");
+
+        jlComensales.setText("jLabel2");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel8.setText("Comensales");
 
-        jButton2.setText("jButton1");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jlSalon.setText("jLabel2");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setText("Teléfono");
+
+        jlCliente.setText("jLabel2");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlTelefono, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlEmail, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlComensales, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlSalon, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlObservaciones, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlCliente, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(9, 9, 9)
+                .addComponent(jlCliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlTelefono)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlEmail)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlComensales)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlSalon)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlObservaciones)
+                .addContainerGap())
+        );
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -147,87 +394,66 @@ public class ReservasDialog extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, 194, Short.MAX_VALUE)
+                    .addComponent(jcbFiltro, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlTelefono, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlEmail, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlComensales, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
-                    .addComponent(jlSalon, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addComponent(jlObservaciones, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlCliente, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jbInsertar)
+                        .addGap(76, 76, 76)
+                        .addComponent(jbActualizar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addGap(1, 1, 1)
+                        .addComponent(jbBorrar))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(280, 280, 280)
+                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(6, 6, 6))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(511, 511, 511))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addGap(9, 9, 9)
-                        .addComponent(jlCliente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlTelefono)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlEmail)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlComensales)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlSalon)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlObservaciones)))
-                .addGap(2, 5, Short.MAX_VALUE)
+                        .addGap(0, 6, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(2, 6, Short.MAX_VALUE)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)))
+                    .addComponent(jcbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbInsertar)
+                    .addComponent(jbActualizar)
+                    .addComponent(jbBorrar)
+                    .addComponent(jButton1)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,13 +467,37 @@ public class ReservasDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jbInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInsertarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        Reserva r = lista.get(0);
+        DatosReservaDialog dialog = new DatosReservaDialog((Frame) this.getParent(), true, salones, r.getFecha(), r.getHora());
+        dialog.setVisible(true);
+        System.out.println("INSERTANDO");
+        listaCompleta = verReservas(r.getFecha(), r.getHora());
+        System.out.println(listaCompleta.size());
+        jcbFiltro.setSelectedIndex(0);
+        lista = listaCompleta;
+        cargarReservas();
+        jListReservas.validate();
+    }//GEN-LAST:event_jbInsertarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        DatosReservaDialog dialog = new DatosReservaDialog((Frame) this.getParent(), true, lista.get(jListReservas.getSelectedIndex()), salones);
+        dialog.setVisible(true);
+        Reserva r = lista.get(0);
+        System.out.println("Actualizando");
+        listaCompleta = verReservas(r.getFecha(), r.getHora());
+        jcbFiltro.setSelectedIndex(0);
+        lista = listaCompleta;
+        cargarReservas();
+        jListReservas.repaint();
+        System.out.println("LISTA");
+        for (Reserva reserva : lista) {
+            System.out.println(reserva);
+        }
+
+    }//GEN-LAST:event_jbActualizarActionPerformed
 
     private void jListReservasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListReservasValueChanged
         // TODO add your handling code here:
@@ -259,23 +509,197 @@ public class ReservasDialog extends javax.swing.JDialog {
             jlSalon.setText(String.valueOf(r.getId_salon()));
             jlObservaciones.setText(r.getObservaciones());
             jlTelefono.setText(r.getTelefono());
+            jbActualizar.setEnabled(true);
+            jbBorrar.setEnabled(true);
         }
     }//GEN-LAST:event_jListReservasValueChanged
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        Reserva r = lista.get(jListReservas.getSelectedIndex());
+        int response = JOptionPane.showConfirmDialog(this.getParent(), "¿Quieres borrar la reserva de " + r.getNombre_apellidos() + " ?", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        if (response == JOptionPane.OK_OPTION) {
+            lista.remove(r);
+            String jsonStr = "{\n"
+                    + "            \"id_reserva\": \"#PARAMRESERVA#\"\n"
+                    + "}";
+            jsonStr = jsonStr.replace("#PARAMRESERVA#", String.valueOf(r.getId()));
+            String finalJsonStr = jsonStr;
 
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/deletereserva");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("DELETE");
+                        connection.setDoOutput(true);
+                        OutputStream os = connection.getOutputStream();
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        osw.write(finalJsonStr);
+                        System.out.println("JSON EN LA PETICIÓN: " + finalJsonStr);
+                        osw.flush();
+                        int responseCode = connection.getResponseCode();
+
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            System.out.println(response);
+                            reader.close();
+                            connection.disconnect();
+                            //actualizarLista();
+                        } else {
+                            connection.disconnect();
+                        }
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            cargarReservas();
+        }
+
+    }//GEN-LAST:event_jbBorrarActionPerformed
+
+    private void jcbFiltroPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jcbFiltroPropertyChange
+        // TODO add your handling code here:
+        if (jcbFiltro.getSelectedItem() != null) {
+            String filtro = jcbFiltro.getSelectedItem().toString();
+            if (!filtro.equals("--- Seleccione filtro ---")) {
+                String id = filtro.substring(0, filtro.indexOf("-") - 1);
+                lista = new ArrayList<>();
+                for (Reserva r : listaCompleta) {
+                    if (r.getId_salon() == Integer.valueOf(id)) {
+                        lista.add(r);
+                    }
+                }
+            } else {
+                lista = listaCompleta;
+            }
+            cargarReservas();
+        }
+    }//GEN-LAST:event_jcbFiltroPropertyChange
+
+    private void jcbFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbFiltroActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Desktop desktop;
+        if (Desktop.isDesktopSupported() && (desktop = Desktop.getDesktop()).isSupported(Desktop.Action.MAIL)) {
+            try {
+                String uri = "mailto:#CORREO#?subject=Hello%20World";
+                uri = uri.replace("#CORREO#", jlEmail.getText());
+                URI mailto = new URI(uri);
+                desktop.mail(mailto);
+            } catch (IOException ex) {
+                Logger.getLogger(ReservasDialog.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(ReservasDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public static ArrayList<Reserva> verReservas(String fecha, String hora) {
+        final JSONArray[] jsonArray = new JSONArray[1];
+        ArrayList<Reserva> lista = new ArrayList<>();
+        try {
+            System.out.println("Pa dentro");
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/getreservahora");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.setDoOutput(true);
+                        OutputStream os = connection.getOutputStream();
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\"\n}";
+                        jsonRequest = jsonRequest.replace("#PARAMFECHA#", fecha);
+                        jsonRequest = jsonRequest.replace("#PARAMHORA#", hora);
+                        System.out.println("jsonRequest " + jsonRequest);
+                        osw.write(jsonRequest);
+                        osw.flush();
+                        int responseCode = connection.getResponseCode();
+                        System.out.println((responseCode == HttpURLConnection.HTTP_OK) + " " + responseCode);
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            reader.close();
+                            System.out.println(response);
+                            jsonArray[0] = new JSONObject(response.toString()).getJSONArray("reservas");
+                            for (int i = 0; i < jsonArray[0].length(); i++) {
+                                Reserva r = new Reserva();
+                                JSONObject json = jsonArray[0].getJSONObject(i);
+                                r.setId(json.getInt("id_reserva"));
+                                r.setFecha(json.getString("fecha"));
+                                r.setId_salon(json.getInt("id_salon"));
+                                r.setN_personas(json.getInt("n_personas"));
+                                r.setHora(json.getString("hora"));
+                                r.setObservaciones(json.getString("observaciones"));
+                                r.setNombre_apellidos(json.getString("nombre_apellidos"));
+                                r.setTelefono(json.getString("telefono"));
+                                r.setEmail(json.getString("email"));
+                                lista.add(r);
+                                System.out.println(r);
+                            }
+                            connection.disconnect();
+                        } else {
+                            connection.disconnect();
+                        }
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                    }
+
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -287,7 +711,12 @@ public class ReservasDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JList<String> jListReservas;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbActualizar;
+    private javax.swing.JButton jbBorrar;
+    private javax.swing.JButton jbInsertar;
+    private javax.swing.JComboBox<String> jcbFiltro;
     private javax.swing.JLabel jlCliente;
     private javax.swing.JLabel jlComensales;
     private javax.swing.JLabel jlEmail;
