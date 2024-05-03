@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
@@ -66,6 +67,8 @@ public class PanelCalendario extends javax.swing.JPanel {
         c.set(Calendar.YEAR, year);
         month = c.get(Calendar.MONTH) + 1;
         year = c.get(Calendar.YEAR);
+        jlFechaCalendario.setForeground(Color.white);
+        jlFechaSeleccionada.setForeground(Color.white);
         switch (c.get(Calendar.MONTH)) {
             case Calendar.JANUARY:
                 jlFechaCalendario.setText("Enero de " + c.get(Calendar.YEAR));
@@ -137,11 +140,10 @@ public class PanelCalendario extends javax.swing.JPanel {
                 c.setFocusPainted(true);
                 c.setText(calendar.get(Calendar.DATE) + "");
                 c.setDate(calendar.getTime());
-                c.setBackground(new ColorUIResource(243,244,248));
+                c.setBackground(new ColorUIResource(243, 244, 248));
                 c.currentMonth(calendar.get(Calendar.MONTH) == month - 1);
-                calendar.add(Calendar.DATE, 1);                
-            }
-            else{
+                calendar.add(Calendar.DATE, 1);
+            } else {
                 c.setBackground(new ColorUIResource(109, 34, 109));
                 c.setForeground(Color.WHITE);
             }
@@ -872,10 +874,14 @@ public class PanelCalendario extends javax.swing.JPanel {
     private void jListOcupacionReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListOcupacionReservasMouseClicked
         // TODO add your handling code here:
         Ocupacion o = jListOcupacionReservas.getSelectedValue();
-        ArrayList<Reserva> lista = verReservas(o.getFecha().toString(), o.getHora().toString());;
-        ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), lista);
-        reservasDialog.setVisible(true);
-        cargarOcupacion(o.getFecha().toString());
+        ArrayList<Reserva> lista = verReservas(o.getFecha().toString(), o.getHora().toString());
+        if (lista.size() <= 0) {
+            JOptionPane.showMessageDialog(this.getParent(), "No hay reservas", "Aviso", JOptionPane.PLAIN_MESSAGE);
+        } else {
+            ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), lista);
+            reservasDialog.setVisible(true);
+            cargarOcupacion(o.getFecha().toString());
+        }
     }//GEN-LAST:event_jListOcupacionReservasMouseClicked
 
     public static ArrayList<Reserva> verReservas(String fecha, String hora) {
@@ -978,7 +984,7 @@ public class PanelCalendario extends javax.swing.JPanel {
                         int responseCode = connection.getResponseCode();
                         //Ver si la respuesta es correcta
                         if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
+                            // Si es correcta la leemos 
                             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                             String line;
                             StringBuilder response = new StringBuilder();

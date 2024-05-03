@@ -63,14 +63,22 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(109, 34, 109));
 
+        jbCambio.setBackground(new java.awt.Color(109, 34, 109));
+        jbCambio.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jbCambio.setText("Agenda");
+        jbCambio.setBorder(null);
+        jbCambio.setBorderPainted(false);
         jbCambio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbCambioActionPerformed(evt);
             }
         });
 
+        jbCambio1.setBackground(new java.awt.Color(109, 34, 109));
+        jbCambio1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jbCambio1.setText("Configuracion");
+        jbCambio1.setBorder(null);
+        jbCambio1.setBorderPainted(false);
         jbCambio1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbCambio1ActionPerformed(evt);
@@ -82,17 +90,18 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jbCambio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jbCambio1, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+            .addComponent(jbCambio1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jbCambio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbCambio1)
-                .addContainerGap(380, Short.MAX_VALUE))
+                .addComponent(jbCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jbCambio1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(376, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jbCambio, jbCambio1});
 
         jpVista.setBackground(new java.awt.Color(255, 204, 204));
         jpVista.setLayout(new java.awt.BorderLayout());
@@ -104,7 +113,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jpVista, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                .addComponent(jpVista, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
