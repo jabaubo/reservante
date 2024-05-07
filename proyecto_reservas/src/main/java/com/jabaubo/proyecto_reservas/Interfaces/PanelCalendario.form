@@ -49,8 +49,9 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="6d" green="22" red="6d" type="rgb"/>
+          <Color blue="7d" green="3b" red="7d" type="rgb"/>
         </Property>
+        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
 
       <Layout>
@@ -108,6 +109,9 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="24" style="1"/>
             </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="33" type="rgb"/>
+            </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="a"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
@@ -117,6 +121,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="24" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="33" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="Fecha:"/>
@@ -162,7 +169,7 @@
             <Property name="rows" type="int" value="7"/>
           </Layout>
           <SubComponents>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaLunes">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaLunes">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -173,7 +180,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="celdaLunesActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaMartes">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaMartes">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -184,7 +191,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="celdaMartesActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaMiercoles">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaMiercoles">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -192,7 +199,7 @@
                 <Property name="text" type="java.lang.String" value="Miercoles"/>
               </Properties>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaJueves">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaJueves">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -200,7 +207,7 @@
                 <Property name="text" type="java.lang.String" value="Jueves"/>
               </Properties>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaViernes">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaViernes">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -208,7 +215,7 @@
                 <Property name="text" type="java.lang.String" value="Viernes"/>
               </Properties>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaSabado">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaSabado">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -216,7 +223,7 @@
                 <Property name="text" type="java.lang.String" value="S&#xe1;bado"/>
               </Properties>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaDomingo">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaDomingo">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -227,7 +234,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="celdaDomingoActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario8">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario8">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -238,7 +245,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario9">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario9">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -249,7 +256,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario10">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario10">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -260,7 +267,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario11">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario11">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -271,7 +278,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario12">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario12">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -282,7 +289,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario13">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario13">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -293,7 +300,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario14">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario14">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -304,7 +311,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario15">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario15">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -315,7 +322,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario16">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario16">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -326,7 +333,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario17">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario17">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -337,7 +344,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario18">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario18">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -348,7 +355,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario19">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario19">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -359,7 +366,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario20">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario20">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -370,7 +377,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario21">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario21">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -381,7 +388,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario22">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario22">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -392,7 +399,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario23">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario23">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -403,7 +410,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario24">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario24">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -414,7 +421,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario25">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario25">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -425,7 +432,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario26">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario26">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -436,7 +443,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario27">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario27">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -447,7 +454,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario28">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario28">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -458,7 +465,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario29">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario29">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -469,7 +476,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario30">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario30">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -480,7 +487,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario31">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario31">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -491,7 +498,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario32">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario32">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -502,7 +509,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario33">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario33">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -513,7 +520,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario34">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario34">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -524,7 +531,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario35">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario35">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -535,7 +542,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario36">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario36">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -546,7 +553,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario37">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario37">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -557,7 +564,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario38">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario38">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -568,7 +575,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario39">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario39">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -579,7 +586,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario40">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario40">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -590,7 +597,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario41">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario41">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -601,7 +608,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario42">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario42">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -612,7 +619,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario43">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario43">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -623,7 +630,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario44">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario44">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -634,7 +641,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario45">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario45">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -645,7 +652,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario46">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario46">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -656,7 +663,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario47">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario47">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -667,7 +674,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario48">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario48">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>
@@ -678,7 +685,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClickDia"/>
               </Events>
             </Component>
-            <Component class="com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario" name="celdaCalendario49">
+            <Component class="com.jabaubo.proyecto_reservas.Clases.CeldaCalendario" name="celdaCalendario49">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="ff" type="rgb"/>

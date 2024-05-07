@@ -4,6 +4,7 @@
  */
 package com.jabaubo.proyecto_reservas.Interfaces;
 
+import com.jabaubo.proyecto_reservas.Clases.CeldaCalendario;
 import com.jabaubo.proyecto_reservas.Clases.Ocupacion;
 import com.jabaubo.proyecto_reservas.Clases.OcupacionRender;
 import com.jabaubo.proyecto_reservas.Clases.Reserva;
@@ -67,8 +68,6 @@ public class PanelCalendario extends javax.swing.JPanel {
         c.set(Calendar.YEAR, year);
         month = c.get(Calendar.MONTH) + 1;
         year = c.get(Calendar.YEAR);
-        jlFechaCalendario.setForeground(Color.white);
-        jlFechaSeleccionada.setForeground(Color.white);
         switch (c.get(Calendar.MONTH)) {
             case Calendar.JANUARY:
                 jlFechaCalendario.setText("Enero de " + c.get(Calendar.YEAR));
@@ -167,61 +166,62 @@ public class PanelCalendario extends javax.swing.JPanel {
         jlFechaSeleccionada = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         panelCalendario = new javax.swing.JPanel();
-        celdaLunes = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaMartes = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaMiercoles = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaJueves = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaViernes = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaSabado = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaDomingo = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario8 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario9 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario10 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario11 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario12 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario13 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario14 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario15 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario16 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario17 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario18 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario19 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario20 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario21 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario22 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario23 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario24 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario25 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario26 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario27 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario28 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario29 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario30 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario31 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario32 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario33 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario34 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario35 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario36 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario37 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario38 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario39 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario40 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario41 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario42 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario43 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario44 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario45 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario46 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario47 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario48 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
-        celdaCalendario49 = new com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario();
+        celdaLunes = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaMartes = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaMiercoles = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaJueves = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaViernes = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaSabado = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaDomingo = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario8 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario9 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario10 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario11 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario12 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario13 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario14 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario15 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario16 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario17 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario18 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario19 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario20 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario21 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario22 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario23 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario24 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario25 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario26 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario27 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario28 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario29 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario30 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario31 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario32 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario33 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario34 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario35 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario36 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario37 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario38 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario39 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario40 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario41 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario42 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario43 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario44 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario45 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario46 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario47 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario48 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
+        celdaCalendario49 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListOcupacionReservas = new JList<>();
 
         setBackground(new java.awt.Color(243, 244, 248));
 
-        jPanel1.setBackground(new java.awt.Color(109, 34, 109));
+        jPanel1.setBackground(new java.awt.Color(125, 59, 125));
+        jPanel1.setOpaque(false);
 
         jButton1.setText("Mes anterior");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -238,11 +238,13 @@ public class PanelCalendario extends javax.swing.JPanel {
         });
 
         jlFechaCalendario.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlFechaCalendario.setForeground(new java.awt.Color(51, 51, 51));
         jlFechaCalendario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlFechaCalendario.setText("a");
         jlFechaCalendario.setRequestFocusEnabled(false);
 
         jlFechaSeleccionada.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlFechaSeleccionada.setForeground(new java.awt.Color(51, 51, 51));
         jlFechaSeleccionada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlFechaSeleccionada.setText("Fecha:");
 
@@ -876,7 +878,9 @@ public class PanelCalendario extends javax.swing.JPanel {
         Ocupacion o = jListOcupacionReservas.getSelectedValue();
         ArrayList<Reserva> lista = verReservas(o.getFecha().toString(), o.getHora().toString());
         if (lista.size() <= 0) {
-            JOptionPane.showMessageDialog(this.getParent(), "No hay reservas", "Aviso", JOptionPane.PLAIN_MESSAGE);
+            ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora());
+            reservasDialog.setVisible(true);
+            cargarOcupacion(o.getFecha().toString());
         } else {
             ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), lista);
             reservasDialog.setVisible(true);
@@ -1012,11 +1016,11 @@ public class PanelCalendario extends javax.swing.JPanel {
                                     String aforoSalon = jsonObject.getString("aforo");
                                     float ratio = Float.parseFloat(nPersonas) / Float.parseFloat(aforoSalon);
                                     if (ratio < 0.33f) {
-                                        ocupacion += String.format("%s Reservas:%s   <font color='#008000'>%s</font>/%s<br></br>", nombreSalon, nReservas, nPersonas, aforoSalon);
+                                        ocupacion += String.format("%s <font color='#008000'>%s</font>/%s<br></br>", nombreSalon,  nPersonas, aforoSalon);
                                     } else if (ratio < 0.66f) {
-                                        ocupacion += String.format("%s Reservas:%s   <font color='#FFEB00'>%s</font>/%s<br></br>", nombreSalon, nReservas, nPersonas, aforoSalon);
+                                        ocupacion += String.format("%s <font color='#FFEB00'>%s</font>/%s<br></br>", nombreSalon,  nPersonas, aforoSalon);
                                     } else {
-                                        ocupacion += String.format("%s Reservas:%s   <font color='#8B0000'>%s</font>/%s<br></br>", nombreSalon, nReservas, nPersonas, aforoSalon);
+                                        ocupacion += String.format("%s <font color='#8B0000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
                                     }
 
                                 }
@@ -1174,7 +1178,7 @@ public class PanelCalendario extends javax.swing.JPanel {
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("GET");
                         int responseCode = connection.getResponseCode();
-                        //Ver si la respuesta es correcta
+                        //Ver si la respuesta es correctadai
                         if (responseCode == HttpURLConnection.HTTP_OK) {
                             // Si es correcta la leemos
                             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -1211,55 +1215,55 @@ public class PanelCalendario extends javax.swing.JPanel {
         return incremento[0];
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario10;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario11;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario12;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario13;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario14;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario15;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario16;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario17;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario18;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario19;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario20;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario21;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario22;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario23;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario24;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario25;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario26;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario27;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario28;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario29;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario30;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario31;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario32;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario33;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario34;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario35;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario36;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario37;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario38;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario39;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario40;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario41;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario42;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario43;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario44;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario45;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario46;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario47;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario48;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario49;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario8;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaCalendario9;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaDomingo;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaJueves;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaLunes;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaMartes;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaMiercoles;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaSabado;
-    private com.jabaubo.proyecto_reservas.Interfaces.CeldaCalendario celdaViernes;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario10;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario11;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario12;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario13;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario14;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario15;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario16;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario17;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario18;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario19;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario20;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario21;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario22;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario23;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario24;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario25;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario26;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario27;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario28;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario29;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario30;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario31;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario32;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario33;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario34;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario35;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario36;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario37;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario38;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario39;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario40;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario41;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario42;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario43;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario44;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario45;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario46;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario47;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario48;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario49;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario8;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaCalendario9;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaDomingo;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaJueves;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaLunes;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaMartes;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaMiercoles;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaSabado;
+    private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaViernes;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JList<Ocupacion> jListOcupacionReservas;

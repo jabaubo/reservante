@@ -30,7 +30,7 @@ public class OcupacionRender extends JButton implements ListCellRenderer<Ocupaci
 "          background-color: linen;\n" +
 "        }        \n" +
 "        h1 {\n" +
-"          color: maroon;\n" +
+"          color: #812B81;\n" +
 "        }\n" +
 "        p {\n" +
 "            color: darkgrey;\n" +
@@ -38,7 +38,7 @@ public class OcupacionRender extends JButton implements ListCellRenderer<Ocupaci
 "        </style>\n" +
 "    </head>\n" +
 "    <body>\n" +
-"        <h1>#PARAMHORA# Reservas:#PARAMRESERVAS#</h1>\n" +
+"        <h1>#PARAMHORA# RESERVAS:#PARAMRESERVAS#</h1>\n" +
 "        <p>#OCUPACION#</p>\n" +
 "    </body>\n" +
 "</html>";

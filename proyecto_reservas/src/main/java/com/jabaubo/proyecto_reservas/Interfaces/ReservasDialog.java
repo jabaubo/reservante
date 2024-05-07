@@ -54,6 +54,17 @@ public class ReservasDialog extends javax.swing.JDialog {
         jbActualizar.setEnabled(false);
         jbBorrar.setEnabled(false);
     }
+    public ReservasDialog(java.awt.Frame parent, boolean modal, LocalDate fecha, LocalTime tramo) {
+        super(parent, modal);
+        initComponents();
+        jlTitulo.setText(String.format("FECHA: %s TRAMO: %s", fecha.toString(), tramo.toString()));
+        this.lista = new ArrayList<>();
+        this.listaCompleta = lista;
+        salones = leerSalones();
+        jbActualizar.setEnabled(false);
+        jbBorrar.setEnabled(false);
+    }
+    
 
     public void cargarReservas() {
         DefaultListModel<String> modelo = new DefaultListModel<>();
@@ -256,11 +267,6 @@ public class ReservasDialog extends javax.swing.JDialog {
         jlTitulo.setText("FECHA : 30-04-2024 TRAMO 12:30");
         jlTitulo.setOpaque(true);
 
-        jListReservas.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jListReservas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jListReservasValueChanged(evt);
@@ -324,26 +330,26 @@ public class ReservasDialog extends javax.swing.JDialog {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Email");
 
-        jlEmail.setText("jLabel2");
+        jlEmail.setText(" ");
 
-        jlTelefono.setText("jLabel2");
+        jlTelefono.setText(" ");
 
-        jlObservaciones.setText("jLabel2");
+        jlObservaciones.setText(" ");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel13.setText("Observaciones");
 
-        jlComensales.setText("jLabel2");
+        jlComensales.setText(" ");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel8.setText("Comensales");
 
-        jlSalon.setText("jLabel2");
+        jlSalon.setText(" ");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("Teléfono");
 
-        jlCliente.setText("jLabel2");
+        jlCliente.setText(" ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
