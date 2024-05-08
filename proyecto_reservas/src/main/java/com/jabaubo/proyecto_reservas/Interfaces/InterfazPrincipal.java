@@ -36,6 +36,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     PanelCalendario panelCalendario = new PanelCalendario(LocalDate.now().getMonthValue(), LocalDate.now().getYear(), this);
     PanelInicio panelInicio = new PanelInicio(this);
     PanelReservas panelReservas = new PanelReservas();
+    PanelHorario panelHorario = new PanelHorario();
     ArrayList<JButton> botones = new ArrayList<>();
     ArrayList<JPanel> paneles = new ArrayList<>();
     JButton selectedButton;
@@ -49,11 +50,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         botones.add(jbAgenda);
         botones.add(jbConfiguracion);
         botones.add(jbReservas);
+        botones.add(jbHorario);
         
         paneles.add(panelInicio);
         paneles.add(panelCalendario);
         paneles.add(panelConfiguracion);
         paneles.add(panelReservas);
+        paneles.add(panelHorario);
         
         jbInicio.setSelected(true);
         selected(jbInicio);
@@ -74,6 +77,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jbConfiguracion = new javax.swing.JButton();
         jbInicio = new javax.swing.JButton();
         jbReservas = new javax.swing.JButton();
+        jbHorario = new javax.swing.JButton();
         jpVista = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
 
@@ -85,7 +89,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         jbAgenda.setBackground(new java.awt.Color(109, 34, 109));
         jbAgenda.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jbAgenda.setIcon(new javax.swing.ImageIcon("C:\\Users\\pokem\\Documents\\Proyectos\\reservante\\proyecto_reservas\\img\\agenda.png")); // NOI18N
         jbAgenda.setText("Agenda");
         jbAgenda.setActionCommand("agenda");
         jbAgenda.setBorder(null);
@@ -101,7 +104,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         jbConfiguracion.setBackground(new java.awt.Color(109, 34, 109));
         jbConfiguracion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jbConfiguracion.setIcon(new javax.swing.ImageIcon("C:\\Users\\pokem\\Documents\\Proyectos\\reservante\\proyecto_reservas\\img\\configuracion.png")); // NOI18N
         jbConfiguracion.setText("Configuracion");
         jbConfiguracion.setActionCommand("configuracion");
         jbConfiguracion.setBorder(null);
@@ -117,7 +119,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         jbInicio.setBackground(new java.awt.Color(109, 34, 109));
         jbInicio.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jbInicio.setIcon(new javax.swing.ImageIcon("C:\\Users\\pokem\\Documents\\Proyectos\\reservante\\proyecto_reservas\\img\\inicio.png")); // NOI18N
         jbInicio.setText("Inicio");
         jbInicio.setActionCommand("inicio");
         jbInicio.setBorder(null);
@@ -133,7 +134,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         jbReservas.setBackground(new java.awt.Color(109, 34, 109));
         jbReservas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jbReservas.setIcon(new javax.swing.ImageIcon("C:\\Users\\pokem\\Documents\\Proyectos\\reservante\\proyecto_reservas\\img\\reservas.png")); // NOI18N
         jbReservas.setText("Reservas");
         jbReservas.setActionCommand("reservas");
         jbReservas.setBorder(null);
@@ -147,15 +147,31 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jbHorario.setBackground(new java.awt.Color(109, 34, 109));
+        jbHorario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jbHorario.setText("Horario");
+        jbHorario.setActionCommand("horario");
+        jbHorario.setBorder(null);
+        jbHorario.setBorderPainted(false);
+        jbHorario.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbHorario.setMargin(new java.awt.Insets(14, 14, 3, 14));
+        jbHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cambioDePanel(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(jbAgenda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbConfiguracion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                .addComponent(jbReservas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jbInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jbAgenda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbConfiguracion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                    .addComponent(jbReservas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jbAgenda, jbConfiguracion, jbInicio, jbReservas});
@@ -170,7 +186,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(jbConfiguracion, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jbReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(282, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(jbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(241, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jbAgenda, jbConfiguracion, jbInicio, jbReservas});
@@ -274,6 +292,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton jbAgenda;
     private javax.swing.JButton jbConfiguracion;
+    private javax.swing.JButton jbHorario;
     private javax.swing.JButton jbInicio;
     private javax.swing.JButton jbReservas;
     private javax.swing.JPanel jpVista;

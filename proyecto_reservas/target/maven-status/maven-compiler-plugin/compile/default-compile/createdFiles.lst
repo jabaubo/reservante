@@ -10,6 +10,7 @@ com\jabaubo\proyecto_reservas\Interfaces\PanelReservas$10.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$36.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelConfiguracion$4.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$26.class
+com\jabaubo\proyecto_reservas\Clases\HorarioRender$2.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$46.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$49.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelReservas$8.class
@@ -37,6 +38,7 @@ com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$18.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$28.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelConfiguracion$2.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelInicio$6.class
+com\jabaubo\proyecto_reservas\Clases\HorarioRender.class
 com\jabaubo\proyecto_reservas\Interfaces\InterfazPrincipal$3.class
 com\jabaubo\proyecto_reservas\Interfaces\DatosReservaDialog$4.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$44.class
@@ -49,8 +51,10 @@ com\jabaubo\proyecto_reservas\Interfaces\DatosReservaDialog.class
 com\jabaubo\proyecto_reservas\Interfaces\ReservasDialog$4.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$17.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelReservas$11.class
+com\jabaubo\proyecto_reservas\Clases\HorarioRender$3.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelReservas.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$10.class
+com\jabaubo\proyecto_reservas\Interfaces\PanelHorario.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$5.class
 com\jabaubo\proyecto_reservas\Interfaces\InterfazPrincipal$4.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelInicio$5.class
@@ -62,9 +66,11 @@ com\jabaubo\proyecto_reservas\Interfaces\PanelConfiguracion$3.class
 com\jabaubo\proyecto_reservas\Interfaces\DatosReservaDialog$2.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$1.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelInicio$1.class
+com\jabaubo\proyecto_reservas\Clases\Horario.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelReservas$1.class
 com\jabaubo\proyecto_reservas\Interfaces\ReservasDialog$3.class
 com\jabaubo\proyecto_reservas\Interfaces\DatosReservaDialog$5.class
+com\jabaubo\proyecto_reservas\Interfaces\PanelHorario$1.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelInicio$4.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$32.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$52.class
@@ -75,10 +81,12 @@ com\jabaubo\proyecto_reservas\Clases\Salon.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$47.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelInicio$7.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$4.class
+com\jabaubo\proyecto_reservas\Interfaces\InterfazPrincipal$6.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelConfiguracion$5.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelReservas$9.class
 com\jabaubo\proyecto_reservas\Interfaces\ReservasDialog$9.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario.class
+com\jabaubo\proyecto_reservas\Clases\HorarioRender$1.class
 com\jabaubo\proyecto_reservas\Interfaces\ReservasDialog$6.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$15.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$35.class

@@ -68,12 +68,15 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="jbAgenda" linkSize="3" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jbConfiguracion" linkSize="3" alignment="0" pref="158" max="32767" attributes="0"/>
-                  <Component id="jbReservas" linkSize="3" alignment="1" max="32767" attributes="0"/>
-              </Group>
               <Component id="jbInicio" linkSize="3" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
+              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                  <Component id="jbHorario" min="-2" pref="230" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="jbAgenda" linkSize="3" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jbConfiguracion" linkSize="3" alignment="0" pref="158" max="32767" attributes="0"/>
+                      <Component id="jbReservas" linkSize="3" alignment="1" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -86,7 +89,9 @@
                   <Component id="jbConfiguracion" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Component id="jbReservas" linkSize="2" min="-2" pref="25" max="-2" attributes="0"/>
-                  <EmptySpace pref="282" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <Component id="jbHorario" min="-2" pref="41" max="-2" attributes="0"/>
+                  <EmptySpace pref="241" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -99,9 +104,6 @@
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
-            </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\img\agenda.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Agenda"/>
             <Property name="actionCommand" type="java.lang.String" value="agenda"/>
@@ -129,9 +131,6 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
             </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\img\configuracion.png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Configuracion"/>
             <Property name="actionCommand" type="java.lang.String" value="configuracion"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -157,9 +156,6 @@
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
-            </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\img\inicio.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Inicio"/>
             <Property name="actionCommand" type="java.lang.String" value="inicio"/>
@@ -187,9 +183,6 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
             </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\img\reservas.png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Reservas"/>
             <Property name="actionCommand" type="java.lang.String" value="reservas"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -202,6 +195,29 @@
             </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cambioDePanel"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jbHorario">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="6d" green="22" red="6d" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Horario"/>
+            <Property name="actionCommand" type="java.lang.String" value="horario"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+            <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="horizontalAlignment" type="int" value="2"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[14, 14, 3, 14]"/>
             </Property>
           </Properties>
           <Events>
