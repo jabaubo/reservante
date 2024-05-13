@@ -7,7 +7,6 @@ package com.jabaubo.proyecto_reservas.Interfaces;
 import com.jabaubo.proyecto_reservas.Clases.Ocupacion;
 import com.jabaubo.proyecto_reservas.Clases.OcupacionRender;
 import com.jabaubo.proyecto_reservas.Clases.Reserva;
-import static com.jabaubo.proyecto_reservas.Interfaces.PanelCalendario.verReservas;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,6 +44,7 @@ public class PanelInicio extends javax.swing.JPanel {
      */
     public PanelInicio(InterfazPrincipal interfazPrincipal) {
         initComponents();
+        this.interfazPrincipal = interfazPrincipal;
         jListOcupacionReservas.setCellRenderer(new OcupacionRender());
         jListOcupacionReservas1.setCellRenderer(new OcupacionRender());
         jListOcupacionReservas2.setCellRenderer(new OcupacionRender());
@@ -58,7 +58,6 @@ public class PanelInicio extends javax.swing.JPanel {
         jlFecha3.setText(fecha.plusDays(2).toString());
         cargarOcupacion(fecha.plusDays(3).toString(), jListOcupacionReservas3);
         jlFecha4.setText(fecha.plusDays(3).toString());
-        this.interfazPrincipal = interfazPrincipal;
     }
 
     /**
@@ -398,9 +397,12 @@ public class PanelInicio extends javax.swing.JPanel {
                         System.out.println("TETica");
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String consulta = leerTramos(fecha);
-                        String jsonFecha = "    {\"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo FROM (#TRAMOS#) AS range_values CROSS JOIN salones LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon GROUP BY range_values.value, salones.id_salon ORDER BY range_values.value ASC;\"}";
+                        String jsonFecha = "{\n"
+                                + "    \"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones WHERE id_restaurante = #PARAMID#) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo  FROM (#TRAMOS#) AS range_values  CROSS JOIN salones on salones.id_salon in (SELECT id_salon FROM salones WHERE id_restaurante = #PARAMID#) LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon  GROUP BY range_values.value, salones.id_salon  ORDER BY range_values.value ASC;\"\n"
+                                + "}";
                         jsonFecha = jsonFecha.replace("#TRAMOS#", consulta);
                         jsonFecha = jsonFecha.replace("#PARAMFECHA#", fecha);
+                        jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
                         System.out.println(jsonFecha);
                         osw.write(jsonFecha);
                         osw.flush();
@@ -437,7 +439,7 @@ public class PanelInicio extends javax.swing.JPanel {
                                     if (ratio < 0.33f) {
                                         ocupacion += String.format("%s  <font color='#008000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
                                     } else if (ratio < 0.66f) {
-                                        ocupacion += String.format("%s  <font color='#FFEB00'>%s</font>/%s<br></br>", nombreSalon,nPersonas, aforoSalon);
+                                        ocupacion += String.format("%s  <font color='#FFEB00'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
                                     } else {
                                         ocupacion += String.format("%s  <font color='#8B0000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
                                     }
@@ -475,6 +477,79 @@ public class PanelInicio extends javax.swing.JPanel {
 
     }
 
+    public ArrayList<Reserva> verReservas(String fecha, String hora) {
+        final JSONArray[] jsonArray = new JSONArray[1];
+        ArrayList<Reserva> lista = new ArrayList<>();
+        try {
+            System.out.println("Pa dentro");
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/getreservahora");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.setDoOutput(true);
+                        OutputStream os = connection.getOutputStream();
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\",\"id\":\"#PARAMID#\"}";
+                        jsonRequest = jsonRequest.replace("#PARAMFECHA#", fecha);
+                        jsonRequest = jsonRequest.replace("#PARAMHORA#", hora);
+                        jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
+                        System.out.println("jsonRequest " + jsonRequest);
+                        osw.write(jsonRequest);
+                        osw.flush();
+                        int responseCode = connection.getResponseCode();
+                        System.out.println((responseCode == HttpURLConnection.HTTP_OK) + " " + responseCode);
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            reader.close();
+                            jsonArray[0] = new JSONObject(response.toString()).getJSONArray("reservas");
+                            for (int i = 0; i < jsonArray[0].length(); i++) {
+                                Reserva r = new Reserva();
+                                JSONObject json = jsonArray[0].getJSONObject(i);
+                                r.setId(json.getInt("id_reserva"));
+                                r.setFecha(json.getString("fecha"));
+                                r.setId_salon(json.getInt("id_salon"));
+                                r.setN_personas(json.getInt("n_personas"));
+                                r.setHora(json.getString("hora"));
+                                r.setObservaciones(json.getString("observaciones"));
+                                r.setNombre_apellidos(json.getString("nombre_apellidos"));
+                                r.setTelefono(json.getString("telefono"));
+                                r.setEmail(json.getString("email"));
+                                lista.add(r);
+                            }
+                            connection.disconnect();
+                        } else {
+                            connection.disconnect();
+                        }
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                    }
+
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<Ocupacion> jListOcupacionReservas;

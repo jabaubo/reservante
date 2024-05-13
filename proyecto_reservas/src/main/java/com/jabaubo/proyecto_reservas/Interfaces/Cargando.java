@@ -25,6 +25,7 @@ public class Cargando extends javax.swing.JDialog {
             @Override
             public void run() {
                 interfazPrincipal.cargar(cargandoFinal);
+                cargandoFinal.dispose();
             }
         };
         Thread t = new Thread(runnable);

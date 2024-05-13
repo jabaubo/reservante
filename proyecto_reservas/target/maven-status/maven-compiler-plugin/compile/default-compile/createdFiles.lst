@@ -245,6 +245,7 @@ com\jabaubo\proyecto_reservas\Interfaces\PanelCalendario$37.class
 com\jabaubo\proyecto_reservas\Interfaces\InsertarVacacion$89.class
 com\jabaubo\proyecto_reservas\Clases\CeldaCalendario.class
 com\jabaubo\proyecto_reservas\Interfaces\PanelHorario$15.class
+com\jabaubo\proyecto_reservas\Interfaces\PanelInicio$8.class
 com\jabaubo\proyecto_reservas\Interfaces\InterfazPrincipal.class
 com\jabaubo\proyecto_reservas\Interfaces\InsertarVacacion$94.class
 com\jabaubo\proyecto_reservas\Interfaces\ReservasDialog$1.class

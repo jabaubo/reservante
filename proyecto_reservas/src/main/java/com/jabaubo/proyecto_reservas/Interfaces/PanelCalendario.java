@@ -46,6 +46,7 @@ import javax.swing.plaf.ColorUIResource;
  */
 public class PanelCalendario extends javax.swing.JPanel {
 
+    private int restaurante;
     private int month;
     private int year;
     private Calendar fecha;
@@ -57,10 +58,11 @@ public class PanelCalendario extends javax.swing.JPanel {
         year = LocalDate.now().getYear();
     }
 
-    public PanelCalendario(int month, int year, InterfazPrincipal interfazPrincipal) {
+    public PanelCalendario(int month, int year, InterfazPrincipal interfazPrincipal, int restaurante) {
         this.month = month;
         this.year = year;
         this.interfazPrincipal = interfazPrincipal;
+        this.restaurante = restaurante;
         initComponents();
         init();
         Calendar c = Calendar.getInstance();
@@ -887,7 +889,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jListOcupacionReservasMouseClicked
 
-    public static ArrayList<Reserva> verReservas(String fecha, String hora) {
+    public ArrayList<Reserva> verReservas(String fecha, String hora) {
         final JSONArray[] jsonArray = new JSONArray[1];
         ArrayList<Reserva> lista = new ArrayList<>();
         try {
@@ -903,9 +905,10 @@ public class PanelCalendario extends javax.swing.JPanel {
                         connection.setDoOutput(true);
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\"\n}";
+                        String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\",\"id\":\"#PARAMID#\"}";
                         jsonRequest = jsonRequest.replace("#PARAMFECHA#", fecha);
                         jsonRequest = jsonRequest.replace("#PARAMHORA#", hora);
+                        jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(restaurante));
                         System.out.println("jsonRequest " + jsonRequest);
                         osw.write(jsonRequest);
                         osw.flush();
@@ -978,9 +981,12 @@ public class PanelCalendario extends javax.swing.JPanel {
                         System.out.println("TETica");
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String consulta = leerTramos(fecha);
-                        String jsonFecha = "    {\"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo FROM (#TRAMOS#) AS range_values CROSS JOIN salones LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon GROUP BY range_values.value, salones.id_salon ORDER BY range_values.value ASC;\"}";
+                        String jsonFecha = "{\n"
+                                + "    \"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones WHERE id_restaurante = #PARAMID#) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo  FROM (#TRAMOS#) AS range_values  CROSS JOIN salones on salones.id_salon in (SELECT id_salon FROM salones WHERE id_restaurante = #PARAMID#) LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon  GROUP BY range_values.value, salones.id_salon  ORDER BY range_values.value ASC;\"\n"
+                                + "}";
                         jsonFecha = jsonFecha.replace("#TRAMOS#", consulta);
                         jsonFecha = jsonFecha.replace("#PARAMFECHA#", fecha);
+                        jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(restaurante));
                         System.out.println(jsonFecha);
                         osw.write(jsonFecha);
                         osw.flush();
@@ -1015,9 +1021,9 @@ public class PanelCalendario extends javax.swing.JPanel {
                                     String aforoSalon = jsonObject.getString("aforo");
                                     float ratio = Float.parseFloat(nPersonas) / Float.parseFloat(aforoSalon);
                                     if (ratio < 0.33f) {
-                                        ocupacion += String.format("%s <font color='#008000'>%s</font>/%s<br></br>", nombreSalon,  nPersonas, aforoSalon);
+                                        ocupacion += String.format("%s <font color='#008000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
                                     } else if (ratio < 0.66f) {
-                                        ocupacion += String.format("%s <font color='#FFEB00'>%s</font>/%s<br></br>", nombreSalon,  nPersonas, aforoSalon);
+                                        ocupacion += String.format("%s <font color='#FFEB00'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
                                     } else {
                                         ocupacion += String.format("%s <font color='#8B0000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
                                     }

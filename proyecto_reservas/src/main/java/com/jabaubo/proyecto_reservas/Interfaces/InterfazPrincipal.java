@@ -46,13 +46,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
      * Creates new form UI
      */
     public InterfazPrincipal() {
-        this.setAlwaysOnTop(false);
         Login login = new Login(this, true);
         login.setVisible(true);
         if (login.isLogin()) {
             initComponents();
             restaurante = login.getRestaurante();
             login.dispose();
+            System.out.println(login.isActive());
             Cargando cargando = new Cargando(this, true);
         }else{
             System.exit(2);
@@ -66,7 +66,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         panelConfiguracion = new PanelConfiguracion(this,restaurante);
         cargando.updateEtiqueta("Cargando calendario");
         cargando.updateBarra(30);
-        panelCalendario = new PanelCalendario(LocalDate.now().getMonthValue(), LocalDate.now().getYear(), this);
+        panelCalendario = new PanelCalendario(LocalDate.now().getMonthValue(), LocalDate.now().getYear(), this,restaurante);
         cargando.updateEtiqueta("Cargando Inicio");
         cargando.updateBarra(45);
         panelInicio = new PanelInicio(this);
@@ -107,7 +107,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jPanel2 = new javax.swing.JPanel();
         jbAgenda = new javax.swing.JButton();
         jbConfiguracion = new javax.swing.JButton();
@@ -118,7 +117,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
         setBackground(java.awt.Color.darkGray);
 
         jPanel2.setBackground(new java.awt.Color(109, 34, 109));
@@ -146,7 +144,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jbConfiguracion.setBorderPainted(false);
         jbConfiguracion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbConfiguracion.setMargin(new java.awt.Insets(14, 14, 3, 14));
-        jbConfiguracion.setMaximumSize(null);
         jbConfiguracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cambioDePanel(evt);
@@ -161,7 +158,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jbInicio.setBorderPainted(false);
         jbInicio.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbInicio.setMargin(new java.awt.Insets(14, 14, 3, 14));
-        jbInicio.setMaximumSize(null);
         jbInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cambioDePanel(evt);
@@ -176,7 +172,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jbReservas.setBorderPainted(false);
         jbReservas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbReservas.setMargin(new java.awt.Insets(14, 14, 3, 14));
-        jbReservas.setMaximumSize(null);
         jbReservas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cambioDePanel(evt);
@@ -273,14 +268,25 @@ public class InterfazPrincipal extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
 
+        try {
+            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 InterfazPrincipal ui = new InterfazPrincipal();
+                ui.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 ui.setVisible(true);
             }
         });
@@ -311,8 +317,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             }
         }
     }
+
+    public int getRestaurante() {
+        return restaurante;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.Box.Filler filler1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton jbAgenda;
