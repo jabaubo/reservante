@@ -243,6 +243,7 @@ public class PanelInicio extends javax.swing.JPanel {
                             response.append(line);
                         }
                         reader.close();
+                        System.out.println("Respuesta leer tramos " + response);
                         horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
                         connection.disconnect();
                     } else {

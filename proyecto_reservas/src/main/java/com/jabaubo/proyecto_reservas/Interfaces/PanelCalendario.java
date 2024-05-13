@@ -147,7 +147,6 @@ public class PanelCalendario extends javax.swing.JPanel {
                 c.setForeground(Color.WHITE);
             }
         }
-
     }
 
     /**

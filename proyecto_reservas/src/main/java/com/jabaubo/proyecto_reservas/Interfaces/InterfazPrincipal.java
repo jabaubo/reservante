@@ -22,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.plaf.IconUIResource;
@@ -31,35 +32,70 @@ import javax.swing.plaf.IconUIResource;
  * @author pokem
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
-
-    PanelConfiguracion panelConfiguracion = new PanelConfiguracion();
-    PanelCalendario panelCalendario = new PanelCalendario(LocalDate.now().getMonthValue(), LocalDate.now().getYear(), this);
-    PanelInicio panelInicio = new PanelInicio(this);
-    PanelReservas panelReservas = new PanelReservas();
-    PanelHorario panelHorario = new PanelHorario();
-    ArrayList<JButton> botones = new ArrayList<>();
-    ArrayList<JPanel> paneles = new ArrayList<>();
+    private  int restaurante = 0;
+    PanelConfiguracion panelConfiguracion;
+    PanelCalendario panelCalendario;
+    PanelInicio panelInicio;
+    PanelReservas panelReservas;
+    PanelHorario panelHorario;
+    ArrayList<JButton> botones;
+    ArrayList<JPanel> paneles;
     JButton selectedButton;
 
     /**
      * Creates new form UI
      */
     public InterfazPrincipal() {
-        initComponents();
+        this.setAlwaysOnTop(false);
+        Login login = new Login(this, true);
+        login.setVisible(true);
+        if (login.isLogin()) {
+            initComponents();
+            restaurante = login.getRestaurante();
+            login.dispose();
+            Cargando cargando = new Cargando(this, true);
+        }else{
+            System.exit(2);
+        }
+    }
+
+    public void cargar(Cargando cargando) {
+
+        cargando.updateEtiqueta("Cargando configuración");
+        cargando.updateBarra(15);
+        panelConfiguracion = new PanelConfiguracion(this,restaurante);
+        cargando.updateEtiqueta("Cargando calendario");
+        cargando.updateBarra(30);
+        panelCalendario = new PanelCalendario(LocalDate.now().getMonthValue(), LocalDate.now().getYear(), this);
+        cargando.updateEtiqueta("Cargando Inicio");
+        cargando.updateBarra(45);
+        panelInicio = new PanelInicio(this);
+        cargando.updateEtiqueta("Cargando reservas");
+        cargando.updateBarra(60);
+        panelReservas = new PanelReservas();
+        cargando.updateEtiqueta("Cargando horario");
+        cargando.updateBarra(75);
+        panelHorario = new PanelHorario();
+        cargando.updateEtiqueta("Terminando preparación");
+        cargando.updateBarra(90);
+
+        botones = new ArrayList<>();
+        paneles = new ArrayList<>();
+        jbInicio.setSelected(true);
         botones.add(jbInicio);
         botones.add(jbAgenda);
         botones.add(jbConfiguracion);
         botones.add(jbReservas);
         botones.add(jbHorario);
-        
+
         paneles.add(panelInicio);
         paneles.add(panelCalendario);
         paneles.add(panelConfiguracion);
         paneles.add(panelReservas);
         paneles.add(panelHorario);
-        
-        jbInicio.setSelected(true);
+
         selected(jbInicio);
+        cargando.dispose();
     }
 
     /**
@@ -224,7 +260,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void cambioDePanel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambioDePanel
         // TODO add your handling code here:
-                selected((JButton)evt.getSource());
+        selected((JButton) evt.getSource());
     }//GEN-LAST:event_cambioDePanel
 
     /**
@@ -237,25 +273,14 @@ public class InterfazPrincipal extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
 
-        try {
-            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 InterfazPrincipal ui = new InterfazPrincipal();
-                ui.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 ui.setVisible(true);
             }
         });
