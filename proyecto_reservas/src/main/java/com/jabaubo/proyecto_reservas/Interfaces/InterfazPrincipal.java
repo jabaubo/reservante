@@ -4,6 +4,13 @@
  */
 package com.jabaubo.proyecto_reservas.Interfaces;
 
+import com.jabaubo.proyecto_reservas.Interfaces.dialogs.Cargando;
+import com.jabaubo.proyecto_reservas.Interfaces.dialogs.Login;
+import com.jabaubo.proyecto_reservas.Interfaces.paneles.PanelInicio;
+import com.jabaubo.proyecto_reservas.Interfaces.paneles.PanelReservas;
+import com.jabaubo.proyecto_reservas.Interfaces.paneles.PanelConfiguracion;
+import com.jabaubo.proyecto_reservas.Interfaces.paneles.PanelHorario;
+import com.jabaubo.proyecto_reservas.Interfaces.paneles.PanelCalendario;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -54,7 +61,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             login.dispose();
             System.out.println(login.isActive());
             Cargando cargando = new Cargando(this, true);
-        }else{
+            }else{
             System.exit(2);
         }
     }
@@ -72,10 +79,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         panelInicio = new PanelInicio(this);
         cargando.updateEtiqueta("Cargando reservas");
         cargando.updateBarra(60);
-        panelReservas = new PanelReservas();
+        panelReservas = new PanelReservas(this.restaurante);
         cargando.updateEtiqueta("Cargando horario");
         cargando.updateBarra(75);
-        panelHorario = new PanelHorario();
+        panelHorario = new PanelHorario(this.restaurante);
         cargando.updateEtiqueta("Terminando preparación");
         cargando.updateBarra(90);
 
