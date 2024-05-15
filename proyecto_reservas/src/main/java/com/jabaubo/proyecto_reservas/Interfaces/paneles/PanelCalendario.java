@@ -881,11 +881,11 @@ public class PanelCalendario extends javax.swing.JPanel {
         Ocupacion o = jListOcupacionReservas.getSelectedValue();
         ArrayList<Reserva> lista = verReservas(o.getFecha().toString(), o.getHora().toString());
         if (lista.size() <= 0) {
-            ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(),interfazPrincipal.getRestaurante());
+            ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), interfazPrincipal.getRestaurante());
             reservasDialog.setVisible(true);
             cargarOcupacion(o.getFecha().toString());
         } else {
-            ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), lista,interfazPrincipal.getRestaurante());
+            ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), lista, interfazPrincipal.getRestaurante());
             reservasDialog.setVisible(true);
             cargarOcupacion(o.getFecha().toString());
         }
@@ -1073,10 +1073,21 @@ public class PanelCalendario extends javax.swing.JPanel {
                 try {
                     URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-
+                    connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
+                    connection.setRequestProperty("Content-Type", "application/json");
+                    connection.setRequestProperty("Accept", "application/json");
+                    OutputStream os = connection.getOutputStream();
+                    System.out.println("TETica");
+                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                    String jsonFecha = "{\n"
+                            + "    \"id\":\"#PARAMID#\"\n"
+                            + "}";
+                    jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
+                    osw.write(jsonFecha);
+                    osw.flush();
                     int responseCode = connection.getResponseCode();
-                    //Ver si la respuesta es correcta
+//Ver si la respuesta es correcta
                     if (responseCode == HttpURLConnection.HTTP_OK) {
                         // Si es correcta la leemos
                         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -1183,9 +1194,21 @@ public class PanelCalendario extends javax.swing.JPanel {
                     try {
                         URL url = new URL("https://reservante.mjhudesings.com/slim/getincremento");
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("GET");
+                        connection.setRequestMethod("POST");
+                        connection.setDoOutput(true);
+                        connection.setRequestProperty("Content-Type", "application/json");
+                        connection.setRequestProperty("Accept", "application/json");
+                        OutputStream os = connection.getOutputStream();
+                        System.out.println("TETica");
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        String jsonFecha = "{\n"
+                                + "    \"id\":\"#PARAMID#\"\n"
+                                + "}";
+                        jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
+                        osw.write(jsonFecha);
+                        osw.flush();
                         int responseCode = connection.getResponseCode();
-                        //Ver si la respuesta es correctadai
+//Ver si la respuesta es correctadai
                         if (responseCode == HttpURLConnection.HTTP_OK) {
                             // Si es correcta la leemos
                             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

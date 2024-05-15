@@ -34,6 +34,8 @@ import org.json.JSONObject;
  * @author pokem
  */
 public class InsertarVacacion extends javax.swing.JDialog {
+
+    private Vacaciones vacacion;
     private boolean editando = false;
     private Calendar calendar1;
     private Calendar calendar2;
@@ -74,6 +76,7 @@ public class InsertarVacacion extends javax.swing.JDialog {
 
     public InsertarVacacion(java.awt.Frame parent, boolean modal, Vacaciones v) {
         super(parent, modal);
+        this.vacacion = v;
         this.editando = true;
         this.interfazPrincipal = (InterfazPrincipal) parent;
         if (interfazPrincipal == null) {
@@ -161,12 +164,11 @@ public class InsertarVacacion extends javax.swing.JDialog {
                 c.setFocusPainted(true);
                 c.setText(calendar.get(Calendar.DATE) + "");
                 c.setDate(calendar.getTime());
-                if (calendar.get(Calendar.DAY_OF_YEAR) == calendarValues.get(Calendar.DAY_OF_YEAR)) { 
+                if (calendar.get(Calendar.DAY_OF_YEAR) == calendarValues.get(Calendar.DAY_OF_YEAR)) {
                     c.setBackground(Color.RED);
                     if (seleccionada1 != null) {
-                        seleccionada2  = c;
-                    }
-                    else{
+                        seleccionada2 = c;
+                    } else {
                         seleccionada1 = c;
                     }
                 } else {
@@ -302,6 +304,7 @@ public class InsertarVacacion extends javax.swing.JDialog {
         jlMes2 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -1224,10 +1227,17 @@ public class InsertarVacacion extends javax.swing.JDialog {
             }
         });
 
-        jButton5.setText("Guardar");
+        jButton5.setText("Borrar");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                borrarClick(evt);
+            }
+        });
+
+        jButton6.setText("Guardar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
             }
         });
 
@@ -1235,7 +1245,7 @@ public class InsertarVacacion extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+            .addComponent(jlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -1250,14 +1260,17 @@ public class InsertarVacacion extends javax.swing.JDialog {
                                 .addGap(194, 194, 194)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jlMes2, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                                .addComponent(jlMes2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(panelCalendario1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(panelCalendario2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
 
@@ -1283,7 +1296,9 @@ public class InsertarVacacion extends javax.swing.JDialog {
                     .addComponent(panelCalendario2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelCalendario1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -2120,90 +2135,159 @@ public class InsertarVacacion extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfNombreActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         final String nombre = jtfNombre.getText();
         final String fecha1 = seleccionada1.fechaFormateada();
         final String fecha2 = seleccionada2.fechaFormateada();
         if (editando) {
-            
-        }
-        else{
-            
-        }
-        final int idRestaurante = interfazPrincipal.getRestaurante();
-        final String[] responseStr = new String[1];
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // Conectamos a la pagina con el método que queramos
-                try {
-                    URL url = new URL("https://reservante.mjhudesings.com/slim/addvacacion");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    connection.setDoOutput(true);
-                    connection.setRequestProperty("Content-Type", "application/json");
-                    connection.setRequestProperty("Accept", "application/json");
-                    OutputStream os = connection.getOutputStream();
-                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                    String jsonStr = "{\n"
-                            + "    \"id_restaurante\":\"#PARAMID#\",\n"
-                            + "    \"nombre\":\"#PARAMNOMBRE#\",\n"
-                            + "    \"inicio\":\"#PARAMINICIO#\",\n"
-                            + "    \"fin\":\"#PARAMFIN#\"\n"
-                            + "}";
-                    jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(idRestaurante));
-                    jsonStr = jsonStr.replace("#PARAMNOMBRE#", nombre);
-                    jsonStr = jsonStr.replace("#PARAMINICIO#", fecha1);
-                    jsonStr = jsonStr.replace("#PARAMFIN#", fecha2);
-                    osw.write(jsonStr);
-                    System.out.println(jsonStr);
-                    osw.flush();
-                    int responseCode = connection.getResponseCode();
-                    //Ver si la respuesta es correcta
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        // Si es correcta la leemos
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
-                        StringBuilder response = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
+            Vacaciones v = new Vacaciones(nombre, fecha1, fecha2, vacacion.getIdRestaurante(), vacacion.getId());
+            System.out.println(v.toJson());
+            if (v.toJson().equals(vacacion.toJson())) {
+                JOptionPane.showMessageDialog(interfazPrincipal, "aNo hay cambios", "Aviso", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                final int idRestaurante = interfazPrincipal.getRestaurante();
+                final String[] responseStr = new String[1];
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        // Conectamos a la pagina con el método que queramos
+                        try {
+                            URL url = new URL("https://reservante.mjhudesings.com/slim/updatevacacion");
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("PUT");
+                            connection.setDoOutput(true);
+                            connection.setRequestProperty("Content-Type", "application/json");
+                            connection.setRequestProperty("Accept", "application/json");
+                            OutputStream os = connection.getOutputStream();
+                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                            osw.write(v.toJson());
+                            osw.flush();
+                            int responseCode = connection.getResponseCode();
+                            //Ver si la respuesta es correcta
+                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                // Si es correcta la leemos
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                String line;
+                                StringBuilder response = new StringBuilder();
+                                while ((line = reader.readLine()) != null) {
+                                    response.append(line);
+                                }
+                                reader.close();
+                                responseStr[0] = response.toString();
+                                connection.disconnect();
+                            } else {
+                                connection.disconnect();
+                            }
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException(e);
+                        } catch (ProtocolException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
-                        reader.close();
-                        responseStr[0] = response.toString();
-                        connection.disconnect();
-                    } else {
-                        connection.disconnect();
+
                     }
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                } catch (ProtocolException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                try {
+                    System.out.println(responseStr[0]);
+                    if (responseStr[0].contains("correctamente")) {
+                        JOptionPane.showMessageDialog(interfazPrincipal, "Vacación insertada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(interfazPrincipal, "Error al insertar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+                    }
+                    this.setVisible(false);
+                } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
 
             }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
-        }
-        try {
-            System.out.println(responseStr[0]);
-            if (responseStr[0].contains("correctamente")) {
-                JOptionPane.showMessageDialog(interfazPrincipal, "Vacación insertada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(interfazPrincipal, "Error al insertar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+        } else {
+            final int idRestaurante = interfazPrincipal.getRestaurante();
+            final String[] responseStr = new String[1];
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/addvacacion");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.setDoOutput(true);
+                        connection.setRequestProperty("Content-Type", "application/json");
+                        connection.setRequestProperty("Accept", "application/json");
+                        OutputStream os = connection.getOutputStream();
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        String jsonStr = "{\n"
+                                + "    \"id_restaurante\":\"#PARAMID#\",\n"
+                                + "    \"nombre\":\"#PARAMNOMBRE#\",\n"
+                                + "    \"inicio\":\"#PARAMINICIO#\",\n"
+                                + "    \"fin\":\"#PARAMFIN#\"\n"
+                                + "}";
+                        jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(idRestaurante));
+                        jsonStr = jsonStr.replace("#PARAMNOMBRE#", nombre);
+                        jsonStr = jsonStr.replace("#PARAMINICIO#", fecha1);
+                        jsonStr = jsonStr.replace("#PARAMFIN#", fecha2);
+                        osw.write(jsonStr);
+                        System.out.println(jsonStr);
+                        osw.flush();
+                        int responseCode = connection.getResponseCode();
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            reader.close();
+                            responseStr[0] = response.toString();
+                            connection.disconnect();
+                        } else {
+                            connection.disconnect();
+                        }
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
             }
-            this.setVisible(false);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
+            try {
+                System.out.println(responseStr[0]);
+                if (responseStr[0].contains("correctamente")) {
+                    JOptionPane.showMessageDialog(interfazPrincipal, "Vacación insertada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(interfazPrincipal, "Error al insertar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+                }
+                this.setVisible(false);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void borrarClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarClick
+        // TODO add your handling code here:
+    }//GEN-LAST:event_borrarClick
 
     /**
      * @param args the command line arguments
@@ -2352,6 +2436,7 @@ public class InsertarVacacion extends javax.swing.JDialog {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
