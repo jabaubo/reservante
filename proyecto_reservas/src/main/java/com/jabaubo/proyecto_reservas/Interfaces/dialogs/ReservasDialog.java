@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.ColorUIResource;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,6 +60,8 @@ public class ReservasDialog extends javax.swing.JDialog {
         cargarReservas();
         jbActualizar.setEnabled(false);
         jbBorrar.setEnabled(false);
+        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
+        setLocationRelativeTo(null);
     }
 
     public ReservasDialog(java.awt.Frame parent, boolean modal, LocalDate fecha, LocalTime tramo, int id) {
@@ -73,6 +76,8 @@ public class ReservasDialog extends javax.swing.JDialog {
         salones = leerSalones();
         jbActualizar.setEnabled(false);
         jbBorrar.setEnabled(false);
+        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
+        setLocationRelativeTo(null);
     }
 
     public void cargarReservas() {
@@ -253,7 +258,7 @@ public class ReservasDialog extends javax.swing.JDialog {
         jLabel16 = new javax.swing.JLabel();
         jbActualizar = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jbCorreo = new javax.swing.JButton();
         jbInsertar = new javax.swing.JButton();
         jbBorrar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -311,10 +316,10 @@ public class ReservasDialog extends javax.swing.JDialog {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel14.setText("Datos");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbCorreo.setText("Correo");
+        jbCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbCorreoActionPerformed(evt);
             }
         });
 
@@ -424,7 +429,7 @@ public class ReservasDialog extends javax.swing.JDialog {
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 6, Short.MAX_VALUE))
+                        .addGap(0, 9, Short.MAX_VALUE))
                     .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -433,7 +438,7 @@ public class ReservasDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jbActualizar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(jbCorreo)
                         .addGap(18, 18, 18)
                         .addComponent(jbBorrar)
                         .addGap(31, 31, 31))
@@ -459,7 +464,7 @@ public class ReservasDialog extends javax.swing.JDialog {
                     .addComponent(jbInsertar)
                     .addComponent(jbActualizar)
                     .addComponent(jbBorrar)
-                    .addComponent(jButton1)))
+                    .addComponent(jbCorreo)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -526,7 +531,18 @@ public class ReservasDialog extends javax.swing.JDialog {
             jlObservaciones.setText(r.getObservaciones());
             jlTelefono.setText(r.getTelefono());
             jbActualizar.setEnabled(true);
+            jbCorreo.setEnabled(true);
             jbBorrar.setEnabled(true);
+        } else {
+            jlCliente.setText(" ");
+            jlComensales.setText(" ");
+            jlEmail.setText(" ");
+            jlSalon.setText(" ");
+            jlObservaciones.setText(" ");
+            jlTelefono.setText(" ");
+            jbActualizar.setEnabled(false);
+            jbCorreo.setEnabled(false);
+            jbBorrar.setEnabled(false);
         }
     }//GEN-LAST:event_jListReservasValueChanged
 
@@ -619,7 +635,7 @@ public class ReservasDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jcbFiltroActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorreoActionPerformed
         // TODO add your handling code here:
         Desktop desktop;
         if (Desktop.isDesktopSupported() && (desktop = Desktop.getDesktop()).isSupported(Desktop.Action.MAIL)) {
@@ -634,9 +650,9 @@ public class ReservasDialog extends javax.swing.JDialog {
                 Logger.getLogger(ReservasDialog.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jbCorreoActionPerformed
 
-    public  ArrayList<Reserva> verReservas(String fecha, String hora) {
+    public ArrayList<Reserva> verReservas(String fecha, String hora) {
         final JSONArray[] jsonArray = new JSONArray[1];
         ArrayList<Reserva> lista = new ArrayList<>();
         try {
@@ -720,7 +736,6 @@ public class ReservasDialog extends javax.swing.JDialog {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -736,6 +751,7 @@ public class ReservasDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbActualizar;
     private javax.swing.JButton jbBorrar;
+    private javax.swing.JButton jbCorreo;
     private javax.swing.JButton jbInsertar;
     private javax.swing.JComboBox<String> jcbFiltro;
     private javax.swing.JLabel jlCliente;

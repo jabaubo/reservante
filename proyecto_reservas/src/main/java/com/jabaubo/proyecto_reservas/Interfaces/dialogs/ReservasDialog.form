@@ -68,7 +68,7 @@
                       <Component id="jLabel15" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jScrollPane1" min="-2" pref="264" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="9" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jLabel16" alignment="0" max="32767" attributes="0"/>
                   </Group>
@@ -79,7 +79,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jbActualizar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jbCorreo" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jbBorrar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
@@ -111,7 +111,7 @@
                       <Component id="jbInsertar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbActualizar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbBorrar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jbCorreo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -183,12 +183,12 @@
             <Property name="text" type="java.lang.String" value="Datos"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="jbCorreo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
+            <Property name="text" type="java.lang.String" value="Correo"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCorreoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbInsertar">

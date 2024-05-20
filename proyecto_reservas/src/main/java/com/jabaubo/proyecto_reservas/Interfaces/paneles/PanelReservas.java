@@ -49,6 +49,9 @@ public class PanelReservas extends javax.swing.JPanel {
         listaReservasCompleta = leerReservas();
         listaReservas = listaReservasCompleta;
         salones = leerSalones();
+        jButton3.setEnabled(false);
+        jbActualizar2.setEnabled(false);
+        jbBorrar2.setEnabled(false);
     }
 
     /**
@@ -85,9 +88,8 @@ public class PanelReservas extends javax.swing.JPanel {
         jLabel35 = new javax.swing.JLabel();
         jbBuscar = new javax.swing.JButton();
         jbRecargar = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jbInsertar2 = new javax.swing.JButton();
         jbBorrar2 = new javax.swing.JButton();
         jbActualizar2 = new javax.swing.JButton();
 
@@ -99,6 +101,7 @@ public class PanelReservas extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(jListReservas2);
 
+        jcbFiltro2.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jcbFiltro2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbFiltro2ActionPerformed(evt);
@@ -240,20 +243,15 @@ public class PanelReservas extends javax.swing.JPanel {
             }
         });
 
-        jButton3.setText("jButton1");
+        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton3.setText("Correo");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jbInsertar2.setText("Insertar");
-        jbInsertar2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbInsertar2ActionPerformed(evt);
-            }
-        });
-
+        jbBorrar2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jbBorrar2.setText("Borrar");
         jbBorrar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -261,6 +259,7 @@ public class PanelReservas extends javax.swing.JPanel {
             }
         });
 
+        jbActualizar2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jbActualizar2.setText("Editar");
         jbActualizar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,31 +267,28 @@ public class PanelReservas extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jbInsertar2, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                .addComponent(jbActualizar2, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbActualizar2, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbBorrar2, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                .addComponent(jbBorrar2, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbInsertar2)
-                    .addComponent(jbActualizar2)
-                    .addComponent(jButton3)
-                    .addComponent(jbBorrar2))
-                .addGap(0, 0, 0))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jbBorrar2, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbActualizar2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -309,12 +305,12 @@ public class PanelReservas extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbBuscar)
                         .addGap(6, 6, 6))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -328,16 +324,17 @@ public class PanelReservas extends javax.swing.JPanel {
                         .addComponent(jbBuscar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbFiltro2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(6, 6, 6)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jcbFiltro2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -371,6 +368,20 @@ public class PanelReservas extends javax.swing.JPanel {
             jlHora.setText(r.getHora());
             jbActualizar2.setEnabled(true);
             jbBorrar2.setEnabled(true);
+            jButton3.setEnabled(true);
+        }
+        else{
+            jlCliente3.setText(" ");
+            jlComensales3.setText(" ");
+            jlEmail3.setText(" ");
+            jlSalon3.setText(" ");
+            jlObservaciones3.setText(" ");
+            jlTelefono3.setText(" " );
+            jlFecha.setText(" ");
+            jlHora.setText(" ");
+            jbActualizar2.setEnabled(false);
+            jbBorrar2.setEnabled(false);
+            jButton3.setEnabled(false);
         }
     }//GEN-LAST:event_jListReservas2ValueChanged
 
@@ -430,20 +441,6 @@ public class PanelReservas extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jbInsertar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInsertar2ActionPerformed
-        // TODO add your handling code here:
-        Reserva r = listaReservas.get(0);
-        DatosReservaDialog dialog = new DatosReservaDialog((Frame) this.getParent(), true, salones, r.getFecha(), r.getHora());
-        dialog.setVisible(true);
-        System.out.println("INSERTANDO");
-        listaReservasCompleta = leerReservas();
-        System.out.println(listaReservasCompleta.size());
-        jcbFiltro2.setSelectedIndex(0);
-        listaReservas = listaReservasCompleta;
-        cargarListaReservas();
-        jListReservas2.validate();
-    }//GEN-LAST:event_jbInsertar2ActionPerformed
 
     private void jbBorrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrar2ActionPerformed
         // TODO add your handling code here:
@@ -647,8 +644,6 @@ public class PanelReservas extends javax.swing.JPanel {
                     String json = "{\n"
                             + "    \"id\":\"#ID#\"\n"
                             + "}";
-                    json = json.replace("#FECHA#", listaReservasCompleta.get(0).getFecha());
-                    json = json.replace("#HORA#", listaReservasCompleta.get(0).getHora());
                     json = json.replace("#ID#", String.valueOf(idRestaurante));
                     osw.write(json);
                     System.out.println("MANDO :" + json);
@@ -728,14 +723,13 @@ public class PanelReservas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JList<String> jListReservas2;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton jbActualizar2;
     private javax.swing.JButton jbBorrar2;
     private javax.swing.JButton jbBuscar;
-    private javax.swing.JButton jbInsertar2;
     private javax.swing.JButton jbRecargar;
     private javax.swing.JComboBox<String> jcbFiltro2;
     private javax.swing.JLabel jlCliente3;

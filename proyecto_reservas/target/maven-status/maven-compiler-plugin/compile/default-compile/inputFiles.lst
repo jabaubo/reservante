@@ -3,10 +3,12 @@ C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\co
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\CeldaCalendario.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\SalonRender.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelReservas.java
+C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\ReservasDialog.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\OcupacionRender.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\InterfazPrincipal.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelConfiguracion.java
+C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\SalonDialog.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\Cargando.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\ReservaFechas.java
@@ -19,4 +21,3 @@ C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\co
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\VacacionesRender.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelHorario.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\Ocupacion.java
-C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\InsertarVacacion.java

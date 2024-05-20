@@ -16,6 +16,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.text.NumberFormat;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import org.json.JSONObject;
@@ -32,7 +33,7 @@ public class DatosReservaDialog extends javax.swing.JDialog {
     private Reserva reserva;
     private String hora;
     private String fecha;
-
+    
     public DatosReservaDialog(java.awt.Frame parent, boolean modal, String[] salones, String fecha, String hora) {
         super(parent, modal);
         initComponents();
@@ -49,6 +50,8 @@ public class DatosReservaDialog extends javax.swing.JDialog {
             }
         }
         jtfComensales.setFormatterFactory(new DefaultFormatterFactory(formatter));
+        jlTitulo.setForeground(new ColorUIResource(221,221,221));
+        setLocationRelativeTo(null);
     }
 
     public DatosReservaDialog(java.awt.Frame parent, boolean modal, Reserva reserva, String[] salones) {
@@ -72,6 +75,8 @@ public class DatosReservaDialog extends javax.swing.JDialog {
             }
         }
         jtfComensales.setFormatterFactory(new DefaultFormatterFactory(formatter));
+        jlTitulo.setForeground(new ColorUIResource(221,221,221));
+        setLocationRelativeTo(null);
 
     }
 
@@ -84,7 +89,6 @@ public class DatosReservaDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jtfCliente = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -98,10 +102,9 @@ public class DatosReservaDialog extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jtfComensales = new javax.swing.JFormattedTextField();
+        jlTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jLabel1.setText("Reserva");
 
         jLabel2.setText("Nombre y apellidos");
 
@@ -135,11 +138,16 @@ public class DatosReservaDialog extends javax.swing.JDialog {
             }
         });
 
+        jlTitulo.setBackground(new java.awt.Color(109, 34, 109));
+        jlTitulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jlTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlTitulo.setText("Reserva");
+        jlTitulo.setOpaque(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,6 +181,7 @@ public class DatosReservaDialog extends javax.swing.JDialog {
                             .addComponent(jtfTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
+            .addComponent(jlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jcbSalon, jtfCliente, jtfEmail, jtfObservaciones, jtfTelefono});
@@ -180,8 +189,8 @@ public class DatosReservaDialog extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jtfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -532,7 +541,6 @@ public class DatosReservaDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -540,6 +548,7 @@ public class DatosReservaDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JComboBox<String> jcbSalon;
+    private javax.swing.JLabel jlTitulo;
     private javax.swing.JTextField jtfCliente;
     private javax.swing.JFormattedTextField jtfComensales;
     private javax.swing.JTextField jtfEmail;

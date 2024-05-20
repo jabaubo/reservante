@@ -1,7 +1,7 @@
 package com.jabaubo.proyecto_reservas.Clases;
 
 public class Horario {
-
+    private int idRestaurante;
     private String dia;
     private Boolean cerrado;
     private String hora_inicio_m;
@@ -10,13 +10,14 @@ public class Horario {
     private String hora_fin_t;
     private String orden;
 
-    public Horario(String dia, Boolean cerrado, String hora_inicio_m, String hora_fin_m, String hora_inicio_t, String hora_fin_t) {
+    public Horario(String dia, Boolean cerrado, String hora_inicio_m, String hora_fin_m, String hora_inicio_t, String hora_fin_t,int idRestaurante) {
         this.dia = dia;
         this.cerrado = cerrado;
         this.hora_inicio_m = hora_inicio_m;
         this.hora_fin_m = hora_fin_m;
         this.hora_inicio_t = hora_inicio_t;
         this.hora_fin_t = hora_fin_t;
+        this.idRestaurante = idRestaurante;
     }
 
     public Horario() {
@@ -74,6 +75,15 @@ public class Horario {
         this.orden = String.valueOf(orden);
     }
 
+    public int getIdRestaurante() {
+        return idRestaurante;
+    }
+
+    public void setIdRestaurante(int idRestaurante) {
+        this.idRestaurante = idRestaurante;
+    }
+    
+    
     @Override
     public String toString() {
         return "Horario{" + "dia=" + dia + ", cerrado=" + cerrado + ", hora_inicio_m=" + hora_inicio_m + ", hora_fin_m=" + hora_fin_m + ", hora_inicio_t=" + hora_inicio_t + ", hora_fin_t=" + hora_fin_t + ", orden=" + orden + '}';
@@ -88,6 +98,7 @@ public class Horario {
         jsonBuilder.append("  \"hora_fin_m\": \"").append(hora_fin_m).append("\",\n");
         jsonBuilder.append("  \"hora_inicio_t\": \"").append(hora_inicio_t).append("\",\n");
         jsonBuilder.append("  \"hora_fin_t\": \"").append(hora_fin_t).append("\",\n");
+        jsonBuilder.append("  \"id_restaurante\": \"").append(idRestaurante).append("\",\n");
         jsonBuilder.append("  \"orden\": \"").append(orden).append("\"\n");
         jsonBuilder.append("}");
         return jsonBuilder.toString();

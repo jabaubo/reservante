@@ -64,8 +64,7 @@ public class Cargando extends javax.swing.JDialog {
         barra = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        etiqueta.setText("jLabel1");
+        setTitle("Reservante");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

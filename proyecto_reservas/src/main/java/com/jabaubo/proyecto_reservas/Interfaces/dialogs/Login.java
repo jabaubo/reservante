@@ -60,16 +60,13 @@ public class Login extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Reservante");
 
         jLabel1.setText("Usuario");
 
-        jtfUser.setText("jTextField1");
-
-        jtfPassword.setText("jTextField1");
-
         jLabel2.setText("Constraseña");
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Iniciar sesión");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -144,6 +141,7 @@ public class Login extends javax.swing.JDialog {
                         osw.flush();
                         int responseCode = connection.getResponseCode();
                         //Ver si la respuesta es correcta
+                        System.out.println(responseCode == HttpURLConnection.HTTP_OK);
                         if (responseCode == HttpURLConnection.HTTP_OK) {
                             // Si es correcta la leemos 
                             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

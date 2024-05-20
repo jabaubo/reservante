@@ -124,19 +124,19 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Reservante");
         setBackground(java.awt.Color.darkGray);
 
         jPanel2.setBackground(new java.awt.Color(109, 34, 109));
 
         jbAgenda.setBackground(new java.awt.Color(109, 34, 109));
         jbAgenda.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jbAgenda.setText("Agenda");
+        jbAgenda.setText("Reservar");
         jbAgenda.setActionCommand("agenda");
         jbAgenda.setBorder(null);
         jbAgenda.setBorderPainted(false);
         jbAgenda.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbAgenda.setMargin(new java.awt.Insets(14, 14, 3, 14));
-        jbAgenda.setMaximumSize(null);
         jbAgenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cambioDePanel(evt);

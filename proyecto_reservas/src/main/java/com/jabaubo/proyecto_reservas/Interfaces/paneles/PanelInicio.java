@@ -52,12 +52,16 @@ public class PanelInicio extends javax.swing.JPanel {
         jListOcupacionReservas2.setCellRenderer(new OcupacionRender());
         jListOcupacionReservas3.setCellRenderer(new OcupacionRender());
         LocalDate fecha = LocalDate.now();
+        System.out.println("Carga1");
         cargarOcupacion(fecha.toString(), jListOcupacionReservas);
         jlFecha1.setText(fecha.toString());
+        System.out.println("Carga2");
         cargarOcupacion(fecha.plusDays(1).toString(), jListOcupacionReservas1);
         jlFecha2.setText(fecha.plusDays(1).toString());
+        System.out.println("Carga3");
         cargarOcupacion(fecha.plusDays(2).toString(), jListOcupacionReservas2);
         jlFecha3.setText(fecha.plusDays(2).toString());
+        System.out.println("Carga4");
         cargarOcupacion(fecha.plusDays(3).toString(), jListOcupacionReservas3);
         jlFecha4.setText(fecha.plusDays(3).toString());
     }
@@ -109,7 +113,7 @@ public class PanelInicio extends javax.swing.JPanel {
         jListOcupacionReservas1.setOpaque(false);
         jListOcupacionReservas1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jListOcupacionReservas1MouseClicked(evt);
+                jListOcupacionReservasMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(jListOcupacionReservas1);
@@ -124,7 +128,7 @@ public class PanelInicio extends javax.swing.JPanel {
         jListOcupacionReservas2.setOpaque(false);
         jListOcupacionReservas2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jListOcupacionReservas2MouseClicked(evt);
+                jListOcupacionReservas1MouseClicked(evt);
             }
         });
         jScrollPane3.setViewportView(jListOcupacionReservas2);
@@ -139,7 +143,7 @@ public class PanelInicio extends javax.swing.JPanel {
         jListOcupacionReservas3.setOpaque(false);
         jListOcupacionReservas3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jListOcupacionReservas3MouseClicked(evt);
+                jListOcupacionReservasMouseClicked(evt);
             }
         });
         jScrollPane4.setViewportView(jListOcupacionReservas3);
@@ -197,26 +201,22 @@ public class PanelInicio extends javax.swing.JPanel {
     private void jListOcupacionReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListOcupacionReservasMouseClicked
         // TODO add your handling code here:
         Ocupacion o = jListOcupacionReservas.getSelectedValue();
+        JList<Ocupacion> jLista = (JList<Ocupacion>) evt.getSource();
         ArrayList<Reserva> lista = verReservas(o.getFecha().toString(), o.getHora().toString());
         if (lista.size() <= 0) {
-            JOptionPane.showMessageDialog(this.getParent(), "No hay reservas", "Aviso", JOptionPane.PLAIN_MESSAGE);
+            ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), interfazPrincipal.getRestaurante());
+            reservasDialog.setVisible(true);
+            cargarOcupacion(o.getFecha().toString(), jLista);
         } else {
             ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), lista, interfazPrincipal.getRestaurante());
             reservasDialog.setVisible(true);
+            cargarOcupacion(o.getFecha().toString(), jLista);
         }
     }//GEN-LAST:event_jListOcupacionReservasMouseClicked
 
     private void jListOcupacionReservas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListOcupacionReservas1MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jListOcupacionReservas1MouseClicked
-
-    private void jListOcupacionReservas2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListOcupacionReservas2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jListOcupacionReservas2MouseClicked
-
-    private void jListOcupacionReservas3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListOcupacionReservas3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jListOcupacionReservas3MouseClicked
 
     public String leerTramos(String fecha) {
         LocalDate fechaDate = LocalDate.parse(fecha);
@@ -336,6 +336,7 @@ public class PanelInicio extends javax.swing.JPanel {
             System.out.println(texto);
             return texto;
         }
+        JOptionPane.showMessageDialog(interfazPrincipal, "Error en el calculo de tramos","Error",JOptionPane.ERROR_MESSAGE);
         return "Error";
     }
 
@@ -401,6 +402,7 @@ public class PanelInicio extends javax.swing.JPanel {
     }
 
     public void cargarOcupacion(String fecha, JList<Ocupacion> lista) {
+        System.out.println("HOLA BUENAS TARDES");
         if (!leerTramos(fecha).equals("Error")) {
             DefaultListModel<Ocupacion> modelo = new DefaultListModel<>();
             try {
@@ -420,11 +422,14 @@ public class PanelInicio extends javax.swing.JPanel {
                             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                             String consulta = leerTramos(fecha);
                             String jsonFecha = "{\n"
-                                    + "    \"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones WHERE id_restaurante = #PARAMID#) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo  FROM (#TRAMOS#) AS range_values  CROSS JOIN salones on salones.id_salon in (SELECT id_salon FROM salones WHERE id_restaurante = #PARAMID#) LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon  GROUP BY range_values.value, salones.id_salon  ORDER BY range_values.value ASC;\"\n"
-                                    + "}";
+                                    + "    \"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones WHERE id_restaurante = #PARAMID#) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo  FROM (#TRAMOS#) AS range_values  CROSS JOIN salones on salones.id_salon in (SELECT id_salon FROM salones WHERE id_restaurante = #PARAMID#) LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon  GROUP BY range_values.value, salones.id_salon  ORDER BY range_values.value ASC\",\n"
+                                    + "    \"fecha\":\"#PARAMFECHA#\",\n"
+                                    + "    \"id_restaurante\":\"#PARAMID#\",\n"
+                                    + "    \"dia\":\"#PARAMDIA#\"}";
                             jsonFecha = jsonFecha.replace("#TRAMOS#", consulta);
                             jsonFecha = jsonFecha.replace("#PARAMFECHA#", fecha);
                             jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
+                            jsonFecha = jsonFecha.replace("#PARAMDIA#",String.valueOf(LocalDate.parse(fecha).getDayOfWeek().getValue()));
                             System.out.println(jsonFecha);
                             osw.write(jsonFecha);
                             osw.flush();
@@ -445,7 +450,7 @@ public class PanelInicio extends javax.swing.JPanel {
                                 System.out.println("tope :" + n_salones);
                                 System.out.println("JSON ARRAY: " + jsonArray);
                                 System.out.println("JSON ARRAY LENGTH: " + jsonArray.length());
-
+                                System.out.println("Respuesta inicio " + response);
                                 //while ()
                                 for (int i = 0; i < jsonArray.length(); i += n_salones) {
                                     int reservasTotal = 0;

@@ -8,8 +8,10 @@ import com.jabaubo.proyecto_reservas.Clases.Salon;
 import com.jabaubo.proyecto_reservas.Clases.SalonRender;
 import com.jabaubo.proyecto_reservas.Clases.Vacaciones;
 import com.jabaubo.proyecto_reservas.Clases.VacacionesRender;
-import com.jabaubo.proyecto_reservas.Interfaces.dialogs.InsertarVacacion;
+import com.jabaubo.proyecto_reservas.Interfaces.dialogs.VacacionesDialog;
 import com.jabaubo.proyecto_reservas.Interfaces.InterfazPrincipal;
+import com.jabaubo.proyecto_reservas.Interfaces.dialogs.SalonDialog;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,7 +23,10 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,14 +57,17 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         tfTlf2.setText(jsonRestaurante.getString("telefono2"));
         tfEmail.setText(jsonRestaurante.getString("email"));
         tfDireccion.setText(jsonRestaurante.getString("direccion"));
-        tfDuracion.setText(jsonRestaurante.getString("duracion_reservas"));
+        String duracionStr[] = jsonRestaurante.getString("duracion_reservas").split(":");
+        jcbHora.setSelectedItem(duracionStr[0]);
+        jcbMinutos.setSelectedItem(duracionStr[1]);
+        jcbSegundos.setSelectedItem(duracionStr[2]);
         try {
             JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
             DefaultListModel<Vacaciones> modelo = new DefaultListModel<>();
             for (int i = 0; i < jsonArrayVacaciones.length(); i++) {
                 JSONObject jsonVacacion = jsonArrayVacaciones.getJSONObject(i);
                 System.out.println(jsonVacacion);
-                Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"),interfazPrincipal.getRestaurante(),jsonVacacion.getInt("id_vacacion"));
+                Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"), interfazPrincipal.getRestaurante(), jsonVacacion.getInt("id_vacacion"));
                 listaVacaciones.add(v);
                 modelo.addElement(v);
             }
@@ -68,7 +76,6 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         } catch (JSONException e) {
             System.out.println("No hay vacas");
         }
-
     }
 
     /**
@@ -92,24 +99,23 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         tfDireccion = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        tfDuracion = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jcbHora = new javax.swing.JComboBox<>();
+        jLabel105 = new javax.swing.JLabel();
+        jcbMinutos = new javax.swing.JComboBox<>();
+        jLabel106 = new javax.swing.JLabel();
+        jcbSegundos = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jListSalones = new javax.swing.JList<>();
-        jButton8 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListVacaciones = new javax.swing.JList<>();
         jLabel10 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(51, 51, 255));
         setPreferredSize(new java.awt.Dimension(538, 300));
@@ -149,10 +155,42 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Duración de las reservas");
 
-        tfDuracion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Datos del restaurante");
+
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jcbHora.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jcbHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+
+        jLabel105.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel105.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel105.setText(":");
+
+        jcbMinutos.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jcbMinutos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jcbMinutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbMinutosActionPerformed(evt);
+            }
+        });
+
+        jLabel106.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel106.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel106.setText(":");
+
+        jcbSegundos.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jcbSegundos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jcbSegundos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbSegundosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -184,9 +222,19 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfEmail)
-                            .addComponent(tfDuracion)
-                            .addComponent(tfDireccion))
-                        .addContainerGap())))
+                            .addComponent(tfDireccion)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jcbHora, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel105, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jcbMinutos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel106, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jcbSegundos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
@@ -206,9 +254,15 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                             .addComponent(jLabel6)
                             .addComponent(tfDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(tfDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel7)
+                                .addComponent(jcbHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel106)
+                                .addComponent(jcbSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jcbMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel105))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -221,24 +275,27 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(tfTlf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(14, 14, 14))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Salones");
 
-        jScrollPane2.setViewportView(jListSalones);
-
-        jButton8.setText("jButton1");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+        jListSalones.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListSalonesValueChanged(evt);
             }
         });
+        jScrollPane2.setViewportView(jListSalones);
 
-        jButton6.setText("jButton1");
-
-        jButton7.setText("jButton1");
+        jButton6.setText("Insertar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -251,10 +308,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1026, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -264,12 +318,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -290,15 +339,6 @@ public class PanelConfiguracion extends javax.swing.JPanel {
             }
         });
 
-        jButton4.setText("Borrar");
-
-        jButton5.setText("jButton1");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -306,17 +346,11 @@ public class PanelConfiguracion extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(1032, 1032, 1032)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(1038, 1038, 1038)
-                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addContainerGap()
@@ -330,40 +364,12 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                     .addGap(51, 51, 51)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                     .addContainerGap()))
-        );
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -373,7 +379,6 @@ public class PanelConfiguracion extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -383,10 +388,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -455,7 +457,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
             DefaultListModel<Salon> modelo = new DefaultListModel<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                Salon s = new Salon(jsonObject.getInt("id_salon"), jsonObject.getString("nombre"), jsonObject.getInt("aforo"));
+                Salon s = new Salon(jsonObject.getInt("id_salon"), jsonObject.getString("nombre"), jsonObject.getInt("aforo"), interfazPrincipal.getRestaurante());
                 lista.add(s);
                 modelo.addElement(s);
             }
@@ -468,40 +470,110 @@ public class PanelConfiguracion extends javax.swing.JPanel {
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String nombre = tfNombre.getText();
+        String tlf1Str = tfTlf1.getText();
+        String tlf2Str = tfTlf2.getText();
+        String direccion = tfDireccion.getText();
+        String email = tfEmail.getText();
+        String duracion = jcbHora.getSelectedItem() + ":" + jcbMinutos.getSelectedItem() + ":" + jcbSegundos.getSelectedItem();
+
+        String json = "        {\n"
+                + "             \"id\": \"#PARAMID#\",\n"
+                + "            \"nombre\": \"#PARAMPRUEBAS#\",\n"
+                + "            \"telefono1\": \"#PARAMTLF1#\",\n"
+                + "            \"telefono2\": \"#PARAMTLF2#\",\n"
+                + "            \"email\": \"#PARAMEMAIL#\",\n"
+                + "            \"direccion\": \"#PARAMDIR#\",\n"
+                + "            \"duracion_reservas\": \"#PARAMDUR#\"\n"
+                + "        }";
+
+        json = json.replace("#PARAMPRUEBAS#", nombre)
+                .replace("#PARAMTLF1#", tlf1Str)
+                .replace("#PARAMTLF2#", tlf2Str)
+                .replace("#PARAMEMAIL#", email)
+                .replace("#PARAMDIR#", direccion)
+                .replace("#PARAMDUR#", duracion)
+                .replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
+        final String jsonF = json;
+        final String[] responseStr = new String[1];
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("PUT");
+                    connection.setDoOutput(true);
+                    connection.setRequestProperty("Content-Type", "application/json");
+                    connection.setRequestProperty("Accept", "application/json");
+                    OutputStream os = connection.getOutputStream();
+                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                    osw.write(jsonF);
+                    System.out.println(jsonF);
+                    osw.flush();
+                    int responseCode = connection.getResponseCode();
+                    //Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        responseStr[0] = response.toString();
+                        connection.disconnect();
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
+        try {
+            System.out.println(responseStr[0]);
+            if (responseStr[0].contains("correctamente")) {
+                JOptionPane.showMessageDialog(interfazPrincipal, "Datos actualizados", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(interfazPrincipal, "Error al actualizar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfEmailActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        InsertarVacacion insertarVacacion = new InsertarVacacion(interfazPrincipal, true);
+        VacacionesDialog insertarVacacion = new VacacionesDialog(interfazPrincipal, true);
         insertarVacacion.setVisible(true);
         JSONObject json = leerDatosRestaurante();
-        JSONObject jsonRestaurante = json.getJSONArray("resultado").getJSONObject(0);
-        cargarSalones();
-        tfNombre.setText(jsonRestaurante.getString("nombre"));
-        tfTlf1.setText(jsonRestaurante.getString("telefono1"));
-        tfTlf2.setText(jsonRestaurante.getString("telefono2"));
-        tfEmail.setText(jsonRestaurante.getString("email"));
-        tfDireccion.setText(jsonRestaurante.getString("direccion"));
-        tfDuracion.setText(jsonRestaurante.getString("duracion_reservas"));
         try {
             JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
             DefaultListModel<Vacaciones> modelo = new DefaultListModel<>();
             for (int i = 0; i < jsonArrayVacaciones.length(); i++) {
                 JSONObject jsonVacacion = jsonArrayVacaciones.getJSONObject(i);
                 System.out.println(jsonVacacion);
-                Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"),interfazPrincipal.getRestaurante(),jsonVacacion.getInt("id_vacacion"));
+                Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"), interfazPrincipal.getRestaurante(), jsonVacacion.getInt("id_vacacion"));
                 listaVacaciones.add(v);
                 modelo.addElement(v);
             }
@@ -515,10 +587,50 @@ public class PanelConfiguracion extends javax.swing.JPanel {
     private void jListVacacionesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListVacacionesValueChanged
         // TODO add your handling code here:
         if (jListVacaciones.getSelectedIndex() >= 0) {
-            InsertarVacacion insertarVacacion = new InsertarVacacion(interfazPrincipal, true, jListVacaciones.getSelectedValue());
+            VacacionesDialog insertarVacacion = new VacacionesDialog(interfazPrincipal, true, jListVacaciones.getSelectedValue());
             insertarVacacion.setVisible(true);
+            JSONObject json = leerDatosRestaurante();
+            try {
+                JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
+                DefaultListModel<Vacaciones> modelo = new DefaultListModel<>();
+                for (int i = 0; i < jsonArrayVacaciones.length(); i++) {
+                    JSONObject jsonVacacion = jsonArrayVacaciones.getJSONObject(i);
+                    System.out.println(jsonVacacion);
+                    Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"), interfazPrincipal.getRestaurante(), jsonVacacion.getInt("id_vacacion"));
+                    listaVacaciones.add(v);
+                    modelo.addElement(v);
+                }
+                jListVacaciones.setModel(modelo);
+                jListVacaciones.setCellRenderer(new VacacionesRender());
+            } catch (JSONException e) {
+                System.out.println("No hay vacas");
+            }
         }
     }//GEN-LAST:event_jListVacacionesValueChanged
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        SalonDialog sd = new SalonDialog(interfazPrincipal, true);
+        sd.setVisible(true);
+        cargarSalones();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jListSalonesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListSalonesValueChanged
+        // TODO add your handling code here:
+        if (jListSalones.getSelectedIndex() >= 0) {
+            SalonDialog sd = new SalonDialog(interfazPrincipal, true, jListSalones.getSelectedValue());
+            sd.setVisible(true);
+            cargarSalones();
+        }
+    }//GEN-LAST:event_jListSalonesValueChanged
+
+    private void jcbMinutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMinutosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbMinutosActionPerformed
+
+    private void jcbSegundosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbSegundosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbSegundosActionPerformed
     public JSONObject leerDatosRestaurante() {
         String[] responseStr = new String[1];
         Runnable runnable = new Runnable() {
@@ -587,13 +699,11 @@ public class PanelConfiguracion extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel105;
+    private javax.swing.JLabel jLabel106;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -605,12 +715,13 @@ public class PanelConfiguracion extends javax.swing.JPanel {
     private javax.swing.JList<Vacaciones> jListVacaciones;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> jcbHora;
+    private javax.swing.JComboBox<String> jcbMinutos;
+    private javax.swing.JComboBox<String> jcbSegundos;
     private javax.swing.JTextField tfDireccion;
-    private javax.swing.JTextField tfDuracion;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JTextField tfNombre;
     private javax.swing.JTextField tfTlf1;
