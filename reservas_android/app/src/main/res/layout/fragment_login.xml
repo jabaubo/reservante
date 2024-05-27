@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutLogin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="91dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="@+id/etLoginPassword"
+        app:layout_constraintStart_toStartOf="@+id/etLoginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
+
+    <EditText
+        android:id="@+id/etLoginUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="pruebas"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.293" />
+
+    <EditText
+        android:id="@+id/etLoginPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text="1"
+        app:layout_constraintEnd_toEndOf="@+id/etLoginUser"
+        app:layout_constraintStart_toStartOf="@+id/etLoginUser"
+        app:layout_constraintTop_toBottomOf="@+id/etLoginUser" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

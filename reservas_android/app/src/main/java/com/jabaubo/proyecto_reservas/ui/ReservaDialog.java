@@ -20,9 +20,11 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.jabaubo.proyecto_reservas.MainActivity;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter;
 import com.jabaubo.proyecto_reservas.Objetos.Reserva;
+import com.jabaubo.proyecto_reservas.ui.home.HomeFragment;
 import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFragmentFechas;
 
 import org.json.JSONArray;
@@ -43,6 +45,8 @@ public class ReservaDialog extends DialogFragment {
     private View vistaPadre;
     private Boolean editando = false;
     private ReservasFragmentFechas reservasFragmentFechas;
+    private HomeFragment homeFragment;
+
     private String nombre;
     private String tlf;
     private String email;
@@ -89,6 +93,31 @@ public class ReservaDialog extends DialogFragment {
         this.hora = hora;
         this.fecha = fecha;
         this.reservasFragmentFechas = reservasFragmentFechas;
+    }
+
+
+    public ReservaDialog(Boolean editando, View vistaPadre, String nombre, String tlf, String email, String comensales, String salon, String observaciones, String idReserva, String fecha, String hora,int adapterPosition, HomeFragment homeFragment) {
+        this.editando = editando;
+        this.nombre = nombre;
+        this.tlf = tlf;
+        this.email = email;
+        this.comensales = comensales;
+        this.salon = salon;
+        this.observaciones = observaciones;
+        this.idReserva = idReserva;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.vistaPadre = vistaPadre;
+        this.adapterPosition = adapterPosition;
+        this.homeFragment = homeFragment;
+    }
+
+
+    public ReservaDialog(View vistaPadre, String hora, String fecha, HomeFragment homeFragment) {
+        this.vistaPadre = vistaPadre;
+        this.hora = hora;
+        this.fecha = fecha;
+        this.homeFragment = homeFragment;
     }
 
     @Nullable
@@ -207,8 +236,13 @@ public class ReservaDialog extends DialogFragment {
                                     } catch (InterruptedException e) {
                                         throw new RuntimeException(e);
                                     }
+                                    Reserva r = null;
+                                    if (reservasFragmentFechas != null){
+                                        r =((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().get(adapterPosition);
+                                    }if (homeFragment != null){
+                                        r =((ReservaAdapter) homeFragment.getRvOcupacion().getAdapter()).getDataList().get(adapterPosition);
+                                    }
 
-                                    Reserva r =((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().get(adapterPosition);
                                     JSONObject jsonObj;
                                     try {
                                         jsonObj = new JSONObject(json);
@@ -218,8 +252,14 @@ public class ReservaDialog extends DialogFragment {
                                         r.setNombre_apellidos(jsonObj.getString("nombre_apellidos"));
                                         r.setTelefono(jsonObj.getString("telefono"));
                                         r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));
-                                        ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().set(adapterPosition,r);
-                                        reservasFragmentFechas.getRvOcupacion().getAdapter().notifyDataSetChanged();
+                                        if (reservasFragmentFechas != null){
+
+                                            ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().set(adapterPosition,r);
+                                            reservasFragmentFechas.getRvOcupacion().getAdapter().notifyDataSetChanged();
+                                        }if (homeFragment != null){
+                                            ((ReservaAdapter) homeFragment.getRvOcupacion().getAdapter()).getDataList().set(adapterPosition,r);
+                                            homeFragment.getRvOcupacion().getAdapter().notifyDataSetChanged();
+                                        }
                                     } catch (JSONException e) {
                                         throw new RuntimeException(e);
                                     }
@@ -254,6 +294,7 @@ public class ReservaDialog extends DialogFragment {
             }
             if (salon != null) {
                 for (int i = 0; i < salones.length ; i++){
+                    System.out.println(salones[i]);
                     System.out.println(salon + " " + salones[i].substring(0,salones[i].indexOf("-")-1).length() );
                     if (salones[i].substring(0,salones[i].indexOf("-")-1).equals(salon)){
                         sSalones.setSelection(i);
@@ -542,8 +583,15 @@ public class ReservaDialog extends DialogFragment {
                     r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));
                     r.setFecha(jsonObj.getString("fecha"));
                     r.setHora(jsonObj.getString("hora"));
-                    ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
-                    reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
+                    if (reservasFragmentFechas != null){
+                        ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
+                        reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
+                    }
+                    else  if (homeFragment != null){
+                        ((ReservaAdapter) homeFragment.getRvOcupacion().getAdapter()).getDataList().add(r);
+                        homeFragment.getRvOcupacion().getAdapter().notifyItemInserted(homeFragment.getRvOcupacion().getAdapter().getItemCount()-1);
+                    }
+
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -555,7 +603,7 @@ public class ReservaDialog extends DialogFragment {
 
 
 
-    public String[] leerSalones(){
+    public String[] leerSalones() {
         final JSONArray[] jsonArray = new JSONArray[1];
         Runnable runnable = new Runnable() {
             @Override
@@ -565,14 +613,22 @@ public class ReservaDialog extends DialogFragment {
                     URL url = new URL("https://reservante.mjhudesings.com/slim/getaforotramo");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
                     OutputStream os = connection.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                    String json = "{\n" +
-                            "    \"fecha\":\"#FECHA#\",\n" +
-                            "    \"hora\":\"#HORA#\"   \n" +
-                            "}";
+                    String json = "{\n"
+                            + "    \"fecha\":\"#FECHA#\",\n"
+                            + "    \"id\":\"#PARAMID#\",\n"
+                            + "    \"hora\":\"#HORA#\"   \n"
+                            + "}";
                     json = json.replace("#FECHA#", fecha);
                     json = json.replace("#HORA#", hora);
+                    if (homeFragment != null){
+                        json = json.replace("#PARAMID#", String.valueOf(((MainActivity)homeFragment.getActivity()).getIdRestaurante()));
+                    }
+                    else if (reservasFragmentFechas != null){
+                        json = json.replace("#PARAMID#", String.valueOf(((MainActivity)reservasFragmentFechas.getActivity()).getIdRestaurante()));
+                    }
                     osw.write(json);
                     System.out.println("MANDO :" + json);
                     osw.flush();
@@ -614,21 +670,25 @@ public class ReservaDialog extends DialogFragment {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        String[] textos = new String[jsonArray[0].length()];
-        for (int i = 0 ; i < jsonArray[0].length() ; i++){
-            try {
-                JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
-                textos[i] = String.format("%s - %s libre: %s/%s ",jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
+        if (jsonArray[0] == null) {
+            return null;
+        } else {
+            String[] textos = new String[jsonArray[0].length()];
+            for (int i = 0; i < jsonArray[0].length(); i++) {
+                try {
+                    JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
+                    System.out.println(jsonObject);
+                    textos[i] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
 
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
             }
-
+            for (String s : textos) {
+                System.out.println(s);
+            }
+            return textos;
         }
-        for (String t:textos){
-            System.out.println(t);
-        }
-        return textos;
     }
     public void clickBorrar() {
         ReservaDialog reservaDialog = this;

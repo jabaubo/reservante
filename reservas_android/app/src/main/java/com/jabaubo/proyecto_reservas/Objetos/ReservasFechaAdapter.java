@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jabaubo.proyecto_reservas.MainActivity;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.ui.home.HomeFragment;
 import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFragmentFechas;
@@ -70,34 +71,17 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
         ReservaFechas data = dataList.get(position);
         holder.tvHora.setText(data.getHora());
         holder.tvReservas.setText("Reservas: " + data.getnReservas());
-        holder.tvAforo.setText(Html.fromHtml(formatearOcupacion(data.getOcupacion()),Html.FROM_HTML_MODE_LEGACY));
+        holder.tvAforo.setText(Html.fromHtml((data.getOcupacion()),Html.FROM_HTML_MODE_LEGACY));
         holder.itemView.setOnClickListener(view -> {
             System.out.println(data.getFecha() + " " + data.getHora());
-            JSONArray jsonArray = verReservas(data.getFecha(),data.getHora());
-            ArrayList<Reserva> lista = new ArrayList<>();
-            if (jsonArray != null){
-                for (int i  = 0 ; i < jsonArray.length() ; i++){
-                    try {
-                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                        System.out.println(jsonObject);
-                        int id = jsonObject.getInt("id_reserva");
-                        String nombre_apellidos = jsonObject.getString("nombre_apellidos");
-                        String telefono = jsonObject.getString("telefono");
-                        String email = jsonObject.getString("email");
-                        int n_personas = jsonObject.getInt("n_personas");
-                        int id_salon = jsonObject.getInt("id_salon");
-                        String[] fechaMiembros = jsonObject.getString("fecha").split("-");
-                        String fechaBuena = String.format("%s/%s/%s",fechaMiembros[2],fechaMiembros[1],fechaMiembros[0]);
-                        String hora = jsonObject.getString("hora");
-                        String observaciones = jsonObject.getString("observaciones");
-                        Reserva r = new Reserva(id,nombre_apellidos,telefono,email,n_personas,id_salon,fechaBuena,hora,observaciones);
-                        lista.add(r);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+            ArrayList<Reserva> lista = verReservas(data.getFecha(),data.getHora());
+            if (this.reservasFragmentFechas != null){
+                recyclerView.setAdapter(new ReservaAdapter(lista,fragmentManager,this.reservasFragmentFechas,recyclerView));
             }
-            recyclerView.setAdapter(new ReservaAdapter(lista,fragmentManager,this.reservasFragmentFechas,recyclerView));
+            else if (this.homeFragment != null){
+                recyclerView.setAdapter(new ReservaAdapter(lista,fragmentManager,this.homeFragment,recyclerView));
+
+            }
             textView.setText(data.getFecha() + " Tramo " + data.getHora());
             if (homeFragment!=null){
                 homeFragment.comprobarBotones();
@@ -124,8 +108,8 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
             tvAforo = itemView.findViewById(R.id.tvOcupacionAforo);
 
         }
-
     }
+    /*
     public static JSONArray verReservas(String fecha , String hora){
         final JSONArray[] jsonArray = new JSONArray[1];
         try {
@@ -184,6 +168,81 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
         }
         return jsonArray[0];
     }
+    */
+    public ArrayList<Reserva> verReservas(String fecha, String hora) {
+        final JSONArray[] jsonArray = new JSONArray[1];
+        ArrayList<Reserva> lista = new ArrayList<>();
+        try {
+            System.out.println("Pa dentro");
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/getreservahora");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.setDoOutput(true);
+                        OutputStream os = connection.getOutputStream();
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\",\"id\":\"#PARAMID#\"}";
+                        jsonRequest = jsonRequest.replace("#PARAMFECHA#", fecha);
+                        jsonRequest = jsonRequest.replace("#PARAMHORA#", hora);
+                        jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(((MainActivity)homeFragment.getActivity()).getIdRestaurante()));
+                        System.out.println("jsonRequest " + jsonRequest);
+                        osw.write(jsonRequest);
+                        osw.flush();
+                        int responseCode = connection.getResponseCode();
+                        System.out.println((responseCode == HttpURLConnection.HTTP_OK) + " " + responseCode);
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            reader.close();
+                            jsonArray[0] = new JSONObject(response.toString()).getJSONArray("reservas");
+                            for (int i = 0; i < jsonArray[0].length(); i++) {
+                                Reserva r = new Reserva();
+                                JSONObject json = jsonArray[0].getJSONObject(i);
+                                r.setId(json.getInt("id_reserva"));
+                                r.setFecha(json.getString("fecha"));
+                                r.setId_salon(json.getInt("id_salon"));
+                                r.setN_personas(json.getInt("n_personas"));
+                                r.setHora(json.getString("hora"));
+                                r.setObservaciones(json.getString("observaciones"));
+                                r.setNombre_apellidos(json.getString("nombre_apellidos"));
+                                r.setTelefono(json.getString("telefono"));
+                                r.setEmail(json.getString("email"));
+                                lista.add(r);
+                            }
+                            connection.disconnect();
+                        } else {
+                            connection.disconnect();
+                        }
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                    }
+
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
     public String formatearOcupacion(String texto){
         String base = texto;
         String[] baseArray = base.split("\n");

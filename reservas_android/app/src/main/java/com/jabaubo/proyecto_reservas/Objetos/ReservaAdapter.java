@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.ui.ReservaDialog;
+import com.jabaubo.proyecto_reservas.ui.home.HomeFragment;
 import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFragmentFechas;
 
 import org.json.JSONArray;
@@ -42,6 +43,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
     private Button btBorrar;
     private Button btLlamar;
     private ReservasFragmentFechas reservasFragmentFechas;
+    private HomeFragment homeFragment;
     private RecyclerView recyclerView;
 
     public ReservaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, RecyclerView recyclerView) {
@@ -63,6 +65,17 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
             System.out.println(dataList.get(i).getId());
         }
         this.reservasFragmentFechas = reservasFragmentFechas;
+    }
+
+    public ReservaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, HomeFragment homeFragment, RecyclerView  recyclerView) {
+        this.fullList = dataList;
+        this.dataList = dataList;
+        this.recyclerView = recyclerView;
+        this.fragmentManager = fragmentManager;
+        for (int i = 0 ; i < dataList.size() ; i++){
+            System.out.println(dataList.get(i).getId());
+        }
+        this.homeFragment = homeFragment;
     }
 
     public List<Reserva> getDataList() {
@@ -90,19 +103,44 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
                 }
                 System.out.println("Position boom; " + position + " " + dataList.size());
                 System.out.println("FEcha data  "  + data.getFecha());
-                ReservaDialog reservaDialog = new ReservaDialog(true
-                        ,v
-                        ,data.getNombre_apellidos()
-                        ,data.getTelefono()
-                        ,data.getEmail()
-                        ,String.valueOf(data.getN_personas())
-                        ,String.valueOf(data.getId_salon())
-                        ,data.getObservaciones()
-                        ,String.valueOf(data.getId())
-                        ,data.getFecha()
-                        ,data.getHora()
-                        ,holder.getAdapterPosition()
-                        ,reservasFragmentFechas);
+                ReservaDialog reservaDialog;
+                if (reservasFragmentFechas != null){
+                    reservaDialog = new ReservaDialog(true
+                            ,v
+                            ,data.getNombre_apellidos()
+                            ,data.getTelefono()
+                            ,data.getEmail()
+                            ,String.valueOf(data.getN_personas())
+                            ,String.valueOf(data.getId_salon())
+                            ,data.getObservaciones()
+                            ,String.valueOf(data.getId())
+                            ,data.getFecha()
+                            ,data.getHora()
+                            ,holder.getAdapterPosition()
+                            ,reservasFragmentFechas);
+                }
+                else{
+                    reservaDialog = new ReservaDialog(true
+                            ,v
+                            ,data.getNombre_apellidos()
+                            ,data.getTelefono()
+                            ,data.getEmail()
+                            ,String.valueOf(data.getN_personas())
+                            ,String.valueOf(data.getId_salon())
+                            ,data.getObservaciones()
+                            ,String.valueOf(data.getId())
+                            ,data.getFecha()
+                            ,data.getHora()
+                            ,holder.getAdapterPosition()
+                            ,homeFragment);
+
+                }
+                if (reservasFragmentFechas == null){
+                    System.out.println("RF NULL");
+                }
+                if (homeFragment == null){
+                    System.out.println("HF NULL");
+                }
                 reservaDialog.show(fragmentManager,"A");
                 System.out.println(data.getId());
             }
@@ -172,8 +210,12 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
                                 } catch (InterruptedException e) {
                                     throw new RuntimeException(e);
                                 }
-
-                                reservasFragmentFechas.avisarBorradoRecyclerView(holder.getAdapterPosition());
+                                if (reservasFragmentFechas != null){
+                                    reservasFragmentFechas.avisarBorradoRecyclerView(holder.getAdapterPosition());
+                                }
+                                if (homeFragment != null){
+                                    homeFragment.avisarBorradoRecyclerView(holder.getAdapterPosition());
+                                }
                                 Snackbar.make(holder.itemView, "Guardando", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
                             }
@@ -197,7 +239,12 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:"+data.getTelefono()));
-                reservasFragmentFechas.getActivity().startActivity(intent);
+                if (reservasFragmentFechas != null){
+                    reservasFragmentFechas.getActivity().startActivity(intent);
+                }
+                else {
+                    homeFragment.getActivity().startActivity(intent);
+                }
             }
         });
     }

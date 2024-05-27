@@ -46,6 +46,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
      * Creates new form MiRestauranteUI
      */
     public PanelConfiguracion(InterfazPrincipal interfazPrincipal, int restaurante) {
+    try {
         this.interfazPrincipal = interfazPrincipal;
         this.restaurante = restaurante;
         initComponents();
@@ -61,7 +62,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         jcbHora.setSelectedItem(duracionStr[0]);
         jcbMinutos.setSelectedItem(duracionStr[1]);
         jcbSegundos.setSelectedItem(duracionStr[2]);
-        try {
+  
             JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
             DefaultListModel<Vacaciones> modelo = new DefaultListModel<>();
             for (int i = 0; i < jsonArrayVacaciones.length(); i++) {
@@ -74,7 +75,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
             jListVacaciones.setModel(modelo);
             jListVacaciones.setCellRenderer(new VacacionesRender());
         } catch (JSONException e) {
-            System.out.println("No hay vacas");
+            System.out.println("Error json");
         }
     }
 
