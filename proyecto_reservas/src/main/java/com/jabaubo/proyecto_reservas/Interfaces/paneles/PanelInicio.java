@@ -200,8 +200,8 @@ public class PanelInicio extends javax.swing.JPanel {
 
     private void jListOcupacionReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListOcupacionReservasMouseClicked
         // TODO add your handling code here:
-        Ocupacion o = jListOcupacionReservas.getSelectedValue();
         JList<Ocupacion> jLista = (JList<Ocupacion>) evt.getSource();
+        Ocupacion o = jLista.getSelectedValue();
         ArrayList<Reserva> lista = verReservas(o.getFecha().toString(), o.getHora().toString());
         if (lista.size() <= 0) {
             ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), interfazPrincipal.getRestaurante());

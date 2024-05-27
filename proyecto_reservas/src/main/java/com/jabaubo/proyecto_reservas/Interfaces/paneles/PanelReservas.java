@@ -5,6 +5,7 @@
 package com.jabaubo.proyecto_reservas.Interfaces.paneles;
 
 import com.jabaubo.proyecto_reservas.Clases.Reserva;
+import com.jabaubo.proyecto_reservas.Interfaces.InterfazPrincipal;
 import com.jabaubo.proyecto_reservas.Interfaces.dialogs.DatosReservaDialog;
 import com.jabaubo.proyecto_reservas.Interfaces.dialogs.ReservasDialog;
 import java.awt.Desktop;
@@ -38,14 +39,16 @@ public class PanelReservas extends javax.swing.JPanel {
     /**
      * Creates new form PanelReservas
      */
+    private InterfazPrincipal interfazPrincipal;
     private ArrayList<Reserva> listaReservasCompleta;
     private ArrayList<Reserva> listaReservas;
     private int idRestaurante;
     private String[] salones;
 
-    public PanelReservas(int idRestaurante) {
+    public PanelReservas(InterfazPrincipal interfazPrincipal) {
         initComponents();
-        this.idRestaurante = idRestaurante;
+        this.interfazPrincipal = interfazPrincipal;
+        this.idRestaurante = interfazPrincipal.getRestaurante();
         listaReservasCompleta = leerReservas();
         listaReservas = listaReservasCompleta;
         salones = leerSalones();
@@ -410,7 +413,7 @@ public class PanelReservas extends javax.swing.JPanel {
 
     private void jbActualizar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizar2ActionPerformed
         // TODO add your handling code here:
-        DatosReservaDialog dialog = new DatosReservaDialog((Frame) this.getParent(), true, listaReservas.get(jListReservas2.getSelectedIndex()), salones);
+        DatosReservaDialog dialog = new DatosReservaDialog(interfazPrincipal, true, listaReservas.get(jListReservas2.getSelectedIndex()), salones);
         dialog.setVisible(true);
         Reserva r = listaReservas.get(0);
         System.out.println("Actualizando");

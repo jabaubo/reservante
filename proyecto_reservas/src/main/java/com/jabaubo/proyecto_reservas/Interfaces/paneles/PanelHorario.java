@@ -150,8 +150,14 @@ public class PanelHorario extends javax.swing.JPanel {
                     JPanel panel = (JPanel) c;
                     Horario h = lista.get(horarioLeer);
                     for (Component child : panel.getComponents()) {
-                        if (child.getClass().getName().equals("javax.swing.JCheckBox")) {
-                            ((JCheckBox) child).setSelected(h.getCerrado());
+                        
+                        if (child.getClass().getName().equals("javax.swing.JPanel")) {
+                            Component[] childList2 = ((JPanel) child).getComponents();
+                            for (Component  child2:childList2){
+                                if (child2.getClass().getName().equals("javax.swing.JCheckBox")) {
+                                    ((JCheckBox)child2).setSelected(h.getCerrado());
+                                }
+                            }
                         }
                         if (child.getClass().getName().equals("javax.swing.JComboBox")) {
                             JComboBox comboBox = (JComboBox) child;
@@ -187,6 +193,8 @@ public class PanelHorario extends javax.swing.JPanel {
                                 default:
                                     throw new AssertionError();
                             }
+                        }else{
+                            System.out.println(child.getClass().getName());
                         }
                     }
                     horarioLeer++;

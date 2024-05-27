@@ -69,7 +69,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     public void cargar(Cargando cargando) {
 
         cargando.updateEtiqueta("Cargando configuración");
-        cargando.updateBarra(15);
+        cargando.updateBarra(15);        
         panelConfiguracion = new PanelConfiguracion(this,restaurante);
         cargando.updateEtiqueta("Cargando calendario");
         cargando.updateBarra(30);
@@ -79,7 +79,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         panelInicio = new PanelInicio(this);
         cargando.updateEtiqueta("Cargando reservas");
         cargando.updateBarra(60);
-        panelReservas = new PanelReservas(this.restaurante);
+        panelReservas = new PanelReservas(this);
         cargando.updateEtiqueta("Cargando horario");
         cargando.updateBarra(75);
         panelHorario = new PanelHorario(this.restaurante);
@@ -173,7 +173,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         jbReservas.setBackground(new java.awt.Color(109, 34, 109));
         jbReservas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jbReservas.setText("Reservas");
+        jbReservas.setText("Lista de reservas");
         jbReservas.setActionCommand("reservas");
         jbReservas.setBorder(null);
         jbReservas.setBorderPainted(false);
@@ -320,7 +320,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 boton.setBackground(new Color(109, 34, 109));
                 boton.setForeground(new Color(221, 221, 221));
                 boton.setIcon(new ImageIcon(String.format("C:\\Users\\pokem\\Documents\\Proyectos\\reservante\\proyecto_reservas\\img\\%s.png", boton.getActionCommand())));
-
             }
         }
     }

@@ -24,6 +24,7 @@ import com.jabaubo.proyecto_reservas.Objetos.ReservaFechas;
 import com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.databinding.FragmentHomeBinding;
+import com.jabaubo.proyecto_reservas.ui.SalonDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,7 +70,8 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
+        SalonDialog sd = new SalonDialog(this);
+        sd.show(this.getParentFragmentManager(),"A");
         rvOcupacion = root.findViewById(R.id.rvOcupacionInicio);
         btAnterior = root.findViewById(R.id.btAnteriorInicio);
         btSiguiente = root.findViewById(R.id.btSiguienteInicio);

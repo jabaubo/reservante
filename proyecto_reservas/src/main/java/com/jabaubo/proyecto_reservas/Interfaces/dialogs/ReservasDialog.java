@@ -226,7 +226,7 @@ public class ReservasDialog extends javax.swing.JDialog {
             for (int i = 0; i < jsonArray[0].length(); i++) {
                 try {
                     JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
-                    System.out.println(jsonObject);
+                    System.out.println(jsonObject);                    textos[i + 1] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
                     textos[i + 1] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -499,6 +499,7 @@ public class ReservasDialog extends javax.swing.JDialog {
         jcbFiltro.setSelectedIndex(0);
         lista = listaCompleta;
         cargarReservas();
+        salones = leerSalones();
         jListReservas.validate();
     }//GEN-LAST:event_jbInsertarActionPerformed
 
@@ -512,12 +513,9 @@ public class ReservasDialog extends javax.swing.JDialog {
         jcbFiltro.setSelectedIndex(0);
         lista = listaCompleta;
         cargarReservas();
+        salones = leerSalones();
         jListReservas.repaint();
         System.out.println("LISTA");
-        for (Reserva reserva : lista) {
-            System.out.println(reserva);
-        }
-
     }//GEN-LAST:event_jbActualizarActionPerformed
 
     private void jListReservasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListReservasValueChanged

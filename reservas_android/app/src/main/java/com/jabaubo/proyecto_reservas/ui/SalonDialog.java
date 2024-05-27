@@ -22,6 +22,7 @@ import com.jabaubo.proyecto_reservas.Objetos.Salon;
 import com.jabaubo.proyecto_reservas.Objetos.SalonAdapter;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.ui.config.ConfigFragment;
+import com.jabaubo.proyecto_reservas.ui.home.HomeFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +46,7 @@ public class SalonDialog extends DialogFragment {
     private String nombre;
 
     private ConfigFragment configFragment;
+    private HomeFragment homeFragment;
 
     private EditText etNombre;
     private EditText etAforo;
@@ -52,6 +54,9 @@ public class SalonDialog extends DialogFragment {
 
     public SalonDialog(ConfigFragment configFragment) {
         this.configFragment = configFragment;
+    }
+    public SalonDialog(HomeFragment homeFragment) {
+        this.homeFragment = homeFragment;
     }
 
     public SalonDialog(int id, int aforo, String nombre, ConfigFragment configFragment, int adapterPosition) {
