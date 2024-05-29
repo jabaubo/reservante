@@ -4,8 +4,10 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.Uri;
@@ -33,8 +35,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.BaseDeDatos;
+import com.jabaubo.proyecto_reservas.MainActivity;
 import com.jabaubo.proyecto_reservas.Objetos.Salon;
 import com.jabaubo.proyecto_reservas.Objetos.SalonAdapter;
+import com.jabaubo.proyecto_reservas.Objetos.Vacaciones;
+import com.jabaubo.proyecto_reservas.Objetos.VacacionesAdapter;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.databinding.FragmentConfigBinding;
 import com.jabaubo.proyecto_reservas.ui.SalonDialog;
@@ -71,6 +76,7 @@ public class ConfigFragment extends Fragment {
     private EditText etDuracionReservas;
     private ImageView imageViewLogo;
     private RecyclerView rvSalones;
+    private RecyclerView rvVacaciones;
     private Button btAgregarSalon;
     private Button btGuardar;
     private TextView tvFechaInicio;
@@ -89,10 +95,11 @@ public class ConfigFragment extends Fragment {
         etTlf1 = root.findViewById(R.id.etTlf1);
         etTlf2 = root.findViewById(R.id.etTlf2);
         etDireccion = root.findViewById(R.id.etDireccion);
-        btGuardar =  root.findViewById(R.id.btGuardar);
+        btGuardar = root.findViewById(R.id.btGuardar);
         imageViewLogo = root.findViewById(R.id.imageLogoConfig);
         etCorreo = root.findViewById(R.id.etCorreo);
         rvSalones = root.findViewById(R.id.rvSalones);
+        rvVacaciones =root.findViewById(R.id.rvVacaciones);
         btAgregarSalon = root.findViewById(R.id.btAgregarSalon);
         etDuracionReservas = root.findViewById(R.id.etIntervalo);
         tvFechaFin = root.findViewById(R.id.tvFechaFin);
@@ -155,13 +162,56 @@ public class ConfigFragment extends Fragment {
             etCorreo.setText(jsonRestaurante.getString("email"));
             etDireccion.setText(jsonRestaurante.getString("direccion"));
             etDuracionReservas.setText(jsonRestaurante.getString("duracion_reservas"));
-            JSONObject jsonVacaciones = json.getJSONArray("resultado2").getJSONObject(0);
-            tvFechaInicio.setText(formatearFecha(jsonVacaciones.getString("inicio")));
-            tvFechaFin.setText(formatearFecha(jsonVacaciones.getString("fin")));
+            JSONArray jsonVacaciones = json.getJSONArray("resultado2");
+            System.out.println(jsonVacaciones + " " + jsonVacaciones.length());
+            ArrayList<Vacaciones> listaVacaciones = new ArrayList<>();
+            for (int i = 0 ; i < jsonVacaciones.length() ; i++){
+                //{"id_vacacion":"1","id_restaurante":"1","nombre":"booma","inicio":"2024-04-10","fin":"2024-04-26"}
+                JSONObject jsonVacacionElegida = jsonVacaciones.getJSONObject(i);
+                Vacaciones v = new Vacaciones(jsonVacacionElegida.getString("nombre"),
+                        jsonVacacionElegida.getString("inicio"),
+                        jsonVacacionElegida.getString("fin"),
+                        jsonVacacionElegida.getInt("id_restaurante"),
+                        jsonVacacionElegida.getInt("id_vacacion"));
+                listaVacaciones.add(v);
+                System.out.println(v + " " + listaVacaciones.size());
+            }
+            if (listaVacaciones.size() > 0) {
+                System.out.println("Traca matraca");
+                VacacionesAdapter vacacionesAdapter = new VacacionesAdapter(listaVacaciones,this);
+                rvVacaciones.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                rvVacaciones.setAdapter(vacacionesAdapter);
+                rvVacaciones.refreshDrawableState();
+                System.out.println("VACACIONES:"+vacacionesAdapter.getItemCount());
+            } else {
+                android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                        .setTitle("Advertencia")
+                        .setMessage("No hay salones")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert).create();
+                alertDialog.show();
+            }
 
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+        /*
         btFechaFin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,14 +236,14 @@ public class ConfigFragment extends Fragment {
             public void onClick(View v) {
                 clickFecha(tvFechaInicio);
             }
-        });
+        });*/
         return root;
     }
 
-    public void btGuardarClick(View root){
+    public void btGuardarClick(View root) {
         //baseDeDatos.guardarRestaurante(etNombre.getText().toString(), Integer.valueOf(etTlf1.getText().toString()), Integer.valueOf(etTlf2.getText().toString()), etDireccion.getText().toString());
         //{"id":"1","nombre":"Restaurante pepe","telefono1":"604205805","telefono2":"957788921","email":"manuelhidalgourbano@gmail.com","direccion":"calle san marcos 135","duracion_reservas":"01:30:00","inicio":"2024-04-10","fin":"2024-04-18"}
-        String json =  "{\n" +
+        String json = "{\n" +
                 "  \"id\": \"#PARAMID#\",\n" +
                 "  \"nombre\": \"#PARAMNOMBRE#\",\n" +
                 "  \"telefono1\": \"#PARAMTELEFONO1#\",\n" +
@@ -214,7 +264,7 @@ public class ConfigFragment extends Fragment {
                 .replace("#PARAMINICIO#", tvFechaInicio.getText().toString())
                 .replace("#PARAMFIN#", tvFechaFin.getText().toString());
         String finalJson = json;
-        Runnable runnable= new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 // Conectamos a la pagina con el método que queramos
@@ -260,21 +310,36 @@ public class ConfigFragment extends Fragment {
         Snackbar.make(root, "Guardando datos", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
-    public void cargarSalones(){
+
+    public void cargarSalones() {
         String[] responseStr = new String[1];
-        Runnable runnable= new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 // Conectamos a la pagina con el método que queramos
                 try {
                     URL url = new URL("https://reservante.mjhudesings.com/slim/getsalones");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
+                    connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
+                    connection.setRequestProperty("Content-Type", "application/json");
+                    connection.setRequestProperty("Accept", "application/json");
+                    OutputStream os = connection.getOutputStream();
+                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                    String jsonStr = "{\n"
+                            + "    \"id\":\"#PARAMID#\"\n"
+                            + "}";
+                    jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
+                    osw.write(jsonStr);
+                    System.out.println(jsonStr);
+                    osw.flush();
+
                     int responseCode = connection.getResponseCode();
 
                     //Ver si la respuesta es correcta
@@ -309,72 +374,80 @@ public class ConfigFragment extends Fragment {
         } catch (InterruptedException ex) {
             throw new RuntimeException(ex);
         }
+
         JSONArray jsonArray;
         try {
             System.out.println("Respuesta json: " + responseStr[0]);
-            jsonArray = new JSONObject(responseStr[0]).getJSONArray("aforo");
             ArrayList<Salon> lista = new ArrayList<>();
-            for (int i = 0 ; i < jsonArray.length() ; i++){
-                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                Salon s = new Salon(jsonObject.getInt("id_salon"),jsonObject.getString("nombre"),jsonObject.getInt("aforo"));
-                lista.add(s);
+            if (new JSONObject(responseStr[0]).getInt("codigo") == 1) {
+                jsonArray = new JSONObject(responseStr[0]).getJSONArray("aforo");
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                    Salon s = new Salon(jsonObject.getInt("id_salon"), jsonObject.getString("nombre"), jsonObject.getInt("aforo"));
+                    lista.add(s);
+                }
+                for (int i = 0; i < lista.size(); i++) {
+                    System.out.println(lista.get(i));
+                }
             }
-            for (int i = 0 ; i < lista.size()  ;i++){
-                System.out.println(lista.get(i));
-            }
-            SalonAdapter salonAdapter = new SalonAdapter(lista,this);
+            SalonAdapter salonAdapter = new SalonAdapter(lista, this);
             rvSalones.setAdapter(salonAdapter);
             rvSalones.refreshDrawableState();
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
     }
-    public void clickAgregarSalon(){
+
+    public void clickAgregarSalon() {
         SalonDialog salonDialog = new SalonDialog(this);
-        salonDialog.show(this.getActivity().getSupportFragmentManager(),"a");
+        salonDialog.show(this.getActivity().getSupportFragmentManager(), "a");
     }
-    public void clickHoras(EditText campo){
+
+    public void clickHoras(EditText campo) {
         final Calendar calendar = Calendar.getInstance();
         TimePickerDialog timePickerDialog = new TimePickerDialog(this.getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 String hora = String.valueOf(hourOfDay);
                 String minuto = String.valueOf(minute);
-                if (hora.length()==1){
-                    hora= "0"+hora;
-                }if (minuto.length()==1){
-                    minuto="0"+minuto;
+                if (hora.length() == 1) {
+                    hora = "0" + hora;
                 }
-                campo.setText(hora+":"+minuto);
+                if (minuto.length() == 1) {
+                    minuto = "0" + minuto;
+                }
+                campo.setText(hora + ":" + minuto);
             }
-        },calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE),true);
+        }, calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), true);
         timePickerDialog.show();
     }
 
-    public void clickFecha(TextView tvFecha){
+    public void clickFecha(TextView tvFecha) {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(this.getContext(),
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        if (month < 10){
-                            tvFecha.setText(String.format("%d/0%d/%d",dayOfMonth,month,year));
-                        }
-                        else{
-                            tvFecha.setText(String.format("%d/%d/%d",dayOfMonth,month,year));
+                        if (month < 10) {
+                            tvFecha.setText(String.format("%d/0%d/%d", dayOfMonth, month, year));
+                        } else {
+                            tvFecha.setText(String.format("%d/%d/%d", dayOfMonth, month, year));
                         }
 
                     }
-                },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
+
     public RecyclerView getRvSalones() {
         return rvSalones;
     }
-    public String formatearFecha (String fecha){
+
+    public String formatearFecha(String fecha) {
         String[] fechaSplit = fecha.split("-");
-        return fechaSplit[2]+"/"+fechaSplit[1]+"/"+fechaSplit[0];
-    }
+        return fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
+    }/*
     public JSONObject leerDatosRestaurante(){
         String[] responseStr = new String[1];
         Runnable runnable= new Runnable() {
@@ -427,5 +500,70 @@ public class ConfigFragment extends Fragment {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+    }*/
+
+    public JSONObject leerDatosRestaurante() {
+        String[] responseStr = new String[1];
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/getdatos");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
+                    connection.setRequestProperty("Content-Type", "application/json");
+                    connection.setRequestProperty("Accept", "application/json");
+                    OutputStream os = connection.getOutputStream();
+                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                    String jsonStr = "{\n"
+                            + "    \"id\":\"#PARAMID#\"\n"
+                            + "}";
+                    jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
+                    osw.write(jsonStr);
+                    System.out.println(jsonStr);
+                    osw.flush();
+                    int responseCode = connection.getResponseCode();
+                    //Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        responseStr[0] = response.toString();
+                        connection.disconnect();
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
+        try {
+            System.out.println(responseStr[0]);
+            JSONObject jsonObject = new JSONObject(responseStr[0]);
+            return jsonObject;
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }

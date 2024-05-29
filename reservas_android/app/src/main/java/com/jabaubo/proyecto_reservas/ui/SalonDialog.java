@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.jabaubo.proyecto_reservas.MainActivity;
 import com.jabaubo.proyecto_reservas.Objetos.Reserva;
 import com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter;
 import com.jabaubo.proyecto_reservas.Objetos.Salon;
@@ -48,15 +49,19 @@ public class SalonDialog extends DialogFragment {
     private ConfigFragment configFragment;
     private HomeFragment homeFragment;
 
+    private MainActivity activity;
     private EditText etNombre;
     private EditText etAforo;
     private Button btBorrar;
 
     public SalonDialog(ConfigFragment configFragment) {
         this.configFragment = configFragment;
+        this.activity = (MainActivity) configFragment.getActivity();
     }
+
     public SalonDialog(HomeFragment homeFragment) {
         this.homeFragment = homeFragment;
+        this.activity = (MainActivity) homeFragment.getActivity();
     }
 
     public SalonDialog(int id, int aforo, String nombre, ConfigFragment configFragment, int adapterPosition) {
@@ -97,17 +102,30 @@ public class SalonDialog extends DialogFragment {
                         if (!editando) {
                             String json = jsonInsertar();
                             System.out.println(json);
-                            String[] jsonRespuesta = new String[1];
+                            final String[] responseStr = new String[1];
                             Runnable runnable = new Runnable() {
                                 @Override
                                 public void run() {
+                                    // Conectamos a la pagina con el método que queramos
                                     try {
                                         URL url = new URL("https://reservante.mjhudesings.com/slim/addsalon");
                                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                                         connection.setRequestMethod("POST");
+                                        connection.setDoOutput(true);
+                                        connection.setRequestProperty("Content-Type", "application/json");
+                                        connection.setRequestProperty("Accept", "application/json");
                                         OutputStream os = connection.getOutputStream();
                                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                                        osw.write(json);
+                                        String jsonStr = "{\n"
+                                                + "    \"id_restaurante\":\"#PARAMID#\",\n"
+                                                + "    \"nombre\":\"#PARAMNOMBRE#\",\n"
+                                                + "    \"aforo\":\"#PARAMAFORO#\"\n"
+                                                + "}";
+                                        jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(activity.getIdRestaurante()));
+                                        jsonStr = jsonStr.replace("#PARAMNOMBRE#", etNombre.getText());
+                                        jsonStr = jsonStr.replace("#PARAMAFORO#", etAforo.getText());
+                                        osw.write(jsonStr);
+                                        System.out.println(jsonStr);
                                         osw.flush();
                                         int responseCode = connection.getResponseCode();
                                         //Ver si la respuesta es correcta
@@ -119,39 +137,35 @@ public class SalonDialog extends DialogFragment {
                                             while ((line = reader.readLine()) != null) {
                                                 response.append(line);
                                             }
-                                            jsonRespuesta[0] = String.valueOf(response);
                                             reader.close();
+                                            responseStr[0] = response.toString();
                                             connection.disconnect();
                                         } else {
                                             connection.disconnect();
                                         }
-                                    } catch (MalformedURLException ex) {
-                                        throw new RuntimeException(ex);
-                                    } catch (ProtocolException ex) {
-                                        throw new RuntimeException(ex);
-                                    } catch (UnsupportedEncodingException ex) {
-                                        throw new RuntimeException(ex);
-                                    } catch (IOException ex) {
-                                        throw new RuntimeException(ex);
+                                    } catch (MalformedURLException e) {
+                                        throw new RuntimeException(e);
+                                    } catch (ProtocolException e) {
+                                        throw new RuntimeException(e);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
                                     }
+
                                 }
-
-                                ;
                             };
-
                             Thread thread = new Thread(runnable);
                             thread.start();
                             try {
                                 thread.join();
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
+                            } catch (InterruptedException ex) {
+                                throw new RuntimeException(ex);
                             }
 
                             Snackbar.make(view, "Guardando", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
 
                             try {
-                                JSONObject jsonObject = new JSONObject(jsonRespuesta[0]);
+                                JSONObject jsonObject = new JSONObject(responseStr[0]);
                                 System.out.println(jsonObject);
                                 Salon s = new Salon();
                                 s.setNombre(jsonObject.getString("nombre"));
@@ -160,26 +174,10 @@ public class SalonDialog extends DialogFragment {
                                 RecyclerView rvSalones = configFragment.getRvSalones();
                                 ((SalonAdapter) rvSalones.getAdapter()).getDataList().add(s);
                                 rvSalones.getAdapter().notifyItemInserted(rvSalones.getAdapter().getItemCount() - 1);
+
                             } catch (JSONException e) {
                                 throw new RuntimeException(e);
                             }
-/*
-        JSONObject jsonObj ;
-        Salon s = new Salon();
-        try {
-            jsonObj = new JSONObject(json[0]);
-            r.setEmail(jsonObj.getString("email"));
-            r.setId_salon(Integer.valueOf(jsonObj.getString("id_salon")));
-            r.setObservaciones(jsonObj.getString("observaciones"));
-            r.setNombre_apellidos(jsonObj.getString("nombre_apellidos"));
-            r.setTelefono(jsonObj.getString("telefono"));
-            r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));;
-            ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
-            reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + (reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1));
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }*/
                         } else {
                             String json = jsonActualizar();
                             System.out.println(json);
@@ -268,10 +266,10 @@ public class SalonDialog extends DialogFragment {
     public String jsonActualizar() {
         //Comprobar existencia de diferencias
         boolean diferente = false;
-        if (!etNombre.getText().toString().equals(nombre) || !etAforo.getText().toString().equals(aforo) ){
+        if (!etNombre.getText().toString().equals(nombre) || !etAforo.getText().toString().equals(aforo)) {
             diferente = true;
         }
-        if (diferente){
+        if (diferente) {
             String base = "{\n" +
                     "    \"id\":\"#PARAMID#\",\n" +
                     "    \"nombre\":\"#PARAMNOMBRE#\",\n" +
@@ -279,10 +277,9 @@ public class SalonDialog extends DialogFragment {
                     "}";
             String json = base.replace("#PARAMID#", String.valueOf(id))
                     .replace("#PARAMNOMBRE#", etNombre.getText().toString())
-                            .replace("#PARAMAFORO#", etAforo.getText().toString());
+                    .replace("#PARAMAFORO#", etAforo.getText().toString());
             return json;
-        }
-        else {
+        } else {
             return "No hay diferencias";
         }
     }

@@ -41,6 +41,7 @@
     <string name="fecha_fin">Fecha de fin</string>
 
     <string name="dialogo_nombre_apellidos">Nombre y apellidos</string>
+    <string name="dialogo_nombre">Nombre</string>
     <string name="dialogo_telefono">Teléfono</string>
     <string name="dialogo_email">Email</string>
     <string name="dialogo_comensales">Comensales</string>

@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.MainActivity;
@@ -486,9 +487,14 @@ public class ReservaDialog extends DialogFragment {
                                     r.setNombre_apellidos(jsonObj.getString("nombre_apellidos"));
                                     r.setTelefono(jsonObj.getString("telefono"));
                                     r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));;
-                                    ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
-                                    reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
-                                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + (reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1));
+                                    if (reservasFragmentFechas != null){
+                                        ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
+                                        reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
+                                    }
+                                    else {
+                                        ((ReservaAdapter) homeFragment.getRvOcupacion().getAdapter()).getDataList().add(r);
+                                        homeFragment.getRvOcupacion().getAdapter().notifyItemInserted(homeFragment.getRvOcupacion().getAdapter().getItemCount()-1);
+                                    }
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
