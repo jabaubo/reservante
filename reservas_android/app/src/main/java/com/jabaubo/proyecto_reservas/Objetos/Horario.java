@@ -1,6 +1,8 @@
 package com.jabaubo.proyecto_reservas.Objetos;
 
-public class Horario {
+public class Horario implements Cloneable{
+    private int id_restaurante;
+    private int orden;
     private String dia;
     private Boolean cerrado;
     private String hora_inicio_m;
@@ -65,10 +67,19 @@ public class Horario {
         this.hora_fin_t = hora_fin_t;
     }
 
+    public void setId_restaurante(int id_restaurante) {
+        this.id_restaurante = id_restaurante;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
+    }
 
     public String jar() {
         return "{" +
-                "\"dia\":\"" + dia + "\"" +
+                "\"orden\":\"" + orden + "\"" +
+                ",\"id_restaurante\":\"" + id_restaurante + "\"" +
+                ",\"dia\":\"" + dia + "\"" +
                 ", \"cerrado\":\"" + cerrado + "\""+
                 ", \"hora_inicio_m\":\"" + hora_inicio_m + "\"" +
                 ", \"hora_fin_m\":\"" + hora_fin_m + "\"" +
@@ -76,4 +87,12 @@ public class Horario {
                 ", \"hora_fin_t\":\"" + hora_fin_t + "\"" +
                 '}';
     }
+    public Horario clonar(){
+        try {
+            return (Horario) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

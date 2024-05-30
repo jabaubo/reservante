@@ -25,6 +25,11 @@ public class VacacionesAdapter extends RecyclerView.Adapter<VacacionesAdapter.My
         this.configFragment = configFragment;
     }
 
+    @NonNull
+    public List<Vacaciones> getDatalist() {
+        return datalist;
+    }
+
     @Override
 
     public VacacionesAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,7 +46,7 @@ public class VacacionesAdapter extends RecyclerView.Adapter<VacacionesAdapter.My
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VacacionesDialog vacacionesDialog = new VacacionesDialog(data);
+                VacacionesDialog vacacionesDialog = new VacacionesDialog(data, configFragment);
                 vacacionesDialog.show(configFragment.getChildFragmentManager(),null);
             }
         });

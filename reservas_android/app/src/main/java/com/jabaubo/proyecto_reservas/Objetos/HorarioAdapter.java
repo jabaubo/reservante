@@ -43,21 +43,30 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.MyViewHo
         holder.etFinM.setText(data.getHora_fin_m());
         holder.etInicioT.setText(data.getHora_inicio_t());
         holder.etFinT.setText(data.getHora_fin_t());
+        if (data.getCerrado()){
+            holder.etInicioM.setEnabled(false);
+            holder.etFinM.setEnabled(false);
+            holder.etInicioT.setEnabled(false);
+            holder.etFinT.setEnabled(false);
+        }
         holder.sCerrado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean cerrado = holder.sCerrado.isChecked();
-                holder.etInicioM.setEnabled(cerrado);
-                holder.etFinM.setEnabled(cerrado);
-                holder.etInicioT.setEnabled(cerrado);
-                holder.etFinT.setEnabled(cerrado);
+                holder.etInicioM.setEnabled(!cerrado);
+                holder.etFinM.setEnabled(!cerrado);
+                holder.etInicioT.setEnabled(!cerrado);
+                holder.etFinT.setEnabled(!cerrado);
+                data.setCerrado(cerrado);
+                //horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
             }
         });
         holder.etInicioM.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(holder.etInicioM);
+                    clickHoras((EditText) v,data,"inicioM");
+                    horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
                 }
                 return false;
             }
@@ -66,7 +75,8 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.MyViewHo
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(holder.etFinM);
+                    clickHoras((EditText) v,data,"finM");
+                    horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
                 }
                 return false;
             }
@@ -75,7 +85,8 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.MyViewHo
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(holder.etInicioT);
+                    clickHoras((EditText) v,data,"inicioT");
+                    horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
                 }
                 return false;
             }
@@ -84,7 +95,8 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.MyViewHo
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    clickHoras(holder.etFinT);
+                    clickHoras((EditText) v,data,"finT");
+                    horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
                 }
                 return false;
             }
@@ -114,7 +126,27 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.MyViewHo
 
         }
     }
-    public void clickHoras(EditText campo){
+    public String clickHoras(Horario horario){
+        final Calendar calendar = Calendar.getInstance();
+        final String[] horaResultado = {"a"};
+        TimePickerDialog timePickerDialog = new TimePickerDialog(horarioFragment.getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                String hora = String.valueOf(hourOfDay);
+                String minuto = String.valueOf(minute);
+                if (hora.length()==1){
+                    hora= "0"+hora;
+                }if (minuto.length()==1){
+                    minuto="0"+minuto;
+                }
+                horaResultado[0] = hora+":"+minuto;
+            }
+        },calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE),false);
+        timePickerDialog.show();
+        return horaResultado[0];
+    }
+
+    public void clickHoras(EditText campo, Horario horario , String aCambiar){
         final Calendar calendar = Calendar.getInstance();
         TimePickerDialog timePickerDialog = new TimePickerDialog(horarioFragment.getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -127,6 +159,20 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.MyViewHo
                     minuto="0"+minuto;
                 }
                 campo.setText(hora+":"+minuto);
+                switch (aCambiar){
+                    case "inicioM":
+                        horario.setHora_inicio_m(campo.getText().toString());
+                        break;
+                    case "finM":
+                        horario.setHora_fin_m(campo.getText().toString());
+                        break;
+                    case "inicioT":
+                        horario.setHora_inicio_t(campo.getText().toString());
+                        break;
+                    case "finT":
+                        horario.setHora_fin_t(campo.getText().toString());
+                        break;
+                }
             }
         },calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE),false);
         timePickerDialog.show();

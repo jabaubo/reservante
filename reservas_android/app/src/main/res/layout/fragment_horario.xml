@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:backgroundTint="#6D226D"
-        android:text="Button"
+        android:text="@string/dialogo_guardar"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

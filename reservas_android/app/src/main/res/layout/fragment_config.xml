@@ -98,7 +98,7 @@
 
             <TextView
                 android:id="@+id/textView15"
-                android:layout_width="386dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="#6D226D"
                 android:gravity="center"
@@ -106,6 +106,7 @@
                 android:textAlignment="gravity"
                 android:textColor="@color/white"
                 android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btAgregarSalon" />
 
@@ -244,6 +245,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvSalones" />
+
+            <Button
+                android:id="@+id/btAgregarVacacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#6D226D"
+                android:text="@string/add_salones_configuracion"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvVacaciones" />
 
             <TextView
                 android:id="@+id/textView17"

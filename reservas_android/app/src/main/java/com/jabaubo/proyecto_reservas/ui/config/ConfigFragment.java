@@ -43,6 +43,7 @@ import com.jabaubo.proyecto_reservas.Objetos.VacacionesAdapter;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.databinding.FragmentConfigBinding;
 import com.jabaubo.proyecto_reservas.ui.SalonDialog;
+import com.jabaubo.proyecto_reservas.ui.VacacionesDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,13 +77,12 @@ public class ConfigFragment extends Fragment {
     private EditText etDuracionReservas;
     private ImageView imageViewLogo;
     private RecyclerView rvSalones;
-    private RecyclerView rvVacaciones;
     private Button btAgregarSalon;
+    private RecyclerView rvVacaciones;
+    private Button btAgregarVacaciones;
     private Button btGuardar;
     private TextView tvFechaInicio;
     private TextView tvFechaFin;
-    private Button btFechaInicio;
-    private Button btFechaFin;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -104,8 +104,7 @@ public class ConfigFragment extends Fragment {
         etDuracionReservas = root.findViewById(R.id.etIntervalo);
         tvFechaFin = root.findViewById(R.id.tvFechaFin);
         tvFechaInicio = root.findViewById(R.id.tvFechaInicio);
-        btFechaInicio = root.findViewById(R.id.btFechaInicio);
-        btFechaFin = root.findViewById(R.id.btFechaFin);
+        btAgregarVacaciones = root.findViewById(R.id.btAgregarVacacion);
 
         rvSalones.setLayoutManager(new LinearLayoutManager(this.getContext()));
         cargarSalones();
@@ -120,6 +119,12 @@ public class ConfigFragment extends Fragment {
                     }
                 });
 
+        btAgregarVacaciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickAgregarVacaciones();
+            }
+        });
         btGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,19 +167,20 @@ public class ConfigFragment extends Fragment {
             etCorreo.setText(jsonRestaurante.getString("email"));
             etDireccion.setText(jsonRestaurante.getString("direccion"));
             etDuracionReservas.setText(jsonRestaurante.getString("duracion_reservas"));
-            JSONArray jsonVacaciones = json.getJSONArray("resultado2");
-            System.out.println(jsonVacaciones + " " + jsonVacaciones.length());
             ArrayList<Vacaciones> listaVacaciones = new ArrayList<>();
-            for (int i = 0 ; i < jsonVacaciones.length() ; i++){
-                //{"id_vacacion":"1","id_restaurante":"1","nombre":"booma","inicio":"2024-04-10","fin":"2024-04-26"}
-                JSONObject jsonVacacionElegida = jsonVacaciones.getJSONObject(i);
-                Vacaciones v = new Vacaciones(jsonVacacionElegida.getString("nombre"),
-                        jsonVacacionElegida.getString("inicio"),
-                        jsonVacacionElegida.getString("fin"),
-                        jsonVacacionElegida.getInt("id_restaurante"),
-                        jsonVacacionElegida.getInt("id_vacacion"));
-                listaVacaciones.add(v);
-                System.out.println(v + " " + listaVacaciones.size());
+            if (json.toString().contains("resultado2")){
+                JSONArray jsonVacaciones = json.getJSONArray("resultado2");
+                for (int i = 0 ; i < jsonVacaciones.length() ; i++){
+                    //{"id_vacacion":"1","id_restaurante":"1","nombre":"booma","inicio":"2024-04-10","fin":"2024-04-26"}
+                    JSONObject jsonVacacionElegida = jsonVacaciones.getJSONObject(i);
+                    Vacaciones v = new Vacaciones(jsonVacacionElegida.getString("nombre"),
+                            jsonVacacionElegida.getString("inicio"),
+                            jsonVacacionElegida.getString("fin"),
+                            jsonVacacionElegida.getInt("id_restaurante"),
+                            jsonVacacionElegida.getInt("id_vacacion"));
+                    listaVacaciones.add(v);
+                    System.out.println(v + " " + listaVacaciones.size());
+                }
             }
             if (listaVacaciones.size() > 0) {
                 System.out.println("Traca matraca");
@@ -186,7 +192,7 @@ public class ConfigFragment extends Fragment {
             } else {
                 android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                         .setTitle("Advertencia")
-                        .setMessage("No hay salones")
+                        .setMessage("No hay vacaciones registradas")
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
@@ -317,6 +323,10 @@ public class ConfigFragment extends Fragment {
         binding = null;
     }
 
+    public void clickAgregarVacaciones(){
+        VacacionesDialog vacacionesDialog = new VacacionesDialog(this);
+        vacacionesDialog.show(this.getChildFragmentManager(),null);
+    }
     public void cargarSalones() {
         String[] responseStr = new String[1];
         Runnable runnable = new Runnable() {
@@ -442,6 +452,10 @@ public class ConfigFragment extends Fragment {
 
     public RecyclerView getRvSalones() {
         return rvSalones;
+    }
+
+    public RecyclerView getRvVacaciones() {
+        return rvVacaciones;
     }
 
     public String formatearFecha(String fecha) {
