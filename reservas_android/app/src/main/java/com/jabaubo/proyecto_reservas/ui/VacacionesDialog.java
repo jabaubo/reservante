@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.MainActivity;
 import com.jabaubo.proyecto_reservas.Objetos.Vacaciones;
 import com.jabaubo.proyecto_reservas.Objetos.VacacionesAdapter;
@@ -47,7 +49,7 @@ public class VacacionesDialog extends DialogFragment {
         this.configFragment = configFragment;
     }
 
-    public VacacionesDialog(Vacaciones vacacion ,ConfigFragment configFragment) {
+    public VacacionesDialog(Vacaciones vacacion, ConfigFragment configFragment) {
         this.vacacion = vacacion;
         this.configFragment = configFragment;
     }
@@ -83,6 +85,65 @@ public class VacacionesDialog extends DialogFragment {
                             vacacion.getInicio().toString().equals(tvInicio.getText())) {
 
                     } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vacacion.setFin(LocalDate.parse(tvFin.getText()));
+                            vacacion.setInicio(LocalDate.parse(tvInicio.getText()));
+                        }
+                        vacacion.setNombre(etNombre.getText().toString());
+                        final String[] responseStr = new String[1];
+                        Runnable runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                // Conectamos a la pagina con el método que queramos
+                                try {
+                                    URL url = new URL("https://reservante.mjhudesings.com/slim/updatevacacion");
+                                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                    connection.setRequestMethod("PUT");
+                                    connection.setDoOutput(true);
+                                    connection.setRequestProperty("Content-Type", "application/json");
+                                    connection.setRequestProperty("Accept", "application/json");
+                                    OutputStream os = connection.getOutputStream();
+                                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                    osw.write(vacacion.toJson());
+                                    osw.flush();
+                                    int responseCode = connection.getResponseCode();
+                                    //Ver si la respuesta es correcta
+                                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                                        // Si es correcta la leemos
+                                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                        String line;
+                                        StringBuilder response = new StringBuilder();
+                                        while ((line = reader.readLine()) != null) {
+                                            response.append(line);
+                                        }
+                                        reader.close();
+                                        responseStr[0] = response.toString();
+                                        connection.disconnect();
+                                    } else {
+                                        connection.disconnect();
+                                    }
+                                } catch (MalformedURLException e) {
+                                    throw new RuntimeException(e);
+                                } catch (ProtocolException e) {
+                                    throw new RuntimeException(e);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        };
+                        Thread thread = new Thread(runnable);
+                        thread.start();
+                        try {
+                            thread.join();
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        System.out.println(responseStr[0]);
+                        if (responseStr[0].contains("correctamente")) {
+                            Snackbar.make(configFragment.getView(),"Actualización correcta",Snackbar.LENGTH_SHORT).show();
+                            configFragment.getRvVacaciones().getAdapter().notifyDataSetChanged();
+                        } else {
+                        }
                     }
                 } else {
                     final String[] responseStr = new String[1];
@@ -150,12 +211,12 @@ public class VacacionesDialog extends DialogFragment {
                         JSONObject jsonRespuesta = new JSONObject(responseStr[0]);
                         if (jsonRespuesta.getInt("codigo") == 1) {
                             Vacaciones v = new Vacaciones(etNombre.getText().toString()
-                                    ,tvInicio.getText().toString()
-                                    ,tvFin.getText().toString()
-                                    ,((MainActivity)configFragment.getActivity()).getIdRestaurante()
-                                    ,jsonRespuesta.getInt("id"));
-                            ((VacacionesAdapter)configFragment.getRvVacaciones().getAdapter()).getDatalist().add(v);
-                            ((VacacionesAdapter)configFragment.getRvVacaciones().getAdapter()).notifyItemInserted(((VacacionesAdapter)configFragment.getRvVacaciones().getAdapter()).getItemCount()-1);
+                                    , tvInicio.getText().toString()
+                                    , tvFin.getText().toString()
+                                    , ((MainActivity) configFragment.getActivity()).getIdRestaurante()
+                                    , jsonRespuesta.getInt("id"));
+                            ((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).getDatalist().add(v);
+                            ((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).notifyItemInserted(((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).getItemCount() - 1);
                         }
                     } catch (JSONException e) {
                         throw new RuntimeException(e);

@@ -409,216 +409,161 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-    /*
-    public void cargarOcupacion(){
-        try {
-            ArrayList<ReservaFechas> lista = new ArrayList<>();
-            Runnable runnable= new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        try {
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/getocupacion");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("POST");
-                        connection.setDoOutput(true);
-                        connection.setRequestProperty("Content-Type", "application/json");
-                        connection.setRequestProperty("Accept", "application/json");
-                        OutputStream os = connection.getOutputStream();
-                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        String consulta = null;
-                            consulta = leerTramos(String.valueOf(LocalDate.now()));
-                        String jsonFecha = "    {\"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo FROM (#TRAMOS#) AS range_values CROSS JOIN salones LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon GROUP BY range_values.value, salones.id_salon ORDER BY range_values.value ASC;\"}";
-                        jsonFecha = jsonFecha.replace("#TRAMOS#",consulta);
-                        jsonFecha = jsonFecha.replace("#PARAMFECHA#",LocalDate.now().toString());
-                        System.out.println(jsonFecha);
-                        osw.write(jsonFecha);
-                        osw.flush();
-                        int responseCode = connection.getResponseCode();
-                        //Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            reader.close();
-                            System.out.println(response);
-                            JSONArray jsonArray = new JSONObject(response.toString()).getJSONArray("reservas");
-                            int n_salones = jsonArray.getJSONObject(0).getInt("n_salones");
-                            System.out.println("tope :" + n_salones);
-                            System.out.println("JSON ARRAY: " + jsonArray);
-                            System.out.println("JSON ARRAY LENGTH: " + jsonArray.length());
-
-                            //while ()
-
-                            for (int i = 0 ; i < jsonArray.length();i += n_salones){
-                                int reservasTotal = 0;
-                                ReservaFechas rf = new ReservaFechas();
-                                String ocupacion = "";
-                                for (int j = i ; j < (i + n_salones ) ; j++){
-                                    JSONObject jsonObject = jsonArray.getJSONObject(j);
-                                    String nombreSalon = jsonObject.getString("nombre");
-                                    String nReservas = jsonObject.getString("n_reservas");
-                                    reservasTotal += Integer.valueOf(nReservas);
-                                    String nPersonas = jsonObject.getString("n_personas");
-                                    String aforoSalon = jsonObject.getString("aforo");
-                                    ocupacion += String.format("%-15s Reservas:%s   %s/%s\n",nombreSalon,nReservas,nPersonas,aforoSalon);
-                                }
-                                rf.setHora(jsonArray.getJSONObject(i).getString("value"));
-                                rf.setnReservas(reservasTotal);
-                                rf.setFecha(String.valueOf(LocalDate.now()));
-                                rf.setOcupacion(ocupacion);
-                                lista.add(rf);
-                            }
-                        }
-                        connection.disconnect();
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                    }
-                }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-            thread.join();
-            rvOcupacion.setAdapter(new ReservasFechaAdapter(getActivity().getSupportFragmentManager(),rvOcupacion,tvReservasDiaHora,lista,this));
-            rvOcupacion.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-*/
     public void cargarOcupacion(String fecha) {
-        //DefaultListModel<Ocupacion> modelo = new DefaultListModel<>();
         JSONObject[] json = new JSONObject[1];
         try {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    try {
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/getocupacion");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("POST");
-                        connection.setDoOutput(true);
-                        connection.setRequestProperty("Content-Type", "application/json");
-                        connection.setRequestProperty("Accept", "application/json");
-                        OutputStream os = connection.getOutputStream();
-                        System.out.println("TETica");
-                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        String consulta = leerTramos(fecha);
-                        String jsonFecha = "{\n"
-                                + "    \"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones WHERE id_restaurante = #PARAMID#) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo  FROM (#TRAMOS#) AS range_values  CROSS JOIN salones on salones.id_salon in (SELECT id_salon FROM salones WHERE id_restaurante = #PARAMID#) LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon  GROUP BY range_values.value, salones.id_salon  ORDER BY range_values.value ASC\",\n"
-                                + "    \"fecha\":\"#PARAMFECHA#\",\n"
-                                + "    \"id_restaurante\":\"#PARAMID#\",\n"
-                                + "    \"dia\":\"#PARAMDIA#\"}";
-                        jsonFecha = jsonFecha.replace("#TRAMOS#", consulta);
-                        jsonFecha = jsonFecha.replace("#PARAMFECHA#", fecha);
-                        jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(mainActivity.getIdRestaurante()));
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            jsonFecha = jsonFecha.replace("#PARAMDIA#", String.valueOf(LocalDate.parse(fecha).getDayOfWeek().getValue()));
-                        }
-                        System.out.println(jsonFecha);
-                        osw.write(jsonFecha);
-                        osw.flush();
-                        int responseCode = connection.getResponseCode();
-                        //Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            reader.close();
-                            System.out.println("RESPUESTA api " + response);
-                            json[0] = new JSONObject(response.toString());
-                            System.out.println("JSON en ARRAY hilo: " + json[0]);
-                        }
-                        connection.disconnect();
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (JSONException e) {
-                        System.exit(2030);
-                        throw new RuntimeException(e);
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+            String consulta = leerTramos(fecha);
+            if (consulta == null) {
+                if (rvOcupacion.getAdapter() != null){
+                    String clase = rvOcupacion.getAdapter().getClass().getName();
+                    if (clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter")) {
+                        ((ReservaAdapter) rvOcupacion.getAdapter()).setDataList(new ArrayList<>());
+                        rvOcupacion.getAdapter().notifyDataSetChanged();
+                        System.out.println();
+                    } else if (clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter")) {
+                        ((ReservasFechaAdapter) rvOcupacion.getAdapter()).setDataList(new ArrayList<>());
+                        rvOcupacion.getAdapter().notifyDataSetChanged();
                     }
-
                 }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-            thread.join();
-            if (json[0].toString().contains("restaurante cerrado")) {
-                //jListOcupacionReservas.setModel(modelo);
-                //JOptionPane.showMessageDialog(panelCalendario, "Ese día no está abierto el restaurante", "Aviso", JOptionPane.PLAIN_MESSAGE);
-            } else if (json[0].toString().contains("restaurante de vacaciones")) {
-                //jListOcupacionReservas.setModel(modelo);
-                //JOptionPane.showMessageDialog(panelCalendario, "Ese día está dentro de un periódo vacaciconal", "Aviso", JOptionPane.PLAIN_MESSAGE);
-            } else {
-                int codRespuesta = json[0].getInt("codigo");
-                if (codRespuesta == 1) {
-                    System.out.println("RESPUESTA CARGA: " + json[0]);
-                    JSONArray jsonArray = json[0].getJSONArray("reservas");
-                    int n_salones = jsonArray.getJSONObject(0).getInt("n_salones");
-                    System.out.println("tope :" + n_salones);
-                    System.out.println("JSON ARRAY: " + jsonArray);
-                    System.out.println("JSON ARRAY LENGTH: " + jsonArray.length());
-
-                    //while ()
-                    ArrayList<ReservaFechas> lista = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.length(); i += n_salones) {
-                        int reservasTotal = 0;
-                        String ocupacion = "";
-                        for (int j = i; j < (i + n_salones); j++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(j);
-                            System.out.println(jsonObject);
-                            String nombreSalon = jsonObject.getString("nombre");
-                            String nReservas = jsonObject.getString("n_reservas");
-                            reservasTotal += Integer.valueOf(nReservas);
-                            String nPersonas = jsonObject.getString("n_personas");
-                            String aforoSalon = jsonObject.getString("aforo");
-                            float ratio = Float.parseFloat(nPersonas) / Float.parseFloat(aforoSalon);
-                            System.out.println("pre " + ocupacion);
-                            if (ratio < 0.33f) {
-                                ocupacion += String.format("%s <font color='#008000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
-                            } else if (ratio < 0.66f) {
-                                ocupacion += String.format("%s <font color='#FFEB00'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
-                            } else {
-                                ocupacion += String.format("%s <font color='#8B0000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
-
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                        .setTitle("Error")
+                        .setMessage("Revise el horario del día (Horario) y la duración de las reservas (Configuración)")
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
                             }
-                            System.out.println("post " + ocupacion);
+                        })
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert).create();
+                alertDialog.show();
+            } else {
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        // Conectamos a la pagina con el método que queramos
+                        try {
+                            URL url = new URL("https://reservante.mjhudesings.com/slim/getocupacion");
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("POST");
+                            connection.setDoOutput(true);
+                            connection.setRequestProperty("Content-Type", "application/json");
+                            connection.setRequestProperty("Accept", "application/json");
+                            OutputStream os = connection.getOutputStream();
+                            System.out.println("TETica");
+                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                            String jsonFecha = "{\n"
+                                    + "    \"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones WHERE id_restaurante = #PARAMID#) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo  FROM (#TRAMOS#) AS range_values  CROSS JOIN salones on salones.id_salon in (SELECT id_salon FROM salones WHERE id_restaurante = #PARAMID#) LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon  GROUP BY range_values.value, salones.id_salon  ORDER BY range_values.value ASC\",\n"
+                                    + "    \"fecha\":\"#PARAMFECHA#\",\n"
+                                    + "    \"id_restaurante\":\"#PARAMID#\",\n"
+                                    + "    \"dia\":\"#PARAMDIA#\"}";
+                            jsonFecha = jsonFecha.replace("#TRAMOS#", consulta);
+                            jsonFecha = jsonFecha.replace("#PARAMFECHA#", fecha);
+                            jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(mainActivity.getIdRestaurante()));
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                jsonFecha = jsonFecha.replace("#PARAMDIA#", String.valueOf(LocalDate.parse(fecha).getDayOfWeek().getValue()));
+                            }
+                            System.out.println(jsonFecha);
+                            osw.write(jsonFecha);
+                            osw.flush();
+                            int responseCode = connection.getResponseCode();
+                            //Ver si la respuesta es correcta
+                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                // Si es correcta la leemos
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                String line;
+                                StringBuilder response = new StringBuilder();
+                                while ((line = reader.readLine()) != null) {
+                                    response.append(line);
+                                }
+                                reader.close();
+                                System.out.println("RESPUESTA api " + response);
+                                json[0] = new JSONObject(response.toString());
+                                System.out.println("JSON en ARRAY hilo: " + json[0]);
+                            }
+                            connection.disconnect();
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException(e);
+                        } catch (ProtocolException e) {
+                            throw new RuntimeException(e);
+                        } catch (JSONException e) {
+                            System.exit(2030);
+                            throw new RuntimeException(e);
+                        } catch (UnsupportedEncodingException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
-                        ReservaFechas o = new ReservaFechas();
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            o.setHora(jsonArray.getJSONObject(i).getString("value"));
-                            o.setFecha(fecha);
-                        }
-                        o.setnReservas(reservasTotal);
-                        o.setOcupacion(ocupacion);
-                        lista.add(o);
+
                     }
-                    rvOcupacion.setAdapter(new ReservasFechaAdapter(getActivity().getSupportFragmentManager(), rvOcupacion, tvReservasDiaHora, lista, this));
-                    rvOcupacion.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+                thread.join();
+
+
+                if (json[0].toString().contains("restaurante cerrado")) {
+                    Snackbar.make(getView(), "El restaurante está cerrado", Snackbar.LENGTH_SHORT).show();
+                    rvOcupacion.setAdapter(null);
+                } else if (json[0].toString().contains("restaurante de vacaciones")) {
+                    Snackbar.make(getView(), "El restaurante está de vacaciones", Snackbar.LENGTH_SHORT).show();
+                    rvOcupacion.setAdapter(null);
+                } else {
+                    int codRespuesta = json[0].getInt("codigo");
+                    if (codRespuesta == 1) {
+                        System.out.println("RESPUESTA CARGA: " + json[0]);
+                        JSONArray jsonArray = json[0].getJSONArray("reservas");
+                        int n_salones = jsonArray.getJSONObject(0).getInt("n_salones");
+                        System.out.println("tope :" + n_salones);
+                        System.out.println("JSON ARRAY: " + jsonArray);
+                        System.out.println("JSON ARRAY LENGTH: " + jsonArray.length());
+
+                        //while ()
+                        ArrayList<ReservaFechas> lista = new ArrayList<>();
+                        for (int i = 0; i < jsonArray.length(); i += n_salones) {
+                            int reservasTotal = 0;
+                            String ocupacion = "";
+                            for (int j = i; j < (i + n_salones); j++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(j);
+                                System.out.println(jsonObject);
+                                String nombreSalon = jsonObject.getString("nombre");
+                                String nReservas = jsonObject.getString("n_reservas");
+                                reservasTotal += Integer.valueOf(nReservas);
+                                String nPersonas = jsonObject.getString("n_personas");
+                                String aforoSalon = jsonObject.getString("aforo");
+                                float ratio = Float.parseFloat(nPersonas) / Float.parseFloat(aforoSalon);
+                                System.out.println("pre " + ocupacion);
+                                if (ratio < 0.33f) {
+                                    ocupacion += String.format("%s <font color='#008000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
+                                } else if (ratio < 0.66f) {
+                                    ocupacion += String.format("%s <font color='#FFEB00'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
+                                } else {
+                                    ocupacion += String.format("%s <font color='#8B0000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
+
+                                }
+                                System.out.println("post " + ocupacion);
+                            }
+                            ReservaFechas o = new ReservaFechas();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                o.setHora(jsonArray.getJSONObject(i).getString("value"));
+                                o.setFecha(fecha);
+                            }
+                            o.setnReservas(reservasTotal);
+                            o.setOcupacion(ocupacion);
+                            lista.add(o);
+                        }
+                        rvOcupacion.setAdapter(new ReservasFechaAdapter(getActivity().getSupportFragmentManager(), rvOcupacion, tvReservasDiaHora, lista, this));
+                        rvOcupacion.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                    }
                 }
             }
+
         } catch (InterruptedException ex) {
             throw new RuntimeException(ex);
         } catch (JSONException e) {
@@ -797,124 +742,125 @@ public class HomeFragment extends Fragment {
             reservaAdapter.filtrarId(Integer.valueOf(opcion.substring(0, opcion.indexOf("-") - 1)));
         }
     }
-/*
-    public String leerTramos(String fecha) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDate fechaDate = LocalDate.parse(fecha);
-            final JSONArray[] horario = {new JSONArray()};
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    try {
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("GET");
 
-                        int responseCode = connection.getResponseCode();
-                        //Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
+    /*
+        public String leerTramos(String fecha) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                LocalDate fechaDate = LocalDate.parse(fecha);
+                final JSONArray[] horario = {new JSONArray()};
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        // Conectamos a la pagina con el método que queramos
+                        try {
+                            URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("GET");
+
+                            int responseCode = connection.getResponseCode();
+                            //Ver si la respuesta es correcta
+                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                // Si es correcta la leemos
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                String line;
+                                StringBuilder response = new StringBuilder();
+                                while ((line = reader.readLine()) != null) {
+                                    response.append(line);
+                                }
+                                reader.close();
+                                horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
+                                connection.disconnect();
+                            } else {
+                                connection.disconnect();
                             }
-                            reader.close();
-                            horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
-                            connection.disconnect();
-                        } else {
-                            connection.disconnect();
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException(e);
+                        } catch (ProtocolException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (JSONException e) {
                         }
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (JSONException e) {
+
                     }
-
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            int dia = fechaDate.getDayOfWeek().getValue();
-            JSONObject jsonObject;
-            try {
-                jsonObject = (horario[0].getJSONObject(dia - 1));
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-            incremento = leerIncremento();
-            LocalDateTime inicio_m;
-            LocalDateTime fin_m;
-            LocalDateTime inicio_t;
-            LocalDateTime fin_t;
-            LocalDateTime[] tramos;
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            try {
-                inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
-                fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
-                inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
-                fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
-                Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
-                System.out.println("En teoría se ejecuta " + tramos.length);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-            int contador = 0;
-            LocalDateTime tramo = inicio_m;
-            while (fin_m.isAfter(tramo)) {
-                tramos[contador] = tramo;
-                System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
-                contador++;
-                tramo = tramo.plusHours(incremento.getHour());
-                tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_m.isBefore(tramo)) {
-                    break;
+                int dia = fechaDate.getDayOfWeek().getValue();
+                JSONObject jsonObject;
+                try {
+                    jsonObject = (horario[0].getJSONObject(dia - 1));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
                 }
-
-            }
-            tramo = inicio_t;
-            while (fin_t.isAfter(tramo)) {
-                if (contador < tramos.length){
+                incremento = leerIncremento();
+                LocalDateTime inicio_m;
+                LocalDateTime fin_m;
+                LocalDateTime inicio_t;
+                LocalDateTime fin_t;
+                LocalDateTime[] tramos;
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                try {
+                    inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
+                    fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
+                    inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
+                    fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
+                    Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+                    Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+                    tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
+                    System.out.println("En teoría se ejecuta " + tramos.length);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                int contador = 0;
+                LocalDateTime tramo = inicio_m;
+                while (fin_m.isAfter(tramo)) {
                     tramos[contador] = tramo;
+                    System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
+                    contador++;
+                    tramo = tramo.plusHours(incremento.getHour());
+                    tramo = tramo.plusMinutes(incremento.getMinute());
+                    if (fin_m.isBefore(tramo)) {
+                        break;
+                    }
+
                 }
-                System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
-                contador++;
-                tramo = tramo.plusHours(incremento.getHour());
-                tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_t.isBefore(tramo)) {
-                    break;
-                }
-            }
-            String texto = "SELECT '#PARAM1#' AS value ";
-            for (LocalDateTime t : tramos) {
-                if (texto.contains("'#PARAM1#'") ) {
-                    texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
-                } else {
-                    if (t != null){
-                        texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                tramo = inicio_t;
+                while (fin_t.isAfter(tramo)) {
+                    if (contador < tramos.length){
+                        tramos[contador] = tramo;
+                    }
+                    System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
+                    contador++;
+                    tramo = tramo.plusHours(incremento.getHour());
+                    tramo = tramo.plusMinutes(incremento.getMinute());
+                    if (fin_t.isBefore(tramo)) {
+                        break;
                     }
                 }
+                String texto = "SELECT '#PARAM1#' AS value ";
+                for (LocalDateTime t : tramos) {
+                    if (texto.contains("'#PARAM1#'") ) {
+                        texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
+                    } else {
+                        if (t != null){
+                            texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                        }
+                    }
+                }
+                System.out.println(texto);
+                return texto;
+
             }
-            System.out.println(texto);
-            return texto;
-
+            return null;
         }
-        return null;
-    }
-*/
-
+    */
+/*
     public String leerTramos(String fecha) {
         LocalDate fechaDate = null;
         String texto = "";
@@ -1046,6 +992,140 @@ public class HomeFragment extends Fragment {
             return texto;
         }
         return "Error";
+    }
+*/
+    public String leerTramos(String fecha) {
+        LocalDate fechaDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            fechaDate = LocalDate.parse(fecha);
+        }
+        final JSONArray[] horario = {new JSONArray()};
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
+                    connection.setRequestProperty("Content-Type", "application/json");
+                    connection.setRequestProperty("Accept", "application/json");
+                    OutputStream os = connection.getOutputStream();
+                    System.out.println("TETica");
+                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                    String jsonFecha = "{\n"
+                            + "    \"id\":\"#PARAMID#\"\n"
+                            + "}";
+                    jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
+                    osw.write(jsonFecha);
+                    osw.flush();
+                    int responseCode = connection.getResponseCode();
+//Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
+                        connection.disconnect();
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (JSONException e) {
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        int dia = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            dia = fechaDate.getDayOfWeek().getValue();
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = (horario[0].getJSONObject(dia - 1));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        LocalTime incremento = leerIncremento();
+        LocalDateTime inicio_m;
+        LocalDateTime fin_m;
+        LocalDateTime inicio_t;
+        LocalDateTime fin_t;
+        LocalDateTime[] tramos;
+        DateTimeFormatter dateTimeFormatter = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            try {
+                inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
+                fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
+                inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
+                fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
+                Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+                Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+                tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
+                System.out.println("En teoría se ejecuta " + tramos.length);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            int contador = 0;
+            LocalDateTime tramo = inicio_m;
+            while (fin_m.isAfter(tramo)) {
+                tramos[contador] = tramo;
+                System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
+                contador++;
+                tramo = tramo.plusHours(incremento.getHour());
+                tramo = tramo.plusMinutes(incremento.getMinute());
+                if (fin_m.isBefore(tramo)) {
+                    break;
+                }
+
+            }
+            tramo = inicio_t;
+            while (fin_t.isAfter(tramo)) {
+                tramos[contador] = tramo;
+                System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
+                contador++;
+                tramo = tramo.plusHours(incremento.getHour());
+                tramo = tramo.plusMinutes(incremento.getMinute());
+                if (fin_t.isBefore(tramo)) {
+                    break;
+                }
+            }
+            String texto = "SELECT '#PARAM1#' AS value ";
+            for (LocalDateTime t : tramos) {
+                if (t != null) {
+                    if (texto.contains("#PARAM1#")) {
+                        texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
+                    } else {
+                        texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                    }
+                }
+            }
+            System.out.println(texto);
+            if (texto.contains("#PARAM1#")) {
+                return null;
+            }
+            return texto;
+        }
+        return null;
     }
 
     /*

@@ -19,10 +19,6 @@
             android:icon="@drawable/horario"
             android:title="@string/menu_horario" />
 
-        <item
-            android:id="@+id/nav_vacaciones"
-            android:icon="@drawable/vacaciones"
-            android:title="@string/menu_vacaciones" />
 
         <item
             android:id="@+id/nav_agenda"

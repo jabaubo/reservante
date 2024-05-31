@@ -188,7 +188,13 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
                         String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\",\"id\":\"#PARAMID#\"}";
                         jsonRequest = jsonRequest.replace("#PARAMFECHA#", fecha);
                         jsonRequest = jsonRequest.replace("#PARAMHORA#", hora);
-                        jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(((MainActivity)homeFragment.getActivity()).getIdRestaurante()));
+                        if (homeFragment!= null){
+                            jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(((MainActivity)homeFragment.getActivity()).getIdRestaurante()));
+                        }
+                        else if (reservasFragmentFechas != null){
+                            jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(((MainActivity)reservasFragmentFechas.getActivity()).getIdRestaurante()));
+                        }
+
                         System.out.println("jsonRequest " + jsonRequest);
                         osw.write(jsonRequest);
                         osw.flush();
@@ -264,5 +270,9 @@ public class ReservasFechaAdapter extends RecyclerView.Adapter<ReservasFechaAdap
             formateado += baseArray[i];
         }
         return formateado;
+    }
+
+    public void setDataList(List<ReservaFechas> dataList) {
+        this.dataList = dataList;
     }
 }

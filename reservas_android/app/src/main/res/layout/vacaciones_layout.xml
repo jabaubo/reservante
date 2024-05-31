@@ -12,6 +12,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
 
+        <Button
+            android:id="@+id/btBorrarVacaciones"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:backgroundTint="#6D226D"
+            android:backgroundTintMode="add"
+            app:icon="@drawable/papelera"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvNombreVacacionesLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvNombreVacacionesLayout" />
+
         <TextView
             android:id="@+id/tvNombreVacacionesLayout"
             android:layout_width="wrap_content"

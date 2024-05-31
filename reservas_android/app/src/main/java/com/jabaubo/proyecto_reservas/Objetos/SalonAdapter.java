@@ -80,8 +80,9 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     borrarSalon(data.getId());
+                                    ((SalonAdapter)configFragment.getRvSalones().getAdapter()).getDataList().remove(((SalonAdapter)configFragment.getRvSalones().getAdapter()).getDataList().get(holder.getAdapterPosition()));
                                     configFragment.getRvSalones().getAdapter().notifyItemRemoved(holder.getAdapterPosition());
-                                    dataList.remove(position);
+
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

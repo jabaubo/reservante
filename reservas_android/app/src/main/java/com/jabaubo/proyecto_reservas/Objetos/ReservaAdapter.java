@@ -366,4 +366,8 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
         this.dataList = fullList;
         notifyDataSetChanged();
     }
+
+    public void setDataList(List<Reserva> dataList) {
+        this.dataList = dataList;
+    }
 }

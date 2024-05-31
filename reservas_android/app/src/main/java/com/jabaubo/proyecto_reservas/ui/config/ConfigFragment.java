@@ -177,7 +177,7 @@ public class ConfigFragment extends Fragment {
                             jsonVacacionElegida.getString("inicio"),
                             jsonVacacionElegida.getString("fin"),
                             jsonVacacionElegida.getInt("id_restaurante"),
-                            jsonVacacionElegida.getInt("id_vacacion"));
+                             jsonVacacionElegida.getInt("id_vacacion"));
                     listaVacaciones.add(v);
                     System.out.println(v + " " + listaVacaciones.size());
                 }
@@ -395,6 +395,7 @@ public class ConfigFragment extends Fragment {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                     Salon s = new Salon(jsonObject.getInt("id_salon"), jsonObject.getString("nombre"), jsonObject.getInt("aforo"));
+                    System.out.println("SALON EN LISTA " + s);
                     lista.add(s);
                 }
                 for (int i = 0; i < lista.size(); i++) {
