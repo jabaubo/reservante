@@ -38,7 +38,6 @@ public class ReservasFragment  extends Fragment {
 }
     * */
     private FragmentReservasBinding binding;
-    private TextView tvPruebas;
     private RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -48,7 +47,7 @@ public class ReservasFragment  extends Fragment {
         View root = binding.getRoot();
         recyclerView = root.findViewById(R.id.listaReservas);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        cargarReservas(recyclerView);
+        //cargarReservas(recyclerView);
         return root;
     }
 

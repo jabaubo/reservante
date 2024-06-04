@@ -19,6 +19,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.MainActivity;
+import com.jabaubo.proyecto_reservas.Objetos.SalonAdapter;
 import com.jabaubo.proyecto_reservas.Objetos.Vacaciones;
 import com.jabaubo.proyecto_reservas.Objetos.VacacionesAdapter;
 import com.jabaubo.proyecto_reservas.R;
@@ -76,150 +77,175 @@ public class VacacionesDialog extends DialogFragment {
         });
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        VacacionesDialog vacacionesDialog = this;
         alertDialogBuilder.setView(view).setPositiveButton(R.string.dialogo_guardar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (vacacion != null) {
-                    if (vacacion.getNombre().equals(etNombre.getText().toString()) &&
-                            vacacion.getFin().toString().equals(tvFin.getText()) &&
-                            vacacion.getInicio().toString().equals(tvInicio.getText())) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (LocalDate.parse(tvInicio.getText()).isBefore(LocalDate.parse(tvFin.getText()))){
+                        if (vacacion != null) {
+                            if (vacacion.getNombre().equals(etNombre.getText().toString()) &&
+                                    vacacion.getFin().toString().equals(tvFin.getText()) &&
+                                    vacacion.getInicio().toString().equals(tvInicio.getText())) {
 
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vacacion.setFin(LocalDate.parse(tvFin.getText()));
-                            vacacion.setInicio(LocalDate.parse(tvInicio.getText()));
-                        }
-                        vacacion.setNombre(etNombre.getText().toString());
-                        final String[] responseStr = new String[1];
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                // Conectamos a la pagina con el método que queramos
-                                try {
-                                    URL url = new URL("https://reservante.mjhudesings.com/slim/updatevacacion");
-                                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                                    connection.setRequestMethod("PUT");
-                                    connection.setDoOutput(true);
-                                    connection.setRequestProperty("Content-Type", "application/json");
-                                    connection.setRequestProperty("Accept", "application/json");
-                                    OutputStream os = connection.getOutputStream();
-                                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                                    osw.write(vacacion.toJson());
-                                    osw.flush();
-                                    int responseCode = connection.getResponseCode();
-                                    //Ver si la respuesta es correcta
-                                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                                        // Si es correcta la leemos
-                                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                        String line;
-                                        StringBuilder response = new StringBuilder();
-                                        while ((line = reader.readLine()) != null) {
-                                            response.append(line);
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    vacacion.setFin(LocalDate.parse(tvFin.getText()));
+                                    vacacion.setInicio(LocalDate.parse(tvInicio.getText()));
+                                }
+                                vacacion.setNombre(etNombre.getText().toString());
+                                final String[] responseStr = new String[1];
+                                Runnable runnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // Conectamos a la pagina con el método que queramos
+                                        try {
+                                            URL url = new URL("https://reservante.mjhudesings.com/slim/updatevacacion");
+                                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                            connection.setRequestMethod("PUT");
+                                            connection.setDoOutput(true);
+                                            connection.setRequestProperty("Content-Type", "application/json");
+                                            connection.setRequestProperty("Accept", "application/json");
+                                            OutputStream os = connection.getOutputStream();
+                                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                            osw.write(vacacion.toJson());
+                                            osw.flush();
+                                            int responseCode = connection.getResponseCode();
+                                            //Ver si la respuesta es correcta
+                                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                                // Si es correcta la leemos
+                                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                                String line;
+                                                StringBuilder response = new StringBuilder();
+                                                while ((line = reader.readLine()) != null) {
+                                                    response.append(line);
+                                                }
+                                                reader.close();
+                                                responseStr[0] = response.toString();
+                                                connection.disconnect();
+                                            } else {
+                                                connection.disconnect();
+                                            }
+                                        } catch (MalformedURLException e) {
+                                            throw new RuntimeException(e);
+                                        } catch (ProtocolException e) {
+                                            throw new RuntimeException(e);
+                                        } catch (IOException e) {
+                                            throw new RuntimeException(e);
                                         }
-                                        reader.close();
-                                        responseStr[0] = response.toString();
-                                        connection.disconnect();
-                                    } else {
-                                        connection.disconnect();
                                     }
-                                } catch (MalformedURLException e) {
-                                    throw new RuntimeException(e);
-                                } catch (ProtocolException e) {
-                                    throw new RuntimeException(e);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
+                                };
+                                Thread thread = new Thread(runnable);
+                                thread.start();
+                                try {
+                                    thread.join();
+                                } catch (InterruptedException ex) {
+                                    throw new RuntimeException(ex);
                                 }
-                            }
-                        };
-                        Thread thread = new Thread(runnable);
-                        thread.start();
-                        try {
-                            thread.join();
-                        } catch (InterruptedException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        System.out.println(responseStr[0]);
-                        if (responseStr[0].contains("correctamente")) {
-                            Snackbar.make(configFragment.getView(),"Actualización correcta",Snackbar.LENGTH_SHORT).show();
-                            configFragment.getRvVacaciones().getAdapter().notifyDataSetChanged();
-                        } else {
-                        }
-                    }
-                } else {
-                    final String[] responseStr = new String[1];
-                    Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            // Conectamos a la pagina con el método que queramos
-                            try {
-                                URL url = new URL("https://reservante.mjhudesings.com/slim/addvacacion");
-                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                                connection.setRequestMethod("POST");
-                                connection.setDoOutput(true);
-                                connection.setRequestProperty("Content-Type", "application/json");
-                                connection.setRequestProperty("Accept", "application/json");
-                                OutputStream os = connection.getOutputStream();
-                                OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                                String jsonStr = "{\n"
-                                        + "    \"id_restaurante\":\"#PARAMID#\",\n"
-                                        + "    \"nombre\":\"#PARAMNOMBRE#\",\n"
-                                        + "    \"inicio\":\"#PARAMINICIO#\",\n"
-                                        + "    \"fin\":\"#PARAMFIN#\"\n"
-                                        + "}";
-                                jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
-                                jsonStr = jsonStr.replace("#PARAMNOMBRE#", etNombre.getText());
-                                jsonStr = jsonStr.replace("#PARAMINICIO#", tvInicio.getText());
-                                jsonStr = jsonStr.replace("#PARAMFIN#", tvFin.getText());
-                                osw.write(jsonStr);
-                                System.out.println(jsonStr);
-                                osw.flush();
-                                int responseCode = connection.getResponseCode();
-                                //Ver si la respuesta es correcta
-                                if (responseCode == HttpURLConnection.HTTP_OK) {
-                                    // Si es correcta la leemos
-                                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                    String line;
-                                    StringBuilder response = new StringBuilder();
-                                    while ((line = reader.readLine()) != null) {
-                                        response.append(line);
-                                    }
-                                    reader.close();
-                                    responseStr[0] = response.toString();
-                                    System.out.println(responseStr[0]);
-                                    connection.disconnect();
+                                System.out.println(responseStr[0]);
+                                if (responseStr[0].contains("correctamente")) {
+                                    Snackbar.make(configFragment.getView(),"Actualización correcta",Snackbar.LENGTH_SHORT).show();
+                                    configFragment.getRvVacaciones().getAdapter().notifyDataSetChanged();
                                 } else {
-                                    connection.disconnect();
                                 }
-                            } catch (ProtocolException e) {
-                                throw new RuntimeException(e);
-                            } catch (MalformedURLException e) {
-                                throw new RuntimeException(e);
-                            } catch (IOException e) {
+                            }
+                        }
+                        else {
+                            final String[] responseStr = new String[1];
+                            Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Conectamos a la pagina con el método que queramos
+                                    try {
+                                        URL url = new URL("https://reservante.mjhudesings.com/slim/addvacacion");
+                                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                        connection.setRequestMethod("POST");
+                                        connection.setDoOutput(true);
+                                        connection.setRequestProperty("Content-Type", "application/json");
+                                        connection.setRequestProperty("Accept", "application/json");
+                                        OutputStream os = connection.getOutputStream();
+                                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                        String jsonStr = "{\n"
+                                                + "    \"id_restaurante\":\"#PARAMID#\",\n"
+                                                + "    \"nombre\":\"#PARAMNOMBRE#\",\n"
+                                                + "    \"inicio\":\"#PARAMINICIO#\",\n"
+                                                + "    \"fin\":\"#PARAMFIN#\"\n"
+                                                + "}";
+                                        jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
+                                        jsonStr = jsonStr.replace("#PARAMNOMBRE#", etNombre.getText());
+                                        jsonStr = jsonStr.replace("#PARAMINICIO#", tvInicio.getText());
+                                        jsonStr = jsonStr.replace("#PARAMFIN#", tvFin.getText());
+                                        osw.write(jsonStr);
+                                        System.out.println(jsonStr);
+                                        osw.flush();
+                                        int responseCode = connection.getResponseCode();
+                                        //Ver si la respuesta es correcta
+                                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                                            // Si es correcta la leemos
+                                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                            String line;
+                                            StringBuilder response = new StringBuilder();
+                                            while ((line = reader.readLine()) != null) {
+                                                response.append(line);
+                                            }
+                                            reader.close();
+                                            responseStr[0] = response.toString();
+                                            System.out.println(responseStr[0]);
+                                            connection.disconnect();
+                                        } else {
+                                            connection.disconnect();
+                                        }
+                                    } catch (ProtocolException e) {
+                                        throw new RuntimeException(e);
+                                    } catch (MalformedURLException e) {
+                                        throw new RuntimeException(e);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+
+                                }
+                            };
+                            Thread thread = new Thread(runnable);
+                            thread.start();
+                            try {
+                                thread.join();
+                            } catch (InterruptedException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                            try {
+                                JSONObject jsonRespuesta = new JSONObject(responseStr[0]);
+                                if (jsonRespuesta.getInt("codigo") == 1) {
+                                    Vacaciones v = new Vacaciones(etNombre.getText().toString()
+                                            , tvInicio.getText().toString()
+                                            , tvFin.getText().toString()
+                                            , ((MainActivity) configFragment.getActivity()).getIdRestaurante()
+                                            , jsonRespuesta.getInt("id"));
+                                    ((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).getDatalist().add(v);
+                                    ((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).notifyItemInserted(((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).getItemCount() - 1);
+                                }
+                            } catch (JSONException e) {
                                 throw new RuntimeException(e);
                             }
-
                         }
-                    };
-                    Thread thread = new Thread(runnable);
-                    thread.start();
-                    try {
-                        thread.join();
-                    } catch (InterruptedException ex) {
-                        throw new RuntimeException(ex);
                     }
-                    try {
-                        JSONObject jsonRespuesta = new JSONObject(responseStr[0]);
-                        if (jsonRespuesta.getInt("codigo") == 1) {
-                            Vacaciones v = new Vacaciones(etNombre.getText().toString()
-                                    , tvInicio.getText().toString()
-                                    , tvFin.getText().toString()
-                                    , ((MainActivity) configFragment.getActivity()).getIdRestaurante()
-                                    , jsonRespuesta.getInt("id"));
-                            ((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).getDatalist().add(v);
-                            ((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).notifyItemInserted(((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).getItemCount() - 1);
-                        }
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                    else{
+                        AlertDialog alertDialog = new AlertDialog.Builder(configFragment.getContext())
+                                .setTitle("Aviso")
+                                .setMessage("La fecha inicio no puede ser posterior a la fecha fin")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        vacacionesDialog.dismiss();
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        vacacionesDialog.dismiss();
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert).create();
+                        alertDialog.show();
                     }
                 }
             }
@@ -239,9 +265,19 @@ public class VacacionesDialog extends DialogFragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         if (month < 10) {
-                            tvFecha.setText(String.format("%d-0%d-%d", year, month, dayOfMonth));
+                            if (dayOfMonth < 10){
+                                tvFecha.setText(String.format("%d-0%d-0%d", year, month, dayOfMonth));
+                            }
+                            else {
+                                tvFecha.setText(String.format("%d-0%d-%d", year, month, dayOfMonth));
+                            }
                         } else {
-                            tvFecha.setText(String.format("%d-%d-%d", year, month, dayOfMonth));
+                            if (dayOfMonth < 10){
+                                tvFecha.setText(String.format("%d-%d-0%d", year, month, dayOfMonth));
+                            }
+                            else {
+                                tvFecha.setText(String.format("%d-%d-%d", year, month, dayOfMonth));
+                            }
                         }
 
                     }

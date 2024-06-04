@@ -42,7 +42,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class ReservaDialog extends DialogFragment {
+public class
+ReservaDialog extends DialogFragment {
     private View vistaPadre;
     private Boolean editando = false;
     private ReservasFragmentFechas reservasFragmentFechas;

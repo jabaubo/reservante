@@ -17,13 +17,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.ui.ReservaDialog;
 import com.jabaubo.proyecto_reservas.ui.home.HomeFragment;
-import com.jabaubo.proyecto_reservas.ui.reservas.ReservasFragment;
 import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFragmentFechas;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,30 +35,42 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHolder>{
+public class ReservaEnListaAdapter extends RecyclerView.Adapter<ReservaEnListaAdapter.MyViewHolder>{
 
     private List<Reserva> fullList;
     private List<Reserva> dataList;
     private FragmentManager fragmentManager;
     private Button btBorrar;
     private Button btLlamar;
-    private ReservasFragment reservasFragment;
+    private ReservasFragmentFechas reservasFragmentFechas;
+    private HomeFragment homeFragment;
     private RecyclerView recyclerView;
 
-    public ReservaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, RecyclerView recyclerView) {
+    public ReservaEnListaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, RecyclerView recyclerView) {
         this.fullList = dataList;
         this.dataList = dataList;
         this.recyclerView = recyclerView;
         this.fragmentManager = fragmentManager;
     }
 
-    public ReservaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, ReservasFragmentFechas reservasFragmentFechas, RecyclerView  recyclerView) {
+    public ReservaEnListaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, ReservasFragmentFechas reservasFragmentFechas, RecyclerView  recyclerView) {
         this.fullList = dataList;
         this.dataList = dataList;
         this.recyclerView = recyclerView;
         this.fragmentManager = fragmentManager;
+        this.reservasFragmentFechas = reservasFragmentFechas;
     }
 
+    public ReservaEnListaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, HomeFragment homeFragment, RecyclerView  recyclerView) {
+        this.fullList = dataList;
+        this.dataList = dataList;
+        this.recyclerView = recyclerView;
+        this.fragmentManager = fragmentManager;
+        for (int i = 0 ; i < dataList.size() ; i++){
+            System.out.println(dataList.get(i).getId());
+        }
+        this.homeFragment = homeFragment;
+    }
 
     public List<Reserva> getDataList() {
         return dataList;
@@ -76,10 +86,8 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Reserva data = dataList.get(position);
-        holder.tvComensales.setText(data.getN_personas());
-        holder.tvNombre.setText(data.getNombre_apellidos());
-        holder.tvFecha.setText(data.getFecha());
-        holder.tvHora.setText(data.getHora());
+        holder.textViewTitle.setText(String.format("%s\nComensales: %d\nSalon:%s",data.getNombre_apellidos(),data.getN_personas(),data.getId_salon()));
+        holder.textViewDescription.setText("Teléfono " + data.getTelefono());
         holder.itemView.setOnClickListener(view -> {});
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,22 +252,96 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvHora;
-        TextView tvFecha;
-        TextView tvNombre;
-        TextView tvComensales;
+        TextView textViewTitle;
+        TextView textViewDescription;
 
         MyViewHolder(View itemView) {
             super(itemView);
-            tvHora = itemView.findViewById(R.id.tvHora);
-            tvFecha = itemView.findViewById(R.id.tvFecha);
-            tvNombre = itemView.findViewById(R.id.tvNombre);
-            tvComensales = itemView.findViewById(R.id.tvComensales);
+            textViewTitle = itemView.findViewById(R.id.tvPrincipal);
+            textViewDescription = itemView.findViewById(R.id.tvTlfReserva);
 
         }
 
 
     }
+    public void actualizarLista(){
+        final JSONArray[] jsonArray = new JSONArray[1];
+        try {
+            ArrayList<ReservaFechas> lista = new ArrayList<>();
+            Runnable runnable= new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/getreservahora");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("POST");
+                        OutputStream os = connection.getOutputStream();
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\"\n}";
+                        jsonRequest = jsonRequest.replace("#PARAMFECHA#",lista.get(0).getFecha());
+                        jsonRequest = jsonRequest.replace("#PARAMHORA#",lista.get(0).getHora());
+                        osw.write(jsonRequest);
+                        osw.flush();
+                        int responseCode = connection.getResponseCode();
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            reader.close();
+                            jsonArray[0] = new JSONObject(response.toString()).getJSONArray("reservas");
+                            connection.disconnect();
+                        } else {
+                            connection.disconnect();
+                        }
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                    }
+
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }ArrayList<Reserva> lista = new ArrayList<>();
+        if (jsonArray[0] != null){
+            for (int i  = 0 ; i < jsonArray[0].length() ; i++){
+                try {
+                    JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
+                    int id = jsonObject.getInt("id_reserva");
+                    String nombre_apellidos = jsonObject.getString("nombre_apellidos");
+                    String telefono = jsonObject.getString("telefono");
+                    String email = jsonObject.getString("email");
+                    int n_personas = jsonObject.getInt("n_personas");
+                    int id_salon = jsonObject.getInt("id_salon");
+                    String[] fechaMiembros = jsonObject.getString("fecha").split("-");
+                    String fechaBuena = String.format("%s/%s/%s",fechaMiembros[2],fechaMiembros[1],fechaMiembros[0]);
+                    String hora = jsonObject.getString("hora");
+                    String observaciones = jsonObject.getString("observaciones");
+                    Reserva r = new Reserva(id,nombre_apellidos,telefono,email,n_personas,id_salon,fechaBuena,hora,observaciones);
+                    lista.add(r);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        lista = new ArrayList<>(null);
+        recyclerView.setAdapter(new ReservaAdapter(lista,this.getFragmentManager(),getReservasFragmentFechas(),recyclerView));
+        recyclerView.refreshDrawableState();
+    }
+
     public FragmentManager getFragmentManager() {
         return fragmentManager;
     }

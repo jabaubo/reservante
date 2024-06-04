@@ -54,4 +54,6 @@
     <string name="dialogo_aforo_salon">Aforo del salón</string>
 
     <string name="boton_reservar">Reservar</string>
+    <string name="reserva_fecha">Fecha</string>
+    <string name="reserva_hora">Hora</string>
 </resources>

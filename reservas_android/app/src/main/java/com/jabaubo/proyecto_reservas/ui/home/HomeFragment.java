@@ -2,6 +2,7 @@ package com.jabaubo.proyecto_reservas.ui.home;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -50,7 +51,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -126,7 +129,7 @@ public class HomeFragment extends Fragment {
                         tvReservasDiaHora = root[0].findViewById(R.id.tvReservasDiaHoraInicio);
                         spinnerFiltro = root[0].findViewById(R.id.spinFiltroInicio);
                         System.out.println("NULO: " + rvOcupacion.getAdapter() == null);
-
+                        incremento = leerIncremento();
                         String[] salones = leerSalones();
                         if (salones != null) {
                             ArrayAdapter<String> listaSalones = new ArrayAdapter<>(homeFragment.getContext(), android.R.layout.simple_spinner_dropdown_item, salones);
@@ -208,7 +211,7 @@ public class HomeFragment extends Fragment {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             cargarOcupacion(LocalDate.now().toString());
                         }
-
+                        comprobarBotones();
                     }
                 }
             });
@@ -307,11 +310,10 @@ public class HomeFragment extends Fragment {
 
                 }
             });
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 cargarOcupacion(LocalDate.now().toString());
             }
-
+            comprobarBotones();
         }
         return root[0];
     }
@@ -1064,7 +1066,7 @@ public class HomeFragment extends Fragment {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        LocalTime incremento = leerIncremento();
+        incremento = leerIncremento();
         LocalDateTime inicio_m;
         LocalDateTime fin_m;
         LocalDateTime inicio_t;
@@ -1093,7 +1095,7 @@ public class HomeFragment extends Fragment {
                 contador++;
                 tramo = tramo.plusHours(incremento.getHour());
                 tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_m.isBefore(tramo)) {
+                if (fin_m.isBefore(tramo) || tramo.until(fin_m, ChronoUnit.MINUTES) < (incremento.getHour()*60+incremento.getMinute())) {
                     break;
                 }
 
@@ -1259,23 +1261,30 @@ public class HomeFragment extends Fragment {
                 localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                 localTime = localTime.plusHours(incremento.getHour());
                 localTime = localTime.plusMinutes(incremento.getMinute());
-                if (localTime.isAfter(hora_fin_m) || localTime.isEqual(hora_fin_m)) {
-                    if (LocalDateTime.parse(fecha + " " + horaOriginal, dtf).isBefore(hora_inicio_t)) {
-                        localTime = LocalDateTime.parse(fecha + " " + hora_inicio_t.toLocalTime(), dtf);
+                if (localTime.isBefore(hora_fin_m) || localTime.isEqual(hora_fin_m)){
+                    if (localTime.until(hora_fin_m,ChronoUnit.MINUTES)< (incremento.getHour()*60+incremento.getMinute())){
+                        localTime = localTime.withHour(hora_inicio_t.getHour());
+                        localTime = localTime.withMinute(hora_inicio_t.getMinute());
                     }
-                    if (localTime.isAfter(hora_inicio_t)) {
-                        if (localTime.isAfter(hora_fin_t)) {
-                            localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
-                        }
+                }
+                else if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)){
+                    localTime = localTime.withHour(hora_inicio_t.getHour());
+                    localTime = localTime.withMinute(hora_inicio_t.getMinute());
+                }
+                else if (localTime.isAfter(hora_fin_t) || localTime.isEqual(hora_fin_t)) {
+                    if (localTime.until(hora_fin_t,ChronoUnit.MINUTES)< (incremento.getHour()*60+incremento.getMinute())){
+                        localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                     }
                 }
                 LocalDateTime nextTramo = localTime.plusHours(incremento.getHour());
                 nextTramo = nextTramo.plusMinutes(incremento.getMinute());
-                if (nextTramo.isAfter(hora_fin_t)) {
+                if (nextTramo.isAfter(hora_fin_t) || nextTramo.until(hora_fin_t, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
                     btSiguiente.setEnabled(false);
+                    btSiguiente.setBackgroundColor(Color.GRAY);
                 }
                 if (nextTramo.isAfter(hora_inicio_m)) {
                     btAnterior.setEnabled(true);
+                    btAnterior.setBackgroundColor(Color.rgb(139,42,139));
                 }
                 horaTramo = localTime.toLocalTime().toString();
             }
@@ -1302,21 +1311,49 @@ public class HomeFragment extends Fragment {
                 localTime = localTime.minusHours(incremento.getHour());
                 localTime = localTime.minusMinutes(incremento.getMinute());
 
-                if (localTime.isAfter(hora_inicio_m)) {
-                    if (localTime.isBefore(hora_inicio_t)) {
-                        if (localTime.isAfter(hora_fin_m)) {
-                            localTime = LocalDateTime.parse(fecha + " " + hora_fin_m.toLocalTime(), dtf);
-                        }
+                if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)){
+                    localTime = localTime.withHour(hora_inicio_m.getHour());
+                    localTime = localTime.withMinute(hora_inicio_m.getMinute());
+                    while (localTime.until(hora_fin_m,ChronoUnit.MINUTES)< (incremento.getHour()*60+incremento.getMinute())){
+                        localTime.plusMinutes(incremento.getMinute());
+                        localTime.plusHours(incremento.getHour());
+                    }
+
+                }
+                /*if (localTime.isBefore(hora_inicio_t) || localTime.isEqual(hora_inicio_t)){
+                    if (localTime.until(hora_fin_m,ChronoUnit.MINUTES)< (incremento.getHour()*60+incremento.getMinute())){
+                        localTime = localTime.withHour(hora_inicio_t.getHour());
+                        localTime = localTime.withMinute(hora_inicio_t.getMinute());
                     }
                 }
+                else if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)){
+                    localTime = localTime.withHour(hora_inicio_t.getHour());
+                    localTime = localTime.withMinute(hora_inicio_t.getMinute());
+                }
+                else if (localTime.isAfter(hora_fin_t) || localTime.isEqual(hora_fin_t)) {
+                    if (localTime.until(hora_fin_t,ChronoUnit.MINUTES)< (incremento.getHour()*60+incremento.getMinute())){
+                        localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
+                    }
+                }*/
+                /*if (localTime.isAfter(hora_inicio_m)) {
+                    if (localTime.isBefore(hora_inicio_t)) {
+                        if (localTime.isAfter(hora_fin_m)) {
+                            localTime = LocalDateTime.parse(fecha + " " + hora_fin_m.toLocalTime().minusMinutes(incremento.getMinute()), dtf);
+                            localTime = localTime.minusHours(incremento.getHour());
+                        }
+                    }
+                }*/
+                System.out.println(incremento);
                 LocalDateTime nextTramo = localTime.minusHours(incremento.getHour());
                 nextTramo = nextTramo.minusMinutes(incremento.getMinute());
                 if (nextTramo.isBefore(hora_inicio_m)) {
                     btAnterior.setEnabled(false);
+                    btAnterior.setBackgroundColor(Color.GRAY);
                 }
                 if (nextTramo.isBefore(hora_fin_t)) {
                     btSiguiente.setEnabled(true);
-                    btSiguiente.setAlpha(1);
+                    btSiguiente.setBackgroundColor(Color.rgb(139,42,139));
+
                 }
                 horaTramo = localTime.toLocalTime().toString();
             }
@@ -1555,15 +1592,33 @@ public class HomeFragment extends Fragment {
     }
 
     public void comprobarBotones() {
-        String clase = rvOcupacion.getAdapter().getClass().toString();
-        boolean flag = !clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter");
-        System.out.println(clase);
-        btReservar.setEnabled(flag);
-        btAnterior.setEnabled(flag);
-        btSiguiente.setEnabled(flag);
-        btVolverInicio.setEnabled(flag);
-        spinnerFiltro.setEnabled(flag);
+        boolean adapterNull = rvOcupacion.getAdapter() == null;
+        boolean adapterCargado = false;
+        boolean enReservas = false;
+        if (!adapterNull) {
+            String clase = rvOcupacion.getAdapter().getClass().getName();
+            System.out.println(clase);
+            enReservas = clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter");
+        }
+        btVolverInicio.setEnabled(enReservas);
+        btAnterior.setEnabled(enReservas);
+        btSiguiente.setEnabled(enReservas);
+        btReservar.setEnabled(enReservas);
+        spinnerFiltro.setEnabled(enReservas);
+        if (enReservas){
+            btVolverInicio.setBackgroundColor(Color.rgb(139,42,139));
+            btSiguiente.setBackgroundColor(Color.rgb(139,42,139));
+            btAnterior.setBackgroundColor(Color.rgb(139,42,139));
+            btReservar.setBackgroundColor(Color.rgb(139,42,139));
+        }
+        else{
+            btVolverInicio.setBackgroundColor(Color.GRAY);
+            btSiguiente.setBackgroundColor(Color.GRAY);
+            btAnterior.setBackgroundColor(Color.GRAY);
+            btReservar.setBackgroundColor(Color.GRAY);
+        }
     }
+
 
     @Override
     public void onResume() {

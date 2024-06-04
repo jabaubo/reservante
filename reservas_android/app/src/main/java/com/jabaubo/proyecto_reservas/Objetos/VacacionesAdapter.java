@@ -134,6 +134,7 @@ public class VacacionesAdapter extends RecyclerView.Adapter<VacacionesAdapter.My
                                 if (responseStr[0].contains("correctamente")) {
                                     Snackbar.make(configFragment.getView(),"Vacación borrada",Snackbar.LENGTH_SHORT).show();
                                     configFragment.getRvVacaciones().getAdapter().notifyItemRemoved(holder.getAdapterPosition());
+                                    datalist.remove(data);
                                 } else {
                                     Snackbar.make(configFragment.getView(),"Vacación borrada",Snackbar.LENGTH_SHORT).show();
                                 }

@@ -182,14 +182,11 @@ public class ConfigFragment extends Fragment {
                     System.out.println(v + " " + listaVacaciones.size());
                 }
             }
+            VacacionesAdapter vacacionesAdapter;
             if (listaVacaciones.size() > 0) {
-                System.out.println("Traca matraca");
-                VacacionesAdapter vacacionesAdapter = new VacacionesAdapter(listaVacaciones,this);
-                rvVacaciones.setLayoutManager(new LinearLayoutManager(this.getContext()));
-                rvVacaciones.setAdapter(vacacionesAdapter);
-                rvVacaciones.refreshDrawableState();
-                System.out.println("VACACIONES:"+vacacionesAdapter.getItemCount());
+                vacacionesAdapter = new VacacionesAdapter(listaVacaciones,this);
             } else {
+                vacacionesAdapter = new VacacionesAdapter(new ArrayList<>(),this);
                 android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                         .setTitle("Advertencia")
                         .setMessage("No hay vacaciones registradas")
@@ -213,6 +210,9 @@ public class ConfigFragment extends Fragment {
                         .setIcon(android.R.drawable.ic_dialog_alert).create();
                 alertDialog.show();
             }
+            rvVacaciones.setLayoutManager(new LinearLayoutManager(this.getContext()));
+            rvVacaciones.setAdapter(vacacionesAdapter);
+            rvVacaciones.refreshDrawableState();
 
         } catch (JSONException e) {
             throw new RuntimeException(e);

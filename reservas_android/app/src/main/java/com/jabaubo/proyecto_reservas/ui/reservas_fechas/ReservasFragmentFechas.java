@@ -2,11 +2,13 @@ package com.jabaubo.proyecto_reservas.ui.reservas_fechas;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -110,7 +112,7 @@ public class ReservasFragmentFechas extends Fragment {
         scrollView = root.findViewById(R.id.svReservas);
         spinnerFiltro = root.findViewById(R.id.spinFiltro);
         salones = leerSalones();
-        if (salones != null){
+        if (salones != null) {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(root.getContext(), android.R.layout.simple_spinner_dropdown_item, salones);
             spinnerFiltro.setAdapter(adapter);
             spinnerFiltro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -143,12 +145,7 @@ public class ReservasFragmentFechas extends Fragment {
                     calendarView.setLayoutParams(layoutParams);
                     calendarView.setDate(calendar.getTimeInMillis());
                     tvReservasDiaHora.setText(String.format("%d/%d/%d", calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.YEAR)));
-                    btSiguienteDia.setAlpha(1f);
-                    btSiguienteDia.setEnabled(true);
-                    btAnteriorDia.setAlpha(1f);
-                    btAnteriorDia.setEnabled(true);
-                    btLayoutCalendario.setAlpha(1f);
-                    btLayoutCalendario.setClickable(true);
+                    comprobarBotones();
                 }
             });
             calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -173,12 +170,7 @@ public class ReservasFragmentFechas extends Fragment {
                     calendar.set(year, month - 1, dayOfMonth);
                     calendarView.setDate(calendar.getTimeInMillis());
                     tvReservasDiaHora.setText(String.format("%d/%d/%d", dayOfMonth, month, year));
-                    btSiguienteDia.setAlpha(1f);
-                    btSiguienteDia.setEnabled(true);
-                    btAnteriorDia.setAlpha(1f);
-                    btAnteriorDia.setEnabled(true);
-                    btLayoutCalendario.setAlpha(1f);
-                    btLayoutCalendario.setClickable(true);
+                    comprobarBotones();
                 }
 
             });
@@ -231,7 +223,7 @@ public class ReservasFragmentFechas extends Fragment {
                 }
             });
             comprobarBotones();
-        }else{
+        } else {
             spinnerFiltro.setEnabled(false);
             btSiguienteDia.setEnabled(false);
             btAnteriorDia.setEnabled(false);
@@ -376,7 +368,7 @@ public class ReservasFragmentFechas extends Fragment {
                     rvOcupacion.setAdapter(adapter);
                 } else {
                     System.out.println("RESPUESTA CARGA: " + json[0]);
-                    if (json[0].getInt("codigo")==1){
+                    if (json[0].getInt("codigo") == 1) {
                         JSONArray jsonArray = json[0].getJSONArray("reservas");
                         int n_salones = jsonArray.getJSONObject(0).getInt("n_salones");
                         System.out.println("tope :" + n_salones);
@@ -413,8 +405,7 @@ public class ReservasFragmentFechas extends Fragment {
                             lista.add(r);
                         }
                         rvOcupacion.setAdapter(new ReservasFechaAdapter(getChildFragmentManager(), rvOcupacion, tvReservasDiaHora, lista, this));
-                    }
-                    else {
+                    } else {
                         AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                                 .setTitle("Error")
                                 .setMessage("No hay reservas")
@@ -482,7 +473,7 @@ public class ReservasFragmentFechas extends Fragment {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                 localTime = localTime.plusHours(incremento.getHour());
-                localTime = localTime.plusMinutes(incremento.getMinute());
+                localTime = localTime.plusMinutes(incremento.getMinute());/*
                 if (localTime.isAfter(hora_fin_m)) {
                     if (LocalDateTime.parse(fecha + " " + horaOriginal, dtf).isBefore(hora_inicio_t)) {
                         localTime = LocalDateTime.parse(fecha + " " + hora_inicio_t.toLocalTime(), dtf);
@@ -492,16 +483,29 @@ public class ReservasFragmentFechas extends Fragment {
                             localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                         }
                     }
+                }*/
+                if (localTime.isBefore(hora_fin_m) || localTime.isEqual(hora_fin_m)) {
+                    if (localTime.until(hora_fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
+                        localTime = localTime.withHour(hora_inicio_t.getHour());
+                        localTime = localTime.withMinute(hora_inicio_t.getMinute());
+                    }
+                } else if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)) {
+                    localTime = localTime.withHour(hora_inicio_t.getHour());
+                    localTime = localTime.withMinute(hora_inicio_t.getMinute());
+                } else if (localTime.isAfter(hora_fin_t) || localTime.isEqual(hora_fin_t)) {
+                    if (localTime.until(hora_fin_t, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
+                        localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
+                    }
                 }
                 LocalDateTime nextTramo = localTime.plusHours(incremento.getHour());
                 nextTramo = nextTramo.plusMinutes(incremento.getMinute());
-                if (nextTramo.isAfter(hora_fin_t)) {
+                if (nextTramo.isAfter(hora_fin_t)|| nextTramo.until(hora_fin_t, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
                     btSiguienteDia.setEnabled(false);
-                    btSiguienteDia.setAlpha(0);
+                    btSiguienteDia.setBackgroundColor(Color.GRAY);
                 }
                 if (nextTramo.isAfter(hora_inicio_m)) {
                     btAnteriorDia.setEnabled(true);
-                    btAnteriorDia.setAlpha(1f);
+                    btAnteriorDia.setBackgroundColor(Color.rgb(139,42,139));
                 }
                 horaTramo = localTime.toLocalTime().toString();
             }
@@ -571,31 +575,33 @@ public class ReservasFragmentFechas extends Fragment {
                 localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                 localTime = localTime.minusHours(incremento.getHour());
                 localTime = localTime.minusMinutes(incremento.getMinute());
-
+                /*
                 if (localTime.isAfter(hora_inicio_m)) {
                     if (localTime.isBefore(hora_inicio_t)) {
                         if (localTime.isAfter(hora_fin_m)) {
                             localTime = LocalDateTime.parse(fecha + " " + hora_fin_m.toLocalTime(), dtf);
                         }
-                    }/*
-                    if (LocalDateTime.parse(fecha+ " " + horaOriginal,dtf).isBefore(hora_inicio_t)){
-                        localTime = LocalDateTime.parse(fecha + " " + hora_fin_t);
                     }
-                    else if (localTime.isBefore(hora_inicio_t) ){
-                        if (localTime.isBefore(hora_fin_t)){
-                            localTime = LocalDateTime.parse(fecha + " " +horaOriginal,dtf);
-                        }
-                    }*/
+                }
+                */
+                if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)) {
+                    localTime = localTime.withHour(hora_inicio_m.getHour());
+                    localTime = localTime.withMinute(hora_inicio_m.getMinute());
+                    while (localTime.until(hora_fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
+                        localTime.plusMinutes(incremento.getMinute());
+                        localTime.plusHours(incremento.getHour());
+                    }
+
                 }
                 LocalDateTime nextTramo = localTime.minusHours(incremento.getHour());
                 nextTramo = nextTramo.minusMinutes(incremento.getMinute());
                 if (nextTramo.isBefore(hora_inicio_m)) {
                     btAnteriorDia.setEnabled(false);
-                    btAnteriorDia.setAlpha(0);
+                    btAnteriorDia.setBackgroundColor(Color.GRAY);
                 }
                 if (nextTramo.isBefore(hora_fin_t)) {
                     btSiguienteDia.setEnabled(true);
-                    btSiguienteDia.setAlpha(1);
+                    btSiguienteDia.setBackgroundColor(Color.rgb(139,42,139));
                 }
                 horaTramo = localTime.toLocalTime().toString();
             }
@@ -643,12 +649,6 @@ public class ReservasFragmentFechas extends Fragment {
             ((ReservasFechaAdapter) rvOcupacion.getAdapter()).setDataList(new ArrayList<>());
         }
         rvOcupacion.getAdapter().notifyDataSetChanged();
-        btLayoutCalendario.setAlpha(0);
-        btLayoutCalendario.setClickable(false);
-        btAnteriorDia.setAlpha(0);
-        btAnteriorDia.setEnabled(false);
-        btSiguienteDia.setAlpha(0);
-        btSiguienteDia.setEnabled(false);
         comprobarBotones();
     }
 
@@ -857,7 +857,7 @@ public class ReservasFragmentFechas extends Fragment {
             e.printStackTrace();
         }
     }
-
+/*
     public String leerTramos(String fecha) {
         LocalDate fechaDate = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -991,6 +991,140 @@ public class ReservasFragmentFechas extends Fragment {
         }
         return null;
     }
+*/
+public String leerTramos(String fecha) {
+    LocalDate fechaDate = null;
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        fechaDate = LocalDate.parse(fecha);
+    }
+    final JSONArray[] horario = {new JSONArray()};
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Conectamos a la pagina con el método que queramos
+            try {
+                URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept", "application/json");
+                OutputStream os = connection.getOutputStream();
+                System.out.println("TETica");
+                OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                String jsonFecha = "{\n"
+                        + "    \"id\":\"#PARAMID#\"\n"
+                        + "}";
+                jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
+                osw.write(jsonFecha);
+                osw.flush();
+                int responseCode = connection.getResponseCode();
+//Ver si la respuesta es correcta
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Si es correcta la leemos
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    StringBuilder response = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
+                    horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
+                    connection.disconnect();
+                } else {
+                    connection.disconnect();
+                }
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            } catch (ProtocolException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (JSONException e) {
+            }
+
+        }
+    };
+    Thread thread = new Thread(runnable);
+    thread.start();
+    try {
+        thread.join();
+    } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+    }
+    int dia = 0;
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        dia = fechaDate.getDayOfWeek().getValue();
+    }
+    JSONObject jsonObject;
+    try {
+        jsonObject = (horario[0].getJSONObject(dia - 1));
+    } catch (JSONException e) {
+        throw new RuntimeException(e);
+    }
+    incremento = leerIncremento();
+    LocalDateTime inicio_m;
+    LocalDateTime fin_m;
+    LocalDateTime inicio_t;
+    LocalDateTime fin_t;
+    LocalDateTime[] tramos;
+    DateTimeFormatter dateTimeFormatter = null;
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try {
+            inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
+            fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
+            inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
+            fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
+            Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+            Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+            tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
+            System.out.println("En teoría se ejecuta " + tramos.length);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        int contador = 0;
+        LocalDateTime tramo = inicio_m;
+        while (fin_m.isAfter(tramo)) {
+            tramos[contador] = tramo;
+            System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
+            contador++;
+            tramo = tramo.plusHours(incremento.getHour());
+            tramo = tramo.plusMinutes(incremento.getMinute());
+            if (fin_m.isBefore(tramo) || tramo.until(fin_m, ChronoUnit.MINUTES) < (incremento.getHour()*60+incremento.getMinute())) {
+                break;
+            }
+
+        }
+        tramo = inicio_t;
+        while (fin_t.isAfter(tramo)) {
+            tramos[contador] = tramo;
+            System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
+            contador++;
+            tramo = tramo.plusHours(incremento.getHour());
+            tramo = tramo.plusMinutes(incremento.getMinute());
+            if (fin_t.isBefore(tramo)) {
+                break;
+            }
+        }
+        String texto = "SELECT '#PARAM1#' AS value ";
+        for (LocalDateTime t : tramos) {
+            if (t != null) {
+                if (texto.contains("#PARAM1#")) {
+                    texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
+                } else {
+                    texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                }
+            }
+        }
+        System.out.println(texto);
+        if (texto.contains("#PARAM1#")) {
+            return null;
+        }
+        return texto;
+    }
+    return null;
+}
 
     public void avisarBorradoRecyclerView(int position) {
         this.getActivity().runOnUiThread(new Runnable() {
@@ -1036,7 +1170,7 @@ public class ReservasFragmentFechas extends Fragment {
                         reader.close();
                         connection.disconnect();
                         System.out.println("Respuesta insertar aforo" + response);
-                        if (new JSONObject(String.valueOf(response)).getInt("codigo") == 1){
+                        if (new JSONObject(String.valueOf(response)).getInt("codigo") == 1) {
                             jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
                             System.out.println(jsonArray[0]);
                         }
@@ -1097,17 +1231,34 @@ public class ReservasFragmentFechas extends Fragment {
 
     public void comprobarBotones() {
         boolean adapterNull = rvOcupacion.getAdapter() == null;
-        boolean flag = false;
+        boolean adapterCargado = false;
+        boolean enReservas = false;
+        String clase = rvOcupacion.getAdapter().getClass().getName();
         if (!adapterNull) {
-            String clase = rvOcupacion.getAdapter().getClass().getName();
             System.out.println(clase);
-            flag = !clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter") ||
-                    !clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter");
+            adapterCargado = calendarView.getLayoutParams().height == 1;
+            enReservas = clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter");
         }
-        btnReservar.setEnabled(flag);
-        btAnteriorDia.setEnabled(flag);
-        btSiguienteDia.setEnabled(flag);
-        btLayoutCalendario.setEnabled(flag);
-        spinnerFiltro.setEnabled(flag);
+        btAnteriorDia.setEnabled(adapterCargado);
+        btSiguienteDia.setEnabled(adapterCargado);
+        btLayoutCalendario.setEnabled(adapterCargado);
+        btnReservar.setEnabled(enReservas);
+        spinnerFiltro.setEnabled(enReservas);
+        if (enReservas){
+            btnReservar.setBackgroundColor(Color.rgb(139,42,139));
+        }
+        else{
+            btnReservar.setBackgroundColor(Color.GRAY);
+        }
+        if (adapterCargado){
+            btLayoutCalendario.setBackgroundColor(Color.rgb(139,42,139));
+            btSiguienteDia.setBackgroundColor(Color.rgb(139,42,139));
+            btAnteriorDia.setBackgroundColor(Color.rgb(139,42,139));
+        }
+        else{
+            btLayoutCalendario.setBackgroundColor(Color.GRAY);
+            btSiguienteDia.setBackgroundColor(Color.GRAY);
+            btAnteriorDia.setBackgroundColor(Color.GRAY);
+        }
     }
 }
