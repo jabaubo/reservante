@@ -22,10 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.jabaubo.proyecto_reservas.MainActivity;
+import com.jabaubo.proyecto_reservas.Objetos.ReservaEnListaAdapter;
 import com.jabaubo.proyecto_reservas.R;
 import com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter;
 import com.jabaubo.proyecto_reservas.Objetos.Reserva;
 import com.jabaubo.proyecto_reservas.ui.home.HomeFragment;
+import com.jabaubo.proyecto_reservas.ui.reservas.ReservasFragment;
 import com.jabaubo.proyecto_reservas.ui.reservas_fechas.ReservasFragmentFechas;
 
 import org.json.JSONArray;
@@ -48,6 +50,7 @@ ReservaDialog extends DialogFragment {
     private Boolean editando = false;
     private ReservasFragmentFechas reservasFragmentFechas;
     private HomeFragment homeFragment;
+    private ReservasFragment reservasFragment;
 
     private String nombre;
     private String tlf;
@@ -121,7 +124,21 @@ ReservaDialog extends DialogFragment {
         this.fecha = fecha;
         this.homeFragment = homeFragment;
     }
-
+    public ReservaDialog(Boolean editando, View vistaPadre, String nombre, String tlf, String email, String comensales, String salon, String observaciones, String idReserva, String fecha, String hora,int adapterPosition, ReservasFragment reservasFragment) {
+        this.editando = editando;
+        this.nombre = nombre;
+        this.tlf = tlf;
+        this.email = email;
+        this.comensales = comensales;
+        this.salon = salon;
+        this.observaciones = observaciones;
+        this.idReserva = idReserva;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.vistaPadre = vistaPadre;
+        this.adapterPosition = adapterPosition;
+        this.reservasFragment = reservasFragment;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -241,8 +258,10 @@ ReservaDialog extends DialogFragment {
                                     Reserva r = null;
                                     if (reservasFragmentFechas != null){
                                         r =((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().get(adapterPosition);
-                                    }if (homeFragment != null){
+                                    }else if (homeFragment != null){
                                         r =((ReservaAdapter) homeFragment.getRvOcupacion().getAdapter()).getDataList().get(adapterPosition);
+                                    } else if (reservasFragment != null) {
+                                        r =((ReservaEnListaAdapter) reservasFragment.getRvOcupacion().getAdapter()).getDataList().get(adapterPosition);
                                     }
 
                                     JSONObject jsonObj;
@@ -255,12 +274,14 @@ ReservaDialog extends DialogFragment {
                                         r.setTelefono(jsonObj.getString("telefono"));
                                         r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));
                                         if (reservasFragmentFechas != null){
-
                                             ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().set(adapterPosition,r);
                                             reservasFragmentFechas.getRvOcupacion().getAdapter().notifyDataSetChanged();
-                                        }if (homeFragment != null){
+                                        }else if (homeFragment != null){
                                             ((ReservaAdapter) homeFragment.getRvOcupacion().getAdapter()).getDataList().set(adapterPosition,r);
                                             homeFragment.getRvOcupacion().getAdapter().notifyDataSetChanged();
+                                        }else if (reservasFragment != null){
+                                            ((ReservaEnListaAdapter) reservasFragment.getRvOcupacion().getAdapter()).getDataList().set(adapterPosition,r);
+                                            reservasFragment.getRvOcupacion().getAdapter().notifyDataSetChanged();
                                         }
                                     } catch (JSONException e) {
                                         throw new RuntimeException(e);
@@ -492,9 +513,13 @@ ReservaDialog extends DialogFragment {
                                         ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
                                         reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
                                     }
-                                    else {
+                                    else if (homeFragment != null) {
                                         ((ReservaAdapter) homeFragment.getRvOcupacion().getAdapter()).getDataList().add(r);
                                         homeFragment.getRvOcupacion().getAdapter().notifyItemInserted(homeFragment.getRvOcupacion().getAdapter().getItemCount()-1);
+                                    }
+                                    else if (reservasFragment != null) {
+                                        ((ReservaEnListaAdapter) reservasFragment.getRvOcupacion().getAdapter()).getDataList().add(r);
+                                        reservasFragment.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragment.getRvOcupacion().getAdapter().getItemCount()-1);
                                     }
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
@@ -597,6 +622,9 @@ ReservaDialog extends DialogFragment {
                     else  if (homeFragment != null){
                         ((ReservaAdapter) homeFragment.getRvOcupacion().getAdapter()).getDataList().add(r);
                         homeFragment.getRvOcupacion().getAdapter().notifyItemInserted(homeFragment.getRvOcupacion().getAdapter().getItemCount()-1);
+                    }else if (reservasFragment != null){
+                        ((ReservaEnListaAdapter) reservasFragment.getRvOcupacion().getAdapter()).getDataList().add(r);
+                        reservasFragment.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragment.getRvOcupacion().getAdapter().getItemCount()-1);
                     }
 
                 } catch (JSONException e) {
@@ -635,6 +663,8 @@ ReservaDialog extends DialogFragment {
                     }
                     else if (reservasFragmentFechas != null){
                         json = json.replace("#PARAMID#", String.valueOf(((MainActivity)reservasFragmentFechas.getActivity()).getIdRestaurante()));
+                    }else if (reservasFragment != null){
+                        json = json.replace("#PARAMID#", String.valueOf(((MainActivity)reservasFragment.getActivity()).getIdRestaurante()));
                     }
                     osw.write(json);
                     System.out.println("MANDO :" + json);
@@ -776,7 +806,16 @@ ReservaDialog extends DialogFragment {
     public void clickLlamar(){
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:"+etTlf.getText().toString()));
-        reservasFragmentFechas.getActivity().startActivity(intent);
+        if (reservasFragmentFechas != null){
+            reservasFragmentFechas.getActivity().startActivity(intent);
+        }
+        else if (homeFragment != null){
+            homeFragment.getActivity().startActivity(intent);
+        }
+        else if (reservasFragment != null){
+            reservasFragment.getActivity().startActivity(intent);
+        }
+
     }
     public void clickCorreo(){
         Intent intent = new Intent(Intent.ACTION_SENDTO);

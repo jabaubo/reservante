@@ -122,8 +122,24 @@ public class HorarioFragment extends Fragment {
                     h.setId_restaurante(((MainActivity)getActivity()).getIdRestaurante());
                     listaOriginal.add(h);
                     lista.add(h.clonar());
-                    System.out.println("HORARIO JSON: " + h.jar());
             }
+            AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                    .setTitle("Advertencia")
+                    .setMessage("No hay horario configurado , configúrelo antes de reservar.")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert).create();
+            alertDialog.show();
         }
         rvHorario = root.findViewById(R.id.rvHorario);
         btGuardarHorario = root.findViewById(R.id.btGuardarHorario);

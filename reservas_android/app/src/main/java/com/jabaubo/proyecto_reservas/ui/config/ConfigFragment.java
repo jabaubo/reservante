@@ -99,7 +99,7 @@ public class ConfigFragment extends Fragment {
         imageViewLogo = root.findViewById(R.id.imageLogoConfig);
         etCorreo = root.findViewById(R.id.etCorreo);
         rvSalones = root.findViewById(R.id.rvSalones);
-        rvVacaciones =root.findViewById(R.id.rvVacaciones);
+        rvVacaciones = root.findViewById(R.id.rvVacaciones);
         btAgregarSalon = root.findViewById(R.id.btAgregarSalon);
         etDuracionReservas = root.findViewById(R.id.etIntervalo);
         tvFechaFin = root.findViewById(R.id.tvFechaFin);
@@ -168,25 +168,25 @@ public class ConfigFragment extends Fragment {
             etDireccion.setText(jsonRestaurante.getString("direccion"));
             etDuracionReservas.setText(jsonRestaurante.getString("duracion_reservas"));
             ArrayList<Vacaciones> listaVacaciones = new ArrayList<>();
-            if (json.toString().contains("resultado2")){
+            if (json.toString().contains("resultado2")) {
                 JSONArray jsonVacaciones = json.getJSONArray("resultado2");
-                for (int i = 0 ; i < jsonVacaciones.length() ; i++){
+                for (int i = 0; i < jsonVacaciones.length(); i++) {
                     //{"id_vacacion":"1","id_restaurante":"1","nombre":"booma","inicio":"2024-04-10","fin":"2024-04-26"}
                     JSONObject jsonVacacionElegida = jsonVacaciones.getJSONObject(i);
                     Vacaciones v = new Vacaciones(jsonVacacionElegida.getString("nombre"),
                             jsonVacacionElegida.getString("inicio"),
                             jsonVacacionElegida.getString("fin"),
                             jsonVacacionElegida.getInt("id_restaurante"),
-                             jsonVacacionElegida.getInt("id_vacacion"));
+                            jsonVacacionElegida.getInt("id_vacacion"));
                     listaVacaciones.add(v);
                     System.out.println(v + " " + listaVacaciones.size());
                 }
             }
             VacacionesAdapter vacacionesAdapter;
             if (listaVacaciones.size() > 0) {
-                vacacionesAdapter = new VacacionesAdapter(listaVacaciones,this);
+                vacacionesAdapter = new VacacionesAdapter(listaVacaciones, this);
             } else {
-                vacacionesAdapter = new VacacionesAdapter(new ArrayList<>(),this);
+                vacacionesAdapter = new VacacionesAdapter(new ArrayList<>(), this);
                 android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                         .setTitle("Advertencia")
                         .setMessage("No hay vacaciones registradas")
@@ -256,65 +256,94 @@ public class ConfigFragment extends Fragment {
                 "  \"telefono2\": \"#PARAMTELEFONO2#\",\n" +
                 "  \"email\": \"#PARAMEMAIL#\",\n" +
                 "  \"direccion\": \"#PARAMDIRECCION#\",\n" +
-                "  \"duracion_reservas\": \"#PARAMDURACION_RESERVAS#\",\n" +
+                "  \"duracion_reservas\": \"#PARAMDURACION_RESERVAS#\"\n" +
                 "  \"inicio\": \"#PARAMINICIO#\",\n" +
                 "  \"fin\": \"#PARAMFIN#\"\n" +
                 "}\n";
-        json = json.replace("#PARAMID#", id)
-                .replace("#PARAMNOMBRE#", etNombre.getText().toString())
-                .replace("#PARAMTELEFONO1#", etTlf1.getText().toString())
-                .replace("#PARAMTELEFONO2#", etTlf2.getText().toString())
-                .replace("#PARAMEMAIL#", etCorreo.getText().toString())
-                .replace("#PARAMDIRECCION#", etDireccion.getText().toString())
-                .replace("#PARAMDURACION_RESERVAS#", etDuracionReservas.getText().toString())
-                .replace("#PARAMINICIO#", tvFechaInicio.getText().toString())
-                .replace("#PARAMFIN#", tvFechaFin.getText().toString());
-        String finalJson = json;
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // Conectamos a la pagina con el método que queramos
-                try {
-                    URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("PUT");
-                    OutputStream os = connection.getOutputStream();
-                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                    osw.write(finalJson);
-                    osw.flush();
-                    int responseCode = connection.getResponseCode();
-                    //Ver si la respuesta es correcta
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        // Si es correcta la leemos
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
-                        StringBuilder response = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
-                        }
-                        reader.close();
-                        System.out.println(response);
-                    }
-                    connection.disconnect();
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                } catch (ProtocolException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        if (!etNombre.getText().toString().equals("") &&
+                !etTlf1.getText().toString().equals("") &&
+                !etTlf2.getText().toString().equals("") &&
+                !etCorreo.getText().toString().equals("") &&
+                !etDireccion.getText().toString().equals("") &&
+                !etDuracionReservas.getText().toString().equals("")) {
 
-        Snackbar.make(root, "Guardando datos", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+            json = json.replace("#PARAMID#", String.valueOf(((MainActivity)getActivity()).getIdRestaurante()))
+                    .replace("#PARAMNOMBRE#", etNombre.getText().toString())
+                    .replace("#PARAMTELEFONO1#", etTlf1.getText().toString())
+                    .replace("#PARAMTELEFONO2#", etTlf2.getText().toString())
+                    .replace("#PARAMEMAIL#", etCorreo.getText().toString())
+                    .replace("#PARAMDIRECCION#", etDireccion.getText().toString())
+                    .replace("#PARAMDURACION_RESERVAS#", etDuracionReservas.getText().toString());
+            String finalJson = json;
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("PUT");
+                        OutputStream os = connection.getOutputStream();
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        osw.write(finalJson);
+                        osw.flush();
+                        int responseCode = connection.getResponseCode();
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            reader.close();
+                            System.out.println(response);
+                        }
+                        connection.disconnect();
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            Snackbar.make(root, "Guardando datos", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        } else {
+            AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                    .setTitle("Advertencia")
+                    .setMessage("Algun campo está vacío, rellénelo.")
+
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert).create();
+            alertDialog.show();
+        }
     }
 
     @Override
@@ -323,10 +352,11 @@ public class ConfigFragment extends Fragment {
         binding = null;
     }
 
-    public void clickAgregarVacaciones(){
+    public void clickAgregarVacaciones() {
         VacacionesDialog vacacionesDialog = new VacacionesDialog(this);
-        vacacionesDialog.show(this.getChildFragmentManager(),null);
+        vacacionesDialog.show(this.getChildFragmentManager(), null);
     }
+
     public void cargarSalones() {
         String[] responseStr = new String[1];
         Runnable runnable = new Runnable() {
@@ -401,6 +431,31 @@ public class ConfigFragment extends Fragment {
                 for (int i = 0; i < lista.size(); i++) {
                     System.out.println(lista.get(i));
                 }
+            }
+            if (lista.size() == 0) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                        .setTitle("Advertencia")
+                        .setMessage("No hay salones registrados,\n" +
+                                "Configure alguno antes de intentar reservar.")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert).create();
+                alertDialog.show();
             }
             SalonAdapter salonAdapter = new SalonAdapter(lista, this);
             rvSalones.setAdapter(salonAdapter);

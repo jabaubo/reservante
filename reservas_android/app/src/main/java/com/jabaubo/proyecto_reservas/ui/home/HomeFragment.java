@@ -130,6 +130,7 @@ public class HomeFragment extends Fragment {
                         spinnerFiltro = root[0].findViewById(R.id.spinFiltroInicio);
                         System.out.println("NULO: " + rvOcupacion.getAdapter() == null);
                         incremento = leerIncremento();
+
                         String[] salones = leerSalones();
                         if (salones != null) {
                             ArrayAdapter<String> listaSalones = new ArrayAdapter<>(homeFragment.getContext(), android.R.layout.simple_spinner_dropdown_item, salones);
@@ -137,7 +138,7 @@ public class HomeFragment extends Fragment {
                         } else {
                             android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                                     .setTitle("Advertencia")
-                                    .setMessage("No hay salones")
+                                    .setMessage("No hay salones,\nconfigure alguno antes de reservar.")
 
                                     // Specifying a listener allows you to take an action before dismissing the dialog.
                                     // The dialog is automatically dismissed when a dialog button is clicked.
@@ -998,7 +999,7 @@ public class HomeFragment extends Fragment {
 */
     public String leerTramos(String fecha) {
         LocalDate fechaDate = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             fechaDate = LocalDate.parse(fecha);
         }
         final JSONArray[] horario = {new JSONArray()};
@@ -1057,23 +1058,29 @@ public class HomeFragment extends Fragment {
             throw new RuntimeException(e);
         }
         int dia = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dia = fechaDate.getDayOfWeek().getValue();
         }
         JSONObject jsonObject;
         try {
             jsonObject = (horario[0].getJSONObject(dia - 1));
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            return null;
         }
         incremento = leerIncremento();
+        System.out.println(incremento);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (incremento.getMinute() == 0 && incremento.getHour() == 0){
+                return null;
+            }
+        }
         LocalDateTime inicio_m;
         LocalDateTime fin_m;
         LocalDateTime inicio_t;
         LocalDateTime fin_t;
         LocalDateTime[] tramos;
         DateTimeFormatter dateTimeFormatter = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             try {
                 inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
@@ -1221,6 +1228,7 @@ public class HomeFragment extends Fragment {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 incremento[0] = LocalTime.parse(incrementoStr);
                             }
+                            System.out.println(incremento[0].toString());
                             connection.disconnect();
                         } else {
                             connection.disconnect();

@@ -44,7 +44,8 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
     private FragmentManager fragmentManager;
     private Button btBorrar;
     private Button btLlamar;
-    private ReservasFragment reservasFragment;
+    private ReservasFragmentFechas reservasFragmentFechas;
+    private HomeFragment homeFragment;
     private RecyclerView recyclerView;
 
     public ReservaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, RecyclerView recyclerView) {
@@ -59,8 +60,15 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
         this.dataList = dataList;
         this.recyclerView = recyclerView;
         this.fragmentManager = fragmentManager;
+        this.reservasFragmentFechas = reservasFragmentFechas;
     }
-
+    public ReservaAdapter(List<Reserva> dataList, FragmentManager fragmentManager, HomeFragment homeFragment, RecyclerView  recyclerView) {
+        this.fullList = dataList;
+        this.dataList = dataList;
+        this.recyclerView = recyclerView;
+        this.fragmentManager = fragmentManager;
+        this.homeFragment = homeFragment;
+    }
 
     public List<Reserva> getDataList() {
         return dataList;
@@ -76,10 +84,8 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Reserva data = dataList.get(position);
-        holder.tvComensales.setText(data.getN_personas());
-        holder.tvNombre.setText(data.getNombre_apellidos());
-        holder.tvFecha.setText(data.getFecha());
-        holder.tvHora.setText(data.getHora());
+        holder.textViewTitle.setText(String.format("%s\nComensales: %d\nSalon:%s",data.getNombre_apellidos(),data.getN_personas(),data.getId_salon()));
+        holder.textViewDescription.setText("Teléfono " + data.getTelefono());
         holder.itemView.setOnClickListener(view -> {});
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,25 +248,19 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.MyViewHo
     public int getItemCount() {
         return dataList.size();
     }
-
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvHora;
-        TextView tvFecha;
-        TextView tvNombre;
-        TextView tvComensales;
+        TextView textViewTitle;
+        TextView textViewDescription;
 
         MyViewHolder(View itemView) {
             super(itemView);
-            tvHora = itemView.findViewById(R.id.tvHora);
-            tvFecha = itemView.findViewById(R.id.tvFecha);
-            tvNombre = itemView.findViewById(R.id.tvNombre);
-            tvComensales = itemView.findViewById(R.id.tvComensales);
+            textViewTitle = itemView.findViewById(R.id.tvPrincipal);
+            textViewDescription = itemView.findViewById(R.id.tvTlfReserva);
 
         }
 
-
     }
-    public FragmentManager getFragmentManager() {
+        public FragmentManager getFragmentManager() {
         return fragmentManager;
     }
 

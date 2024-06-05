@@ -1,12 +1,16 @@
 package com.jabaubo.proyecto_reservas;
 
+import android.app.AlertDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.TextView;
+import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
-
+import com.jabaubo.proyecto_reservas.databinding.ActivityMainBinding;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -14,9 +18,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.jabaubo.proyecto_reservas.databinding.ActivityMainBinding;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private int idRestaurante;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    private TextView tvNombreMenu;
-    private TextView tvEmailMenu;
+    private Menu menu;
     boolean login = false;
     ActionBar actionBar;
     private DrawerLayout drawer;
@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         NavigationView navigationView = binding.navView;
         setSupportActionBar(binding.appBarMain.toolbar);
+        binding.appBarMain.toolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(),
+                R.drawable.lupa));
         actionBar = getSupportActionBar();
 
         drawer = binding.drawerLayout;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 )
                 .setOpenableLayout(drawer)
@@ -95,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }*/
         getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem buscarNombre = menu.findItem(R.id.buscarClienteNombre);
+        buscarNombre.setVisible(false);
+        MenuItem buscarTlf = menu.findItem(R.id.buscarClienteTlf);
+        buscarTlf.setVisible(false);
+        this.menu = menu;
         return true;
     }
 
@@ -155,5 +160,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 }

@@ -37,6 +37,7 @@ import com.jabaubo.proyecto_reservas.Objetos.Reserva;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -224,10 +225,7 @@ public class ReservasFragmentFechas extends Fragment {
             });
             comprobarBotones();
         } else {
-            spinnerFiltro.setEnabled(false);
-            btSiguienteDia.setEnabled(false);
-            btAnteriorDia.setEnabled(false);
-            btLayoutCalendario.setEnabled(false);
+            comprobarBotones();
             AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                     .setTitle("Error")
                     .setMessage("No hay salones\nRevise configuración")
@@ -994,7 +992,7 @@ public class ReservasFragmentFechas extends Fragment {
 */
 public String leerTramos(String fecha) {
     LocalDate fechaDate = null;
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         fechaDate = LocalDate.parse(fecha);
     }
     final JSONArray[] horario = {new JSONArray()};
@@ -1052,8 +1050,12 @@ public String leerTramos(String fecha) {
     } catch (InterruptedException e) {
         throw new RuntimeException(e);
     }
+    System.out.println("HORARIO: " +horario[0] );
+    if (horario[0].length() == 0){
+        return null;
+    }
     int dia = 0;
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         dia = fechaDate.getDayOfWeek().getValue();
     }
     JSONObject jsonObject;
@@ -1063,13 +1065,18 @@ public String leerTramos(String fecha) {
         throw new RuntimeException(e);
     }
     incremento = leerIncremento();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (incremento.getMinute() == 0 && incremento.getHour() == 0){
+            return null;
+        }
+    }
     LocalDateTime inicio_m;
     LocalDateTime fin_m;
     LocalDateTime inicio_t;
     LocalDateTime fin_t;
     LocalDateTime[] tramos;
     DateTimeFormatter dateTimeFormatter = null;
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
             inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
@@ -1233,8 +1240,9 @@ public String leerTramos(String fecha) {
         boolean adapterNull = rvOcupacion.getAdapter() == null;
         boolean adapterCargado = false;
         boolean enReservas = false;
-        String clase = rvOcupacion.getAdapter().getClass().getName();
+        String clase;
         if (!adapterNull) {
+            clase = rvOcupacion.getAdapter().getClass().getName();
             System.out.println(clase);
             adapterCargado = calendarView.getLayoutParams().height == 1;
             enReservas = clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter");

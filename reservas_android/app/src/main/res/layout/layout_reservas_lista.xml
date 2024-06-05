@@ -14,108 +14,154 @@
             android:id="@+id/tvComensales"
             android:layout_width="197dp"
             android:layout_height="wrap_content"
+            android:paddingEnd="5dp"
             android:textAlignment="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintBottom_toTopOf="@+id/tvFecha"
+            app:layout_constraintEnd_toStartOf="@+id/btBorrarReservaLista"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView22"
-            app:layout_constraintTop_toTopOf="@+id/textView22" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNombre"
+            app:layout_constraintVertical_bias="0.5" />
 
         <TextView
             android:id="@+id/textView19"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:text="@string/dialogo_nombre"
+            app:layout_constraintBottom_toTopOf="@+id/textView22"
             app:layout_constraintEnd_toStartOf="@+id/tvNombre"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
 
         <TextView
             android:id="@+id/textView24"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/reserva_fecha"
+            app:layout_constraintBottom_toTopOf="@+id/textView25"
             app:layout_constraintEnd_toStartOf="@+id/tvFecha"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView22" />
+            app:layout_constraintTop_toBottomOf="@+id/textView22"
+            app:layout_constraintVertical_bias="0.5" />
 
         <TextView
             android:id="@+id/textView22"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/dialogo_comensales"
+            app:layout_constraintBottom_toTopOf="@+id/textView24"
             app:layout_constraintEnd_toStartOf="@+id/tvComensales"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+            app:layout_constraintTop_toBottomOf="@+id/textView19"
+            app:layout_constraintVertical_bias="0.5" />
 
         <TextView
             android:id="@+id/textView25"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/reserva_hora"
+            app:layout_constraintBottom_toTopOf="@+id/textView26"
             app:layout_constraintEnd_toStartOf="@+id/tvHora"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView24" />
+            app:layout_constraintTop_toBottomOf="@+id/textView24"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/dialogo_telefono"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvTelefono"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView25"
+            app:layout_constraintVertical_bias="0.5" />
 
         <TextView
             android:id="@+id/tvNombre"
             android:layout_width="197dp"
             android:layout_height="wrap_content"
+            android:paddingEnd="5dp"
             android:textAlignment="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintBottom_toTopOf="@+id/tvComensales"
+            app:layout_constraintEnd_toStartOf="@+id/btBorrarReservaLista"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView19"
-            app:layout_constraintTop_toTopOf="@+id/textView19" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
 
         <TextView
             android:id="@+id/tvHora"
             android:layout_width="197dp"
             android:layout_height="wrap_content"
+            android:paddingEnd="5dp"
             android:textAlignment="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/button3"
+            app:layout_constraintBottom_toTopOf="@+id/tvTelefono"
+            app:layout_constraintEnd_toStartOf="@+id/btLlamarReservaLista"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView25"
-            app:layout_constraintTop_toTopOf="@+id/textView25" />
+            app:layout_constraintTop_toBottomOf="@+id/tvFecha"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/tvTelefono"
+            android:layout_width="197dp"
+            android:layout_height="wrap_content"
+            android:paddingEnd="5dp"
+            android:textAlignment="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btLlamarReservaLista"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView26"
+            app:layout_constraintTop_toBottomOf="@+id/tvHora"
+            app:layout_constraintVertical_bias="0.5" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btBorrarReservaLista"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="Button"
-            app:layout_constraintBottom_toBottomOf="@+id/textView22"
+            android:backgroundTint="#6D226D"
+            android:backgroundTintMode="add"
+            app:icon="@drawable/papelera"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvFecha"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/button3"
-            app:layout_constraintTop_toTopOf="@id/textView19"
-            app:layout_constraintVertical_bias="0.6" />
+            app:layout_constraintTop_toTopOf="@+id/tvNombre" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btLlamarReservaLista"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="Button"
-            app:layout_constraintBottom_toBottomOf="@+id/textView25"
+            android:backgroundTint="#6D226D"
+            android:backgroundTintMode="add"
+            app:icon="@drawable/telefono"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/tvFecha"
-            app:layout_constraintTop_toTopOf="@+id/textView24"
-            app:layout_constraintVertical_bias="0.7" />
+            app:layout_constraintTop_toBottomOf="@+id/tvFecha" />
 
         <TextView
             android:id="@+id/tvFecha"
             android:layout_width="197dp"
             android:layout_height="wrap_content"
+            android:paddingEnd="5dp"
             android:textAlignment="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/button3"
+            app:layout_constraintBottom_toTopOf="@+id/tvHora"
+            app:layout_constraintEnd_toStartOf="@+id/btBorrarReservaLista"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView24"
-            app:layout_constraintTop_toTopOf="@+id/textView24" />
+            app:layout_constraintTop_toBottomOf="@+id/tvComensales"
+            app:layout_constraintVertical_bias="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
