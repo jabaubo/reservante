@@ -126,43 +126,42 @@
 
     <Button
         android:id="@+id/btCorreoDialog"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="136dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:backgroundTint="#6D226D"
+        android:backgroundTintMode="add"
         app:icon="@drawable/correo"
+        app:iconGravity="textStart"
         app:iconPadding="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btLlamarDialog"
-        app:layout_constraintTop_toBottomOf="@+id/etObservacionesRD"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintBottom_toBottomOf="@+id/btBorrarDialog"
+        app:layout_constraintStart_toEndOf="@+id/btLlamarDialog" />
 
     <Button
         android:id="@+id/btBorrarDialog"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="136dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="61dp"
+        android:backgroundTint="#6D226D"
+        android:backgroundTintMode="add"
         app:icon="@drawable/papelera"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btCorreoDialog"
-        app:layout_constraintTop_toBottomOf="@+id/etObservacionesRD"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintStart_toEndOf="@+id/btCorreoDialog" />
 
     <Button
         android:id="@+id/btLlamarDialog"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="135dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#6D226D"
+        android:backgroundTintMode="add"
         app:icon="@drawable/telefono"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etObservacionesRD"
-        app:layout_constraintVertical_bias="0.5"
-        tools:layout_editor_absoluteX="61dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/btCorreoDialog"
+        tools:layout_editor_absoluteX="1dp" />
 
     <Spinner
         android:id="@+id/sSalones"

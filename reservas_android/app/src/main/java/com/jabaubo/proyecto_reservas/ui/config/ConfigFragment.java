@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -75,7 +74,6 @@ public class ConfigFragment extends Fragment {
     private EditText etDireccion;
     private EditText etCorreo;
     private EditText etDuracionReservas;
-    private ImageView imageViewLogo;
     private RecyclerView rvSalones;
     private Button btAgregarSalon;
     private RecyclerView rvVacaciones;
@@ -96,7 +94,6 @@ public class ConfigFragment extends Fragment {
         etTlf2 = root.findViewById(R.id.etTlf2);
         etDireccion = root.findViewById(R.id.etDireccion);
         btGuardar = root.findViewById(R.id.btGuardar);
-        imageViewLogo = root.findViewById(R.id.imageLogoConfig);
         etCorreo = root.findViewById(R.id.etCorreo);
         rvSalones = root.findViewById(R.id.rvSalones);
         rvVacaciones = root.findViewById(R.id.rvVacaciones);
@@ -129,18 +126,6 @@ public class ConfigFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 btGuardarClick(root);
-            }
-        });
-        imageViewLogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("foto");
-                pickMedia.launch(new PickVisualMediaRequest.Builder()
-                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageAndVideo.INSTANCE)
-                        .build());
-                imageViewLogo.setImageURI(uriImg);
-                imageViewLogo.refreshDrawableState();
-
             }
         });
         btAgregarSalon.setOnClickListener(new View.OnClickListener() {
@@ -257,73 +242,11 @@ public class ConfigFragment extends Fragment {
                 "  \"email\": \"#PARAMEMAIL#\",\n" +
                 "  \"direccion\": \"#PARAMDIRECCION#\",\n" +
                 "  \"duracion_reservas\": \"#PARAMDURACION_RESERVAS#\"\n" +
-                "  \"inicio\": \"#PARAMINICIO#\",\n" +
-                "  \"fin\": \"#PARAMFIN#\"\n" +
                 "}\n";
-        if (!etNombre.getText().toString().equals("") &&
-                !etTlf1.getText().toString().equals("") &&
-                !etTlf2.getText().toString().equals("") &&
-                !etCorreo.getText().toString().equals("") &&
-                !etDireccion.getText().toString().equals("") &&
-                !etDuracionReservas.getText().toString().equals("")) {
-
-            json = json.replace("#PARAMID#", String.valueOf(((MainActivity)getActivity()).getIdRestaurante()))
-                    .replace("#PARAMNOMBRE#", etNombre.getText().toString())
-                    .replace("#PARAMTELEFONO1#", etTlf1.getText().toString())
-                    .replace("#PARAMTELEFONO2#", etTlf2.getText().toString())
-                    .replace("#PARAMEMAIL#", etCorreo.getText().toString())
-                    .replace("#PARAMDIRECCION#", etDireccion.getText().toString())
-                    .replace("#PARAMDURACION_RESERVAS#", etDuracionReservas.getText().toString());
-            String finalJson = json;
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    try {
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("PUT");
-                        OutputStream os = connection.getOutputStream();
-                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        osw.write(finalJson);
-                        osw.flush();
-                        int responseCode = connection.getResponseCode();
-                        //Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            reader.close();
-                            System.out.println(response);
-                        }
-                        connection.disconnect();
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            Snackbar.make(root, "Guardando datos", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-        } else {
+        if (etDuracionReservas.getText().toString().equals("00:00:00") || etDuracionReservas.getText().toString().equals("00:00")) {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                     .setTitle("Advertencia")
-                    .setMessage("Algun campo está vacío, rellénelo.")
+                    .setMessage("Inserte una duración de reservas válida.")
 
                     // Specifying a listener allows you to take an action before dismissing the dialog.
                     // The dialog is automatically dismissed when a dialog button is clicked.
@@ -343,6 +266,93 @@ public class ConfigFragment extends Fragment {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert).create();
             alertDialog.show();
+
+        } else {
+            if (!etNombre.getText().toString().equals("") &&
+                    !etTlf1.getText().toString().equals("") &&
+                    !etTlf2.getText().toString().equals("") &&
+                    !etCorreo.getText().toString().equals("") &&
+                    !etDireccion.getText().toString().equals("") &&
+                    !etDuracionReservas.getText().toString().equals("")) {
+
+                json = json.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()))
+                        .replace("#PARAMNOMBRE#", etNombre.getText().toString())
+                        .replace("#PARAMTELEFONO1#", etTlf1.getText().toString())
+                        .replace("#PARAMTELEFONO2#", etTlf2.getText().toString())
+                        .replace("#PARAMEMAIL#", etCorreo.getText().toString())
+                        .replace("#PARAMDIRECCION#", etDireccion.getText().toString())
+                        .replace("#PARAMDURACION_RESERVAS#", etDuracionReservas.getText().toString());
+                String finalJson = json;
+                System.out.println(finalJson);
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        // Conectamos a la pagina con el método que queramos
+                        try {
+                            URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("PUT");
+                            OutputStream os = connection.getOutputStream();
+                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                            osw.write(finalJson);
+                            osw.flush();
+                            int responseCode = connection.getResponseCode();
+                            //Ver si la respuesta es correcta
+                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                // Si es correcta la leemos
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                String line;
+                                StringBuilder response = new StringBuilder();
+                                while ((line = reader.readLine()) != null) {
+                                    response.append(line);
+                                }
+                                reader.close();
+                                System.out.println(response);
+                            }
+                            connection.disconnect();
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException(e);
+                        } catch (ProtocolException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Snackbar.make(root, "Guardando datos", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            } else {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                        .setTitle("Advertencia")
+                        .setMessage("Algun campo está vacío, rellénelo.")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert).create();
+                alertDialog.show();
+            }
         }
     }
 

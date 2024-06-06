@@ -69,6 +69,7 @@ public class ReservaEnListaAdapter extends RecyclerView.Adapter<ReservaEnListaAd
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        //Rellenamos los campos
         Reserva data = dataList.get(position);
         holder.tvNombre.setText(data.getNombre_apellidos());
         holder.tvTelefono.setText(data.getTelefono());
@@ -78,13 +79,9 @@ public class ReservaEnListaAdapter extends RecyclerView.Adapter<ReservaEnListaAd
         holder.itemView.setOnClickListener(view -> {
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+            //Mostramos cuadro de dialogo con los datos de la reserva para actualizarla
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < dataList.size(); i++) {
-                    System.out.println(dataList.get(i));
-                }
-                System.out.println("Position boom; " + position + " " + dataList.size());
-                System.out.println("FEcha data  " + data.getFecha());
                 ReservaDialog reservaDialog = new ReservaDialog(true
                         , v
                         , data.getNombre_apellidos()
@@ -99,24 +96,28 @@ public class ReservaEnListaAdapter extends RecyclerView.Adapter<ReservaEnListaAd
                         , holder.getAdapterPosition()
                         , reservasFragment);
                 reservaDialog.show(fragmentManager, "A");
-                System.out.println(data.getId());
             }
         });
         btBorrar = holder.itemView.findViewById(R.id.btBorrarReservaLista);
         btBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
+            //Gestión del borrado
             public void onClick(View v) {
+                //Json de la petición
                 String jsonStr = "{\n" +
                         "            \"id_reserva\": \"#PARAMRESERVA#\"\n" +
                         "}";
+                //Sustituimos por la ID y lo pasamos
                 jsonStr = jsonStr.replace("#PARAMRESERVA#", String.valueOf(data.getId()));
                 String finalJsonStr = jsonStr;
+                /*
+                 * ADVERTENCIA DE BORRADO
+                 * Aceptar -> Iniciar borrado
+                 * Cancelar -> Mostrar que se ha cancelado el borrado
+                 * */
                 AlertDialog alertDialog = new AlertDialog.Builder(holder.itemView.getContext())
                         .setTitle("Advertencia")
                         .setMessage("Vas a borrar una reserva, esta acción no se puede deshacer")
-
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Runnable runnable = new Runnable() {
@@ -167,17 +168,18 @@ public class ReservaEnListaAdapter extends RecyclerView.Adapter<ReservaEnListaAd
                                 } catch (InterruptedException e) {
                                     throw new RuntimeException(e);
                                 }
+                                //Avisamos al adapter del borrado y lo sacamos de la datalist
                                 reservasFragment.getRvOcupacion().getAdapter().notifyItemRemoved(holder.getAdapterPosition());
                                 ((ReservaEnListaAdapter)reservasFragment.getRvOcupacion().getAdapter()).getDataList().remove(data);
+                                //Mostramos que se ha borrado la reserva
                                 Snackbar.make(holder.itemView, "Reserva borrada", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
                             }
                         })
-
-                        // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                //Mostramos que se ha cancelado el borrado de la reserva
                                 Snackbar.make(holder.itemView, "Intento de reserva cancelado", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
                             }
@@ -190,8 +192,10 @@ public class ReservaEnListaAdapter extends RecyclerView.Adapter<ReservaEnListaAd
         btLlamar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Preparamos el intent para abrir la app teléfono con el número elegido
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + data.getTelefono()));
+                //Se lo pasamos al activity
                 reservasFragment.getActivity().startActivity(intent);
             }
         });

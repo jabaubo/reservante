@@ -263,7 +263,7 @@ public class ReservasFragment  extends Fragment {
         } catch (JSONException e) {
             android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                     .setTitle("Advertencia")
-                    .setMessage("No hay reservas registradas")
+                    .setMessage("No hay reservas registradas a futuro")
                     // Specifying a listener allows you to take an action before dismissing the dialog.
                     // The dialog is automatically dismissed when a dialog button is clicked.
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

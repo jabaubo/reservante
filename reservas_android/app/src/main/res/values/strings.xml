@@ -49,11 +49,14 @@
     <string name="dialogo_observaciones">Observaciones</string>
     <string name="dialogo_cancelar">Cancelar</string>
     <string name="dialogo_guardar">Guardar</string>
-
     <string name="dialogo_nombre_salon">Nombre del salón</string>
     <string name="dialogo_aforo_salon">Aforo del salón</string>
+    <string name="dialogo_usuario">Usuario</string>
+    <string name="dialogo_password">Contraseña</string>
+    <string name="dialogo_iniciar">Iniciar sesión</string>
 
     <string name="boton_reservar">Reservar</string>
     <string name="reserva_fecha">Fecha</string>
     <string name="reserva_hora">Hora</string>
+    <string name="reserva_recargar">Recargar reservas</string>
 </resources>

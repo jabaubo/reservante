@@ -52,7 +52,6 @@ public class SalonDialog extends DialogFragment {
     private MainActivity activity;
     private EditText etNombre;
     private EditText etAforo;
-    private Button btBorrar;
 
     public SalonDialog(ConfigFragment configFragment) {
         this.configFragment = configFragment;
@@ -84,7 +83,6 @@ public class SalonDialog extends DialogFragment {
         View view = LayoutInflater.from(this.getContext()).inflate(R.layout.layout_dialog_salon, null);
         etNombre = view.findViewById(R.id.etNombreSD);
         etAforo = view.findViewById(R.id.etAforoSD);
-        btBorrar = view.findViewById(R.id.btBorrarS);
         if (aforo != 0) {
             etAforo.setText(String.valueOf(aforo));
             System.out.println(etAforo.getText());
@@ -92,7 +90,6 @@ public class SalonDialog extends DialogFragment {
         if (nombre != null && !nombre.equals("")) {
             etNombre.setText(nombre);
         }
-        btBorrar.setEnabled(editando);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(view)
                 // Add action buttons

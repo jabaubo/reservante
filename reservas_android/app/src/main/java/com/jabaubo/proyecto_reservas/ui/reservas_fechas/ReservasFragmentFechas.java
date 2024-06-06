@@ -133,12 +133,11 @@ public class ReservasFragmentFechas extends Fragment {
             incremento = leerIncremento();
             System.out.println("INCREMENTO = " + incremento);
             final ArrayList<ReservaFechas>[] lista = new ArrayList[]{new ArrayList<>()};
-            calendarView.setOnClickListener(new View.OnClickListener() {
+            /*calendarView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(calendarView.getDate());
-                    System.out.println(calendar.getTime());
                     cargarOcupacion(calendar.getTime().toString());
                     leerTopes(calendar.getTime().toString());
                     ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
@@ -148,10 +147,16 @@ public class ReservasFragmentFechas extends Fragment {
                     tvReservasDiaHora.setText(String.format("%d/%d/%d", calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.YEAR)));
                     comprobarBotones();
                 }
-            });
+            });*/
             calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                 @Override
                 public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                    if (year == 1900) {
+                        calendarView.setDate(Calendar.getInstance().getTimeInMillis());
+                    }
+                    ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
+                    layoutParams.height = 1;
+                    calendarView.setLayoutParams(layoutParams);
                     month = month + 1;
                     String fecha = year + "-";
                     if (month < 10) {
@@ -162,18 +167,16 @@ public class ReservasFragmentFechas extends Fragment {
                         fecha += 0;
                     }
                     fecha += dayOfMonth;
-                    cargarOcupacion(fecha);
+                    if (calendarView.getLayoutParams().height==1){
+                        cargarOcupacion(fecha);
+                    }
                     leerTopes(fecha);
-                    ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
-                    layoutParams.height = 1;
-                    calendarView.setLayoutParams(layoutParams);
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(year, month - 1, dayOfMonth);
                     calendarView.setDate(calendar.getTimeInMillis());
                     tvReservasDiaHora.setText(String.format("%d/%d/%d", dayOfMonth, month, year));
                     comprobarBotones();
                 }
-
             });
             rvOcupacion.setAdapter(new ReservasFechaAdapter(getActivity().getSupportFragmentManager(), rvOcupacion, tvReservasDiaHora, lista[0], this));
             ReservasFragmentFechas reservasFragmentFechas = this;
@@ -471,17 +474,7 @@ public class ReservasFragmentFechas extends Fragment {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                 localTime = localTime.plusHours(incremento.getHour());
-                localTime = localTime.plusMinutes(incremento.getMinute());/*
-                if (localTime.isAfter(hora_fin_m)) {
-                    if (LocalDateTime.parse(fecha + " " + horaOriginal, dtf).isBefore(hora_inicio_t)) {
-                        localTime = LocalDateTime.parse(fecha + " " + hora_inicio_t.toLocalTime(), dtf);
-                    }
-                    if (localTime.isAfter(hora_inicio_t)) {
-                        if (localTime.isAfter(hora_fin_t)) {
-                            localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
-                        }
-                    }
-                }*/
+                localTime = localTime.plusMinutes(incremento.getMinute());
                 if (localTime.isBefore(hora_fin_m) || localTime.isEqual(hora_fin_m)) {
                     if (localTime.until(hora_fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
                         localTime = localTime.withHour(hora_inicio_t.getHour());
@@ -503,7 +496,7 @@ public class ReservasFragmentFechas extends Fragment {
                 }
                 if (nextTramo.isAfter(hora_inicio_m)) {
                     btAnteriorDia.setEnabled(true);
-                    btAnteriorDia.setBackgroundColor(Color.rgb(139,42,139));
+                    btAnteriorDia.setBackgroundColor(Color.rgb(109, 34, 109));
                 }
                 horaTramo = localTime.toLocalTime().toString();
             }
@@ -599,7 +592,7 @@ public class ReservasFragmentFechas extends Fragment {
                 }
                 if (nextTramo.isBefore(hora_fin_t)) {
                     btSiguienteDia.setEnabled(true);
-                    btSiguienteDia.setBackgroundColor(Color.rgb(139,42,139));
+                    btSiguienteDia.setBackgroundColor(Color.rgb(109, 34, 109));
                 }
                 horaTramo = localTime.toLocalTime().toString();
             }
@@ -634,11 +627,10 @@ public class ReservasFragmentFechas extends Fragment {
     }
 
     public void layoutConCalendario() {
-        calendarView.setDate(Calendar.getInstance().getTimeInMillis() - 86400000);
         ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
         layoutParams.height = (int) (this.getView().getHeight() * 0.9);
         calendarView.setLayoutParams(layoutParams);
-        tvReservasDiaHora.setText("");
+        //calendarView.setDate(Calendar.getInstance().getTimeInMillis() - 86400000);
         System.out.println("Texto actual: " + tvReservasDiaHora.getText());
         String clase = rvOcupacion.getAdapter().getClass().getName();
         if (clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter")) {
@@ -808,8 +800,13 @@ public class ReservasFragmentFechas extends Fragment {
                         connection.setRequestMethod("POST");
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        String jsonRequest = "{\"dia\": \"#PARAMDIA#\"}";
+                        String jsonRequest = "{\n" +
+                                "  \"dia\":\"#PARAMDIA#\",\n" +
+                                "\"id\":\"#PARAMID#\"\n" +
+                                "}";
                         jsonRequest = jsonRequest.replace("#PARAMDIA#", dia);
+                        jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(((MainActivity)getActivity()).getIdRestaurante()));
+
                         osw.write(jsonRequest);
                         osw.flush();
                         int responseCode = connection.getResponseCode();
@@ -1061,13 +1058,16 @@ public String leerTramos(String fecha) {
     JSONObject jsonObject;
     try {
         jsonObject = (horario[0].getJSONObject(dia - 1));
+        if (jsonObject.getInt("cerrado")==1){
+            return "Cerrado";
+        }
     } catch (JSONException e) {
         throw new RuntimeException(e);
     }
     incremento = leerIncremento();
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         if (incremento.getMinute() == 0 && incremento.getHour() == 0){
-            return null;
+            return "INCREMENTO";
         }
     }
     LocalDateTime inicio_m;
@@ -1130,7 +1130,7 @@ public String leerTramos(String fecha) {
         }
         return texto;
     }
-    return null;
+    return "MONDONGO";
 }
 
     public void avisarBorradoRecyclerView(int position) {
@@ -1243,7 +1243,6 @@ public String leerTramos(String fecha) {
         String clase;
         if (!adapterNull) {
             clase = rvOcupacion.getAdapter().getClass().getName();
-            System.out.println(clase);
             adapterCargado = calendarView.getLayoutParams().height == 1;
             enReservas = clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter");
         }
@@ -1253,15 +1252,15 @@ public String leerTramos(String fecha) {
         btnReservar.setEnabled(enReservas);
         spinnerFiltro.setEnabled(enReservas);
         if (enReservas){
-            btnReservar.setBackgroundColor(Color.rgb(139,42,139));
+            btnReservar.setBackgroundColor(Color.rgb(109, 34, 109));
         }
         else{
             btnReservar.setBackgroundColor(Color.GRAY);
         }
         if (adapterCargado){
-            btLayoutCalendario.setBackgroundColor(Color.rgb(139,42,139));
-            btSiguienteDia.setBackgroundColor(Color.rgb(139,42,139));
-            btAnteriorDia.setBackgroundColor(Color.rgb(139,42,139));
+            btLayoutCalendario.setBackgroundColor(Color.rgb(109, 34, 109));
+            btSiguienteDia.setBackgroundColor(Color.rgb(109, 34, 109));
+            btAnteriorDia.setBackgroundColor(Color.rgb(109, 34, 109));
         }
         else{
             btLayoutCalendario.setBackgroundColor(Color.GRAY);

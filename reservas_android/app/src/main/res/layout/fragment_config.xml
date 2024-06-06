@@ -69,22 +69,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
             <TextView
-                android:id="@+id/textView7"
-                style="@android:style/Widget.DeviceDefault.Light.TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="@string/logo_configuracion"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:layout_constraintStart_toStartOf="@+id/etCorreo"
-                app:layout_constraintTop_toBottomOf="@+id/etIntervalo" />
-
-            <TextView
                 android:id="@+id/textView18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
-                android:layout_marginTop="28dp"
                 android:background="#6D226D"
                 android:gravity="center"
                 android:text="@string/salones_configuracion"
@@ -94,7 +82,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageLogoConfig" />
+                app:layout_constraintTop_toBottomOf="@+id/etIntervalo" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -214,16 +202,6 @@
                 android:inputType="phone"
                 app:layout_constraintStart_toStartOf="@+id/textView4"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-            <ImageView
-                android:id="@+id/imageLogoConfig"
-                android:layout_width="match_parent"
-                android:layout_height="127dp"
-                android:layout_margin="5dp"
-                android:background="#FF0000"
-                app:layout_constraintStart_toStartOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/textView7"
-                tools:src="@tools:sample/avatars" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSalones"

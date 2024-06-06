@@ -509,6 +509,8 @@ ReservaDialog extends DialogFragment {
                                     r.setNombre_apellidos(jsonObj.getString("nombre_apellidos"));
                                     r.setTelefono(jsonObj.getString("telefono"));
                                     r.setN_personas(Integer.valueOf(jsonObj.getString("n_personas")));;
+                                    r.setFecha(jsonObj.getString("fecha"));
+                                    r.setHora(jsonObj.getString("hora"));
                                     if (reservasFragmentFechas != null){
                                         ((ReservaAdapter) reservasFragmentFechas.getRvOcupacion().getAdapter()).getDataList().add(r);
                                         reservasFragmentFechas.getRvOcupacion().getAdapter().notifyItemInserted(reservasFragmentFechas.getRvOcupacion().getAdapter().getItemCount()-1);
