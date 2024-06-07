@@ -59,6 +59,7 @@ public class VacacionesDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(this.getContext()).inflate(R.layout.layout_dialog_vacaciones, null);
+        //Cargamos los componentes
         etNombre = view.findViewById(R.id.etNombreVacaciones);
         tvInicio = view.findViewById(R.id.tvInicioVacacionesDialog);
         tvFin = view.findViewById(R.id.tvFinVacacionesDialog);
@@ -87,7 +88,13 @@ public class VacacionesDialog extends DialogFragment {
                             if (vacacion.getNombre().equals(etNombre.getText().toString()) &&
                                     vacacion.getFin().toString().equals(tvFin.getText()) &&
                                     vacacion.getInicio().toString().equals(tvInicio.getText())) {
-
+                                AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                                        .setTitle("Error")
+                                        .setMessage("No hay diferencias")
+                                        .setPositiveButton(android.R.string.yes, null)
+                                        .setNegativeButton(android.R.string.no, null)
+                                        .setIcon(android.R.drawable.ic_dialog_alert).create();
+                                alertDialog.show();
                             } else {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     vacacion.setFin(LocalDate.parse(tvFin.getText()));
@@ -106,6 +113,7 @@ public class VacacionesDialog extends DialogFragment {
                                             connection.setDoOutput(true);
                                             connection.setRequestProperty("Content-Type", "application/json");
                                             connection.setRequestProperty("Accept", "application/json");
+                                            //Escribimos el json
                                             OutputStream os = connection.getOutputStream();
                                             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                                             osw.write(vacacion.toJson());
@@ -135,6 +143,7 @@ public class VacacionesDialog extends DialogFragment {
                                         }
                                     }
                                 };
+                                //Arrancamos el hilo y lo sincronizamos para esperar a la respuesta
                                 Thread thread = new Thread(runnable);
                                 thread.start();
                                 try {
@@ -142,7 +151,6 @@ public class VacacionesDialog extends DialogFragment {
                                 } catch (InterruptedException ex) {
                                     throw new RuntimeException(ex);
                                 }
-                                System.out.println(responseStr[0]);
                                 if (responseStr[0].contains("correctamente")) {
                                     Snackbar.make(configFragment.getView(),"Actualización correcta",Snackbar.LENGTH_SHORT).show();
                                     configFragment.getRvVacaciones().getAdapter().notifyDataSetChanged();
@@ -163,6 +171,7 @@ public class VacacionesDialog extends DialogFragment {
                                         connection.setDoOutput(true);
                                         connection.setRequestProperty("Content-Type", "application/json");
                                         connection.setRequestProperty("Accept", "application/json");
+                                        //Preparamos y escribimos el json
                                         OutputStream os = connection.getOutputStream();
                                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                                         String jsonStr = "{\n"
@@ -213,6 +222,7 @@ public class VacacionesDialog extends DialogFragment {
                                 throw new RuntimeException(ex);
                             }
                             try {
+                                //Creamos la vacacion
                                 JSONObject jsonRespuesta = new JSONObject(responseStr[0]);
                                 if (jsonRespuesta.getInt("codigo") == 1) {
                                     Vacaciones v = new Vacaciones(etNombre.getText().toString()
@@ -220,6 +230,7 @@ public class VacacionesDialog extends DialogFragment {
                                             , tvFin.getText().toString()
                                             , ((MainActivity) configFragment.getActivity()).getIdRestaurante()
                                             , jsonRespuesta.getInt("id"));
+                                    //avisamos e insertamos la nueva vacacion
                                     ((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).getDatalist().add(v);
                                     ((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).notifyItemInserted(((VacacionesAdapter) configFragment.getRvVacaciones().getAdapter()).getItemCount() - 1);
                                 }
@@ -232,24 +243,15 @@ public class VacacionesDialog extends DialogFragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(configFragment.getContext())
                                 .setTitle("Aviso")
                                 .setMessage("La fecha inicio no puede ser posterior a la fecha fin")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        vacacionesDialog.dismiss();
-                                    }
-                                })
-                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        vacacionesDialog.dismiss();
-                                    }
-                                })
+                                .setPositiveButton(android.R.string.yes, null)
+                                .setNegativeButton(android.R.string.no, null)
                                 .setIcon(android.R.drawable.ic_dialog_alert).create();
                         alertDialog.show();
                     }
                 }
             }
         }).setNegativeButton(R.string.dialogo_cancelar, null);
+        //Rellenamos los datos si no es null
         if (vacacion != null) {
             etNombre.setText(vacacion.getNombre());
             tvFin.setText(vacacion.getFin().toString());
@@ -260,6 +262,7 @@ public class VacacionesDialog extends DialogFragment {
 
     public void clickFecha(TextView tvFecha) {
         Calendar calendar = Calendar.getInstance();
+        //Datepicker que da la fecha formateada
         DatePickerDialog datePickerDialog = new DatePickerDialog(this.getContext(),
                 new DatePickerDialog.OnDateSetListener() {
                     @Override

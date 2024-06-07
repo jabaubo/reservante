@@ -58,10 +58,6 @@ import java.util.Calendar;
 
 public class ReservasFragmentFechas extends Fragment {
 
-    /*
-     * json fecha
-     * {"fecha": "2024-04-08"}
-     * */
     private FragmentReservasFechaBinding binding;
     private CalendarView calendarView;
     private TextView tvReservasDiaHora;
@@ -78,32 +74,16 @@ public class ReservasFragmentFechas extends Fragment {
     private LocalDateTime hora_fin_m;
     private LocalDateTime hora_inicio_t;
     private LocalDateTime hora_fin_t;
-    //private ArrayList<String> tramos;
-    public String horaSeleccionada;
-    public String fechaSeleccionada;
     private String[] salones;
 
-    public TextView getTvReservasDiaHora() {
-        return tvReservasDiaHora;
-    }
-
-    public ReservasFragmentFechas singleton() {
-        if (this.equals(null)) {
-            return new ReservasFragmentFechas();
-        }
-        return this;
-    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentReservasFechaBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        //Cargamos los campos
         calendarView = root.findViewById(R.id.calendarView);
-        calendarView.setDate(Calendar.getInstance().getTimeInMillis() - 86400000);
-        ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
-        layoutParams.height = (int) (root.getHeight() * 0.9);
-        calendarView.setLayoutParams(layoutParams);
         rvOcupacion = root.findViewById(R.id.rvOcupacion);
         tvReservasDiaHora = root.findViewById(R.id.tvReservasDiaHora);
         btSiguienteDia = root.findViewById(R.id.btnSiguienteDia);
@@ -112,8 +92,19 @@ public class ReservasFragmentFechas extends Fragment {
         btLayoutCalendario = root.findViewById(R.id.btCalendarReservaFechas);
         scrollView = root.findViewById(R.id.svReservas);
         spinnerFiltro = root.findViewById(R.id.spinFiltro);
+
+        //Cargamos los valores
+        calendarView.setDate(Calendar.getInstance().getTimeInMillis() - 86400000);
+        ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
+        layoutParams.height = (int) (root.getHeight() * 0.9);
+        calendarView.setLayoutParams(layoutParams);
+        /*
+         * Leemos los salones
+         * Hay -> Preparación
+         * No hay -> Avisamos y no dejamos habilitado nada*/
         salones = leerSalones();
         if (salones != null) {
+            //Cargamos el filtro
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(root.getContext(), android.R.layout.simple_spinner_dropdown_item, salones);
             spinnerFiltro.setAdapter(adapter);
             spinnerFiltro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -131,23 +122,7 @@ public class ReservasFragmentFechas extends Fragment {
             });
             rvOcupacion.setLayoutManager(new LinearLayoutManager(this.getContext()));
             incremento = leerIncremento();
-            System.out.println("INCREMENTO = " + incremento);
             final ArrayList<ReservaFechas>[] lista = new ArrayList[]{new ArrayList<>()};
-            /*calendarView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(calendarView.getDate());
-                    cargarOcupacion(calendar.getTime().toString());
-                    leerTopes(calendar.getTime().toString());
-                    ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
-                    layoutParams.height = 1;
-                    calendarView.setLayoutParams(layoutParams);
-                    calendarView.setDate(calendar.getTimeInMillis());
-                    tvReservasDiaHora.setText(String.format("%d/%d/%d", calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.YEAR)));
-                    comprobarBotones();
-                }
-            });*/
             calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                 @Override
                 public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -157,6 +132,7 @@ public class ReservasFragmentFechas extends Fragment {
                     ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
                     layoutParams.height = 1;
                     calendarView.setLayoutParams(layoutParams);
+                    //Formateamos la fecha
                     month = month + 1;
                     String fecha = year + "-";
                     if (month < 10) {
@@ -167,9 +143,10 @@ public class ReservasFragmentFechas extends Fragment {
                         fecha += 0;
                     }
                     fecha += dayOfMonth;
-                    if (calendarView.getLayoutParams().height==1){
+                    if (calendarView.getLayoutParams().height == 1) {
                         cargarOcupacion(fecha);
                     }
+                    //Cargamos los topes para ese día
                     leerTopes(fecha);
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(year, month - 1, dayOfMonth);
@@ -183,11 +160,13 @@ public class ReservasFragmentFechas extends Fragment {
             btnReservar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //Comprobamos la clase
                     String clase = rvOcupacion.getAdapter().getClass().toString();
                     if (clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter")) {
                         Snackbar.make(root, "Ocupacion", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     } else {
+                        //Leemos y formateamos la fecha
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTimeInMillis(calendarView.getDate());
                         String fecha = calendar.get(Calendar.YEAR) + "-";
@@ -200,11 +179,9 @@ public class ReservasFragmentFechas extends Fragment {
                         }
                         fecha += calendar.get(Calendar.DAY_OF_MONTH);
                         String hora = tvReservasDiaHora.getText().toString().substring(tvReservasDiaHora.getText().toString().indexOf("Tramo") + 6);
+                        //Abrimos el dialog para insertar
                         ReservaDialog reservaDialog = new ReservaDialog(getView(), hora, fecha, reservasFragmentFechas);
                         reservaDialog.show(getActivity().getSupportFragmentManager(), "A");
-                        ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
-                        layoutParams.height = 1;
-                        calendarView.setLayoutParams(layoutParams);
                     }
                 }
             });
@@ -231,20 +208,9 @@ public class ReservasFragmentFechas extends Fragment {
             comprobarBotones();
             AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                     .setTitle("Error")
-                    .setMessage("No hay salones\nRevise configuración")
-                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    // A null listener allows the button to dismiss the dialog and take no further action.
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
+                    .setMessage("No hay salones,revise la configuración")
+                    .setPositiveButton(android.R.string.yes, null)
+                    .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert).create();
             alertDialog.show();
         }
@@ -260,6 +226,7 @@ public class ReservasFragmentFechas extends Fragment {
         JSONObject[] json = new JSONObject[1];
         String consulta = leerTramos(fecha);
         if (consulta == null) {
+            //Si la consulta da null ,rellenamos con un arraylist vacío
             String clase = rvOcupacion.getAdapter().getClass().getName();
             if (clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter")) {
                 ((ReservaAdapter) rvOcupacion.getAdapter()).setDataList(new ArrayList<>());
@@ -272,24 +239,13 @@ public class ReservasFragmentFechas extends Fragment {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                     .setTitle("Error")
                     .setMessage("Revise el horario del día (Horario) y la duración de las reservas (Configuración)")
-                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    // A null listener allows the button to dismiss the dialog and take no further action.
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
+                    .setPositiveButton(android.R.string.yes, null)
+                    .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert).create();
             alertDialog.show();
         } else {
-
             try {
+                //Preparamos la petición
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
@@ -301,10 +257,9 @@ public class ReservasFragmentFechas extends Fragment {
                             connection.setDoOutput(true);
                             connection.setRequestProperty("Content-Type", "application/json");
                             connection.setRequestProperty("Accept", "application/json");
+                            //Escribimos el json
                             OutputStream os = connection.getOutputStream();
-                            System.out.println("TETica");
                             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-
                             String jsonFecha = "{\n"
                                     + "    \"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones WHERE id_restaurante = #PARAMID#) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo  FROM (#TRAMOS#) AS range_values  CROSS JOIN salones on salones.id_salon in (SELECT id_salon FROM salones WHERE id_restaurante = #PARAMID#) LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon  GROUP BY range_values.value, salones.id_salon  ORDER BY range_values.value ASC\",\n"
                                     + "    \"fecha\":\"#PARAMFECHA#\",\n"
@@ -316,7 +271,6 @@ public class ReservasFragmentFechas extends Fragment {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 jsonFecha = jsonFecha.replace("#PARAMDIA#", String.valueOf(LocalDate.parse(fecha).getDayOfWeek().getValue()));
                             }
-                            System.out.println(jsonFecha);
                             osw.write(jsonFecha);
                             osw.flush();
                             int responseCode = connection.getResponseCode();
@@ -342,9 +296,7 @@ public class ReservasFragmentFechas extends Fragment {
                         } catch (
                                 ProtocolException e) {
                             throw new RuntimeException(e);
-                        } catch (
-                                JSONException e) {
-                            System.exit(2030);
+                        } catch (JSONException e) {
                             throw new RuntimeException(e);
                         } catch (
                                 IOException ex) {
@@ -352,31 +304,34 @@ public class ReservasFragmentFechas extends Fragment {
 
                     }
                 };
+                //Arrancamos la petición y la sincronizamos para que la app espere el resultado
                 Thread thread = new Thread(runnable);
                 thread.start();
                 thread.join();
+                //Comprobamos si el restaurante está cerrado
                 if (json[0].toString().contains("restaurante cerrado")) {
                     Snackbar.make(getView(), "El restaurante está cerrado", Snackbar.LENGTH_SHORT).show();
                     ReservasFechaAdapter adapter = (ReservasFechaAdapter) rvOcupacion.getAdapter();
                     adapter.setDataList(new ArrayList<ReservaFechas>());
                     adapter.notifyDataSetChanged();
                     rvOcupacion.setAdapter(adapter);
-                } else if (json[0].toString().contains("restaurante de vacaciones")) {
+
+                }
+                //Comprobamos si el restaurante está de vacaciones
+                else if (json[0].toString().contains("restaurante de vacaciones")) {
                     Snackbar.make(getView(), "El restaurante está de vacaciones", Snackbar.LENGTH_SHORT).show();
                     ReservasFechaAdapter adapter = (ReservasFechaAdapter) rvOcupacion.getAdapter();
                     adapter.setDataList(new ArrayList<ReservaFechas>());
                     adapter.notifyDataSetChanged();
                     rvOcupacion.setAdapter(adapter);
-                } else {
-                    System.out.println("RESPUESTA CARGA: " + json[0]);
+                }
+                //Si no ha saltado ninguno anterior , hay reservas
+                else {
                     if (json[0].getInt("codigo") == 1) {
                         JSONArray jsonArray = json[0].getJSONArray("reservas");
                         int n_salones = jsonArray.getJSONObject(0).getInt("n_salones");
-                        System.out.println("tope :" + n_salones);
-                        System.out.println("JSON ARRAY: " + jsonArray);
-                        System.out.println("JSON ARRAY LENGTH: " + jsonArray.length());
                         ArrayList<ReservaFechas> lista = new ArrayList<>();
-                        //while ()
+                        //Vamos cargando la ocupacion recorriendo el jsonArray
                         for (int i = 0; i < jsonArray.length(); i += n_salones) {
                             int reservasTotal = 0;
                             String ocupacion = "";
@@ -410,19 +365,8 @@ public class ReservasFragmentFechas extends Fragment {
                         AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                                 .setTitle("Error")
                                 .setMessage("No hay reservas")
-                                // Specifying a listener allows you to take an action before dismissing the dialog.
-                                // The dialog is automatically dismissed when a dialog button is clicked.
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                // A null listener allows the button to dismiss the dialog and take no further action.
-                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
+                                .setPositiveButton(android.R.string.yes, null)
+                                .setNegativeButton(android.R.string.no, null)
                                 .setIcon(android.R.drawable.ic_dialog_alert).create();
                         alertDialog.show();
                     }
@@ -439,7 +383,12 @@ public class ReservasFragmentFechas extends Fragment {
 
     public void siguienteDia(CalendarView calendarView) {
         String clase = rvOcupacion.getAdapter().getClass().toString();
+        /*
+         * Vemos la clase del adapter
+         * ReservasFechaAdapter-> Estamos en los días , hay que pasar al siguiente día
+         *ReservasAdapter-> Estamos en los tramos , hay que pasar al siguiente tramo */
         if (clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter")) {
+            //Leemos y formateamos la fecha
             calendarView.setDate(calendarView.getDate() + 86400000);
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(calendarView.getDate());
@@ -456,6 +405,7 @@ public class ReservasFragmentFechas extends Fragment {
             cargarOcupacion(fecha);
             leerTopes(fecha);
         } else {
+            //Leemos los formateamos la fecha y la hora
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(calendarView.getDate());
             String fecha = calendar.get(Calendar.YEAR) + "-";
@@ -472,6 +422,7 @@ public class ReservasFragmentFechas extends Fragment {
             LocalDateTime localTime;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                //Calculamos el siguiente tramo
                 localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                 localTime = localTime.plusHours(incremento.getHour());
                 localTime = localTime.plusMinutes(incremento.getMinute());
@@ -488,9 +439,10 @@ public class ReservasFragmentFechas extends Fragment {
                         localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                     }
                 }
+                //Calculamos el siguiente del siguiente , para ver si deshabilitamos el boton
                 LocalDateTime nextTramo = localTime.plusHours(incremento.getHour());
                 nextTramo = nextTramo.plusMinutes(incremento.getMinute());
-                if (nextTramo.isAfter(hora_fin_t)|| nextTramo.until(hora_fin_t, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
+                if (nextTramo.isAfter(hora_fin_t) || nextTramo.until(hora_fin_t, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
                     btSiguienteDia.setEnabled(false);
                     btSiguienteDia.setBackgroundColor(Color.GRAY);
                 }
@@ -500,9 +452,11 @@ public class ReservasFragmentFechas extends Fragment {
                 }
                 horaTramo = localTime.toLocalTime().toString();
             }
+            //Vemos las reservas con la hora y fecha
             JSONArray jsonArray = verReservas(fecha, horaTramo);
             ArrayList<Reserva> lista = new ArrayList<>();
             if (jsonArray != null) {
+                //Recorremos el JSONArray y vamos guardando
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
@@ -530,8 +484,14 @@ public class ReservasFragmentFechas extends Fragment {
     }
 
     public void anteriorDia(CalendarView calendarView) {
+
+        /*
+         * Vemos la clase del adapter
+         * ReservasFechaAdapter-> Estamos en los días , hay que pasar al día anterior
+         *ReservasAdapter-> Estamos en los tramos , hay que pasar al tramo anterior */
         String clase = rvOcupacion.getAdapter().getClass().toString();
         if (clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter")) {
+            //Leemos la fecha y la formateamos
             calendarView.setDate(calendarView.getDate() - 86400000);
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(calendarView.getDate());
@@ -547,6 +507,7 @@ public class ReservasFragmentFechas extends Fragment {
             fecha += calendar.get(Calendar.DAY_OF_MONTH);
             cargarOcupacion(fecha);
         } else {
+            //Leemos la fecha y la formateamos
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(calendarView.getDate());
             String fecha = calendar.get(Calendar.YEAR) + "-";
@@ -566,15 +527,6 @@ public class ReservasFragmentFechas extends Fragment {
                 localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                 localTime = localTime.minusHours(incremento.getHour());
                 localTime = localTime.minusMinutes(incremento.getMinute());
-                /*
-                if (localTime.isAfter(hora_inicio_m)) {
-                    if (localTime.isBefore(hora_inicio_t)) {
-                        if (localTime.isAfter(hora_fin_m)) {
-                            localTime = LocalDateTime.parse(fecha + " " + hora_fin_m.toLocalTime(), dtf);
-                        }
-                    }
-                }
-                */
                 if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)) {
                     localTime = localTime.withHour(hora_inicio_m.getHour());
                     localTime = localTime.withMinute(hora_inicio_m.getMinute());
@@ -598,6 +550,7 @@ public class ReservasFragmentFechas extends Fragment {
             }
             JSONArray jsonArray = verReservas(fecha, horaTramo);
             ArrayList<Reserva> lista = new ArrayList<>();
+            //Vamos recorriendo el array si no es null
             if (jsonArray != null) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
@@ -627,11 +580,11 @@ public class ReservasFragmentFechas extends Fragment {
     }
 
     public void layoutConCalendario() {
+        //Le damos tamaño al calendario
         ViewGroup.LayoutParams layoutParams = calendarView.getLayoutParams();
         layoutParams.height = (int) (this.getView().getHeight() * 0.9);
         calendarView.setLayoutParams(layoutParams);
-        //calendarView.setDate(Calendar.getInstance().getTimeInMillis() - 86400000);
-        System.out.println("Texto actual: " + tvReservasDiaHora.getText());
+        //Vaciamos el RecyclerView
         String clase = rvOcupacion.getAdapter().getClass().getName();
         if (clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter")) {
             ((ReservaAdapter) rvOcupacion.getAdapter()).setDataList(new ArrayList<>());
@@ -654,6 +607,7 @@ public class ReservasFragmentFechas extends Fragment {
                         URL url = new URL("https://reservante.mjhudesings.com/slim/getreservahora");
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("POST");
+                        //Escribimos el json
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\"\n}";
@@ -688,6 +642,7 @@ public class ReservasFragmentFechas extends Fragment {
 
                 }
             };
+            //Arrancamos el hilo y lo sincronizamos para que la app espere la respueta
             Thread thread = new Thread(runnable);
             thread.start();
             thread.join();
@@ -711,6 +666,7 @@ public class ReservasFragmentFechas extends Fragment {
                         connection.setDoOutput(true);
                         connection.setRequestProperty("Content-Type", "application/json");
                         connection.setRequestProperty("Accept", "application/json");
+                        //Escribimos el json
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String jsonFecha = "{\n"
@@ -750,6 +706,7 @@ public class ReservasFragmentFechas extends Fragment {
 
                 }
             };
+            //Arrancamos el hilo y lo sincronizamos para que la app espere la respuesta
             Thread thread = new Thread(runnable);
             thread.start();
             thread.join();
@@ -770,6 +727,7 @@ public class ReservasFragmentFechas extends Fragment {
                         String dia = "";
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             localDate = LocalDate.parse(fecha);
+                            //Vemos de que día hay que seleccionar los topes
                             switch (localDate.getDayOfWeek().getValue()) {
                                 case 1:
                                     dia = "Lunes";
@@ -800,12 +758,13 @@ public class ReservasFragmentFechas extends Fragment {
                         connection.setRequestMethod("POST");
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        //Cargamos el json
                         String jsonRequest = "{\n" +
                                 "  \"dia\":\"#PARAMDIA#\",\n" +
                                 "\"id\":\"#PARAMID#\"\n" +
                                 "}";
                         jsonRequest = jsonRequest.replace("#PARAMDIA#", dia);
-                        jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(((MainActivity)getActivity()).getIdRestaurante()));
+                        jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
 
                         osw.write(jsonRequest);
                         osw.flush();
@@ -845,6 +804,7 @@ public class ReservasFragmentFechas extends Fragment {
 
                 }
             };
+            //Arrancamos el hilo y lo sincronizamos para que la app espere la respuesta
             Thread thread = new Thread(runnable);
             thread.start();
             thread.join();
@@ -852,10 +812,11 @@ public class ReservasFragmentFechas extends Fragment {
             e.printStackTrace();
         }
     }
-/*
+
     public String leerTramos(String fecha) {
+
         LocalDate fechaDate = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             fechaDate = LocalDate.parse(fecha);
         }
         final JSONArray[] horario = {new JSONArray()};
@@ -870,6 +831,7 @@ public class ReservasFragmentFechas extends Fragment {
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Accept", "application/json");
+                    //Escribimos el json
                     OutputStream os = connection.getOutputStream();
                     System.out.println("TETica");
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
@@ -906,6 +868,7 @@ public class ReservasFragmentFechas extends Fragment {
 
             }
         };
+        //Arrancamos el hilo y lo sincronizamos para que la app espere la respuesta
         Thread thread = new Thread(runnable);
         thread.start();
         try {
@@ -913,34 +876,47 @@ public class ReservasFragmentFechas extends Fragment {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        if (horario[0].length() == 0) {
+            return null;
+        }
         int dia = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dia = fechaDate.getDayOfWeek().getValue();
         }
+        //Leemos el json del dia correspondiente
         JSONObject jsonObject;
         try {
             jsonObject = (horario[0].getJSONObject(dia - 1));
+            if (jsonObject.getInt("cerrado") == 1) {
+                return "Cerrado";
+            }
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        LocalTime incremento = leerIncremento();
+        incremento = leerIncremento();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (incremento.getMinute() == 0 && incremento.getHour() == 0) {
+                return "INCREMENTO";
+            }
+        }
         LocalDateTime inicio_m;
         LocalDateTime fin_m;
         LocalDateTime inicio_t;
         LocalDateTime fin_t;
         LocalDateTime[] tramos;
         DateTimeFormatter dateTimeFormatter = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             try {
+                //Cargamos los topes
                 inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
                 fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
                 inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
                 fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
+                //Calculamos las cantidades de tramos
                 Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
                 Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
                 tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
-                System.out.println("En teoría se ejecuta " + tramos.length);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
@@ -948,26 +924,26 @@ public class ReservasFragmentFechas extends Fragment {
             LocalDateTime tramo = inicio_m;
             while (fin_m.isAfter(tramo)) {
                 tramos[contador] = tramo;
-                System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
                 contador++;
+                //Calculamos el tramo con el incremento
                 tramo = tramo.plusHours(incremento.getHour());
                 tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_m.isBefore(tramo)) {
+                if (fin_m.isBefore(tramo) || tramo.until(fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
                     break;
                 }
-
             }
             tramo = inicio_t;
             while (fin_t.isAfter(tramo)) {
                 tramos[contador] = tramo;
-                System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
                 contador++;
+                //Calculamos el tramo con el incremento
                 tramo = tramo.plusHours(incremento.getHour());
                 tramo = tramo.plusMinutes(incremento.getMinute());
                 if (fin_t.isBefore(tramo)) {
                     break;
                 }
             }
+            //Preparamos la consulta
             String texto = "SELECT '#PARAM1#' AS value ";
             for (LocalDateTime t : tramos) {
                 if (t != null) {
@@ -978,160 +954,13 @@ public class ReservasFragmentFechas extends Fragment {
                     }
                 }
             }
-            System.out.println(texto);
             if (texto.contains("#PARAM1#")) {
                 return null;
             }
             return texto;
         }
-        return null;
+        return "MONDONGO";
     }
-*/
-public String leerTramos(String fecha) {
-    LocalDate fechaDate = null;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        fechaDate = LocalDate.parse(fecha);
-    }
-    final JSONArray[] horario = {new JSONArray()};
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            // Conectamos a la pagina con el método que queramos
-            try {
-                URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setDoOutput(true);
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setRequestProperty("Accept", "application/json");
-                OutputStream os = connection.getOutputStream();
-                System.out.println("TETica");
-                OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                String jsonFecha = "{\n"
-                        + "    \"id\":\"#PARAMID#\"\n"
-                        + "}";
-                jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
-                osw.write(jsonFecha);
-                osw.flush();
-                int responseCode = connection.getResponseCode();
-//Ver si la respuesta es correcta
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    // Si es correcta la leemos
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String line;
-                    StringBuilder response = new StringBuilder();
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                    reader.close();
-                    horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
-                    connection.disconnect();
-                } else {
-                    connection.disconnect();
-                }
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            } catch (ProtocolException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (JSONException e) {
-            }
-
-        }
-    };
-    Thread thread = new Thread(runnable);
-    thread.start();
-    try {
-        thread.join();
-    } catch (InterruptedException e) {
-        throw new RuntimeException(e);
-    }
-    System.out.println("HORARIO: " +horario[0] );
-    if (horario[0].length() == 0){
-        return null;
-    }
-    int dia = 0;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        dia = fechaDate.getDayOfWeek().getValue();
-    }
-    JSONObject jsonObject;
-    try {
-        jsonObject = (horario[0].getJSONObject(dia - 1));
-        if (jsonObject.getInt("cerrado")==1){
-            return "Cerrado";
-        }
-    } catch (JSONException e) {
-        throw new RuntimeException(e);
-    }
-    incremento = leerIncremento();
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        if (incremento.getMinute() == 0 && incremento.getHour() == 0){
-            return "INCREMENTO";
-        }
-    }
-    LocalDateTime inicio_m;
-    LocalDateTime fin_m;
-    LocalDateTime inicio_t;
-    LocalDateTime fin_t;
-    LocalDateTime[] tramos;
-    DateTimeFormatter dateTimeFormatter = null;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        try {
-            inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
-            fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
-            inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
-            fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
-            Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-            Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-            tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
-            System.out.println("En teoría se ejecuta " + tramos.length);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        int contador = 0;
-        LocalDateTime tramo = inicio_m;
-        while (fin_m.isAfter(tramo)) {
-            tramos[contador] = tramo;
-            System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
-            contador++;
-            tramo = tramo.plusHours(incremento.getHour());
-            tramo = tramo.plusMinutes(incremento.getMinute());
-            if (fin_m.isBefore(tramo) || tramo.until(fin_m, ChronoUnit.MINUTES) < (incremento.getHour()*60+incremento.getMinute())) {
-                break;
-            }
-
-        }
-        tramo = inicio_t;
-        while (fin_t.isAfter(tramo)) {
-            tramos[contador] = tramo;
-            System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
-            contador++;
-            tramo = tramo.plusHours(incremento.getHour());
-            tramo = tramo.plusMinutes(incremento.getMinute());
-            if (fin_t.isBefore(tramo)) {
-                break;
-            }
-        }
-        String texto = "SELECT '#PARAM1#' AS value ";
-        for (LocalDateTime t : tramos) {
-            if (t != null) {
-                if (texto.contains("#PARAM1#")) {
-                    texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
-                } else {
-                    texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
-                }
-            }
-        }
-        System.out.println(texto);
-        if (texto.contains("#PARAM1#")) {
-            return null;
-        }
-        return texto;
-    }
-    return "MONDONGO";
-}
 
     public void avisarBorradoRecyclerView(int position) {
         this.getActivity().runOnUiThread(new Runnable() {
@@ -1154,6 +983,7 @@ public String leerTramos(String fecha) {
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setDoOutput(true);
+                    //Escribimos el json
                     OutputStream os = connection.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                     String json = "{\n"
@@ -1176,7 +1006,6 @@ public String leerTramos(String fecha) {
                         }
                         reader.close();
                         connection.disconnect();
-                        System.out.println("Respuesta insertar aforo" + response);
                         if (new JSONObject(String.valueOf(response)).getInt("codigo") == 1) {
                             jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
                             System.out.println(jsonArray[0]);
@@ -1196,6 +1025,7 @@ public String leerTramos(String fecha) {
 
             }
         };
+        //Arrancamos el hilo y lo sincronizamos
         Thread thread = new Thread(runnable);
         thread.start();
         try {
@@ -1206,6 +1036,7 @@ public String leerTramos(String fecha) {
         if (jsonArray[0] == null) {
             return null;
         } else {
+            //Cargamos los filtros
             String[] textos = new String[jsonArray[0].length() + 1];
             textos[0] = "--- Seleccione filtro ---";
             for (int i = 0; i < jsonArray[0].length(); i++) {
@@ -1227,6 +1058,7 @@ public String leerTramos(String fecha) {
     }
 
     public void cambioSpinner() {
+        //Depende del seleccionado , filtramos o restauramos
         String opcion = spinnerFiltro.getSelectedItem().toString();
         ReservaAdapter reservaAdapter = (ReservaAdapter) rvOcupacion.getAdapter();
         if (opcion.equals("--- Seleccione filtro ---")) {
@@ -1251,18 +1083,16 @@ public String leerTramos(String fecha) {
         btLayoutCalendario.setEnabled(adapterCargado);
         btnReservar.setEnabled(enReservas);
         spinnerFiltro.setEnabled(enReservas);
-        if (enReservas){
+        if (enReservas) {
             btnReservar.setBackgroundColor(Color.rgb(109, 34, 109));
-        }
-        else{
+        } else {
             btnReservar.setBackgroundColor(Color.GRAY);
         }
-        if (adapterCargado){
+        if (adapterCargado) {
             btLayoutCalendario.setBackgroundColor(Color.rgb(109, 34, 109));
             btSiguienteDia.setBackgroundColor(Color.rgb(109, 34, 109));
             btAnteriorDia.setBackgroundColor(Color.rgb(109, 34, 109));
-        }
-        else{
+        } else {
             btLayoutCalendario.setBackgroundColor(Color.GRAY);
             btSiguienteDia.setBackgroundColor(Color.GRAY);
             btAnteriorDia.setBackgroundColor(Color.GRAY);

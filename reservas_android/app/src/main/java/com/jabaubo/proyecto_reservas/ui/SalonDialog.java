@@ -81,8 +81,10 @@ public class SalonDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(this.getContext()).inflate(R.layout.layout_dialog_salon, null);
+        //Cargamos los componentes
         etNombre = view.findViewById(R.id.etNombreSD);
         etAforo = view.findViewById(R.id.etAforoSD);
+        //Cargamos los valores
         if (aforo != 0) {
             etAforo.setText(String.valueOf(aforo));
             System.out.println(etAforo.getText());
@@ -92,7 +94,6 @@ public class SalonDialog extends DialogFragment {
         }
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(view)
-                // Add action buttons
                 .setPositiveButton(R.string.dialogo_guardar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -111,6 +112,7 @@ public class SalonDialog extends DialogFragment {
                                         connection.setDoOutput(true);
                                         connection.setRequestProperty("Content-Type", "application/json");
                                         connection.setRequestProperty("Accept", "application/json");
+                                        //Escribimos el json
                                         OutputStream os = connection.getOutputStream();
                                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                                         String jsonStr = "{\n"
@@ -122,7 +124,6 @@ public class SalonDialog extends DialogFragment {
                                         jsonStr = jsonStr.replace("#PARAMNOMBRE#", etNombre.getText());
                                         jsonStr = jsonStr.replace("#PARAMAFORO#", etAforo.getText());
                                         osw.write(jsonStr);
-                                        System.out.println(jsonStr);
                                         osw.flush();
                                         int responseCode = connection.getResponseCode();
                                         //Ver si la respuesta es correcta
@@ -160,7 +161,7 @@ public class SalonDialog extends DialogFragment {
 
                             Snackbar.make(view, "Guardando", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
-
+                            //Preparamos el nuevo salon
                             try {
                                 JSONObject jsonObject = new JSONObject(responseStr[0]);
                                 System.out.println(jsonObject);
@@ -168,6 +169,7 @@ public class SalonDialog extends DialogFragment {
                                 s.setNombre(jsonObject.getString("nombre"));
                                 s.setId(jsonObject.getInt("id"));
                                 s.setAforo(Integer.valueOf(jsonObject.getString("aforo")));
+                                //Avisamos al adapter
                                 RecyclerView rvSalones = configFragment.getRvSalones();
                                 ((SalonAdapter) rvSalones.getAdapter()).getDataList().add(s);
                                 rvSalones.getAdapter().notifyItemInserted(rvSalones.getAdapter().getItemCount() - 1);
@@ -176,14 +178,12 @@ public class SalonDialog extends DialogFragment {
                                 throw new RuntimeException(e);
                             }
                         } else {
+                            //Preparamos el json
                             String json = jsonActualizar();
-                            System.out.println(json);
-                            System.out.println("JSON actualizar: " + json);
                             if (json.equals("No hay diferencias")) {
                                 Snackbar.make(configFragment.getView(), json, Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
                             } else {
-                                System.out.println(json);
                                 Runnable runnable = new Runnable() {
                                     @Override
                                     public void run() {
@@ -192,6 +192,7 @@ public class SalonDialog extends DialogFragment {
                                             URL url = new URL("https://reservante.mjhudesings.com/slim/updatesalon");
                                             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                                             connection.setRequestMethod("PUT");
+                                            //Escribimos el nuevo json
                                             OutputStream os = connection.getOutputStream();
                                             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                                             osw.write(json);
@@ -226,23 +227,21 @@ public class SalonDialog extends DialogFragment {
                                 } catch (InterruptedException e) {
                                     throw new RuntimeException(e);
                                 }
-
+                                //Preparamos el salon actualizado
                                 Salon s = ((SalonAdapter) configFragment.getRvSalones().getAdapter()).getDataList().get(adapterPosition);
                                 JSONObject jsonObj;
                                 try {
                                     jsonObj = new JSONObject(json);
-                                    System.out.println("JSONDERULO: " + json);
                                     s.setAforo(Integer.valueOf(jsonObj.getString("aforo")));
                                     s.setNombre(jsonObj.getString("nombre"));
+                                    //Avisamos al Adapter
                                     ((SalonAdapter) configFragment.getRvSalones().getAdapter()).getDataList().set(adapterPosition, s);
                                     configFragment.getRvSalones().getAdapter().notifyDataSetChanged();
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
                                 Snackbar.make(configFragment.getView(), "Actualización correcta", Snackbar.LENGTH_LONG);
-
                             }
-
                         }
                     }
                 })

@@ -83,8 +83,12 @@ public class HomeFragment extends Fragment {
         final View[] root = new View[1];
         HomeFragment homeFragment = this;
         ViewGroup viewGroup = (ViewGroup) root[0];
-
+        /*
+         * Comprobamos el ID del restaurante del main activity
+         * 0->No ha iniciado sesión
+         * Otro ->Ha iniciado sesión*/
         if (((MainActivity) getActivity()).getIdRestaurante() == 0) {
+            //Inciamos con el layout de login
             mainActivity = (MainActivity) this.getActivity();
             bindingLogin = FragmentLoginBinding.inflate(inflater, container, false);
             root[0] = bindingLogin.getRoot();
@@ -94,9 +98,14 @@ public class HomeFragment extends Fragment {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*
+                     * Comprobamos el login para usuario y contraseña
+                     * correcto-> Ponemos el formato de login
+                     * Incorrecto -> Avisamos , sumamos 1 a los intentos*/
                     if (intentarLogin(etUser.getText().toString(), etPassword.getText().toString())) {
                         login = true;
                         ViewGroup viewGroup = (ViewGroup) root[0];
+                        //Desactivamos el  layout de login
                         viewGroup.removeView(root[0]);
 
                         b.setAlpha(0);
@@ -113,13 +122,13 @@ public class HomeFragment extends Fragment {
                         etUser.setEnabled(false);
                         etUser.setX(0);
                         etUser.setY(0);
-
+                        //PReparamos el layout de Inicio
                         root[0] = homeFragment.getLayoutInflater().inflate(R.layout.fragment_home, viewGroup);
-
+                        //Activamos menú lateral
                         MainActivity mainActivity = (MainActivity) homeFragment.getActivity();
                         mainActivity.setLogin(true);
                         mainActivity.controlMenuLateral();
-
+                        //Cargamos componentes
                         binding = FragmentHomeBinding.inflate(inflater, container, false);
                         rvOcupacion = root[0].findViewById(R.id.rvOcupacionInicio);
                         btAnterior = root[0].findViewById(R.id.btAnteriorInicio);
@@ -132,6 +141,10 @@ public class HomeFragment extends Fragment {
                         incremento = leerIncremento();
 
                         String[] salones = leerSalones();
+                        /*
+                         * Comprobamos si ha devuelto correctamente lo salones
+                         * Hay salones -> Cargamos en el filtro
+                         * No hay -> Avisamos*/
                         if (salones != null) {
                             ArrayAdapter<String> listaSalones = new ArrayAdapter<>(homeFragment.getContext(), android.R.layout.simple_spinner_dropdown_item, salones);
                             spinnerFiltro.setAdapter(listaSalones);
@@ -139,34 +152,16 @@ public class HomeFragment extends Fragment {
                             android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                                     .setTitle("Advertencia")
                                     .setMessage("No hay salones,\nconfigure alguno antes de reservar.")
-
-                                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                                    // The dialog is automatically dismissed when a dialog button is clicked.
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                        }
-                                    })
-
-                                    // A null listener allows the button to dismiss the dialog and take no further action.
-                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                        }
-                                    })
+                                    .setPositiveButton(android.R.string.yes, null)
+                                    .setNegativeButton(android.R.string.no, null)
                                     .setIcon(android.R.drawable.ic_dialog_alert).create();
                             alertDialog.show();
                         }
+
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             tvReservasDiaHora.setText(LocalDate.now().toString());
                         }
-                        btReservar.setEnabled(false);
-                        btAnterior.setEnabled(false);
-                        btSiguiente.setEnabled(false);
-                        btVolverInicio.setEnabled(false);
-                        spinnerFiltro.setEnabled(false);
+                        //Cargamos los listeners
                         btSiguiente.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -194,9 +189,11 @@ public class HomeFragment extends Fragment {
                         spinnerFiltro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                System.out.println(rvOcupacion.getAdapter() == null);
+                                //Comprobamos que el adapter no es null
                                 if (rvOcupacion.getAdapter() != null) {
+                                    //Comprobamos que es de la clase correcta
                                     if (rvOcupacion.getAdapter().getClass().toString().equals("class com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter")) {
+                                        //Filtramos
                                         cambioSpinner();
                                     }
 
@@ -208,22 +205,31 @@ public class HomeFragment extends Fragment {
 
                             }
                         });
-
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             cargarOcupacion(LocalDate.now().toString());
                         }
                         comprobarBotones();
+                    } else {
+                        android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                                .setTitle("Error")
+                                .setMessage("Usuario o contraseña incorrectos")
+                                .setPositiveButton(android.R.string.yes, null)
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert).create();
+                        alertDialog.show();
+
                     }
                 }
             });
 
         } else {
+            //Cargamos el layout de inicio
             root[0] = homeFragment.getLayoutInflater().inflate(R.layout.fragment_home, viewGroup);
 
             MainActivity mainActivity = (MainActivity) homeFragment.getActivity();
             mainActivity.setLogin(true);
             mainActivity.controlMenuLateral();
-
+            //Cargamos los componentes
             binding = FragmentHomeBinding.inflate(inflater, container, false);
             rvOcupacion = root[0].findViewById(R.id.rvOcupacionInicio);
             btAnterior = root[0].findViewById(R.id.btAnteriorInicio);
@@ -232,8 +238,10 @@ public class HomeFragment extends Fragment {
             btVolverInicio = root[0].findViewById(R.id.btVolverInicio);
             tvReservasDiaHora = root[0].findViewById(R.id.tvReservasDiaHoraInicio);
             spinnerFiltro = root[0].findViewById(R.id.spinFiltroInicio);
-            System.out.println("NULO: " + rvOcupacion.getAdapter() == null);
-
+            /*
+             * Leemos lo salones
+             * Hay -> Cargamos el filtro
+             * No hay -> Avisamos*/
             String[] salones = leerSalones();
             if (salones != null) {
                 ArrayAdapter<String> listaSalones = new ArrayAdapter<>(homeFragment.getContext(), android.R.layout.simple_spinner_dropdown_item, salones);
@@ -242,34 +250,15 @@ public class HomeFragment extends Fragment {
                 android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                         .setTitle("Advertencia")
                         .setMessage("No hay salones")
-
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-
-                        // A null listener allows the button to dismiss the dialog and take no further action.
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
+                        .setPositiveButton(android.R.string.yes, null)
+                        .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert).create();
                 alertDialog.show();
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 tvReservasDiaHora.setText(LocalDate.now().toString());
             }
-            btReservar.setEnabled(false);
-            btAnterior.setEnabled(false);
-            btSiguiente.setEnabled(false);
-            btVolverInicio.setEnabled(false);
-            spinnerFiltro.setEnabled(false);
+            //Cargamos los listeneres
             btSiguiente.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -297,9 +286,11 @@ public class HomeFragment extends Fragment {
             spinnerFiltro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    System.out.println(rvOcupacion.getAdapter() == null);
+                    //Comprobamos que el adapter no sea nulo
                     if (rvOcupacion.getAdapter() != null) {
+                        //Comprobamos que el adapter es de la clase correcta
                         if (rvOcupacion.getAdapter().getClass().toString().equals("class com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter")) {
+                            //Filtramos
                             cambioSpinner();
                         }
 
@@ -321,6 +312,7 @@ public class HomeFragment extends Fragment {
 
     public boolean intentarLogin(String usuario, String pass) {
         int respuesta[] = new int[2];
+        //Preparamos la petición
         try {
             Runnable runnable = new Runnable() {
                 @Override
@@ -333,6 +325,7 @@ public class HomeFragment extends Fragment {
                         connection.setDoOutput(true);
                         connection.setRequestProperty("Content-Type", "application/json");
                         connection.setRequestProperty("Accept", "application/json");
+                        //Preparamos y cargamos el json
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String jsonStr = "{\n"
@@ -354,9 +347,7 @@ public class HomeFragment extends Fragment {
                             while ((line = reader.readLine()) != null) {
                                 response.append(line);
                             }
-                            System.out.println(response);
                             reader.close();
-                            System.out.println(response);
                             respuesta[0] = new JSONObject(response.toString()).getInt("codigo");
                             if (respuesta[0] == 1) {
                                 respuesta[1] = new JSONObject(response.toString()).getJSONArray("restaurante").getJSONObject(0).getInt("id_restaurante");
@@ -380,18 +371,19 @@ public class HomeFragment extends Fragment {
 
                 }
             };
+            //Arrancamos el hilo , y lo sincronizamos para que la app espere la respuesta
             Thread thread = new Thread(runnable);
             thread.start();
             thread.join();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //Si la respuesta es correcta , pasamos el idRestaurante al MainActivity
         if (respuesta[0] == 1) {
-            System.out.println("Login correcto " + respuesta[1]);
             ((MainActivity) this.getActivity()).setIdRestaurante(respuesta[1]);
             return true;
         }
-        intentosLogin++;
+        //Si ya ha hecho 3 intentos incorrectos , cerramos el programa
         if (intentosLogin == 3) {
             System.exit(20);
         }
@@ -399,9 +391,10 @@ public class HomeFragment extends Fragment {
     }
 
     public void reservar() {
-
+        //Leemos los datos del TextView
         String fecha = tvReservasDiaHora.getText().toString().substring(0, tvReservasDiaHora.getText().toString().indexOf("Tramo") + 6);
         String hora = tvReservasDiaHora.getText().toString().substring(tvReservasDiaHora.getText().toString().indexOf("Tramo") + 6);
+        //Se lo pasamos al dialog
         ReservaDialog reservaDialog = new ReservaDialog(getView(), hora, fecha, this);
         reservaDialog.show(getActivity().getSupportFragmentManager(), "A");
     }
@@ -413,11 +406,18 @@ public class HomeFragment extends Fragment {
     }
 
     public void cargarOcupacion(String fecha) {
+        //Preparamos el json
         JSONObject[] json = new JSONObject[1];
         try {
             String consulta = leerTramos(fecha);
+            /*
+             * Comprobamos la consulta
+             * Nulo -> Error , no cargamos reservas
+             * Otra cosa -> Continuamos*/
             if (consulta == null) {
-                if (rvOcupacion.getAdapter() != null){
+                //Vemos si hay adapter
+                if (rvOcupacion.getAdapter() != null) {
+                    //Depende de la clase le pasamos como lista un Array vacío
                     String clase = rvOcupacion.getAdapter().getClass().getName();
                     if (clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter")) {
                         ((ReservaAdapter) rvOcupacion.getAdapter()).setDataList(new ArrayList<>());
@@ -428,25 +428,16 @@ public class HomeFragment extends Fragment {
                         rvOcupacion.getAdapter().notifyDataSetChanged();
                     }
                 }
+                //Avisamos
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                         .setTitle("Error")
                         .setMessage("Revise el horario del día (Horario) y la duración de las reservas (Configuración)")
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        // A null listener allows the button to dismiss the dialog and take no further action.
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
+                        .setPositiveButton(android.R.string.yes, null)
+                        .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert).create();
                 alertDialog.show();
             } else {
+                //Preparamos la petición
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
@@ -458,8 +449,8 @@ public class HomeFragment extends Fragment {
                             connection.setDoOutput(true);
                             connection.setRequestProperty("Content-Type", "application/json");
                             connection.setRequestProperty("Accept", "application/json");
+                            //Escribimos el json
                             OutputStream os = connection.getOutputStream();
-                            System.out.println("TETica");
                             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                             String jsonFecha = "{\n"
                                     + "    \"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones WHERE id_restaurante = #PARAMID#) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo  FROM (#TRAMOS#) AS range_values  CROSS JOIN salones on salones.id_salon in (SELECT id_salon FROM salones WHERE id_restaurante = #PARAMID#) LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon  GROUP BY range_values.value, salones.id_salon  ORDER BY range_values.value ASC\",\n"
@@ -472,7 +463,6 @@ public class HomeFragment extends Fragment {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 jsonFecha = jsonFecha.replace("#PARAMDIA#", String.valueOf(LocalDate.parse(fecha).getDayOfWeek().getValue()));
                             }
-                            System.out.println(jsonFecha);
                             osw.write(jsonFecha);
                             osw.flush();
                             int responseCode = connection.getResponseCode();
@@ -486,9 +476,7 @@ public class HomeFragment extends Fragment {
                                     response.append(line);
                                 }
                                 reader.close();
-                                System.out.println("RESPUESTA api " + response);
                                 json[0] = new JSONObject(response.toString());
-                                System.out.println("JSON en ARRAY hilo: " + json[0]);
                             }
                             connection.disconnect();
                         } catch (MalformedURLException e) {
@@ -506,52 +494,53 @@ public class HomeFragment extends Fragment {
 
                     }
                 };
+                //Sincronizamos el hilo para esperar la respuesta
                 Thread thread = new Thread(runnable);
                 thread.start();
                 thread.join();
 
-
+                //Mensaje a mostrar si el restaurante está cerrado
                 if (json[0].toString().contains("restaurante cerrado")) {
                     Snackbar.make(getView(), "El restaurante está cerrado", Snackbar.LENGTH_SHORT).show();
                     rvOcupacion.setAdapter(null);
-                } else if (json[0].toString().contains("restaurante de vacaciones")) {
+                }
+                //Mensaje a mostrar si el restaurante está de vacaciones
+                else if (json[0].toString().contains("restaurante de vacaciones")) {
                     Snackbar.make(getView(), "El restaurante está de vacaciones", Snackbar.LENGTH_SHORT).show();
                     rvOcupacion.setAdapter(null);
-                } else {
+                }
+                //Cargamos ocupación
+                else {
+                    //Comprobamos el codigo de respuesta
                     int codRespuesta = json[0].getInt("codigo");
                     if (codRespuesta == 1) {
-                        System.out.println("RESPUESTA CARGA: " + json[0]);
                         JSONArray jsonArray = json[0].getJSONArray("reservas");
                         int n_salones = jsonArray.getJSONObject(0).getInt("n_salones");
-                        System.out.println("tope :" + n_salones);
-                        System.out.println("JSON ARRAY: " + jsonArray);
-                        System.out.println("JSON ARRAY LENGTH: " + jsonArray.length());
-
-                        //while ()
                         ArrayList<ReservaFechas> lista = new ArrayList<>();
+                        //Recorremos el Array
                         for (int i = 0; i < jsonArray.length(); i += n_salones) {
                             int reservasTotal = 0;
                             String ocupacion = "";
+                            //Recorremos el Array del array
                             for (int j = i; j < (i + n_salones); j++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(j);
-                                System.out.println(jsonObject);
+                                //Leemos los datos
                                 String nombreSalon = jsonObject.getString("nombre");
                                 String nReservas = jsonObject.getString("n_reservas");
                                 reservasTotal += Integer.valueOf(nReservas);
                                 String nPersonas = jsonObject.getString("n_personas");
                                 String aforoSalon = jsonObject.getString("aforo");
+                                //Calculamos el ratio de ocupación de salón y formateamos el texto en base al %
                                 float ratio = Float.parseFloat(nPersonas) / Float.parseFloat(aforoSalon);
-                                System.out.println("pre " + ocupacion);
                                 if (ratio < 0.33f) {
                                     ocupacion += String.format("%s <font color='#008000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
                                 } else if (ratio < 0.66f) {
                                     ocupacion += String.format("%s <font color='#FFEB00'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
                                 } else {
                                     ocupacion += String.format("%s <font color='#8B0000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
-
                                 }
-                                System.out.println("post " + ocupacion);
                             }
+                            //Creamos el objeto , rellenamos y añadimos a la lista
                             ReservaFechas o = new ReservaFechas();
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 o.setHora(jsonArray.getJSONObject(i).getString("value"));
@@ -598,6 +587,7 @@ public class HomeFragment extends Fragment {
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setDoOutput(true);
+                    //Escribimos el json
                     OutputStream os = connection.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                     String json = "{\n"
@@ -639,6 +629,7 @@ public class HomeFragment extends Fragment {
 
             }
         };
+        //Arrancamos el hilo y sincronizamos para que la app espere el resultado
         Thread thread = new Thread(runnable);
         thread.start();
         try {
@@ -647,9 +638,9 @@ public class HomeFragment extends Fragment {
             throw new RuntimeException(e);
         }
         if (jsonArray[0] == null) {
-            System.out.println("No hay salones");
             return null;
         } else {
+            //Cargamos un array para el filtro
             String[] textos = new String[jsonArray[0].length() + 1];
             textos[0] = "--- Seleccione filtro ---";
             for (int i = 0; i < jsonArray[0].length(); i++) {
@@ -660,349 +651,31 @@ public class HomeFragment extends Fragment {
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
-
-            }
-            for (String s : textos) {
-                System.out.println(s);
             }
             return textos;
         }
     }
 
-    /*
-    public String[] leerSalones(){
-        final JSONArray[] jsonArray = new JSONArray[1];
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // Conectamos a la pagina con el método que queramos
-                try {
-                    URL url = new URL("https://reservante.mjhudesings.com/slim/getsalones");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    int responseCode = connection.getResponseCode();
-                    System.out.println("Respuesta insertar aforo" + (responseCode == HttpURLConnection.HTTP_OK));
-                    //Ver si la respuesta es correcta
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        // Si es correcta la leemos
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
-                        StringBuilder response = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
-                        }
-                        reader.close();
-                        connection.disconnect();
-                        System.out.println("Respuesta insertar aforo" + response);
-                        jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
-                        System.out.println(jsonArray[0]);
-                    } else {
-                        connection.disconnect();
-                    }
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                } catch (ProtocolException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        String[] textos = new String[jsonArray[0].length()+1];
-        textos[0] = "--- Seleccione filtro ---";
-        for (int i = 0 ; i < jsonArray[0].length() ; i++){
-            try {
-                JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
-                System.out.println(jsonObject);
-                textos[i+1] = String.format("%s - %s",jsonObject.getString("id_salon"), jsonObject.getString("nombre"));
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-        for (String t:textos){
-            System.out.println("SPINNER " + t);
-        }
-        return textos;
-    }
-*/
     public void cambioSpinner() {
+        //Comprobamos el filtro para ver cual es el seleccionado
         String opcion = spinnerFiltro.getSelectedItem().toString();
         ReservaAdapter reservaAdapter = (ReservaAdapter) rvOcupacion.getAdapter();
         if (opcion.equals("--- Seleccione filtro ---")) {
+            //Restauramos la lista completa
             reservaAdapter.restaurarDatos();
         } else {
+            //Filtramos con la id del salon
             reservaAdapter.filtrarId(Integer.valueOf(opcion.substring(0, opcion.indexOf("-") - 1)));
         }
     }
 
-    /*
-        public String leerTramos(String fecha) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                LocalDate fechaDate = LocalDate.parse(fecha);
-                final JSONArray[] horario = {new JSONArray()};
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        // Conectamos a la pagina con el método que queramos
-                        try {
-                            URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
-                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                            connection.setRequestMethod("GET");
-
-                            int responseCode = connection.getResponseCode();
-                            //Ver si la respuesta es correcta
-                            if (responseCode == HttpURLConnection.HTTP_OK) {
-                                // Si es correcta la leemos
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                String line;
-                                StringBuilder response = new StringBuilder();
-                                while ((line = reader.readLine()) != null) {
-                                    response.append(line);
-                                }
-                                reader.close();
-                                horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
-                                connection.disconnect();
-                            } else {
-                                connection.disconnect();
-                            }
-                        } catch (MalformedURLException e) {
-                            throw new RuntimeException(e);
-                        } catch (ProtocolException e) {
-                            throw new RuntimeException(e);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        } catch (JSONException e) {
-                        }
-
-                    }
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-                try {
-                    thread.join();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                int dia = fechaDate.getDayOfWeek().getValue();
-                JSONObject jsonObject;
-                try {
-                    jsonObject = (horario[0].getJSONObject(dia - 1));
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-                incremento = leerIncremento();
-                LocalDateTime inicio_m;
-                LocalDateTime fin_m;
-                LocalDateTime inicio_t;
-                LocalDateTime fin_t;
-                LocalDateTime[] tramos;
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                try {
-                    inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
-                    fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
-                    inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
-                    fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
-                    Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                    Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                    tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
-                    System.out.println("En teoría se ejecuta " + tramos.length);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-                int contador = 0;
-                LocalDateTime tramo = inicio_m;
-                while (fin_m.isAfter(tramo)) {
-                    tramos[contador] = tramo;
-                    System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
-                    contador++;
-                    tramo = tramo.plusHours(incremento.getHour());
-                    tramo = tramo.plusMinutes(incremento.getMinute());
-                    if (fin_m.isBefore(tramo)) {
-                        break;
-                    }
-
-                }
-                tramo = inicio_t;
-                while (fin_t.isAfter(tramo)) {
-                    if (contador < tramos.length){
-                        tramos[contador] = tramo;
-                    }
-                    System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
-                    contador++;
-                    tramo = tramo.plusHours(incremento.getHour());
-                    tramo = tramo.plusMinutes(incremento.getMinute());
-                    if (fin_t.isBefore(tramo)) {
-                        break;
-                    }
-                }
-                String texto = "SELECT '#PARAM1#' AS value ";
-                for (LocalDateTime t : tramos) {
-                    if (texto.contains("'#PARAM1#'") ) {
-                        texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
-                    } else {
-                        if (t != null){
-                            texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
-                        }
-                    }
-                }
-                System.out.println(texto);
-                return texto;
-
-            }
-            return null;
-        }
-    */
-/*
-    public String leerTramos(String fecha) {
-        LocalDate fechaDate = null;
-        String texto = "";
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            fechaDate = LocalDate.parse(fecha);
-            final JSONArray[] horario = {new JSONArray()};
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    try {
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("POST");
-                        connection.setDoOutput(true);
-                        connection.setRequestProperty("Content-Type", "application/json");
-                        connection.setRequestProperty("Accept", "application/json");
-                        OutputStream os = connection.getOutputStream();
-                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        String jsonFecha = "{\n"
-                                + "    \"id\":\"#PARAMID#\"\n"
-                                + "}";
-                        jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(mainActivity.getIdRestaurante()));
-                        osw.write(jsonFecha);
-                        osw.flush();
-                        int responseCode = connection.getResponseCode();
-//Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            reader.close();
-                            horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
-                            connection.disconnect();
-                        } else {
-                            connection.disconnect();
-                        }
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (JSONException e) {
-                    }
-
-                }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            if (horario[0].length() > 0) {
-                int dia = fechaDate.getDayOfWeek().getValue();
-                JSONObject jsonObject;
-                try {
-                    jsonObject = (horario[0].getJSONObject(dia - 1));
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-                incremento = leerIncremento();
-                LocalDateTime inicio_m;
-                LocalDateTime fin_m;
-                LocalDateTime inicio_t;
-                LocalDateTime fin_t;
-                LocalDateTime[] tramos;
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                try {
-                    inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
-                    System.out.println(inicio_m == null);
-                    fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
-                    System.out.println(fin_m == null);
-                    inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
-                    System.out.println(inicio_t == null);
-                    fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
-                    System.out.println(fin_t == null);
-                    Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                    System.out.println(tramos_m == null);
-                    Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                    System.out.println(tramos_t == null);
-                    tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
-                    System.out.println("En teoría se ejecuta " + tramos.length);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-                int contador = 0;
-                LocalDateTime tramo = inicio_m;
-                while (fin_m.isAfter(tramo)) {
-                    tramos[contador] = tramo;
-                    System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
-                    contador++;
-                    tramo = tramo.plusHours(incremento.getHour());
-                    tramo = tramo.plusMinutes(incremento.getMinute());
-                    if (fin_m.isBefore(tramo)) {
-                        break;
-                    }
-
-                }
-                tramo = inicio_t;
-                while (fin_t.isAfter(tramo)) {
-                    tramos[contador] = tramo;
-                    System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
-                    contador++;
-                    tramo = tramo.plusHours(incremento.getHour());
-                    tramo = tramo.plusMinutes(incremento.getMinute());
-                    if (fin_t.isBefore(tramo)) {
-                        break;
-                    }
-                }
-                texto = "SELECT '#PARAM1#' AS value ";
-                for (LocalDateTime t : tramos) {
-                    if (t != null) {
-                        if (texto.contains("'#PARAM1#'")) {
-                            texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
-                        } else {
-                            texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
-                        }
-                    }
-                }
-                System.out.println(texto);
-            }
-            return texto;
-        }
-        return "Error";
-    }
-*/
     public String leerTramos(String fecha) {
         LocalDate fechaDate = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             fechaDate = LocalDate.parse(fecha);
         }
         final JSONArray[] horario = {new JSONArray()};
+        //Preparamos la petición
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -1014,8 +687,8 @@ public class HomeFragment extends Fragment {
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Accept", "application/json");
+                    //Escribimos el json
                     OutputStream os = connection.getOutputStream();
-                    System.out.println("TETica");
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                     String jsonFecha = "{\n"
                             + "    \"id\":\"#PARAMID#\"\n"
@@ -1057,6 +730,7 @@ public class HomeFragment extends Fragment {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        //Vemos que dia hay que leer
         int dia = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dia = fechaDate.getDayOfWeek().getValue();
@@ -1067,10 +741,10 @@ public class HomeFragment extends Fragment {
         } catch (JSONException e) {
             return null;
         }
+        //Leemos la duración de reservas y vemos que sea un valor válido
         incremento = leerIncremento();
-        System.out.println(incremento);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (incremento.getMinute() == 0 && incremento.getHour() == 0){
+            if (incremento.getMinute() == 0 && incremento.getHour() == 0) {
                 return null;
             }
         }
@@ -1083,34 +757,36 @@ public class HomeFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             try {
+                //Cargamos los valores
                 inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
                 fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
                 inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
                 fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
+                //Calculamos la cantidad de tramos matutinos
                 Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+                //Calculamos la cantidad de tramos de la tarde
                 Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
                 tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
-                System.out.println("En teoría se ejecuta " + tramos.length);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
             int contador = 0;
+            //Cálculo de tramos matutinos
             LocalDateTime tramo = inicio_m;
             while (fin_m.isAfter(tramo)) {
                 tramos[contador] = tramo;
-                System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
                 contador++;
                 tramo = tramo.plusHours(incremento.getHour());
                 tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_m.isBefore(tramo) || tramo.until(fin_m, ChronoUnit.MINUTES) < (incremento.getHour()*60+incremento.getMinute())) {
+                if (fin_m.isBefore(tramo) || tramo.until(fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
                     break;
                 }
 
             }
+            //Cálculo de tramos de la tarde
             tramo = inicio_t;
             while (fin_t.isAfter(tramo)) {
                 tramos[contador] = tramo;
-                System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
                 contador++;
                 tramo = tramo.plusHours(incremento.getHour());
                 tramo = tramo.plusMinutes(incremento.getMinute());
@@ -1118,6 +794,7 @@ public class HomeFragment extends Fragment {
                     break;
                 }
             }
+            //Preparamos la consulta
             String texto = "SELECT '#PARAM1#' AS value ";
             for (LocalDateTime t : tramos) {
                 if (t != null) {
@@ -1128,7 +805,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
             }
-            System.out.println(texto);
+            //Vemos si se ha preparado correctamente
             if (texto.contains("#PARAM1#")) {
                 return null;
             }
@@ -1137,61 +814,11 @@ public class HomeFragment extends Fragment {
         return null;
     }
 
-    /*
-    public LocalTime leerIncremento() {
-        final LocalTime[] incremento = new LocalTime[1];
-        try {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    try {
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/getincremento");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("GET");
-                        int responseCode = connection.getResponseCode();
-                        //Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            reader.close();
-                            JSONObject jsonObject = new JSONObject(response.toString()).getJSONObject("resultado");
-                            String incrementoStr = jsonObject.getString("duracion_reservas");
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                incremento[0] = LocalTime.parse(incrementoStr);
-                            }
-                            connection.disconnect();
-                        } else {
-                            connection.disconnect();
-                        }
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (JSONException e) {
-                    }
 
-                }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-            thread.join();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return incremento[0];
-    }
-*/
     public LocalTime leerIncremento() {
         final LocalTime[] incremento = new LocalTime[1];
         try {
+            //Preparamos la petición
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -1203,8 +830,8 @@ public class HomeFragment extends Fragment {
                         connection.setDoOutput(true);
                         connection.setRequestProperty("Content-Type", "application/json");
                         connection.setRequestProperty("Accept", "application/json");
+                        //Escribimos el json
                         OutputStream os = connection.getOutputStream();
-                        System.out.println("TETica");
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String jsonFecha = "{\n"
                                 + "    \"id\":\"#PARAMID#\"\n"
@@ -1213,7 +840,7 @@ public class HomeFragment extends Fragment {
                         osw.write(jsonFecha);
                         osw.flush();
                         int responseCode = connection.getResponseCode();
-//Ver si la respuesta es correctadai
+                        //Ver si la respuesta es correctadai
                         if (responseCode == HttpURLConnection.HTTP_OK) {
                             // Si es correcta la leemos
                             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -1244,6 +871,7 @@ public class HomeFragment extends Fragment {
 
                 }
             };
+            //Arrancamos el hilo y lo sincronizamos para que la app espere al resultado de la petición
             Thread thread = new Thread(runnable);
             thread.start();
             thread.join();
@@ -1255,6 +883,9 @@ public class HomeFragment extends Fragment {
 
     public void clickSiguiente() {
         comprobarBotones();
+        /*Vemos la clase del Adapter
+        * ReservasFechaAdapter -> Estamos en tramos , hay que pasar al día siguiente
+        * ReservasAdapter -> Estamos en reservas , hay que pasar al tramo siguiente*/
         String clase = rvOcupacion.getAdapter().getClass().toString();
         boolean enTramos = clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter");
         if (!enTramos) {
@@ -1265,25 +896,28 @@ public class HomeFragment extends Fragment {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 fecha = LocalDate.now().toString();
                 leerTopes(fecha);
+                //Cálculo de la hora
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                 localTime = localTime.plusHours(incremento.getHour());
                 localTime = localTime.plusMinutes(incremento.getMinute());
-                if (localTime.isBefore(hora_fin_m) || localTime.isEqual(hora_fin_m)){
-                    if (localTime.until(hora_fin_m,ChronoUnit.MINUTES)< (incremento.getHour()*60+incremento.getMinute())){
+                if (localTime.isBefore(hora_fin_m) || localTime.isEqual(hora_fin_m)) {
+                    if (localTime.until(hora_fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
                         localTime = localTime.withHour(hora_inicio_t.getHour());
                         localTime = localTime.withMinute(hora_inicio_t.getMinute());
                     }
-                }
-                else if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)){
+                } else if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)) {
                     localTime = localTime.withHour(hora_inicio_t.getHour());
                     localTime = localTime.withMinute(hora_inicio_t.getMinute());
-                }
-                else if (localTime.isAfter(hora_fin_t) || localTime.isEqual(hora_fin_t)) {
-                    if (localTime.until(hora_fin_t,ChronoUnit.MINUTES)< (incremento.getHour()*60+incremento.getMinute())){
+                } else if (localTime.isAfter(hora_fin_t) || localTime.isEqual(hora_fin_t)) {
+                    if (localTime.until(hora_fin_t, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
                         localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                     }
                 }
+                /*
+                * Comprobamos si hay más tramos en el mismo día después de el actual
+                * Si hay -> Dejar el botón del siguiente día activo , con el color de activo
+                * Si no -> Deshabilitamos el botón y cambiamos el color*/
                 LocalDateTime nextTramo = localTime.plusHours(incremento.getHour());
                 nextTramo = nextTramo.plusMinutes(incremento.getMinute());
                 if (nextTramo.isAfter(hora_fin_t) || nextTramo.until(hora_fin_t, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
@@ -1292,10 +926,11 @@ public class HomeFragment extends Fragment {
                 }
                 if (nextTramo.isAfter(hora_inicio_m)) {
                     btAnterior.setEnabled(true);
-                    btAnterior.setBackgroundColor(Color.rgb(139,42,139));
+                    btAnterior.setBackgroundColor(Color.rgb(139, 42, 139));
                 }
                 horaTramo = localTime.toLocalTime().toString();
             }
+            //Cargamos los datos actualizados
             ArrayList<Reserva> lista = verReservas(fecha, horaTramo);
             rvOcupacion.setAdapter(new ReservaAdapter(lista, getActivity().getSupportFragmentManager(), rvOcupacion));
             tvReservasDiaHora.setText(fecha + " Tramo " + horaTramo);
@@ -1304,7 +939,9 @@ public class HomeFragment extends Fragment {
 
     public void clickAnterior() {
         comprobarBotones();
-
+        /*Vemos la clase del Adapter
+         * ReservasFechaAdapter -> Estamos en tramos , hay que pasar al día anterior
+         * ReservasAdapter -> Estamos en reservas , hay que pasar al tramo anterior*/
         String clase = rvOcupacion.getAdapter().getClass().toString();
         boolean enTramos = clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter");
         if (!enTramos) {
@@ -1318,40 +955,20 @@ public class HomeFragment extends Fragment {
                 localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
                 localTime = localTime.minusHours(incremento.getHour());
                 localTime = localTime.minusMinutes(incremento.getMinute());
-
-                if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)){
+                //Cálculo de la hora
+                if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)) {
                     localTime = localTime.withHour(hora_inicio_m.getHour());
                     localTime = localTime.withMinute(hora_inicio_m.getMinute());
-                    while (localTime.until(hora_fin_m,ChronoUnit.MINUTES)< (incremento.getHour()*60+incremento.getMinute())){
+                    while (localTime.until(hora_fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
                         localTime.plusMinutes(incremento.getMinute());
                         localTime.plusHours(incremento.getHour());
                     }
 
                 }
-                /*if (localTime.isBefore(hora_inicio_t) || localTime.isEqual(hora_inicio_t)){
-                    if (localTime.until(hora_fin_m,ChronoUnit.MINUTES)< (incremento.getHour()*60+incremento.getMinute())){
-                        localTime = localTime.withHour(hora_inicio_t.getHour());
-                        localTime = localTime.withMinute(hora_inicio_t.getMinute());
-                    }
-                }
-                else if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)){
-                    localTime = localTime.withHour(hora_inicio_t.getHour());
-                    localTime = localTime.withMinute(hora_inicio_t.getMinute());
-                }
-                else if (localTime.isAfter(hora_fin_t) || localTime.isEqual(hora_fin_t)) {
-                    if (localTime.until(hora_fin_t,ChronoUnit.MINUTES)< (incremento.getHour()*60+incremento.getMinute())){
-                        localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
-                    }
-                }*/
-                /*if (localTime.isAfter(hora_inicio_m)) {
-                    if (localTime.isBefore(hora_inicio_t)) {
-                        if (localTime.isAfter(hora_fin_m)) {
-                            localTime = LocalDateTime.parse(fecha + " " + hora_fin_m.toLocalTime().minusMinutes(incremento.getMinute()), dtf);
-                            localTime = localTime.minusHours(incremento.getHour());
-                        }
-                    }
-                }*/
-                System.out.println(incremento);
+                /*
+                 * Comprobamos si hay más tramos en el mismo día después de el actual
+                 * Si hay -> Dejar el botón del siguiente día activo , con el color de activo
+                 * Si no -> Deshabilitamos el botón y cambiamos el color*/
                 LocalDateTime nextTramo = localTime.minusHours(incremento.getHour());
                 nextTramo = nextTramo.minusMinutes(incremento.getMinute());
                 if (nextTramo.isBefore(hora_inicio_m)) {
@@ -1360,11 +977,12 @@ public class HomeFragment extends Fragment {
                 }
                 if (nextTramo.isBefore(hora_fin_t)) {
                     btSiguiente.setEnabled(true);
-                    btSiguiente.setBackgroundColor(Color.rgb(139,42,139));
+                    btSiguiente.setBackgroundColor(Color.rgb(139, 42, 139));
 
                 }
                 horaTramo = localTime.toLocalTime().toString();
             }
+            //Cargamos las reservas de la hora
             ArrayList<Reserva> lista = verReservas(fecha, horaTramo);
             rvOcupacion.setAdapter(new ReservaAdapter(lista, getActivity().getSupportFragmentManager(), rvOcupacion));
             tvReservasDiaHora.setText(fecha + " Tramo " + horaTramo);
@@ -1372,8 +990,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void clickVolver() {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
             cargarOcupacion(LocalDate.now().toString());
             tvReservasDiaHora.setText(LocalDate.now().toString());
         }
@@ -1391,6 +1009,7 @@ public class HomeFragment extends Fragment {
                         String dia = "";
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             localDate = LocalDate.parse(fecha);
+                            //Hay que ver cual es el día
                             switch (localDate.getDayOfWeek().getValue()) {
                                 case 1:
                                     dia = "Lunes";
@@ -1415,10 +1034,10 @@ public class HomeFragment extends Fragment {
                                     break;
                             }
                         }
-
                         URL url = new URL("https://reservante.mjhudesings.com/slim/getopes");
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("POST");
+                        //Escribimos el json
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String jsonRequest = "{\"dia\": \"#PARAMDIA#\"}";
@@ -1426,7 +1045,6 @@ public class HomeFragment extends Fragment {
                         osw.write(jsonRequest);
                         osw.flush();
                         int responseCode = connection.getResponseCode();
-                        System.out.println("RESPUESTA: " + responseCode + "-" + HttpURLConnection.HTTP_OK + " " + jsonRequest);
                         //Ver si la respuesta es correcta
                         if (responseCode == HttpURLConnection.HTTP_OK) {
                             // Si es correcta la leemos
@@ -1437,6 +1055,7 @@ public class HomeFragment extends Fragment {
                                 response.append(line);
                             }
                             reader.close();
+                            //Cargamos los tramos
                             JSONObject jsonObject = new JSONObject(response.toString()).getJSONArray("horario").getJSONObject(0);
                             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -1445,7 +1064,6 @@ public class HomeFragment extends Fragment {
                                 hora_inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dtf);
                                 hora_fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dtf);
                             }
-                            System.out.println(jsonObject);
                             connection.disconnect();
                         } else {
                             connection.disconnect();
@@ -1461,6 +1079,7 @@ public class HomeFragment extends Fragment {
 
                 }
             };
+            //Arrancamos el hilo y sincronizamos para que la app espere el resultado
             Thread thread = new Thread(runnable);
             thread.start();
             thread.join();
@@ -1469,67 +1088,10 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    /*
-        public JSONArray verReservas(String fecha, String hora) {
-            final JSONArray[] jsonArray = new JSONArray[1];
-            try {
-                ArrayList<ReservaFechas> lista = new ArrayList<>();
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        // Conectamos a la pagina con el método que queramos
-                        try {
-                            URL url = new URL("https://reservante.mjhudesings.com/slim/getreservahora");
-                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                            connection.setRequestMethod("POST");
-                            OutputStream os = connection.getOutputStream();
-                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                            String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\"\n}";
-                            jsonRequest = jsonRequest.replace("#PARAMFECHA#", fecha);
-                            jsonRequest = jsonRequest.replace("#PARAMHORA#", hora);
-                            osw.write(jsonRequest);
-                            osw.flush();
-                            int responseCode = connection.getResponseCode();
-                            //Ver si la respuesta es correcta
-                            if (responseCode == HttpURLConnection.HTTP_OK) {
-                                // Si es correcta la leemos
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                String line;
-                                StringBuilder response = new StringBuilder();
-                                while ((line = reader.readLine()) != null) {
-                                    response.append(line);
-                                }
-                                reader.close();
-                                jsonArray[0] = new JSONObject(response.toString()).getJSONArray("reservas");
-                                connection.disconnect();
-                            } else {
-                                connection.disconnect();
-                            }
-                        } catch (MalformedURLException e) {
-                            throw new RuntimeException(e);
-                        } catch (ProtocolException e) {
-                            throw new RuntimeException(e);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        } catch (JSONException e) {
-                        }
-
-                    }
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-                thread.join();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return jsonArray[0];
-        }
-    */
     public ArrayList<Reserva> verReservas(String fecha, String hora) {
         final JSONArray[] jsonArray = new JSONArray[1];
         ArrayList<Reserva> lista = new ArrayList<>();
         try {
-            System.out.println("Pa dentro");
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -1539,17 +1101,16 @@ public class HomeFragment extends Fragment {
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("POST");
                         connection.setDoOutput(true);
+                        //Escribimos el json
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\",\"id\":\"#PARAMID#\"}";
                         jsonRequest = jsonRequest.replace("#PARAMFECHA#", fecha);
                         jsonRequest = jsonRequest.replace("#PARAMHORA#", hora);
                         jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(mainActivity.getIdRestaurante()));
-                        System.out.println("jsonRequest " + jsonRequest);
                         osw.write(jsonRequest);
                         osw.flush();
                         int responseCode = connection.getResponseCode();
-                        System.out.println((responseCode == HttpURLConnection.HTTP_OK) + " " + responseCode);
                         //Ver si la respuesta es correcta
                         if (responseCode == HttpURLConnection.HTTP_OK) {
                             // Si es correcta la leemos
@@ -1561,6 +1122,7 @@ public class HomeFragment extends Fragment {
                             }
                             reader.close();
                             jsonArray[0] = new JSONObject(response.toString()).getJSONArray("reservas");
+                            //Recorremos el array y vamos guardando las reservas
                             for (int i = 0; i < jsonArray[0].length(); i++) {
                                 Reserva r = new Reserva();
                                 JSONObject json = jsonArray[0].getJSONObject(i);
@@ -1590,6 +1152,7 @@ public class HomeFragment extends Fragment {
 
                 }
             };
+            //Arrancamos el hilo y sincronizamos para esperar la respuesta de la petición
             Thread thread = new Thread(runnable);
             thread.start();
             thread.join();
@@ -1600,26 +1163,26 @@ public class HomeFragment extends Fragment {
     }
 
     public void comprobarBotones() {
+        //Comprobamos si el adapter es null
         boolean adapterNull = rvOcupacion.getAdapter() == null;
-        boolean adapterCargado = false;
         boolean enReservas = false;
         if (!adapterNull) {
+            //Si el adapter no es null comprobamos si estamos en la vista de reservas
             String clase = rvOcupacion.getAdapter().getClass().getName();
-            System.out.println(clase);
             enReservas = clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter");
         }
+
         btVolverInicio.setEnabled(enReservas);
         btAnterior.setEnabled(enReservas);
         btSiguiente.setEnabled(enReservas);
         btReservar.setEnabled(enReservas);
         spinnerFiltro.setEnabled(enReservas);
-        if (enReservas){
-            btVolverInicio.setBackgroundColor(Color.rgb(139,42,139));
-            btSiguiente.setBackgroundColor(Color.rgb(139,42,139));
-            btAnterior.setBackgroundColor(Color.rgb(139,42,139));
-            btReservar.setBackgroundColor(Color.rgb(139,42,139));
-        }
-        else{
+        if (enReservas) {
+            btVolverInicio.setBackgroundColor(Color.rgb(139, 42, 139));
+            btSiguiente.setBackgroundColor(Color.rgb(139, 42, 139));
+            btAnterior.setBackgroundColor(Color.rgb(139, 42, 139));
+            btReservar.setBackgroundColor(Color.rgb(139, 42, 139));
+        } else {
             btVolverInicio.setBackgroundColor(Color.GRAY);
             btSiguiente.setBackgroundColor(Color.GRAY);
             btAnterior.setBackgroundColor(Color.GRAY);

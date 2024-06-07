@@ -86,9 +86,9 @@ public class ConfigFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentConfigBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-
+        //Obtenemos los datos del restaurante
         JSONObject json = leerDatosRestaurante();
+        //Preparamos todos los componentes
         etNombre = root.findViewById(R.id.etNombre);
         etTlf1 = root.findViewById(R.id.etTlf1);
         etTlf2 = root.findViewById(R.id.etTlf2);
@@ -102,20 +102,9 @@ public class ConfigFragment extends Fragment {
         tvFechaFin = root.findViewById(R.id.tvFechaFin);
         tvFechaInicio = root.findViewById(R.id.tvFechaInicio);
         btAgregarVacaciones = root.findViewById(R.id.btAgregarVacacion);
-
         rvSalones.setLayoutManager(new LinearLayoutManager(this.getContext()));
         cargarSalones();
-
-        ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
-                registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
-                    if (uri != null) {
-                        System.out.println("uri " + uri);
-                        uriImg = uri;
-                    } else {
-                        Log.d("PhotoPicker", "No media selected");
-                    }
-                });
-
+        //Asignamos los listeners
         btAgregarVacaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +134,7 @@ public class ConfigFragment extends Fragment {
         });
         try {
             JSONObject jsonRestaurante = json.getJSONArray("resultado").getJSONObject(0);
+            //Obtenemos los datos del json y vamos rellenando los campos
             id = jsonRestaurante.getString("id");
             etNombre.setText(jsonRestaurante.getString("nombre"));
             etTlf1.setText(jsonRestaurante.getString("telefono1"));
@@ -153,21 +143,30 @@ public class ConfigFragment extends Fragment {
             etDireccion.setText(jsonRestaurante.getString("direccion"));
             etDuracionReservas.setText(jsonRestaurante.getString("duracion_reservas"));
             ArrayList<Vacaciones> listaVacaciones = new ArrayList<>();
+            /*
+            * Comprobamos que contiene resultado2
+            * Tiene-> Vamos rellenando una lista de vacaciones y se la pasamos a un RecyclerView
+            * No tiene-> Avisamos*/
             if (json.toString().contains("resultado2")) {
                 JSONArray jsonVacaciones = json.getJSONArray("resultado2");
+                //Recorremos el jsonArray
                 for (int i = 0; i < jsonVacaciones.length(); i++) {
-                    //{"id_vacacion":"1","id_restaurante":"1","nombre":"booma","inicio":"2024-04-10","fin":"2024-04-26"}
                     JSONObject jsonVacacionElegida = jsonVacaciones.getJSONObject(i);
+                    //Leemos el json y creamos un objeto con sus datos
                     Vacaciones v = new Vacaciones(jsonVacacionElegida.getString("nombre"),
                             jsonVacacionElegida.getString("inicio"),
                             jsonVacacionElegida.getString("fin"),
                             jsonVacacionElegida.getInt("id_restaurante"),
                             jsonVacacionElegida.getInt("id_vacacion"));
+                    //Se lo añadimos a la lista
                     listaVacaciones.add(v);
-                    System.out.println(v + " " + listaVacaciones.size());
                 }
             }
             VacacionesAdapter vacacionesAdapter;
+            /*
+            * Comprobamos longitud de la lista
+            * >0 -> se la pasamos al adpter
+            * 0-> Avisamos y pasamos un arraylist vacío al adapter*/
             if (listaVacaciones.size() > 0) {
                 vacacionesAdapter = new VacacionesAdapter(listaVacaciones, this);
             } else {
@@ -175,23 +174,8 @@ public class ConfigFragment extends Fragment {
                 android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                         .setTitle("Advertencia")
                         .setMessage("No hay vacaciones registradas")
-
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-
-                        // A null listener allows the button to dismiss the dialog and take no further action.
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
+                        .setPositiveButton(android.R.string.yes, null)
+                        .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert).create();
                 alertDialog.show();
             }
@@ -202,38 +186,11 @@ public class ConfigFragment extends Fragment {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        /*
-        btFechaFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickFecha(tvFechaFin);
-            }
-        });
-
-        tvFechaFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickFecha(tvFechaFin);
-            }
-        });
-        btFechaInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickFecha(tvFechaInicio);
-            }
-        });
-        tvFechaInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickFecha(tvFechaInicio);
-            }
-        });*/
         return root;
     }
 
     public void btGuardarClick(View root) {
-        //baseDeDatos.guardarRestaurante(etNombre.getText().toString(), Integer.valueOf(etTlf1.getText().toString()), Integer.valueOf(etTlf2.getText().toString()), etDireccion.getText().toString());
-        //{"id":"1","nombre":"Restaurante pepe","telefono1":"604205805","telefono2":"957788921","email":"manuelhidalgourbano@gmail.com","direccion":"calle san marcos 135","duracion_reservas":"01:30:00","inicio":"2024-04-10","fin":"2024-04-18"}
+        //Preparamos el json
         String json = "{\n" +
                 "  \"id\": \"#PARAMID#\",\n" +
                 "  \"nombre\": \"#PARAMNOMBRE#\",\n" +
@@ -243,38 +200,25 @@ public class ConfigFragment extends Fragment {
                 "  \"direccion\": \"#PARAMDIRECCION#\",\n" +
                 "  \"duracion_reservas\": \"#PARAMDURACION_RESERVAS#\"\n" +
                 "}\n";
+        //Comprobamos que la duración de reservas sea un valor válido
         if (etDuracionReservas.getText().toString().equals("00:00:00") || etDuracionReservas.getText().toString().equals("00:00")) {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                     .setTitle("Advertencia")
                     .setMessage("Inserte una duración de reservas válida.")
-
-                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-
-                    // A null listener allows the button to dismiss the dialog and take no further action.
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
+                    .setPositiveButton(android.R.string.yes, null)
+                    .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert).create();
             alertDialog.show();
 
         } else {
+            //Comrprobamos que el resto de campos tengan valores aptos
             if (!etNombre.getText().toString().equals("") &&
                     !etTlf1.getText().toString().equals("") &&
                     !etTlf2.getText().toString().equals("") &&
                     !etCorreo.getText().toString().equals("") &&
                     !etDireccion.getText().toString().equals("") &&
                     !etDuracionReservas.getText().toString().equals("")) {
-
+                //Preparamos el json
                 json = json.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()))
                         .replace("#PARAMNOMBRE#", etNombre.getText().toString())
                         .replace("#PARAMTELEFONO1#", etTlf1.getText().toString())
@@ -284,6 +228,7 @@ public class ConfigFragment extends Fragment {
                         .replace("#PARAMDURACION_RESERVAS#", etDuracionReservas.getText().toString());
                 String finalJson = json;
                 System.out.println(finalJson);
+                //Preparamos la petición
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
@@ -292,6 +237,7 @@ public class ConfigFragment extends Fragment {
                             URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
                             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                             connection.setRequestMethod("PUT");
+                            //Escribimos el json
                             OutputStream os = connection.getOutputStream();
                             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                             osw.write(finalJson);
@@ -319,6 +265,7 @@ public class ConfigFragment extends Fragment {
                         }
                     }
                 };
+                //Arrancamos la petición y la sincronizamos para que la app la espere
                 Thread thread = new Thread(runnable);
                 thread.start();
                 try {
@@ -326,30 +273,16 @@ public class ConfigFragment extends Fragment {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
+                //Avisamos de que se ha guardado la actualización de datos
                 Snackbar.make(root, "Guardando datos", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             } else {
+                //Avisamos si hay algún campo vacío
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                         .setTitle("Advertencia")
                         .setMessage("Algun campo está vacío, rellénelo.")
-
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-
-                        // A null listener allows the button to dismiss the dialog and take no further action.
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
+                        .setPositiveButton(android.R.string.yes, null)
+                        .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert).create();
                 alertDialog.show();
             }
@@ -363,6 +296,7 @@ public class ConfigFragment extends Fragment {
     }
 
     public void clickAgregarVacaciones() {
+        //Abrimos un dialog para crear la vacación
         VacacionesDialog vacacionesDialog = new VacacionesDialog(this);
         vacacionesDialog.show(this.getChildFragmentManager(), null);
     }
@@ -380,6 +314,7 @@ public class ConfigFragment extends Fragment {
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Accept", "application/json");
+                    //Preparamos y escribimos el json
                     OutputStream os = connection.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                     String jsonStr = "{\n"
@@ -387,11 +322,8 @@ public class ConfigFragment extends Fragment {
                             + "}";
                     jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
                     osw.write(jsonStr);
-                    System.out.println(jsonStr);
                     osw.flush();
-
                     int responseCode = connection.getResponseCode();
-
                     //Ver si la respuesta es correcta
                     if (responseCode == HttpURLConnection.HTTP_OK) {
                         // Si es correcta la leemos
@@ -417,6 +349,7 @@ public class ConfigFragment extends Fragment {
 
             }
         };
+        //Arrancamos el hilo y lo sincronizamos para que la app lo espere
         Thread thread = new Thread(runnable);
         thread.start();
         try {
@@ -427,46 +360,34 @@ public class ConfigFragment extends Fragment {
 
         JSONArray jsonArray;
         try {
-            System.out.println("Respuesta json: " + responseStr[0]);
             ArrayList<Salon> lista = new ArrayList<>();
+            /*
+            * Comprobamos el código
+            * 1 -> Respuesta correcta
+            * Otro -> Error*/
             if (new JSONObject(responseStr[0]).getInt("codigo") == 1) {
+                //Seleccionamos el jsonArray a recorrer
                 jsonArray = new JSONObject(responseStr[0]).getJSONArray("aforo");
-
                 for (int i = 0; i < jsonArray.length(); i++) {
+                    //Vamos creando las vacaciones con los datos leidos
                     JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                     Salon s = new Salon(jsonObject.getInt("id_salon"), jsonObject.getString("nombre"), jsonObject.getInt("aforo"));
                     System.out.println("SALON EN LISTA " + s);
                     lista.add(s);
                 }
-                for (int i = 0; i < lista.size(); i++) {
-                    System.out.println(lista.get(i));
-                }
             }
+            //Comrpobramos que haya saloness, si no hay avisamos
             if (lista.size() == 0) {
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                         .setTitle("Advertencia")
                         .setMessage("No hay salones registrados,\n" +
                                 "Configure alguno antes de intentar reservar.")
-
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-
-                        // A null listener allows the button to dismiss the dialog and take no further action.
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
+                        .setPositiveButton(android.R.string.yes, null)
+                        .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert).create();
                 alertDialog.show();
             }
+            //Configuramos el adapter
             SalonAdapter salonAdapter = new SalonAdapter(lista, this);
             rvSalones.setAdapter(salonAdapter);
             rvSalones.refreshDrawableState();
@@ -476,15 +397,18 @@ public class ConfigFragment extends Fragment {
     }
 
     public void clickAgregarSalon() {
+        //Abrimos un salonDialog para crear el Salón
         SalonDialog salonDialog = new SalonDialog(this);
         salonDialog.show(this.getActivity().getSupportFragmentManager(), "a");
     }
 
     public void clickHoras(EditText campo) {
+        //Modificamos el EditText para que muestre un reloj
         final Calendar calendar = Calendar.getInstance();
         TimePickerDialog timePickerDialog = new TimePickerDialog(this.getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                //Formateamos el texto
                 String hora = String.valueOf(hourOfDay);
                 String minuto = String.valueOf(minute);
                 if (hora.length() == 1) {
@@ -499,23 +423,6 @@ public class ConfigFragment extends Fragment {
         timePickerDialog.show();
     }
 
-    public void clickFecha(TextView tvFecha) {
-        Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this.getContext(),
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        if (month < 10) {
-                            tvFecha.setText(String.format("%d/0%d/%d", dayOfMonth, month, year));
-                        } else {
-                            tvFecha.setText(String.format("%d/%d/%d", dayOfMonth, month, year));
-                        }
-
-                    }
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
-    }
-
     public RecyclerView getRvSalones() {
         return rvSalones;
     }
@@ -523,64 +430,6 @@ public class ConfigFragment extends Fragment {
     public RecyclerView getRvVacaciones() {
         return rvVacaciones;
     }
-
-    public String formatearFecha(String fecha) {
-        String[] fechaSplit = fecha.split("-");
-        return fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
-    }/*
-    public JSONObject leerDatosRestaurante(){
-        String[] responseStr = new String[1];
-        Runnable runnable= new Runnable() {
-            @Override
-            public void run() {
-                // Conectamos a la pagina con el método que queramos
-                try {
-                    URL url = new URL("https://reservante.mjhudesings.com/slim/getdatos");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    int responseCode = connection.getResponseCode();
-
-                    //Ver si la respuesta es correcta
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        // Si es correcta la leemos
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
-                        StringBuilder response = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
-                        }
-                        reader.close();
-                        responseStr[0] = response.toString();
-                        connection.disconnect();
-                    } else {
-                        connection.disconnect();
-                    }
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                } catch (ProtocolException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
-        }
-        try {
-            System.out.println(responseStr[0]);
-            JSONObject jsonObject = new JSONObject(responseStr[0]);
-            System.out.println("JSONNNNNNNNNNNNNNNNNNNNNNNN : " + jsonObject);
-            return jsonObject;
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 
     public JSONObject leerDatosRestaurante() {
         String[] responseStr = new String[1];
@@ -595,6 +444,7 @@ public class ConfigFragment extends Fragment {
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Accept", "application/json");
+                    //Preparamos y escribimos el json
                     OutputStream os = connection.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                     String jsonStr = "{\n"
@@ -630,6 +480,7 @@ public class ConfigFragment extends Fragment {
 
             }
         };
+        //Arrancamos el hilo y lo sincronizamos con la app para que espere los resultados
         Thread thread = new Thread(runnable);
         thread.start();
         try {

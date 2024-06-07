@@ -45,15 +45,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         NavigationView navigationView = binding.navView;
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.toolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(),
-                R.drawable.lupa));
+        binding.appBarMain.toolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.lupa));
         actionBar = getSupportActionBar();
 
         drawer = binding.drawerLayout;
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                )
-                .setOpenableLayout(drawer)
-                .build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder().setOpenableLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -62,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void controlMenuLateral(){
+        //Activar el menú lateral si está inciada la sesión
         if (this.login){
             actionBar.setDisplayHomeAsUpEnabled(true);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -86,14 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /*leerDatosRestaurante();
-        JSONObject json = leerDatosRestaurante();
-        tvNombreMenu = this.findViewById(R.id.tvNombreMenu);
-        try {
-            tvNombreMenu.setText(json.getString("nombre"));
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }*/
+        //Menú para buscar en Reservas pendientes
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem buscarNombre = menu.findItem(R.id.buscarClienteNombre);
         buscarNombre.setVisible(false);
@@ -108,58 +98,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-    public JSONObject leerDatosRestaurante(){
-        String[] responseStr = new String[1];
-        Runnable runnable= new Runnable() {
-            @Override
-            public void run() {
-                // Conectamos a la pagina con el método que queramos
-                try {
-                    URL url = new URL("https://reservante.mjhudesings.com/slim/getdatos");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    int responseCode = connection.getResponseCode();
-
-                    //Ver si la respuesta es correcta
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        // Si es correcta la leemos
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
-                        StringBuilder response = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
-                        }
-                        reader.close();
-                        responseStr[0] = response.toString();
-                        connection.disconnect();
-                    } else {
-                        connection.disconnect();
-                    }
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                } catch (ProtocolException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
-        }
-        try {
-            System.out.println(responseStr[0]);
-            JSONObject jsonObject = new JSONObject(responseStr[0]).getJSONArray("resultado").getJSONObject(0);
-            return jsonObject;
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public Menu getMenu() {

@@ -55,12 +55,14 @@ public class VacacionesAdapter extends RecyclerView.Adapter<VacacionesAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull VacacionesAdapter.MyViewHolder holder, int position) {
+        //Rellenamos los datos
         Vacaciones data = datalist.get(position);
         holder.tvFechaFin.setText(data.getFin().toString());
         holder.tvFechaInicio.setText(data.getInicio().toString());
         holder.tvNombre.setText(data.getNombre());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
+            //Al hacer click pasamos el objeto y el fragment y abrimos el dialog
             public void onClick(View v) {
                 VacacionesDialog vacacionesDialog = new VacacionesDialog(data, configFragment);
                 vacacionesDialog.show(configFragment.getChildFragmentManager(), null);
@@ -69,16 +71,16 @@ public class VacacionesAdapter extends RecyclerView.Adapter<VacacionesAdapter.My
         holder.btBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Pedimos comfirmación
                 android.app.AlertDialog alertDialog = new AlertDialog.Builder(configFragment.getContext())
                         .setTitle("Advertencia")
                         .setMessage(String.format("¿Quieres borrar la vacación %s?\nESTA ACCIÓN NO SE PUEDE DESHACER", data.getNombre()))
-
-                        // Specifying a listener allows you to take an action before dismissing the dialog.
-                        // The dialog is automatically dismissed when a dialog button is clicked.
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
+                            //Si acepta , iniciamos borrado
                             public void onClick(DialogInterface dialog, int which) {
                                 final String[] responseStr = new String[1];
+                                //Preparamos la petición
                                 Runnable runnable = new Runnable() {
                                     @Override
                                     public void run() {
@@ -90,6 +92,7 @@ public class VacacionesAdapter extends RecyclerView.Adapter<VacacionesAdapter.My
                                             connection.setDoOutput(true);
                                             connection.setRequestProperty("Content-Type", "application/json");
                                             connection.setRequestProperty("Accept", "application/json");
+                                            //Escribimos el json
                                             OutputStream os = connection.getOutputStream();
                                             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                                             osw.write(data.toJson());
@@ -123,6 +126,7 @@ public class VacacionesAdapter extends RecyclerView.Adapter<VacacionesAdapter.My
 
                                     }
                                 };
+                                //Arrancamos el hilo y lo sincronizamos para que la app espere la respuesta
                                 Thread thread = new Thread(runnable);
                                 thread.start();
                                 try {
@@ -131,21 +135,23 @@ public class VacacionesAdapter extends RecyclerView.Adapter<VacacionesAdapter.My
                                     throw new RuntimeException(ex);
                                 }
                                 System.out.println(responseStr[0]);
+                                //Comprobamos la respuesta
                                 if (responseStr[0].contains("correctamente")) {
+                                    //Si se ha borrado correctamente avisamos y notificamos el adapter
                                     Snackbar.make(configFragment.getView(),"Vacación borrada",Snackbar.LENGTH_SHORT).show();
                                     configFragment.getRvVacaciones().getAdapter().notifyItemRemoved(holder.getAdapterPosition());
                                     datalist.remove(data);
                                 } else {
-                                    Snackbar.make(configFragment.getView(),"Vacación borrada",Snackbar.LENGTH_SHORT).show();
+                                    //Si no , avisamos que no se ha podido borrar
+                                    Snackbar.make(configFragment.getView(),"Error al borrar la vacación",Snackbar.LENGTH_SHORT).show();
                                 }
 
                             }
                         })
-
-                        // A null listener allows the button to dismiss the dialog and take no further action.
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                //Avisamos de la cancelación del borrado
                                 Snackbar.make(configFragment.getView(),"Borrado cancelado",Snackbar.LENGTH_SHORT).show();
                             }
                         })

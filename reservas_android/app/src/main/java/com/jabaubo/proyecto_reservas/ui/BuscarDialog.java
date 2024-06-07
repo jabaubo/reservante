@@ -51,6 +51,7 @@ public class BuscarDialog extends DialogFragment {
         View view = LayoutInflater.from(this.getContext()).inflate(R.layout.layout_dialogo_buscar, null);
         titulo = view.findViewById(R.id.tvBuscar);
         etValor = view.findViewById(R.id.etValor);
+        //Depende del modo se buscará un campo u otro
         switch (modo){
             case 1:
                 titulo.setText("Nombre");
@@ -79,6 +80,7 @@ public class BuscarDialog extends DialogFragment {
     public void buscar(){
         ArrayList<Reserva> listaFiltrada = new ArrayList<>();
         switch (modo){
+            //1 -> Buscar por nombre similar
             case 1:
                 for (int i = 0 ; i < listaOriginal.size() ; i++){
                     if (listaOriginal.get(i).getNombre_apellidos().contains(etValor.getText())){
@@ -89,6 +91,7 @@ public class BuscarDialog extends DialogFragment {
                 recyclerView.getAdapter().notifyDataSetChanged();
                 this.dismiss();
                 break;
+            //1 -> Buscar por teléfono similar
             case 2:
                 for (int i = 0 ; i < listaOriginal.size() ; i++){
                     if (listaOriginal.get(i).getTelefono().contains(etValor.getText())){

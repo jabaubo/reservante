@@ -41,12 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReservasFragment  extends Fragment {
-    /*
-    * json fecha
-    * {
-            "fecha": "2024-04-08"
-}
-    * */
     private FragmentReservasBinding binding;
     private RecyclerView recyclerView;
     private ArrayList<Reserva> lista;
@@ -56,14 +50,16 @@ public class ReservasFragment  extends Fragment {
 
         binding = FragmentReservasBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        //Carga de componentes
         recyclerView = root.findViewById(R.id.listaReservas);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        Button btRestaurar = root.findViewById(R.id.btRestaurar);
+        //Lectura y carga de listado de reservas
         listaCompleta = leerReservas();
         lista = listaCompleta;
         ReservaEnListaAdapter adapter = new ReservaEnListaAdapter(lista,getChildFragmentManager(),this,recyclerView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Button btRestaurar = root.findViewById(R.id.btRestaurar);
+
         btRestaurar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +67,7 @@ public class ReservasFragment  extends Fragment {
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
         });
+        //Gestión del menú de búsqueda
         Menu menu = ((MainActivity)getActivity()).getMenu();
         MenuItem buscarNombre = menu.findItem(R.id.buscarClienteNombre);
         buscarNombre.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -92,7 +89,6 @@ public class ReservasFragment  extends Fragment {
             }
         });
         buscarTlf.setVisible(true);
-        //cargarReservas(recyclerView);
         return root;
     }
 
@@ -100,82 +96,6 @@ public class ReservasFragment  extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-    private void cargarReservas (RecyclerView recyclerView){
-        final String[] responseStr = new String[1];
-        try {
-            Runnable runnable= new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    try {
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/getreservas");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("GET");
-                        int responseCode = connection.getResponseCode();
-
-                        //Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            reader.close();
-                            responseStr[0] = response.toString();
-                            connection.disconnect();
-                        } else {
-                            connection.disconnect();
-                        }
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-            thread.join();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        JSONArray jsonArray;
-        try {
-            jsonArray = new JSONObject(responseStr[0]).getJSONArray("horarios");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        List<Reserva> lista = new ArrayList<>();
-        for (int i = 0 ; i < jsonArray.length() ; i++){
-            try {
-                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                int id = jsonObject.getInt("id_reserva");
-                String nombre_apellidos = jsonObject.getString("nombre_apellidos");
-                String telefono = jsonObject.getString("telefono");
-                String email = jsonObject.getString("email");
-                int n_personas = jsonObject.getInt("n_personas");
-                int id_salon = jsonObject.getInt("id_salon");
-                String[] fechaMiembros = jsonObject.getString("fecha").split("-");
-                String fechaBuena = String.format("%s/%s/%s",fechaMiembros[2],fechaMiembros[1],fechaMiembros[0]);
-                String hora = jsonObject.getString("hora");
-                String observaciones = jsonObject.getString("observaciones");
-                Reserva r = new Reserva(id,nombre_apellidos,telefono,email,n_personas,id_salon,fechaBuena,hora,observaciones);
-                lista.add(r);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        // Add more items as needed
-        ReservaAdapter adapter = new ReservaAdapter(lista,getActivity().getSupportFragmentManager(),recyclerView);
-        recyclerView.setAdapter(adapter);
-
     }
 
     private ArrayList<Reserva> leerReservas() {
@@ -192,8 +112,8 @@ public class ReservasFragment  extends Fragment {
                         connection.setDoOutput(true);
                         connection.setRequestProperty("Content-Type", "application/json");
                         connection.setRequestProperty("Accept", "application/json");
+                        //Escribimos el json
                         OutputStream os = connection.getOutputStream();
-                        System.out.println("TETica");
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String jsonFecha = "{\n"
                                 + "    \"id\":\"#PARAMID#\"\n"
@@ -237,7 +157,7 @@ public class ReservasFragment  extends Fragment {
         }
         JSONArray jsonArray;
         try {
-            System.out.println("RESPUESTA JSON RESERVAS: " + responseStr[0]);
+            //Recorremos el array y lo vamos cargando en la lista
             jsonArray = new JSONObject(responseStr[0]).getJSONArray("horarios");
             ArrayList<Reserva> lista = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -264,21 +184,8 @@ public class ReservasFragment  extends Fragment {
             android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                     .setTitle("Advertencia")
                     .setMessage("No hay reservas registradas a futuro")
-                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-
-                    // A null listener allows the button to dismiss the dialog and take no further action.
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
+                    .setPositiveButton(android.R.string.yes, null)
+                    .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert).create();
             alertDialog.show();
             return new ArrayList<>();

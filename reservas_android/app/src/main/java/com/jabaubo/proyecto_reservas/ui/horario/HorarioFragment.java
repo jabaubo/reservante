@@ -6,19 +6,14 @@ import android.content.DialogInterface;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,9 +22,7 @@ import com.jabaubo.proyecto_reservas.MainActivity;
 import com.jabaubo.proyecto_reservas.Objetos.Horario;
 import com.jabaubo.proyecto_reservas.Objetos.HorarioAdapter;
 import com.jabaubo.proyecto_reservas.R;
-import com.jabaubo.proyecto_reservas.databinding.FragmentHomeBinding;
 import com.jabaubo.proyecto_reservas.databinding.FragmentHorarioBinding;
-import com.jabaubo.proyecto_reservas.ui.home.HomeViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;

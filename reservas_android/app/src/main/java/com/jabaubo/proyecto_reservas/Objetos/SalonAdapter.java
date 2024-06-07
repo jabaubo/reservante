@@ -52,6 +52,7 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull SalonAdapter.MyViewHolder holder, int position) {
+        //Rellenamos los datos
         Salon data = dataList.get(position);
         holder.tvIdSalon.setText(String.valueOf(data.getId()));
         holder.tvNombreSalon.setText(data.getNombre());
@@ -59,10 +60,13 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Comprobamos si el salón tiene reservas a futuro
                 if (ocupado(data.getId())) {
+                    //Si tiene , avisamos
                     Toast.makeText(configFragment.getContext(), "Tetica", Toast.LENGTH_SHORT);
                     Snackbar.make(configFragment.getView(), "Este salón tiene reservas a futuro.\nNo se permite edición", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                 } else {
+                    //Si no , permitimos edición
                     SalonDialog salonDialog = new SalonDialog(data.getId(), data.getAforo(), data.getNombre(), configFragment, holder.getAdapterPosition());
                     salonDialog.show(configFragment.getActivity().getSupportFragmentManager(), "a");
                 }
@@ -71,21 +75,29 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
         holder.btBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Comprobamos si el salón tiene reservas a futuro
                 if (ocupado(data.getId())) {
+                    //Si tiene , avisamos
                     Snackbar.make(configFragment.getView(), "Este salón tiene reservas a futuro.\nNo se permite edición", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                 } else {
+                    //Si no, pedimos permiso para borrar
                     AlertDialog alertDialog = new AlertDialog.Builder(configFragment.getContext())
                             .setTitle("Aviso")
                             .setMessage(String.format("¿Quieres borrar el salón %s?\nEsta acción no se puede deshacer.", data.getNombre()))
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    //Si acepta , borramos el salón
                                     int codigo = borrarSalon(data.getId());
+                                    //Leemos la respuesta
                                     if (codigo == 1){
+                                        //El salón ha sido borrado correctamente
                                         ((SalonAdapter) configFragment.getRvSalones().getAdapter()).getDataList().remove(((SalonAdapter) configFragment.getRvSalones().getAdapter()).getDataList().get(holder.getAdapterPosition()));
                                         configFragment.getRvSalones().getAdapter().notifyItemRemoved(holder.getAdapterPosition());
                                     }
-                                    else{AlertDialog alertDialog = new AlertDialog.Builder(configFragment.getContext())
+                                    else{
+                                        //Si ha habido algún error , avisamos que no se ha podido borrar
+                                        AlertDialog alertDialog = new AlertDialog.Builder(configFragment.getContext())
                                             .setTitle("Aviso")
                                             .setMessage("No se ha podido borrar el salon")
                                             .setPositiveButton(android.R.string.yes,null)
@@ -100,6 +112,7 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    //Si no ha aceptado el borrar , avisamos
                                     Snackbar.make(configFragment.getView(), "Borrado cancelado", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                                 }
                             })
@@ -111,10 +124,12 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
         holder.btEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Comprobamos que el salón está ocupado
                 if (ocupado(data.getId())) {
-                    Toast.makeText(configFragment.getContext(), "Tetica", Toast.LENGTH_SHORT);
+                    //Si está ocupado no permitimos edición
                     Snackbar.make(configFragment.getView(), "Este salón tiene reservas a futuro.\nNo se permite edición", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                 } else {
+                    //Si está libre , permitimos edición
                     SalonDialog salonDialog = new SalonDialog(data.getId(), data.getAforo(), data.getNombre(), configFragment, holder.getAdapterPosition());
                     salonDialog.show(configFragment.getActivity().getSupportFragmentManager(), "a");
                 }
@@ -147,6 +162,7 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
     }
 
     public boolean ocupado(int id) {
+        //Preparamos el json con la id de salón a comprobar
         String jsonStr = "{\n" +
                 "    \"id\":\"#PARAMID#\"\n" +
                 "}";
@@ -154,6 +170,7 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
 
         String finalJsonStr = jsonStr;
         final int[] reservas = new int[1];
+        //Preparamos la petición
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -165,6 +182,7 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Accept", "application/json");
+                    //Escribimos el json
                     OutputStream os = connection.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                     osw.write(finalJsonStr);
@@ -196,6 +214,7 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
 
             }
         };
+        //Arrancamos y sincronizamos el hilo para que la app espere la respuesta
         Thread thread = new Thread(runnable);
         thread.start();
         try {
@@ -207,13 +226,14 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
     }
 
     public int borrarSalon(int id) {
+        //Preparamos el json de la petición
         String json = "    {   \n" +
                 "        \"id_salon\":\"#PARAMID#\"\n" +
                 "    }";
         json = json.replace("#PARAMID#", String.valueOf(id));
         String[] responseStr = new String[1];
         String finalJson = json;
-        System.out.println(json);
+        //Preparamos la petición
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -222,6 +242,7 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
                     URL url = new URL("https://reservante.mjhudesings.com/slim/deletesalon");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("DELETE");
+                    //Escribimos el json
                     OutputStream os = connection.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                     osw.write(finalJson);
@@ -250,6 +271,7 @@ public class SalonAdapter extends RecyclerView.Adapter<SalonAdapter.MyViewHolder
                 }
             }
         };
+        //Arrancamos el hil y lo sincronizamos para que la app espere la respuesta
         Thread thread = new Thread(runnable);
         thread.start();
         try {
