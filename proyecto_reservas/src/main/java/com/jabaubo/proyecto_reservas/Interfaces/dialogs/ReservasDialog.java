@@ -60,6 +60,7 @@ public class ReservasDialog extends javax.swing.JDialog {
         cargarReservas();
         jbActualizar.setEnabled(false);
         jbBorrar.setEnabled(false);
+        jbCorreo.setEnabled(false);
         jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
         setLocationRelativeTo(null);
     }
@@ -73,9 +74,11 @@ public class ReservasDialog extends javax.swing.JDialog {
         jlTitulo.setText(String.format("FECHA: %s TRAMO: %s", fecha.toString(), tramo.toString()));
         this.lista = new ArrayList<>();
         this.listaCompleta = lista;
+
         salones = leerSalones();
         jbActualizar.setEnabled(false);
         jbBorrar.setEnabled(false);
+        jbCorreo.setEnabled(false);
         jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
         setLocationRelativeTo(null);
     }
@@ -226,13 +229,15 @@ public class ReservasDialog extends javax.swing.JDialog {
             for (int i = 0; i < jsonArray[0].length(); i++) {
                 try {
                     JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
-                    System.out.println(jsonObject);                    textos[i + 1] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
+                    System.out.println(jsonObject);
+                    textos[i + 1] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
                     textos[i + 1] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
 
             }
+            jcbFiltro.removeAllItems();
             for (String s : textos) {
                 jcbFiltro.addItem(s);
             }
@@ -522,12 +527,36 @@ public class ReservasDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         if (jListReservas.getSelectedIndex() >= 0) {
             Reserva r = lista.get(jListReservas.getSelectedIndex());
-            jlCliente.setText(r.getNombre_apellidos());
-            jlComensales.setText(String.valueOf(r.getN_personas()));
-            jlEmail.setText(r.getEmail());
-            jlSalon.setText(String.valueOf(r.getId_salon()));
-            jlObservaciones.setText(r.getObservaciones());
-            jlTelefono.setText(r.getTelefono());
+            if (r.getNombre_apellidos().equals("")) {
+                jlCliente.setText(" ");
+            } else {
+                jlCliente.setText(r.getNombre_apellidos());
+            }
+            if (String.valueOf(r.getN_personas()).equals("")) {
+                jlComensales.setText(" ");
+            } else {
+                jlComensales.setText(String.valueOf(r.getN_personas()));
+            }
+            if (r.getEmail().equals("")) {
+                jlEmail.setText(" ");
+            } else {
+                jlEmail.setText(r.getEmail());
+            }
+            if (String.valueOf(r.getId_salon()).equals("")) {
+                jlSalon.setText(" ");
+            } else {
+                jlSalon.setText(String.valueOf(r.getId_salon()));
+            }
+            if (r.getObservaciones().equals("")) {
+                jlObservaciones.setText(" ");
+            } else {
+                jlObservaciones.setText(r.getObservaciones());
+            }
+            if (r.getTelefono().equals("")) {
+                jlTelefono.setText(" ");
+            } else {
+                jlTelefono.setText(r.getTelefono());
+            }
             jbActualizar.setEnabled(true);
             jbCorreo.setEnabled(true);
             jbBorrar.setEnabled(true);

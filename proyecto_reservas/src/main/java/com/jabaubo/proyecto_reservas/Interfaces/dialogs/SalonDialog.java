@@ -201,7 +201,7 @@ public class SalonDialog extends javax.swing.JDialog {
                 try {
                     System.out.println(responseStr[0]);
                     if (responseStr[0].contains("correctamente")) {
-                        JOptionPane.showMessageDialog(interfazPrincipal, "Vacación insertada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(interfazPrincipal, "Salón actualizado", "Mensaje", JOptionPane.PLAIN_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(interfazPrincipal, "Error al insertar", "Mensaje", JOptionPane.ERROR_MESSAGE);
                     }
@@ -342,7 +342,7 @@ public class SalonDialog extends javax.swing.JDialog {
                 System.out.println("JSON: "+ salon.toJson());
                 System.out.println("HOLA:" +    responseStr[0]);
                 if (responseStr[0].contains("correctamente")) {
-                    JOptionPane.showMessageDialog(interfazPrincipal, "Vacación insertada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(interfazPrincipal, "Salón borrado", "Mensaje", JOptionPane.PLAIN_MESSAGE);
                 } else if (responseStr[0].contains("ERROR2")) {
                     JOptionPane.showMessageDialog(interfazPrincipal, "El salon tiene reservas a futuro\nno se permite borrarlo", "Mensaje", JOptionPane.ERROR_MESSAGE);
                 }

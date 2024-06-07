@@ -46,6 +46,7 @@ com\jabaubo\proyecto_reservas\Interfaces\dialogs\ReservasDialog$2.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario$42.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$43.class
 com\jabaubo\proyecto_reservas\Interfaces\InterfazPrincipal$3.class
+com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelHorario$25.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario$23.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$83.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelHorario$4.class
@@ -67,6 +68,7 @@ com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$37.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$77.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelInicio$2.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario$11.class
+com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelConfiguracion$1.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelReservas$4.class
 com\jabaubo\proyecto_reservas\Clases\Horario.class
 com\jabaubo\proyecto_reservas\Clases\Vacaciones.class
@@ -163,6 +165,7 @@ com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$39.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$59.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelReservas$11.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$3.class
+com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelConfiguracion$3.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\ReservasDialog$9.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$47.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$67.class
@@ -174,6 +177,7 @@ com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario$9.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario$46.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario$52.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$99.class
+com\jabaubo\proyecto_reservas\Interfaces\dialogs\AdvertenciaDialog$1.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario$13.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelHorario$15.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelReservas$2.class
@@ -184,6 +188,7 @@ com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$53.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelReservas$10.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$13.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario$3.class
+com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelConfiguracion$2.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario$12.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelReservas$3.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$14.class
@@ -211,6 +216,7 @@ com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$48.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\Cargando$2.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$98.class
+com\jabaubo\proyecto_reservas\Interfaces\dialogs\AdvertenciaDialog.class
 com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelHorario$20.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog$38.class
 com\jabaubo\proyecto_reservas\Interfaces\dialogs\Login$2.class

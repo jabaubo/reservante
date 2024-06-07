@@ -4,6 +4,7 @@
  */
 package com.jabaubo.proyecto_reservas.Interfaces;
 
+import com.jabaubo.proyecto_reservas.Interfaces.dialogs.AdvertenciaDialog;
 import com.jabaubo.proyecto_reservas.Interfaces.dialogs.Cargando;
 import com.jabaubo.proyecto_reservas.Interfaces.dialogs.Login;
 import com.jabaubo.proyecto_reservas.Interfaces.paneles.PanelInicio;
@@ -28,6 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.UIManager;
@@ -39,7 +41,8 @@ import javax.swing.plaf.IconUIResource;
  * @author pokem
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
-    private  int restaurante = 0;
+
+    private int restaurante = 0;
     PanelConfiguracion panelConfiguracion;
     PanelCalendario panelCalendario;
     PanelInicio panelInicio;
@@ -47,6 +50,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     PanelHorario panelHorario;
     ArrayList<JButton> botones;
     ArrayList<JPanel> paneles;
+    ArrayList<AdvertenciaDialog> avisos;
     JButton selectedButton;
 
     /**
@@ -61,7 +65,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             login.dispose();
             System.out.println(login.isActive());
             Cargando cargando = new Cargando(this, true);
-            }else{
+        } else {
             System.exit(2);
         }
     }
@@ -69,11 +73,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     public void cargar(Cargando cargando) {
 
         cargando.updateEtiqueta("Cargando configuración");
-        cargando.updateBarra(15);        
-        panelConfiguracion = new PanelConfiguracion(this,restaurante);
+        cargando.updateBarra(15);
+        panelConfiguracion = new PanelConfiguracion(this, restaurante);
         cargando.updateEtiqueta("Cargando calendario");
         cargando.updateBarra(30);
-        panelCalendario = new PanelCalendario(LocalDate.now().getMonthValue(), LocalDate.now().getYear(), this,restaurante);
+        panelCalendario = new PanelCalendario(LocalDate.now().getMonthValue(), LocalDate.now().getYear(), this, restaurante);
         cargando.updateEtiqueta("Cargando Inicio");
         cargando.updateBarra(45);
         panelInicio = new PanelInicio(this);
@@ -88,6 +92,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         botones = new ArrayList<>();
         paneles = new ArrayList<>();
+        avisos = new ArrayList<>();
         jbInicio.setSelected(true);
         botones.add(jbInicio);
         botones.add(jbAgenda);
@@ -100,6 +105,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         paneles.add(panelConfiguracion);
         paneles.add(panelReservas);
         paneles.add(panelHorario);
+
+        avisos.add(new AdvertenciaDialog(this, true, "Ocupación de los próximos"));
+        avisos.add(new AdvertenciaDialog(this, true, "Seleccione fecha y hora"));
+        avisos.add(new AdvertenciaDialog(this, true, "Defina los datos de su restaurante"));
+        avisos.add(new AdvertenciaDialog(this, true, "Listado completo de las reservas"));
+        avisos.add(new AdvertenciaDialog(this, true, "Defina su horario"));
 
         selected(jbInicio);
         cargando.dispose();
@@ -274,7 +285,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-
+        
         try {
             javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
@@ -316,6 +327,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 jpVista.add(panel);
                 jpVista.validate();
                 jpVista.repaint();
+                AdvertenciaDialog av = avisos.get(i);
+                if (av.isMostrar()) {
+                    av.setVisible(true);
+                }
             } else {
                 boton.setBackground(new Color(109, 34, 109));
                 boton.setForeground(new Color(221, 221, 221));
@@ -327,7 +342,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     public int getRestaurante() {
         return restaurante;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
