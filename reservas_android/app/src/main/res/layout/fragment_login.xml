@@ -29,10 +29,10 @@
         android:layout_marginTop="83dp"
         android:ems="10"
         android:inputType="text"
-        android:text="pruebas"
-        app:layout_constraintEnd_toEndOf="@+id/imageView5"
-        app:layout_constraintStart_toStartOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        android:text="fulanito"
+        app:layout_constraintEnd_toEndOf="@+id/ivLogo"
+        app:layout_constraintStart_toStartOf="@+id/ivLogo"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
     <EditText
         android:id="@+id/etLoginPassword"
@@ -41,13 +41,13 @@
         android:layout_marginTop="83dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:text="1"
+        android:text="fulanito"
         app:layout_constraintEnd_toEndOf="@+id/etLoginUser"
         app:layout_constraintStart_toStartOf="@+id/etLoginUser"
         app:layout_constraintTop_toBottomOf="@+id/etLoginUser" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/ivLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
@@ -58,7 +58,7 @@
         app:srcCompat="@drawable/logo_nombre_claro" />
 
     <TextView
-        android:id="@+id/textView28"
+        android:id="@+id/tvUsuarioLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialogo_usuario"
@@ -67,7 +67,7 @@
         app:layout_constraintStart_toStartOf="@+id/etLoginUser" />
 
     <TextView
-        android:id="@+id/textView29"
+        android:id="@+id/tvPasswordLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialogo_password"

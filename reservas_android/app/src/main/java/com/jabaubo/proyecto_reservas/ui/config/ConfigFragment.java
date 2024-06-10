@@ -209,73 +209,107 @@ public class ConfigFragment extends Fragment {
                     .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert).create();
             alertDialog.show();
-
         } else {
             //Comrprobamos que el resto de campos tengan valores aptos
             if (!etNombre.getText().toString().equals("") &&
                     !etTlf1.getText().toString().equals("") &&
-                    !etTlf2.getText().toString().equals("") &&
-                    !etCorreo.getText().toString().equals("") &&
                     !etDireccion.getText().toString().equals("") &&
                     !etDuracionReservas.getText().toString().equals("")) {
-                //Preparamos el json
-                json = json.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()))
-                        .replace("#PARAMNOMBRE#", etNombre.getText().toString())
-                        .replace("#PARAMTELEFONO1#", etTlf1.getText().toString())
-                        .replace("#PARAMTELEFONO2#", etTlf2.getText().toString())
-                        .replace("#PARAMEMAIL#", etCorreo.getText().toString())
-                        .replace("#PARAMDIRECCION#", etDireccion.getText().toString())
-                        .replace("#PARAMDURACION_RESERVAS#", etDuracionReservas.getText().toString());
-                String finalJson = json;
-                System.out.println(finalJson);
-                //Preparamos la petición
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        // Conectamos a la pagina con el método que queramos
-                        try {
-                            URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
-                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                            connection.setRequestMethod("PUT");
-                            //Escribimos el json
-                            OutputStream os = connection.getOutputStream();
-                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                            osw.write(finalJson);
-                            osw.flush();
-                            int responseCode = connection.getResponseCode();
-                            //Ver si la respuesta es correcta
-                            if (responseCode == HttpURLConnection.HTTP_OK) {
-                                // Si es correcta la leemos
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                String line;
-                                StringBuilder response = new StringBuilder();
-                                while ((line = reader.readLine()) != null) {
-                                    response.append(line);
-                                }
-                                reader.close();
-                                System.out.println(response);
-                            }
-                            connection.disconnect();
-                        } catch (MalformedURLException e) {
-                            throw new RuntimeException(e);
-                        } catch (ProtocolException e) {
-                            throw new RuntimeException(e);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                };
-                //Arrancamos la petición y la sincronizamos para que la app la espere
-                Thread thread = new Thread(runnable);
-                thread.start();
-                try {
-                    thread.join();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                boolean todoOk = true;
+                if (!etTlf1.getText().toString().matches("[0-9]{9}")){
+                    AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                            .setTitle("Advertencia")
+                            .setMessage("Inserte un teléfono 1 válido.")
+                            .setPositiveButton(android.R.string.yes, null)
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert).create();
+                    alertDialog.show();
+                    todoOk = false;
                 }
-                //Avisamos de que se ha guardado la actualización de datos
-                Snackbar.make(root, "Guardando datos", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (!etTlf2.getText().toString().equals("")){
+                    if (!etTlf2.getText().toString().matches("[0-9]{9}")){
+                        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                                .setTitle("Advertencia")
+                                .setMessage("Inserte un teléfono 2 válido.")
+                                .setPositiveButton(android.R.string.yes, null)
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert).create();
+                        alertDialog.show();
+                        todoOk = false;
+                    }
+                }
+                if (!etCorreo.getText().toString().equals("")){
+                    if (!etCorreo.getText().toString().matches("[^\\^$.\\|?*+()\\]\\[}{]{8,16}[@][a-z]{4,5}[.][a-z]{2,3}")){
+                        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                                .setTitle("Advertencia")
+                                .setPositiveButton(android.R.string.yes, null)
+                                .setMessage("Inserte un correo válido.")
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert).create();
+                        alertDialog.show();
+                        todoOk = false;
+                    }
+                }
+                if (todoOk){
+                    //Preparamos el json
+                    json = json.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()))
+                            .replace("#PARAMNOMBRE#", etNombre.getText().toString())
+                            .replace("#PARAMTELEFONO1#", etTlf1.getText().toString())
+                            .replace("#PARAMTELEFONO2#", etTlf2.getText().toString())
+                            .replace("#PARAMEMAIL#", etCorreo.getText().toString())
+                            .replace("#PARAMDIRECCION#", etDireccion.getText().toString())
+                            .replace("#PARAMDURACION_RESERVAS#", etDuracionReservas.getText().toString());
+                    String finalJson = json;
+                    System.out.println(finalJson);
+                    //Preparamos la petición
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            // Conectamos a la pagina con el método que queramos
+                            try {
+                                URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
+                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                connection.setRequestMethod("PUT");
+                                //Escribimos el json
+                                OutputStream os = connection.getOutputStream();
+                                OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                osw.write(finalJson);
+                                osw.flush();
+                                int responseCode = connection.getResponseCode();
+                                //Ver si la respuesta es correcta
+                                if (responseCode == HttpURLConnection.HTTP_OK) {
+                                    // Si es correcta la leemos
+                                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                    String line;
+                                    StringBuilder response = new StringBuilder();
+                                    while ((line = reader.readLine()) != null) {
+                                        response.append(line);
+                                    }
+                                    reader.close();
+                                    System.out.println(response);
+                                }
+                                connection.disconnect();
+                            } catch (MalformedURLException e) {
+                                throw new RuntimeException(e);
+                            } catch (ProtocolException e) {
+                                throw new RuntimeException(e);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    };
+                    //Arrancamos la petición y la sincronizamos para que la app la espere
+                    Thread thread = new Thread(runnable);
+                    thread.start();
+                    try {
+                        thread.join();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    //Avisamos de que se ha guardado la actualización de datos
+                    Snackbar.make(root, "Guardando datos", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             } else {
                 //Avisamos si hay algún campo vacío
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext())

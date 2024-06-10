@@ -48,6 +48,9 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JLabel" name="etiqueta">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=" "/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JProgressBar" name="barra">
     </Component>

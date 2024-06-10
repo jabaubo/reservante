@@ -23,6 +23,7 @@ public class SalonRender extends JButton implements ListCellRenderer<Salon> {
 
     @Override
     public Component getListCellRendererComponent(JList<? extends Salon> list, Salon value, int index, boolean isSelected, boolean cellHasFocus) {
+        //Formato texto del boton
         String base = "<html>\n"
                 + "    <body>\n"
                 + "        <h1><font color='#812B81'>#PARAMNOMBRE#</font> Aforo:#PARAMAFORO# </h1>\n"

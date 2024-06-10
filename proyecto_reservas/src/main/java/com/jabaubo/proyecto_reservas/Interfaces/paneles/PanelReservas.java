@@ -49,6 +49,9 @@ public class PanelReservas extends javax.swing.JPanel {
         initComponents();
         this.interfazPrincipal = interfazPrincipal;
         this.idRestaurante = interfazPrincipal.getRestaurante();
+       cargarDatos();
+    }
+    public void cargarDatos(){
         listaReservasCompleta = leerReservas();
         listaReservas = listaReservasCompleta;
         salones = leerSalones();
@@ -56,7 +59,6 @@ public class PanelReservas extends javax.swing.JPanel {
         jbActualizar2.setEnabled(false);
         jbBorrar2.setEnabled(false);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -623,12 +625,15 @@ public class PanelReservas extends javax.swing.JPanel {
 
     private void cargarListaReservas() {
         DefaultListModel<String> modelo = new DefaultListModel<>();
+        if (listaReservas != null) {
         for (int i = 0; i < listaReservas.size(); i++) {
             Reserva r = listaReservas.get(i);
             modelo.addElement("Cliente : " + r.getNombre_apellidos() + " Comensales : " + r.getN_personas());
             System.out.println("Cliente : " + r.getNombre_apellidos() + " Comensales : " + r.getN_personas());
         }
         jListReservas2.setModel(modelo);
+            
+        }
     }
 
     public String[] leerSalones() {

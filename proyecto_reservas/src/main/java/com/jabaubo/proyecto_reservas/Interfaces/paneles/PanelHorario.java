@@ -5,7 +5,6 @@
 package com.jabaubo.proyecto_reservas.Interfaces.paneles;
 
 import com.jabaubo.proyecto_reservas.Clases.Horario;
-import com.jabaubo.proyecto_reservas.Clases.HorarioRender;
 import com.jabaubo.proyecto_reservas.Clases.Ocupacion;
 import java.awt.Component;
 import java.io.BufferedReader;
@@ -26,6 +25,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -122,7 +122,12 @@ public class PanelHorario extends javax.swing.JPanel {
         jComboBox67.setName("ComboBoxMinutoInicioT");
         jComboBox68.setName("ComboBoxHoraInicioT");
 
+        cargarDatos();
+    }
+
+    public void cargarDatos(){
         JSONArray jsonArray = cargarHorarioAPI();
+        System.out.println(jsonArray);
         if (jsonArray != null) {
             ArrayList<Horario> lista = new ArrayList<>();
             DefaultListModel<Horario> modelo = new DefaultListModel<>();
@@ -150,12 +155,12 @@ public class PanelHorario extends javax.swing.JPanel {
                     JPanel panel = (JPanel) c;
                     Horario h = lista.get(horarioLeer);
                     for (Component child : panel.getComponents()) {
-                        
+
                         if (child.getClass().getName().equals("javax.swing.JPanel")) {
                             Component[] childList2 = ((JPanel) child).getComponents();
-                            for (Component  child2:childList2){
+                            for (Component child2 : childList2) {
                                 if (child2.getClass().getName().equals("javax.swing.JCheckBox")) {
-                                    ((JCheckBox)child2).setSelected(h.getCerrado());
+                                    ((JCheckBox) child2).setSelected(h.getCerrado());
                                 }
                             }
                         }
@@ -165,6 +170,7 @@ public class PanelHorario extends javax.swing.JPanel {
                             String[] horaFinMArray = h.getHora_fin_m().split(":");
                             String[] horaIncioTArray = h.getHora_inicio_t().split(":");
                             String[] horaFinTArray = h.getHora_fin_t().split(":");
+                            comboBox.setEnabled(!h.getCerrado());
                             switch (comboBox.getName()) {
                                 case "ComboBoxHoraInicioM":
                                     comboBox.setSelectedItem(horaIncioMArray[0]);
@@ -193,7 +199,7 @@ public class PanelHorario extends javax.swing.JPanel {
                                 default:
                                     throw new AssertionError();
                             }
-                        }else{
+                        } else {
                             System.out.println(child.getClass().getName());
                         }
                     }
@@ -202,7 +208,6 @@ public class PanelHorario extends javax.swing.JPanel {
             }
         }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -349,7 +354,6 @@ public class PanelHorario extends javax.swing.JPanel {
         jPanel9 = new javax.swing.JPanel();
         jLabel177 = new javax.swing.JLabel();
         jLabel178 = new javax.swing.JLabel();
-        jLabel179 = new javax.swing.JLabel();
         jComboBox61 = new javax.swing.JComboBox<>();
         jComboBox62 = new javax.swing.JComboBox<>();
         jComboBox63 = new javax.swing.JComboBox<>();
@@ -362,12 +366,13 @@ public class PanelHorario extends javax.swing.JPanel {
         jComboBox66 = new javax.swing.JComboBox<>();
         jComboBox67 = new javax.swing.JComboBox<>();
         jComboBox68 = new javax.swing.JComboBox<>();
-        jLabel184 = new javax.swing.JLabel();
         jLabel185 = new javax.swing.JLabel();
         jLabel186 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jCheckBox15 = new javax.swing.JCheckBox();
         jLabel165 = new javax.swing.JLabel();
+        jLabel166 = new javax.swing.JLabel();
+        jLabel167 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
 
@@ -396,9 +401,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox13.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox13.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox13.setEnabled(false);
 
         jComboBox14.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox14.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox14.setEnabled(false);
         jComboBox14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox14ActionPerformed(evt);
@@ -407,9 +414,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox15.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox15.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox15.setEnabled(false);
 
         jComboBox16.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox16.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox16.setEnabled(false);
 
         jLabel108.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel108.setForeground(new java.awt.Color(51, 51, 51));
@@ -431,15 +440,19 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox17.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox17.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox17.setEnabled(false);
 
         jComboBox18.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox18.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox18.setEnabled(false);
 
         jComboBox19.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox19.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox19.setEnabled(false);
 
         jComboBox20.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox20.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox20.setEnabled(false);
 
         jLabel112.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel112.setForeground(new java.awt.Color(51, 51, 51));
@@ -465,6 +478,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jCheckBox4.setBackground(new java.awt.Color(149, 42, 149));
         jCheckBox4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jCheckBox4.setForeground(new java.awt.Color(240, 240, 240));
+        jCheckBox4.setSelected(true);
         jCheckBox4.setText("Cerrado");
         jCheckBox4.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -505,44 +519,44 @@ public class PanelHorario extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel113, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                    .addComponent(jLabel106, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                    .addComponent(jLabel113, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                    .addComponent(jLabel106, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel108, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(1, 1, 1))
-                    .addComponent(jLabel111, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
+                    .addComponent(jLabel111, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox13, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox20, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox13, 0, 81, Short.MAX_VALUE)
+                    .addComponent(jComboBox20, 0, 81, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel114, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel114, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox19, 0, 79, Short.MAX_VALUE)
+                        .addComponent(jComboBox19, 0, 81, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel112, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                        .addComponent(jLabel112, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel105, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel105, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox14, 0, 79, Short.MAX_VALUE)
+                        .addComponent(jComboBox14, 0, 81, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel107, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))
+                        .addComponent(jLabel107, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox15, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox18, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox15, 0, 81, Short.MAX_VALUE)
+                    .addComponent(jComboBox18, 0, 81, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel110, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel110, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox17, 0, 79, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel109, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel109, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox16, 0, 79, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -597,9 +611,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox21.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox21.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox21.setEnabled(false);
 
         jComboBox22.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox22.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox22.setEnabled(false);
         jComboBox22.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox22ActionPerformed(evt);
@@ -608,9 +624,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox23.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox23.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox23.setEnabled(false);
 
         jComboBox24.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox24.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox24.setEnabled(false);
 
         jLabel118.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel118.setText("Inicio");
@@ -628,15 +646,19 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox25.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox25.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox25.setEnabled(false);
 
         jComboBox26.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox26.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox26.setEnabled(false);
 
         jComboBox27.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox27.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox27.setEnabled(false);
 
         jComboBox28.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox28.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox28.setEnabled(false);
 
         jLabel122.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel122.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -654,6 +676,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jCheckBox10.setBackground(new java.awt.Color(149, 42, 149));
         jCheckBox10.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jCheckBox10.setForeground(new java.awt.Color(240, 240, 240));
+        jCheckBox10.setSelected(true);
         jCheckBox10.setText("Cerrado");
         jCheckBox10.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -663,6 +686,11 @@ public class PanelHorario extends javax.swing.JPanel {
         jCheckBox10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clickCheckBox(evt);
+            }
+        });
+        jCheckBox10.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cbPropertyCambio(evt);
             }
         });
 
@@ -699,49 +727,54 @@ public class PanelHorario extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel123, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                    .addComponent(jLabel123, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
                     .addComponent(jLabel116, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel118, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                        .addComponent(jLabel118, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
                         .addGap(1, 1, 1))
                     .addComponent(jLabel121, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox21, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox28, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox21, 0, 80, Short.MAX_VALUE)
+                    .addComponent(jComboBox28, 0, 80, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel124, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                        .addComponent(jLabel124, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox27, 0, 78, Short.MAX_VALUE)
+                        .addComponent(jComboBox27, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel122, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
+                        .addComponent(jLabel122, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel115, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                        .addComponent(jLabel115, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox22, 0, 82, Short.MAX_VALUE)
+                        .addComponent(jComboBox22, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel117, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)))
+                        .addComponent(jLabel117, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox23, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox26, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox23, 0, 80, Short.MAX_VALUE)
+                    .addComponent(jComboBox26, 0, 80, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel120, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel120, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox25, 0, 79, Short.MAX_VALUE))
+                        .addComponent(jComboBox25, 0, 83, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel119, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel119, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox24, 0, 79, Short.MAX_VALUE)))
+                        .addComponent(jComboBox24, 0, 83, Short.MAX_VALUE)))
                 .addGap(7, 7, 7))
             .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel115, jLabel124});
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBox22, jComboBox27});
+
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -791,9 +824,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox29.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox29.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox29.setEnabled(false);
 
         jComboBox30.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox30.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox30.setEnabled(false);
         jComboBox30.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox30ActionPerformed(evt);
@@ -802,9 +837,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox31.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox31.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox31.setEnabled(false);
 
         jComboBox32.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox32.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox32.setEnabled(false);
 
         jLabel128.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel128.setText("Inicio");
@@ -822,15 +859,19 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox33.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox33.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox33.setEnabled(false);
 
         jComboBox34.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox34.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox34.setEnabled(false);
 
         jComboBox35.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox35.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox35.setEnabled(false);
 
         jComboBox36.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox36.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox36.setEnabled(false);
 
         jLabel132.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel132.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -853,6 +894,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jCheckBox11.setBackground(new java.awt.Color(149, 42, 149));
         jCheckBox11.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jCheckBox11.setForeground(new java.awt.Color(240, 240, 240));
+        jCheckBox11.setSelected(true);
         jCheckBox11.setText("Cerrado");
         jCheckBox11.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -893,49 +935,52 @@ public class PanelHorario extends javax.swing.JPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel133, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                    .addComponent(jLabel133, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
                     .addComponent(jLabel126, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel128, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(1, 1, 1))
-                    .addComponent(jLabel131, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+                    .addComponent(jLabel131, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox29, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox36, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox29, 0, 81, Short.MAX_VALUE)
+                    .addComponent(jComboBox36, 0, 81, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel134, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                        .addComponent(jLabel134, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox35, 0, 78, Short.MAX_VALUE)
+                        .addComponent(jComboBox35, 0, 80, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel132, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                        .addComponent(jLabel132, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel125, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                        .addComponent(jLabel125, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox30, 0, 78, Short.MAX_VALUE)
+                        .addComponent(jComboBox30, 0, 80, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel127, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)))
+                        .addComponent(jLabel127, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox31, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox34, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox31, 0, 81, Short.MAX_VALUE)
+                    .addComponent(jComboBox34, 0, 81, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel130, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel130, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox33, 0, 79, Short.MAX_VALUE))
+                        .addComponent(jComboBox33, 0, 81, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel129, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel129, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox32, 0, 79, Short.MAX_VALUE)))
+                        .addComponent(jComboBox32, 0, 81, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel129, jLabel130});
+
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
@@ -985,9 +1030,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox37.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox37.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox37.setEnabled(false);
 
         jComboBox38.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox38.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox38.setEnabled(false);
         jComboBox38.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox38ActionPerformed(evt);
@@ -996,9 +1043,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox39.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox39.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox39.setEnabled(false);
 
         jComboBox40.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox40.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox40.setEnabled(false);
 
         jLabel138.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel138.setText("Inicio");
@@ -1016,15 +1065,19 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox41.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox41.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox41.setEnabled(false);
 
         jComboBox42.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox42.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox42.setEnabled(false);
 
         jComboBox43.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox43.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox43.setEnabled(false);
 
         jComboBox44.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox44.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox44.setEnabled(false);
 
         jLabel142.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel142.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -1047,6 +1100,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jCheckBox12.setBackground(new java.awt.Color(149, 42, 149));
         jCheckBox12.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jCheckBox12.setForeground(new java.awt.Color(240, 240, 240));
+        jCheckBox12.setSelected(true);
         jCheckBox12.setText("Cerrado");
         jCheckBox12.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -1087,51 +1141,56 @@ public class PanelHorario extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel143, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                    .addComponent(jLabel143, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
                     .addComponent(jLabel136, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel138, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                        .addComponent(jLabel138, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
                         .addGap(1, 1, 1))
                     .addComponent(jLabel141, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox37, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox44, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox37, 0, 80, Short.MAX_VALUE)
+                    .addComponent(jComboBox44, 0, 80, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel144, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                        .addComponent(jLabel144, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox43, 0, 78, Short.MAX_VALUE)
+                        .addComponent(jComboBox43, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel142, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
+                        .addComponent(jLabel142, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel135, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                        .addComponent(jLabel135, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox38, 0, 82, Short.MAX_VALUE)
+                        .addComponent(jComboBox38, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel137, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)))
+                        .addComponent(jLabel137, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox39, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox42, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox39, 0, 80, Short.MAX_VALUE)
+                    .addComponent(jComboBox42, 0, 80, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel140, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel140, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox41, 0, 79, Short.MAX_VALUE))
+                        .addComponent(jComboBox41, 0, 82, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel139, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel139, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox40, 0, 79, Short.MAX_VALUE)))
+                        .addComponent(jComboBox40, 0, 82, Short.MAX_VALUE)))
                 .addGap(10, 10, 10))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel135, jLabel144});
+
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBox38, jComboBox43});
+
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
@@ -1181,9 +1240,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox45.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox45.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox45.setEnabled(false);
 
         jComboBox46.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox46.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox46.setEnabled(false);
         jComboBox46.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox46ActionPerformed(evt);
@@ -1192,9 +1253,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox47.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox47.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox47.setEnabled(false);
 
         jComboBox48.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox48.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox48.setEnabled(false);
 
         jLabel148.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel148.setText("Inicio");
@@ -1212,15 +1275,19 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox49.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox49.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox49.setEnabled(false);
 
         jComboBox50.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox50.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox50.setEnabled(false);
 
         jComboBox51.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox51.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox51.setEnabled(false);
 
         jComboBox52.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox52.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox52.setEnabled(false);
 
         jLabel152.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel152.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -1238,6 +1305,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jCheckBox13.setBackground(new java.awt.Color(149, 42, 149));
         jCheckBox13.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jCheckBox13.setForeground(new java.awt.Color(240, 240, 240));
+        jCheckBox13.setSelected(true);
         jCheckBox13.setText("Cerrado");
         jCheckBox13.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -1283,44 +1351,44 @@ public class PanelHorario extends javax.swing.JPanel {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel153, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                    .addComponent(jLabel153, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
                     .addComponent(jLabel146, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel148, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(1, 1, 1))
-                    .addComponent(jLabel151, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE))
+                    .addComponent(jLabel151, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox45, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox52, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox45, 0, 81, Short.MAX_VALUE)
+                    .addComponent(jComboBox52, 0, 81, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel154, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                        .addComponent(jLabel154, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox51, 0, 78, Short.MAX_VALUE)
+                        .addComponent(jComboBox51, 0, 80, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel152, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
+                        .addComponent(jLabel152, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel145, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                        .addComponent(jLabel145, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox46, 0, 78, Short.MAX_VALUE)
+                        .addComponent(jComboBox46, 0, 80, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel147, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)))
+                        .addComponent(jLabel147, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox47, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox50, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox47, 0, 81, Short.MAX_VALUE)
+                    .addComponent(jComboBox50, 0, 81, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel150, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel150, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox49, 0, 79, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel149, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel149, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox48, 0, 79, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -1375,9 +1443,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox53.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox53.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox53.setEnabled(false);
 
         jComboBox54.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox54.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox54.setEnabled(false);
         jComboBox54.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox54ActionPerformed(evt);
@@ -1386,9 +1456,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox55.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox55.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox55.setEnabled(false);
 
         jComboBox56.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox56.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox56.setEnabled(false);
 
         jLabel158.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel158.setText("Inicio");
@@ -1406,15 +1478,19 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox57.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox57.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox57.setEnabled(false);
 
         jComboBox58.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox58.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox58.setEnabled(false);
 
         jComboBox59.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox59.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox59.setEnabled(false);
 
         jComboBox60.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox60.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox60.setEnabled(false);
 
         jLabel162.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel162.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -1432,6 +1508,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jCheckBox14.setBackground(new java.awt.Color(149, 42, 149));
         jCheckBox14.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jCheckBox14.setForeground(new java.awt.Color(240, 240, 240));
+        jCheckBox14.setSelected(true);
         jCheckBox14.setText("Cerrado");
         jCheckBox14.setName(""); // NOI18N
         jCheckBox14.setOpaque(true);
@@ -1479,49 +1556,54 @@ public class PanelHorario extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel163, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                    .addComponent(jLabel163, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                     .addComponent(jLabel156, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel158, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                        .addComponent(jLabel158, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addGap(1, 1, 1))
                     .addComponent(jLabel161, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox53, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox60, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox53, 0, 80, Short.MAX_VALUE)
+                    .addComponent(jComboBox60, 0, 80, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel164, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                        .addComponent(jLabel164, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox59, 0, 78, Short.MAX_VALUE)
+                        .addComponent(jComboBox59, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel162, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
+                        .addComponent(jLabel162, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel155, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                        .addComponent(jLabel155, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox54, 0, 82, Short.MAX_VALUE)
+                        .addComponent(jComboBox54, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel157, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)))
+                        .addComponent(jLabel157, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox55, 0, 79, Short.MAX_VALUE)
-                    .addComponent(jComboBox58, 0, 79, Short.MAX_VALUE))
+                    .addComponent(jComboBox55, 0, 80, Short.MAX_VALUE)
+                    .addComponent(jComboBox58, 0, 80, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel160, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel160, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox57, 0, 79, Short.MAX_VALUE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel159, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel159, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox56, 0, 79, Short.MAX_VALUE)))
                 .addGap(8, 8, 8))
             .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBox54, jComboBox59});
+
+        jPanel8Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel155, jLabel164});
+
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
@@ -1565,15 +1647,13 @@ public class PanelHorario extends javax.swing.JPanel {
         jLabel178.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel178.setText("Fin");
 
-        jLabel179.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel179.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel179.setText("Fin");
-
         jComboBox61.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox61.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox61.setEnabled(false);
 
         jComboBox62.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox62.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox62.setEnabled(false);
         jComboBox62.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox62ActionPerformed(evt);
@@ -1582,9 +1662,11 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox63.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox63.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox63.setEnabled(false);
 
         jComboBox64.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox64.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox64.setEnabled(false);
 
         jLabel180.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel180.setText("Inicio");
@@ -1602,19 +1684,19 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox65.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox65.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox65.setEnabled(false);
 
         jComboBox66.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox66.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        jComboBox66.setEnabled(false);
 
         jComboBox67.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox67.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        jComboBox67.setEnabled(false);
 
         jComboBox68.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox68.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-
-        jLabel184.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel184.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel184.setText("Fin");
+        jComboBox68.setEnabled(false);
 
         jLabel185.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel185.setText("Fin");
@@ -1628,6 +1710,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jCheckBox15.setBackground(new java.awt.Color(149, 42, 149));
         jCheckBox15.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jCheckBox15.setForeground(new java.awt.Color(240, 240, 240));
+        jCheckBox15.setSelected(true);
         jCheckBox15.setText("Cerrado");
         jCheckBox15.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -1668,6 +1751,14 @@ public class PanelHorario extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jLabel166.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel166.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel166.setText("Fin");
+
+        jLabel167.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel167.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel167.setText("Fin");
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -1675,14 +1766,14 @@ public class PanelHorario extends javax.swing.JPanel {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel185, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                    .addComponent(jLabel185, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                     .addComponent(jLabel178, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel180, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(1, 1, 1))
-                    .addComponent(jLabel183, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE))
+                    .addComponent(jLabel183, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox61, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1694,13 +1785,13 @@ public class PanelHorario extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBox67, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel184, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE))
+                        .addComponent(jLabel166, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel177, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBox62, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel179, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel167, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox63, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1728,10 +1819,10 @@ public class PanelHorario extends javax.swing.JPanel {
                         .addComponent(jLabel178)
                         .addComponent(jLabel180)
                         .addComponent(jLabel177)
-                        .addComponent(jLabel179)
                         .addComponent(jComboBox61, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jComboBox62, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox63, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBox63, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel167))
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBox64, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel181)))
@@ -1740,12 +1831,12 @@ public class PanelHorario extends javax.swing.JPanel {
                     .addComponent(jLabel185)
                     .addComponent(jLabel183)
                     .addComponent(jLabel186)
-                    .addComponent(jLabel184)
                     .addComponent(jLabel182)
                     .addComponent(jComboBox68, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox67, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox66, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox65, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox65, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel166))
                 .addContainerGap())
         );
 
@@ -1767,7 +1858,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -1796,6 +1887,7 @@ public class PanelHorario extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ArrayList<Horario> listaMandar = new ArrayList<>();
+        boolean todoOk = true;
         int contador = 1;
         for (Component c : jPanel1.getComponents()) {
             if (c.getClass().getName().equals("javax.swing.JPanel") && c.getName() != null) {
@@ -1824,105 +1916,122 @@ public class PanelHorario extends javax.swing.JPanel {
                         JComboBox comboBox = (JComboBox) child;
                         switch (comboBox.getName()) {
                             case "ComboBoxHoraInicioM":
-                            horaInicioM = horaInicioM.replace("#PARAMHORA#", comboBox.getSelectedItem().toString());
-                            break;
+                                horaInicioM = horaInicioM.replace("#PARAMHORA#", comboBox.getSelectedItem().toString());
+                                break;
                             case "ComboBoxMinutoInicioM":
-                            horaInicioM = horaInicioM.replace("#PARAMMIN#", comboBox.getSelectedItem().toString());
-                            break;
+                                horaInicioM = horaInicioM.replace("#PARAMMIN#", comboBox.getSelectedItem().toString());
+                                break;
                             case "ComboBoxHoraFinM":
-                            horaFinM = horaFinM.replace("#PARAMHORA#", comboBox.getSelectedItem().toString());
-                            break;
+                                horaFinM = horaFinM.replace("#PARAMHORA#", comboBox.getSelectedItem().toString());
+                                break;
                             case "ComboBoxMinutoFinM":
-                            horaFinM = horaFinM.replace("#PARAMMIN#", comboBox.getSelectedItem().toString());
-                            break;
+                                horaFinM = horaFinM.replace("#PARAMMIN#", comboBox.getSelectedItem().toString());
+                                break;
                             case "ComboBoxHoraInicioT":
-                            horaInicioT = horaInicioT.replace("#PARAMHORA#", comboBox.getSelectedItem().toString());
-                            break;
+                                horaInicioT = horaInicioT.replace("#PARAMHORA#", comboBox.getSelectedItem().toString());
+                                break;
                             case "ComboBoxMinutoInicioT":
-                            horaInicioT = horaInicioT.replace("#PARAMMIN#", comboBox.getSelectedItem().toString());
-                            break;
+                                horaInicioT = horaInicioT.replace("#PARAMMIN#", comboBox.getSelectedItem().toString());
+                                break;
                             case "ComboBoxHoraFinT":
-                            horaFinT = horaFinT.replace("#PARAMHORA#", comboBox.getSelectedItem().toString());
-                            break;
+                                horaFinT = horaFinT.replace("#PARAMHORA#", comboBox.getSelectedItem().toString());
+                                break;
                             case "ComboBoxMinutoFinT":
-                            horaFinT = horaFinT.replace("#PARAMMIN#", comboBox.getSelectedItem().toString());
-                            break;
+                                horaFinT = horaFinT.replace("#PARAMMIN#", comboBox.getSelectedItem().toString());
+                                break;
                             default:
-                            throw new AssertionError();
+                                throw new AssertionError();
                         }
                     } else {
                         System.out.println("ERROR: " + child.getClass().getName());
                     }
                     System.out.println(child.getClass().getName().equals("javax.swing.JCheckBox"));
                 }
-                h.setHora_inicio_m(horaInicioM);
-                h.setHora_fin_m(horaFinM);
-                h.setHora_inicio_t(horaInicioT);
-                h.setHora_fin_t(horaFinT);
+                if (LocalTime.parse(horaInicioM).isBefore(LocalTime.parse(horaFinM))
+                        && LocalTime.parse(horaFinM).isBefore(LocalTime.parse(horaInicioT))
+                        && LocalTime.parse(horaInicioT).isBefore(LocalTime.parse(horaFinT))
+                        && !h.getCerrado()) {
+                    h.setHora_inicio_m(horaInicioM);
+                    h.setHora_fin_m(horaFinM);
+                    h.setHora_inicio_t(horaInicioT);
+                    h.setHora_fin_t(horaFinT);
+                } else if (h.getCerrado()) {
+                    h.setHora_inicio_m("00:00");
+                    h.setHora_fin_m("00:00");
+                    h.setHora_inicio_t("00:00");
+                    h.setHora_fin_t("00:00");
+                } else { 
+                    if (todoOk){
+                        JOptionPane.showMessageDialog(this, "Revise los horarios , hay solapación de horas", "Error",JOptionPane.ERROR_MESSAGE);
+                    }
+                    todoOk = false;
+                }
                 listaMandar.add(h);
             } else {
                 System.out.println(c.getClass() + c.getName());
             }
         }
-        String jsonArrayStr = "[";
-        for (int i = 0; i < listaMandar.size(); i++) {
-            jsonArrayStr += listaMandar.get(i).toJson();
-            if ((i + 1) != listaMandar.size()) {
-                jsonArrayStr += ",";
+        if (todoOk) {
+            String jsonArrayStr = "[";
+            for (int i = 0; i < listaMandar.size(); i++) {
+                jsonArrayStr += listaMandar.get(i).toJson();
+                if ((i + 1) != listaMandar.size()) {
+                    jsonArrayStr += ",";
+                }
             }
-        }
-        jsonArrayStr += "]";
-        final String json = jsonArrayStr;
-        if (!jsonArrayStr.contains("null")) {
-            try {
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        // Conectamos a la pagina con el método que queramos
-                        try {
-                            URL url = new URL("https://reservante.mjhudesings.com/slim/addhorario");
-                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                            connection.setRequestMethod("POST");
-                            connection.setDoOutput(true);
-                            connection.setRequestProperty("Content-Type", "application/json");
-                            connection.setRequestProperty("Accept", "application/json");
-                            OutputStream os = connection.getOutputStream();
-                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                            osw.write(json);
-                            osw.flush();
-                            int responseCode = connection.getResponseCode();
-                            //Ver si la respuesta es correcta
-                            if (responseCode == HttpURLConnection.HTTP_OK) {
-                                // Si es correcta la leemos
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                String line;
-                                StringBuilder response = new StringBuilder();
-                                while ((line = reader.readLine()) != null) {
-                                    response.append(line);
+            jsonArrayStr += "]";
+            final String json = jsonArrayStr;
+            if (!jsonArrayStr.contains("null")) {
+                try {
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            // Conectamos a la pagina con el método que queramos
+                            try {
+                                URL url = new URL("https://reservante.mjhudesings.com/slim/addhorario");
+                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                connection.setRequestMethod("POST");
+                                connection.setDoOutput(true);
+                                connection.setRequestProperty("Content-Type", "application/json");
+                                connection.setRequestProperty("Accept", "application/json");
+                                OutputStream os = connection.getOutputStream();
+                                OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                osw.write(json);
+                                osw.flush();
+                                int responseCode = connection.getResponseCode();
+                                //Ver si la respuesta es correcta
+                                if (responseCode == HttpURLConnection.HTTP_OK) {
+                                    // Si es correcta la leemos
+                                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                    String line;
+                                    StringBuilder response = new StringBuilder();
+                                    while ((line = reader.readLine()) != null) {
+                                        response.append(line);
+                                    }
+                                    reader.close();
+                                    System.out.println("JSON: " + json);
+                                    System.out.println("Respuesta " + response);
                                 }
-                                reader.close();
-                                System.out.println("JSON: " + json);
-                                System.out.println("Respuesta " + response);
+                                connection.disconnect();
+                            } catch (MalformedURLException e) {
+                                throw new RuntimeException(e);
+                            } catch (ProtocolException e) {
+                                System.out.println(e.getMessage());
+                                throw new RuntimeException(e);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            } catch (IOException ex) {
+                                Logger.getLogger(PanelCalendario.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                            connection.disconnect();
-                        } catch (MalformedURLException e) {
-                            throw new RuntimeException(e);
-                        } catch (ProtocolException e) {
-                            System.out.println(e.getMessage());
-                            throw new RuntimeException(e);
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        } catch (IOException ex) {
-                            Logger.getLogger(PanelCalendario.class.getName()).log(Level.SEVERE, null, ex);
-                        }
 
-                    }
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-                thread.join();
-            } catch (Exception e) {
-                e.printStackTrace();
+                        }
+                    };
+                    Thread thread = new Thread(runnable);
+                    thread.start();
+                    thread.join();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         // TODO add your handling code here:
@@ -1987,7 +2096,15 @@ public class PanelHorario extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox14ActionPerformed
 
-
+    private void cbPropertyCambio(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbPropertyCambio
+        // TODO add your handling code here:
+        JPanel panel = (JPanel) ((JCheckBox) evt.getSource()).getParent();
+        for (Component c : panel.getComponents()) {
+            if (c.getClass().getName().equals("javax.swing.JComboBox")) {
+                c.setEnabled(!((JCheckBox) evt.getSource()).isSelected());
+            }
+        }
+    }//GEN-LAST:event_cbPropertyCambio
 
     public JSONArray cargarHorarioAPI() {
         String[] responseStr = new String[1];
@@ -2184,14 +2301,14 @@ public class PanelHorario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel163;
     private javax.swing.JLabel jLabel164;
     private javax.swing.JLabel jLabel165;
+    private javax.swing.JLabel jLabel166;
+    private javax.swing.JLabel jLabel167;
     private javax.swing.JLabel jLabel177;
     private javax.swing.JLabel jLabel178;
-    private javax.swing.JLabel jLabel179;
     private javax.swing.JLabel jLabel180;
     private javax.swing.JLabel jLabel181;
     private javax.swing.JLabel jLabel182;
     private javax.swing.JLabel jLabel183;
-    private javax.swing.JLabel jLabel184;
     private javax.swing.JLabel jLabel185;
     private javax.swing.JLabel jLabel186;
     private javax.swing.JPanel jPanel1;

@@ -53,6 +53,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             System.exit(200);
         }
         initComponents();
+        jbBorrar.setEnabled(false);
         calendar1 = Calendar.getInstance();
         calendar2 = Calendar.getInstance();
         celdaLunes.setTitle(true);
@@ -73,6 +74,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
         setDate(calendar1, panelCalendario1, jlMes1);
         setDate(calendar2, panelCalendario2, jlMes2);
         this.setLocationRelativeTo(null);
+        jlTitulo.setForeground(new Color(221, 221, 221));
     }
 
     public VacacionesDialog(java.awt.Frame parent, boolean modal, Vacaciones v) {
@@ -109,7 +111,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
         setDate(calendar2, panelCalendario2, jlMes2);
         jtfNombre.setText(v.getNombre());
         this.setLocationRelativeTo(null);
-        jlTitulo.setForeground(new Color(221,221,221));
+        jlTitulo.setForeground(new Color(221, 221, 221));
     }
 
     public void setDate(Calendar calendarValues, JPanel panelCalendario, JLabel etiqueta) {
@@ -168,7 +170,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
                 c.setText(calendar.get(Calendar.DATE) + "");
                 c.setDate(calendar.getTime());
                 if (calendar.get(Calendar.DAY_OF_YEAR) == calendarValues.get(Calendar.DAY_OF_YEAR)) {
-                    c.setBackground(Color.RED);
+                    c.setBackground(new Color(128, 49, 128));
                     if (seleccionada1 != null) {
                         seleccionada2 = c;
                     } else {
@@ -303,7 +305,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
         celdaCalendario89 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
         celdaCalendario90 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
         celdaCalendario91 = new com.jabaubo.proyecto_reservas.Clases.CeldaCalendario();
-        jButton5 = new javax.swing.JButton();
+        jbBorrar = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jlMes2 = new javax.swing.JLabel();
@@ -1215,8 +1217,8 @@ public class VacacionesDialog extends javax.swing.JDialog {
         });
         panelCalendario2.add(celdaCalendario91);
 
-        jButton5.setText("Borrar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        jbBorrar.setText("Borrar");
+        jbBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 borrarClick(evt);
             }
@@ -1286,7 +1288,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jbBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(panelCalendario2, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
@@ -1318,7 +1320,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
                     .addComponent(panelCalendario1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1357,7 +1359,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario8onClickDia
 
@@ -1366,7 +1368,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario9onClickDia
 
@@ -1375,7 +1377,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario10onClickDia
 
@@ -1384,7 +1386,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario11onClickDia
 
@@ -1393,7 +1395,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario12onClickDia
 
@@ -1402,7 +1404,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario13onClickDia
 
@@ -1411,7 +1413,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario14onClickDia
 
@@ -1420,7 +1422,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario15onClickDia
 
@@ -1429,7 +1431,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario16onClickDia
 
@@ -1438,7 +1440,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario17onClickDia
 
@@ -1447,7 +1449,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario18onClickDia
 
@@ -1456,7 +1458,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario19onClickDia
 
@@ -1465,7 +1467,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario20onClickDia
 
@@ -1474,7 +1476,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario21onClickDia
 
@@ -1483,7 +1485,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario22onClickDia
 
@@ -1492,7 +1494,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario23onClickDia
 
@@ -1501,7 +1503,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario24onClickDia
 
@@ -1510,7 +1512,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario25onClickDia
 
@@ -1519,7 +1521,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario26onClickDia
 
@@ -1528,7 +1530,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario27onClickDia
 
@@ -1537,7 +1539,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario28onClickDia
 
@@ -1546,7 +1548,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario29onClickDia
 
@@ -1555,7 +1557,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario30onClickDia
 
@@ -1564,7 +1566,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario31onClickDia
 
@@ -1573,7 +1575,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario32onClickDia
 
@@ -1582,7 +1584,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario33onClickDia
 
@@ -1591,7 +1593,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario34onClickDia
 
@@ -1600,7 +1602,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario35onClickDia
 
@@ -1609,7 +1611,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario36onClickDia
 
@@ -1618,7 +1620,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario37onClickDia
 
@@ -1627,7 +1629,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario38onClickDia
 
@@ -1636,7 +1638,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario39onClickDia
 
@@ -1645,7 +1647,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario40onClickDia
 
@@ -1654,7 +1656,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario41onClickDia
 
@@ -1663,7 +1665,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario42onClickDia
 
@@ -1672,7 +1674,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario43onClickDia
 
@@ -1681,7 +1683,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario44onClickDia
 
@@ -1690,7 +1692,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario45onClickDia
 
@@ -1699,7 +1701,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario46onClickDia
 
@@ -1708,7 +1710,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario47onClickDia
 
@@ -1717,7 +1719,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario48onClickDia
 
@@ -1726,7 +1728,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada1.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada1 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario49onClickDia
 
@@ -1753,7 +1755,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;  // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario51onClickDia
 
@@ -1762,7 +1764,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario53onClickDia
 
@@ -1771,7 +1773,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario54onClickDia
 
@@ -1780,7 +1782,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario55onClickDia
 
@@ -1789,7 +1791,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario56onClickDia
 
@@ -1798,7 +1800,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario57onClickDia
 
@@ -1807,7 +1809,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario58onClickDia
 
@@ -1816,7 +1818,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario59onClickDia
 
@@ -1825,7 +1827,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario60onClickDia
 
@@ -1834,7 +1836,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario61onClickDia
 
@@ -1843,7 +1845,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario62onClickDia
 
@@ -1852,7 +1854,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario63onClickDia
 
@@ -1861,7 +1863,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario64onClickDia
 
@@ -1870,7 +1872,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario65onClickDia
 
@@ -1879,7 +1881,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario66onClickDia
 
@@ -1888,7 +1890,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario67onClickDia
 
@@ -1897,7 +1899,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario68onClickDia
 
@@ -1906,7 +1908,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario69onClickDia
 
@@ -1915,7 +1917,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario70onClickDia
 
@@ -1924,7 +1926,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario71onClickDia
 
@@ -1933,7 +1935,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario72onClickDia
 
@@ -1942,7 +1944,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario73onClickDia
 
@@ -1951,7 +1953,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;        // TODO add your handling code here:
     }//GEN-LAST:event_celdaCalendario74onClickDia
 
@@ -1961,7 +1963,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario75onClickDia
 
@@ -1971,7 +1973,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario76onClickDia
 
@@ -1981,7 +1983,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario77onClickDia
 
@@ -1991,7 +1993,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario78onClickDia
 
@@ -2001,7 +2003,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario79onClickDia
 
@@ -2011,7 +2013,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario80onClickDia
 
@@ -2021,7 +2023,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario81onClickDia
 
@@ -2031,7 +2033,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario82onClickDia
 
@@ -2041,7 +2043,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario83onClickDia
 
@@ -2051,7 +2053,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario84onClickDia
 
@@ -2061,7 +2063,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario85onClickDia
 
@@ -2071,7 +2073,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario86onClickDia
 
@@ -2081,7 +2083,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario87onClickDia
 
@@ -2091,7 +2093,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario88onClickDia
 
@@ -2101,7 +2103,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario89onClickDia
 
@@ -2111,7 +2113,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario90onClickDia
 
@@ -2121,7 +2123,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario91onClickDia
 
@@ -2147,7 +2149,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
             seleccionada2.setBackground(new ColorUIResource(243, 244, 248));
         }
         CeldaCalendario celdaSrc = (CeldaCalendario) evt.getSource();
-        celdaSrc.setBackground(Color.red);
+        celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_clickCalendario2
 
@@ -2160,30 +2162,110 @@ public class VacacionesDialog extends javax.swing.JDialog {
         final String nombre = jtfNombre.getText();
         final String fecha1 = seleccionada1.fechaFormateada();
         final String fecha2 = seleccionada2.fechaFormateada();
-        System.out.println("INICIO VACACIÓN " + fecha1);
-        System.out.println("FIN VACACIÓN " + fecha2);
-        System.exit(123);
-        if (editando) {
-            Vacaciones v = new Vacaciones(nombre, fecha1, fecha2, vacacion.getIdRestaurante(), vacacion.getId());
-            System.out.println(v.toJson());
-            if (v.toJson().equals(vacacion.toJson())) {
-                JOptionPane.showMessageDialog(interfazPrincipal, "aNo hay cambios", "Aviso", JOptionPane.PLAIN_MESSAGE);
+        System.out.println("INICIO " + LocalDate.parse(fecha2));
+        System.out.println("FIN " + LocalDate.parse(fecha1));
+        System.out.println("CONDICIÓN " + LocalDate.parse(fecha2).isAfter(LocalDate.parse(fecha1)));
+        if (!LocalDate.parse(fecha1).isAfter(LocalDate.parse(fecha2))) {
+            JOptionPane.showMessageDialog(interfazPrincipal, "La fecha de inicio no puede ser posterior a la de fin", "Advertencia", JOptionPane.ERROR_MESSAGE);
+        } else {
+            System.out.println("INICIO VACACIÓN " + fecha1);
+            System.out.println("FIN VACACIÓN " + fecha2);
+            if (editando) {
+                Vacaciones v = new Vacaciones(nombre, fecha1, fecha2, vacacion.getIdRestaurante(), vacacion.getId());
+                System.out.println(v.toJson());
+                if (v.toJson().equals(vacacion.toJson())) {
+                    JOptionPane.showMessageDialog(interfazPrincipal, "aNo hay cambios", "Aviso", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    final String[] responseStr = new String[1];
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            // Conectamos a la pagina con el método que queramos
+                            try {
+                                URL url = new URL("https://reservante.mjhudesings.com/slim/updatevacacion");
+                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                connection.setRequestMethod("PUT");
+                                connection.setDoOutput(true);
+                                connection.setRequestProperty("Content-Type", "application/json");
+                                connection.setRequestProperty("Accept", "application/json");
+                                OutputStream os = connection.getOutputStream();
+                                OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                osw.write(v.toJson());
+                                osw.flush();
+                                int responseCode = connection.getResponseCode();
+                                //Ver si la respuesta es correcta
+                                if (responseCode == HttpURLConnection.HTTP_OK) {
+                                    // Si es correcta la leemos
+                                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                    String line;
+                                    StringBuilder response = new StringBuilder();
+                                    while ((line = reader.readLine()) != null) {
+                                        response.append(line);
+                                    }
+                                    reader.close();
+                                    responseStr[0] = response.toString();
+                                    connection.disconnect();
+                                } else {
+                                    connection.disconnect();
+                                }
+                            } catch (MalformedURLException e) {
+                                throw new RuntimeException(e);
+                            } catch (ProtocolException e) {
+                                throw new RuntimeException(e);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                        }
+                    };
+                    Thread thread = new Thread(runnable);
+                    thread.start();
+                    try {
+                        thread.join();
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    try {
+                        System.out.println(responseStr[0]);
+                        if (responseStr[0].contains("correctamente")) {
+                            JOptionPane.showMessageDialog(interfazPrincipal, "Vacación actualizada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(interfazPrincipal, "Error al actualizar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+                        }
+                        this.setVisible(false);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
             } else {
+                final int idRestaurante = interfazPrincipal.getRestaurante();
                 final String[] responseStr = new String[1];
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
                         // Conectamos a la pagina con el método que queramos
                         try {
-                            URL url = new URL("https://reservante.mjhudesings.com/slim/updatevacacion");
+                            URL url = new URL("https://reservante.mjhudesings.com/slim/addvacacion");
                             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                            connection.setRequestMethod("PUT");
+                            connection.setRequestMethod("POST");
                             connection.setDoOutput(true);
                             connection.setRequestProperty("Content-Type", "application/json");
                             connection.setRequestProperty("Accept", "application/json");
                             OutputStream os = connection.getOutputStream();
                             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                            osw.write(v.toJson());
+                            String jsonStr = "{\n"
+                                    + "    \"id_restaurante\":\"#PARAMID#\",\n"
+                                    + "    \"nombre\":\"#PARAMNOMBRE#\",\n"
+                                    + "    \"inicio\":\"#PARAMINICIO#\",\n"
+                                    + "    \"fin\":\"#PARAMFIN#\"\n"
+                                    + "}";
+                            jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(idRestaurante));
+                            jsonStr = jsonStr.replace("#PARAMNOMBRE#", nombre);
+                            jsonStr = jsonStr.replace("#PARAMINICIO#", fecha2);
+                            jsonStr = jsonStr.replace("#PARAMFIN#", fecha1);
+                            osw.write(jsonStr);
+                            System.out.println(jsonStr);
                             osw.flush();
                             int responseCode = connection.getResponseCode();
                             //Ver si la respuesta es correcta
@@ -2229,80 +2311,6 @@ public class VacacionesDialog extends javax.swing.JDialog {
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
-
-            }
-        } else {
-            final int idRestaurante = interfazPrincipal.getRestaurante();
-            final String[] responseStr = new String[1];
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    try {
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/addvacacion");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("POST");
-                        connection.setDoOutput(true);
-                        connection.setRequestProperty("Content-Type", "application/json");
-                        connection.setRequestProperty("Accept", "application/json");
-                        OutputStream os = connection.getOutputStream();
-                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        String jsonStr = "{\n"
-                                + "    \"id_restaurante\":\"#PARAMID#\",\n"
-                                + "    \"nombre\":\"#PARAMNOMBRE#\",\n"
-                                + "    \"inicio\":\"#PARAMINICIO#\",\n"
-                                + "    \"fin\":\"#PARAMFIN#\"\n"
-                                + "}";
-                        jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(idRestaurante));
-                        jsonStr = jsonStr.replace("#PARAMNOMBRE#", nombre);
-                        jsonStr = jsonStr.replace("#PARAMINICIO#", fecha1);
-                        jsonStr = jsonStr.replace("#PARAMFIN#", fecha2);
-                        osw.write(jsonStr);
-                        System.out.println(jsonStr);
-                        osw.flush();
-                        int responseCode = connection.getResponseCode();
-                        //Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            reader.close();
-                            responseStr[0] = response.toString();
-                            connection.disconnect();
-                        } else {
-                            connection.disconnect();
-                        }
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-            try {
-                System.out.println(responseStr[0]);
-                if (responseStr[0].contains("correctamente")) {
-                    JOptionPane.showMessageDialog(interfazPrincipal, "Vacación insertada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(interfazPrincipal, "Error al insertar", "Mensaje", JOptionPane.ERROR_MESSAGE);
-                }
-                this.setVisible(false);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
             }
         }
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -2365,9 +2373,9 @@ public class VacacionesDialog extends javax.swing.JDialog {
             try {
                 System.out.println(responseStr[0]);
                 if (responseStr[0].contains("correctamente")) {
-                    JOptionPane.showMessageDialog(interfazPrincipal, "Vacación insertada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(interfazPrincipal, "Vacación borrada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(interfazPrincipal, "Error al insertar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(interfazPrincipal, "Error al borrar", "Mensaje", JOptionPane.ERROR_MESSAGE);
                 }
                 this.setVisible(false);
             } catch (JSONException e) {
@@ -2524,12 +2532,12 @@ public class VacacionesDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton jbBorrar;
     private javax.swing.JLabel jlMes1;
     private javax.swing.JLabel jlMes2;
     private javax.swing.JLabel jlTitulo;

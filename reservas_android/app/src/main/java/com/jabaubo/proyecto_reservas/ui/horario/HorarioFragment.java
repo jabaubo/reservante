@@ -37,6 +37,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
@@ -105,7 +109,7 @@ public class HorarioFragment extends Fragment {
                             dia = "Domingo";
                             break;
                     }
-                    Boolean cerrado = false;
+                    Boolean cerrado = true;
                     String hora_inicio_m = "00:00";
                     String hora_fin_m = "00:00";
                     String hora_inicio_t = "00:00";
@@ -257,84 +261,91 @@ public class HorarioFragment extends Fragment {
         if (hayDiferencias){
             String jsonConTodo = "[";
             for (int i = 0 ; i < lista.size() ; i++){
-                jsonConTodo += lista.get(i).jar();
-                if (i+1 == lista.size() ){
-                    jsonConTodo+= "]";
-                }
-                else {
-                    jsonConTodo+= ",";
+                Horario h = lista.get(i);
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+                if ((LocalTime.parse(h.getHora_inicio_m(),dtf).isBefore(LocalTime.parse(h.getHora_fin_m(),dtf)))&&
+                        (LocalTime.parse(h.getHora_fin_m(),dtf).isBefore(LocalTime.parse(h.getHora_inicio_t(),dtf)))&&
+                        (LocalTime.parse(h.getHora_inicio_t(),dtf).isBefore(LocalTime.parse(h.getHora_fin_t(),dtf)))||
+                h.getCerrado()){
+                    jsonConTodo += h.jar();
+                    if (i+1 == lista.size() ){
+                        jsonConTodo+= "]";
+                    }
+                    else {
+                        jsonConTodo+= ",";
+                    }
+                }else{
+                    android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                            .setTitle("Error")
+                            .setMessage("Revise el horario del día " + h.getDia() + " hay solapación de horas")
+                            .setPositiveButton(android.R.string.yes, null)
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert).create();
+                    alertDialog.show();
+                    jsonConTodo+= "ERROR DE HORAS";
+                    break;
                 }
             }
-            System.out.println(jsonConTodo);
-            String[] responseStr = new String[1];
-            String finalJsonConTodo = jsonConTodo;
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    try {
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/addhorario");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("POST");
-                        connection.setDoOutput(true);
-                        connection.setRequestProperty("Content-Type", "application/json");
-                        connection.setRequestProperty("Accept", "application/json");
-                        OutputStream os = connection.getOutputStream();
-                        System.out.println("TETica");
-                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        osw.write(finalJsonConTodo);
-                        osw.flush();
-                        int responseCode = connection.getResponseCode();
+            if (!jsonConTodo.contains("ERROR DE HORAS")){
+                String[] responseStr = new String[1];
+                String finalJsonConTodo = jsonConTodo;
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        // Conectamos a la pagina con el método que queramos
+                        try {
+                            URL url = new URL("https://reservante.mjhudesings.com/slim/addhorario");
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("POST");
+                            connection.setDoOutput(true);
+                            connection.setRequestProperty("Content-Type", "application/json");
+                            connection.setRequestProperty("Accept", "application/json");
+                            OutputStream os = connection.getOutputStream();
+                            System.out.println("TETica");
+                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                            osw.write(finalJsonConTodo);
+                            osw.flush();
+                            int responseCode = connection.getResponseCode();
 
-                        //Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
+                            //Ver si la respuesta es correcta
+                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                // Si es correcta la leemos
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                String line;
+                                StringBuilder response = new StringBuilder();
+                                while ((line = reader.readLine()) != null) {
+                                    response.append(line);
+                                }
+                                reader.close();
+                                responseStr[0] = response.toString();
+                                System.out.println(responseStr[0]);
+                                connection.disconnect();
+                            } else {
+                                connection.disconnect();
                             }
-                            reader.close();
-                            responseStr[0] = response.toString();
-                            System.out.println(responseStr[0]);
-                            connection.disconnect();
-                        } else {
-                            connection.disconnect();
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException(e);
+                        } catch (ProtocolException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
                     }
-
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
                 }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
             }
         }
         else {android.app.AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                 .setTitle("Advertencia")
                 .setMessage("No hay diferencias")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+                .setPositiveButton(android.R.string.yes, null)
+                .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert).create();
             alertDialog.show();
         }

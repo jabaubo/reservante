@@ -46,10 +46,14 @@ public class PanelConfiguracion extends javax.swing.JPanel {
      * Creates new form MiRestauranteUI
      */
     public PanelConfiguracion(InterfazPrincipal interfazPrincipal, int restaurante) {
-    try {
+
         this.interfazPrincipal = interfazPrincipal;
         this.restaurante = restaurante;
         initComponents();
+        cargarDatos();
+    }
+
+    public void cargarDatos() {
         JSONObject json = leerDatosRestaurante();
         JSONObject jsonRestaurante = json.getJSONArray("resultado").getJSONObject(0);
         cargarSalones();
@@ -62,21 +66,26 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         jcbHora.setSelectedItem(duracionStr[0]);
         jcbMinutos.setSelectedItem(duracionStr[1]);
         jcbSegundos.setSelectedItem(duracionStr[2]);
-  
-            JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
-            DefaultListModel<Vacaciones> modelo = new DefaultListModel<>();
-            for (int i = 0; i < jsonArrayVacaciones.length(); i++) {
-                JSONObject jsonVacacion = jsonArrayVacaciones.getJSONObject(i);
-                System.out.println(jsonVacacion);
-                Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"), interfazPrincipal.getRestaurante(), jsonVacacion.getInt("id_vacacion"));
-                listaVacaciones.add(v);
-                modelo.addElement(v);
-            }
-            jListVacaciones.setModel(modelo);
-            jListVacaciones.setCellRenderer(new VacacionesRender());
-        } catch (JSONException e) {
-            System.out.println("Error json");
+
+        JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
+        DefaultListModel<Vacaciones> modelo = new DefaultListModel<>();
+        for (int i = 0; i < jsonArrayVacaciones.length(); i++) {
+            JSONObject jsonVacacion = jsonArrayVacaciones.getJSONObject(i);
+            System.out.println(jsonVacacion);
+            Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"), interfazPrincipal.getRestaurante(), jsonVacacion.getInt("id_vacacion"));
+            listaVacaciones.add(v);
+            modelo.addElement(v);
         }
+        jListVacaciones.setModel(modelo);
+        jListVacaciones.setCellRenderer(new VacacionesRender());
+        jbInsertarSalones.setForeground(new Color(221, 221, 221));
+        jbInsertarVacaciones.setForeground(new Color(221, 221, 221));
+        jbGuardarDatos.setForeground(new Color(221, 221, 221));
+
+        jbInsertarSalones.setBackground(new Color(109, 34, 109));
+        jbInsertarVacaciones.setBackground(new Color(109, 34, 109));
+        jbGuardarDatos.setBackground(new Color(109, 34, 109));
+
     }
 
     /**
@@ -101,7 +110,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         tfDireccion = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jbGuardarDatos = new javax.swing.JButton();
         jcbHora = new javax.swing.JComboBox<>();
         jLabel105 = new javax.swing.JLabel();
         jcbMinutos = new javax.swing.JComboBox<>();
@@ -111,12 +120,12 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jListSalones = new javax.swing.JList<>();
-        jButton6 = new javax.swing.JButton();
+        jbInsertarSalones = new javax.swing.JButton();
+        jbInsertarVacaciones = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListVacaciones = new javax.swing.JList<>();
         jLabel10 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(51, 51, 255));
         setPreferredSize(new java.awt.Dimension(538, 300));
@@ -159,10 +168,14 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Datos del restaurante");
 
-        jButton1.setText("Guardar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbGuardarDatos.setBackground(new java.awt.Color(109, 34, 109));
+        jbGuardarDatos.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jbGuardarDatos.setForeground(new java.awt.Color(221, 221, 221));
+        jbGuardarDatos.setText("Guardar");
+        jbGuardarDatos.setBorderPainted(false);
+        jbGuardarDatos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbGuardarDatosActionPerformed(evt);
             }
         });
 
@@ -203,39 +216,41 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbGuardarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfNombre))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfTlf1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfTlf2)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfEmail)
-                            .addComponent(tfDireccion)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jcbHora, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel105, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jcbMinutos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel106, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jcbSegundos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(tfNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(tfTlf1))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(tfTlf2)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfEmail)
+                                    .addComponent(tfDireccion)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jcbHora, 0, 176, Short.MAX_VALUE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel105, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jcbMinutos, 0, 176, Short.MAX_VALUE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel106, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jcbSegundos, 0, 178, Short.MAX_VALUE)))))
+                        .addContainerGap())))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7});
@@ -277,7 +292,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                             .addComponent(jLabel4)
                             .addComponent(tfTlf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbGuardarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -291,10 +306,25 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(jListSalones);
 
-        jButton6.setText("Insertar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jbInsertarSalones.setBackground(new java.awt.Color(109, 34, 109));
+        jbInsertarSalones.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jbInsertarSalones.setForeground(new java.awt.Color(221, 221, 221));
+        jbInsertarSalones.setText("Insertar");
+        jbInsertarSalones.setBorderPainted(false);
+        jbInsertarSalones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jbInsertarSalonesActionPerformed(evt);
+            }
+        });
+
+        jbInsertarVacaciones.setBackground(new java.awt.Color(109, 34, 109));
+        jbInsertarVacaciones.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jbInsertarVacaciones.setForeground(new java.awt.Color(221, 221, 221));
+        jbInsertarVacaciones.setText("Insertar");
+        jbInsertarVacaciones.setBorderPainted(false);
+        jbInsertarVacaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbInsertarVacacionesActionPerformed(evt);
             }
         });
 
@@ -305,23 +335,27 @@ public class PanelConfiguracion extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbInsertarSalones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbInsertarVacaciones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1026, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jbInsertarVacaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbInsertarSalones, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jbInsertarSalones, jbInsertarVacaciones});
 
         jListVacaciones.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -333,39 +367,25 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel10.setText("Vacaciones");
 
-        jButton2.setText("Insertar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(1032, 1032, 1032)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1027, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(176, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(110, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                     .addGap(51, 51, 51)
@@ -469,7 +489,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
             System.out.println("No hay salones");
         }
     }
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbGuardarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarDatosActionPerformed
         // TODO add your handling code here:
         String nombre = tfNombre.getText();
         String tlf1Str = tfTlf1.getText();
@@ -557,13 +577,13 @@ public class PanelConfiguracion extends javax.swing.JPanel {
             throw new RuntimeException(e);
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jbGuardarDatosActionPerformed
 
     private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfEmailActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jbInsertarVacacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInsertarVacacionesActionPerformed
         // TODO add your handling code here:
         VacacionesDialog insertarVacacion = new VacacionesDialog(interfazPrincipal, true);
         insertarVacacion.setVisible(true);
@@ -583,7 +603,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         } catch (JSONException e) {
             System.out.println("No hay vacas");
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jbInsertarVacacionesActionPerformed
 
     private void jListVacacionesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListVacacionesValueChanged
         // TODO add your handling code here:
@@ -609,12 +629,12 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jListVacacionesValueChanged
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void jbInsertarSalonesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInsertarSalonesActionPerformed
         // TODO add your handling code here:
         SalonDialog sd = new SalonDialog(interfazPrincipal, true);
         sd.setVisible(true);
         cargarSalones();
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_jbInsertarSalonesActionPerformed
 
     private void jListSalonesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListSalonesValueChanged
         // TODO add your handling code here:
@@ -698,9 +718,6 @@ public class PanelConfiguracion extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel105;
@@ -719,6 +736,9 @@ public class PanelConfiguracion extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbGuardarDatos;
+    private javax.swing.JButton jbInsertarSalones;
+    private javax.swing.JButton jbInsertarVacaciones;
     private javax.swing.JComboBox<String> jcbHora;
     private javax.swing.JComboBox<String> jcbMinutos;
     private javax.swing.JComboBox<String> jcbSegundos;

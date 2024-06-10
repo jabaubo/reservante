@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -95,13 +96,17 @@ public class HomeFragment extends Fragment {
             Button b = root[0].findViewById(R.id.btLogin);
             EditText etPassword = root[0].findViewById(R.id.etLoginPassword);
             EditText etUser = root[0].findViewById(R.id.etLoginUser);
+            TextView tvUser = root[0].findViewById(R.id.tvUsuarioLogin);
+            TextView tvPassword = root[0].findViewById(R.id.tvPasswordLogin);
+            ImageView ivLogin = root[0].findViewById(R.id.ivLogo);
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*
-                     * Comprobamos el login para usuario y contraseña
+
+                    /* Comprobamos el login para usuario y contraseña
                      * correcto-> Ponemos el formato de login
                      * Incorrecto -> Avisamos , sumamos 1 a los intentos*/
+
                     if (intentarLogin(etUser.getText().toString(), etPassword.getText().toString())) {
                         login = true;
                         ViewGroup viewGroup = (ViewGroup) root[0];
@@ -122,6 +127,21 @@ public class HomeFragment extends Fragment {
                         etUser.setEnabled(false);
                         etUser.setX(0);
                         etUser.setY(0);
+
+                        tvUser.setAlpha(0);
+                        tvUser.setEnabled(false);
+                        tvUser.setX(0);
+                        tvUser.setY(0);
+
+                        tvPassword.setAlpha(0);
+                        tvPassword.setEnabled(false);
+                        tvPassword.setX(0);
+                        tvPassword.setY(0);
+
+                        ivLogin.setAlpha(0f);
+                        ivLogin.setEnabled(false);
+                        ivLogin.setX(0);
+                        ivLogin.setY(0);
                         //PReparamos el layout de Inicio
                         root[0] = homeFragment.getLayoutInflater().inflate(R.layout.fragment_home, viewGroup);
                         //Activamos menú lateral
@@ -886,8 +906,8 @@ public class HomeFragment extends Fragment {
         /*Vemos la clase del Adapter
         * ReservasFechaAdapter -> Estamos en tramos , hay que pasar al día siguiente
         * ReservasAdapter -> Estamos en reservas , hay que pasar al tramo siguiente*/
-        String clase = rvOcupacion.getAdapter().getClass().toString();
-        boolean enTramos = clase.equals("class com.jabaubo.proyecto_reservas.Objetos.ReservasFechaAdapter");
+        String clase = rvOcupacion.getAdapter().getClass().getName().toString();
+        boolean enTramos = clase.equals("com.jabaubo.proyecto_reservas.Objetos.ReservaAdapter");
         if (!enTramos) {
             String horaOriginal = tvReservasDiaHora.getText().toString().substring(tvReservasDiaHora.getText().toString().indexOf("Tramo") + 6);
             String horaTramo = horaOriginal.toString();
@@ -933,6 +953,58 @@ public class HomeFragment extends Fragment {
             //Cargamos los datos actualizados
             ArrayList<Reserva> lista = verReservas(fecha, horaTramo);
             rvOcupacion.setAdapter(new ReservaAdapter(lista, getActivity().getSupportFragmentManager(), rvOcupacion));
+            tvReservasDiaHora.setText(fecha + " Tramo " + horaTramo);
+        }
+        else {
+            Calendar calendar = Calendar.getInstance();
+            String fecha = calendar.get(Calendar.YEAR) + "-";
+            if ((calendar.get(Calendar.MONTH) + 1) < 10) {
+                fecha += 0;
+            }
+            fecha += (calendar.get(Calendar.MONTH) + 1) + "-";
+            if (calendar.get(Calendar.DAY_OF_MONTH) < 10) {
+                fecha += 0;
+            }
+            fecha += calendar.get(Calendar.DAY_OF_MONTH);
+            leerTopes(fecha);
+            String horaOriginal = tvReservasDiaHora.getText().toString().substring(tvReservasDiaHora.getText().toString().indexOf("Tramo") + 6);
+            String horaTramo = horaOriginal.toString();
+            LocalDateTime localTime;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                //Calculamos el siguiente tramo
+                localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
+                localTime = localTime.plusHours(incremento.getHour());
+                localTime = localTime.plusMinutes(incremento.getMinute());
+                if (localTime.isBefore(hora_fin_m) || localTime.isEqual(hora_fin_m)) {
+                    if (localTime.until(hora_fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
+                        localTime = localTime.withHour(hora_inicio_t.getHour());
+                        localTime = localTime.withMinute(hora_inicio_t.getMinute());
+                    }
+                } else if (localTime.isBefore(hora_inicio_t) && localTime.isAfter(hora_fin_m)) {
+                    localTime = localTime.withHour(hora_inicio_t.getHour());
+                    localTime = localTime.withMinute(hora_inicio_t.getMinute());
+                } else if (localTime.isAfter(hora_fin_t) || localTime.isEqual(hora_fin_t)) {
+                    if (localTime.until(hora_fin_t, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
+                        localTime = LocalDateTime.parse(fecha + " " + horaOriginal, dtf);
+                    }
+                }
+                //Calculamos el siguiente del siguiente , para ver si deshabilitamos el boton
+                LocalDateTime nextTramo = localTime.plusHours(incremento.getHour());
+                nextTramo = nextTramo.plusMinutes(incremento.getMinute());
+                if (nextTramo.isAfter(hora_fin_t) || nextTramo.until(hora_fin_t, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
+                    btSiguiente.setEnabled(false);
+                    btSiguiente.setBackgroundColor(Color.GRAY);
+                }
+                if (nextTramo.isAfter(hora_inicio_m)) {
+                    btAnterior.setEnabled(true);
+                    btAnterior.setBackgroundColor(Color.rgb(109, 34, 109));
+                }
+                horaTramo = localTime.toLocalTime().toString();
+            }
+            //Vemos las reservas con la hora y fecha
+            ArrayList<Reserva> lista = verReservas(fecha, horaTramo);
+            rvOcupacion.setAdapter(new ReservaAdapter(lista, getActivity().getSupportFragmentManager(), this, rvOcupacion));
             tvReservasDiaHora.setText(fecha + " Tramo " + horaTramo);
         }
     }
@@ -1040,8 +1112,9 @@ public class HomeFragment extends Fragment {
                         //Escribimos el json
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        String jsonRequest = "{\"dia\": \"#PARAMDIA#\"}";
+                        String jsonRequest = "{\"dia\": \"#PARAMDIA#\" , \"id\": \"#PARAMID#\"}";
                         jsonRequest = jsonRequest.replace("#PARAMDIA#", dia);
+                        jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(mainActivity.getIdRestaurante()));
                         osw.write(jsonRequest);
                         osw.flush();
                         int responseCode = connection.getResponseCode();
@@ -1054,15 +1127,20 @@ public class HomeFragment extends Fragment {
                             while ((line = reader.readLine()) != null) {
                                 response.append(line);
                             }
+                            System.out.println(response);
                             reader.close();
                             //Cargamos los tramos
                             JSONObject jsonObject = new JSONObject(response.toString()).getJSONArray("horario").getJSONObject(0);
                             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                                 hora_inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dtf);
+                                System.out.println(hora_inicio_m);
                                 hora_fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dtf);
+                                System.out.println(hora_fin_m);
                                 hora_inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dtf);
+                                System.out.println(hora_inicio_t);
                                 hora_fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dtf);
+                                System.out.println(hora_fin_t);
                             }
                             connection.disconnect();
                         } else {

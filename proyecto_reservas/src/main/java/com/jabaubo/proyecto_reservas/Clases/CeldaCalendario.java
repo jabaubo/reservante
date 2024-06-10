@@ -25,6 +25,7 @@ public class CeldaCalendario extends JButton{
    
     
     public CeldaCalendario(){
+        //Diseño del componente
         setOpaque(true);
         setContentAreaFilled(true);
         setBorder(null);
@@ -45,6 +46,7 @@ public class CeldaCalendario extends JButton{
         this.date = date;
     }
     public String fechaFormateada() {
+        //Formatear la fecha asignada
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(date.getTime());
         String fecha = c.get(Calendar.YEAR)+"-";
@@ -61,6 +63,7 @@ public class CeldaCalendario extends JButton{
     }
     
     public void currentMonth(boolean act) {
+        //Ver si es un dia del mes seleccionado en el calendario
         if (act) {
             setForeground(Color.black);
         }

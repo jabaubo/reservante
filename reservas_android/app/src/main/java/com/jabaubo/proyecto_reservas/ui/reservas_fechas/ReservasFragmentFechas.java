@@ -420,6 +420,11 @@ public class ReservasFragmentFechas extends Fragment {
             String horaOriginal = tvReservasDiaHora.getText().toString().substring(tvReservasDiaHora.getText().toString().indexOf("Tramo") + 6);
             String horaTramo = horaOriginal.toString();
             LocalDateTime localTime;
+            leerTopes(fecha);
+            System.out.println(hora_inicio_t);
+            System.out.println(hora_fin_m);
+            System.out.println(hora_fin_t);
+            System.out.println(hora_fin_t);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 //Calculamos el siguiente tramo
@@ -780,6 +785,7 @@ public class ReservasFragmentFechas extends Fragment {
                                 response.append(line);
                             }
                             reader.close();
+                            System.out.println(response);
                             JSONObject jsonObject = new JSONObject(response.toString()).getJSONArray("horario").getJSONObject(0);
                             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

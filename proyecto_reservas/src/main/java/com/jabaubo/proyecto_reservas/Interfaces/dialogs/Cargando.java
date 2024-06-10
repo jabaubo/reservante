@@ -19,6 +19,7 @@ public class Cargando extends javax.swing.JDialog {
      */
     public Cargando(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        //Asignamos la interfaz
         InterfazPrincipal interfazPrincipal = (InterfazPrincipal) parent;
         initComponents();
         final Cargando cargandoFinal = this;
@@ -65,6 +66,8 @@ public class Cargando extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Reservante");
+
+        etiqueta.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

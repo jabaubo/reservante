@@ -70,8 +70,8 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jLabel113" pref="76" max="32767" attributes="0"/>
-                              <Component id="jLabel106" pref="76" max="32767" attributes="0"/>
+                              <Component id="jLabel113" pref="78" max="32767" attributes="0"/>
+                              <Component id="jLabel106" pref="78" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -79,44 +79,44 @@
                                   <Component id="jLabel108" max="32767" attributes="0"/>
                                   <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabel111" pref="97" max="32767" attributes="0"/>
+                              <Component id="jLabel111" pref="99" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox13" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox20" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox13" pref="81" max="32767" attributes="0"/>
+                              <Component id="jComboBox20" pref="81" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jLabel114" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel114" pref="38" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox19" pref="79" max="32767" attributes="0"/>
+                                  <Component id="jComboBox19" pref="81" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel112" pref="76" max="32767" attributes="0"/>
+                                  <Component id="jLabel112" pref="78" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Component id="jLabel105" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel105" pref="38" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox14" pref="79" max="32767" attributes="0"/>
+                                  <Component id="jComboBox14" pref="81" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel107" pref="76" max="32767" attributes="0"/>
+                                  <Component id="jLabel107" pref="78" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox15" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox18" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox15" pref="81" max="32767" attributes="0"/>
+                              <Component id="jComboBox18" pref="81" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jLabel110" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel110" pref="32" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox17" pref="79" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Component id="jLabel109" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel109" pref="32" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox16" pref="79" max="32767" attributes="0"/>
                               </Group>
@@ -232,6 +232,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -306,6 +307,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox14ActionPerformed"/>
@@ -347,6 +349,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -421,6 +424,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -541,6 +545,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -579,6 +584,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -653,6 +659,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -691,6 +698,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -789,6 +797,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f0" green="f0" red="f0" type="rgb"/>
                         </Property>
+                        <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Cerrado"/>
                       </Properties>
                       <Events>
@@ -818,55 +827,55 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jLabel123" alignment="1" pref="80" max="32767" attributes="0"/>
+                              <Component id="jLabel123" alignment="1" pref="81" max="32767" attributes="0"/>
                               <Component id="jLabel116" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel118" pref="101" max="32767" attributes="0"/>
+                                  <Component id="jLabel118" pref="102" max="32767" attributes="0"/>
                                   <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jLabel121" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox21" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox28" alignment="0" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox21" alignment="0" pref="80" max="32767" attributes="0"/>
+                              <Component id="jComboBox28" alignment="0" pref="80" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel124" pref="19" max="32767" attributes="0"/>
+                                  <Component id="jLabel124" linkSize="2" min="-2" pref="19" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox27" pref="78" max="32767" attributes="0"/>
+                                  <Component id="jComboBox27" linkSize="3" min="-2" pref="75" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel122" pref="78" max="32767" attributes="0"/>
+                                  <Component id="jLabel122" pref="77" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel115" pref="24" max="32767" attributes="0"/>
+                                  <Component id="jLabel115" linkSize="2" min="-2" pref="24" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox22" pref="82" max="32767" attributes="0"/>
+                                  <Component id="jComboBox22" linkSize="3" min="-2" pref="82" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel117" pref="69" max="32767" attributes="0"/>
+                                  <Component id="jLabel117" pref="77" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox23" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox26" alignment="0" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox23" alignment="0" pref="80" max="32767" attributes="0"/>
+                              <Component id="jComboBox26" alignment="0" pref="80" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel120" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel120" pref="36" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox25" pref="79" max="32767" attributes="0"/>
+                                  <Component id="jComboBox25" pref="83" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel119" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel119" pref="36" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox24" pref="79" max="32767" attributes="0"/>
+                                  <Component id="jComboBox24" pref="83" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
@@ -971,6 +980,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1045,6 +1055,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox22ActionPerformed"/>
@@ -1086,6 +1097,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1160,6 +1172,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1268,6 +1281,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1306,6 +1320,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1380,6 +1395,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1418,6 +1434,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1493,11 +1510,13 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f0" green="f0" red="f0" type="rgb"/>
                         </Property>
+                        <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Cerrado"/>
                       </Properties>
                       <Events>
                         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="cambiarCheckBox"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clickCheckBox"/>
+                        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="cbPropertyCambio"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel100">
@@ -1536,7 +1555,7 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jLabel133" alignment="1" pref="81" max="32767" attributes="0"/>
+                              <Component id="jLabel133" alignment="1" pref="83" max="32767" attributes="0"/>
                               <Component id="jLabel126" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -1545,46 +1564,46 @@
                                   <Component id="jLabel128" max="32767" attributes="0"/>
                                   <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabel131" alignment="0" pref="99" max="32767" attributes="0"/>
+                              <Component id="jLabel131" alignment="0" pref="101" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox29" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox36" alignment="0" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox29" alignment="0" pref="81" max="32767" attributes="0"/>
+                              <Component id="jComboBox36" alignment="0" pref="81" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel134" pref="19" max="32767" attributes="0"/>
+                                  <Component id="jLabel134" pref="27" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox35" pref="78" max="32767" attributes="0"/>
+                                  <Component id="jComboBox35" pref="80" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel132" pref="81" max="32767" attributes="0"/>
+                                  <Component id="jLabel132" pref="83" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel125" pref="19" max="32767" attributes="0"/>
+                                  <Component id="jLabel125" pref="27" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox30" pref="78" max="32767" attributes="0"/>
+                                  <Component id="jComboBox30" pref="80" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel127" pref="81" max="32767" attributes="0"/>
+                                  <Component id="jLabel127" pref="83" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox31" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox34" alignment="0" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox31" alignment="0" pref="81" max="32767" attributes="0"/>
+                              <Component id="jComboBox34" alignment="0" pref="81" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel130" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel130" linkSize="1" min="-2" pref="30" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox33" pref="79" max="32767" attributes="0"/>
+                                  <Component id="jComboBox33" pref="81" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel129" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel129" linkSize="1" min="-2" pref="30" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox32" pref="79" max="32767" attributes="0"/>
+                                  <Component id="jComboBox32" pref="81" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -1689,6 +1708,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1763,6 +1783,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox30ActionPerformed"/>
@@ -1804,6 +1825,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1878,6 +1900,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1986,6 +2009,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2024,6 +2048,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2098,6 +2123,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2136,6 +2162,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2225,6 +2252,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f0" green="f0" red="f0" type="rgb"/>
                         </Property>
+                        <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Cerrado"/>
                       </Properties>
                       <Events>
@@ -2254,55 +2282,55 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jLabel143" alignment="1" pref="80" max="32767" attributes="0"/>
+                              <Component id="jLabel143" alignment="1" pref="81" max="32767" attributes="0"/>
                               <Component id="jLabel136" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel138" pref="101" max="32767" attributes="0"/>
+                                  <Component id="jLabel138" pref="102" max="32767" attributes="0"/>
                                   <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jLabel141" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox37" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox44" alignment="0" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox37" alignment="0" pref="80" max="32767" attributes="0"/>
+                              <Component id="jComboBox44" alignment="0" pref="80" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel144" pref="19" max="32767" attributes="0"/>
+                                  <Component id="jLabel144" linkSize="4" min="-2" pref="19" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox43" pref="78" max="32767" attributes="0"/>
+                                  <Component id="jComboBox43" linkSize="5" min="-2" pref="78" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel142" pref="75" max="32767" attributes="0"/>
+                                  <Component id="jLabel142" pref="76" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel135" pref="24" max="32767" attributes="0"/>
+                                  <Component id="jLabel135" linkSize="4" min="-2" pref="24" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox38" pref="82" max="32767" attributes="0"/>
+                                  <Component id="jComboBox38" linkSize="5" min="-2" pref="84" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel137" pref="66" max="32767" attributes="0"/>
+                                  <Component id="jLabel137" pref="76" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox39" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox42" alignment="0" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox39" alignment="0" pref="80" max="32767" attributes="0"/>
+                              <Component id="jComboBox42" alignment="0" pref="80" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel140" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel140" pref="33" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox41" pref="79" max="32767" attributes="0"/>
+                                  <Component id="jComboBox41" pref="82" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel139" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel139" pref="33" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox40" pref="79" max="32767" attributes="0"/>
+                                  <Component id="jComboBox40" pref="82" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
@@ -2410,6 +2438,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2484,6 +2513,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox38ActionPerformed"/>
@@ -2525,6 +2555,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2599,6 +2630,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2707,6 +2739,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2745,6 +2778,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2819,6 +2853,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2857,6 +2892,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -2946,6 +2982,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f0" green="f0" red="f0" type="rgb"/>
                         </Property>
+                        <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Cerrado"/>
                       </Properties>
                       <Events>
@@ -2975,7 +3012,7 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jLabel153" alignment="1" pref="81" max="32767" attributes="0"/>
+                              <Component id="jLabel153" alignment="1" pref="83" max="32767" attributes="0"/>
                               <Component id="jLabel146" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -2984,44 +3021,44 @@
                                   <Component id="jLabel148" max="32767" attributes="0"/>
                                   <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabel151" alignment="0" pref="98" max="32767" attributes="0"/>
+                              <Component id="jLabel151" alignment="0" pref="100" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox45" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox52" alignment="0" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox45" alignment="0" pref="81" max="32767" attributes="0"/>
+                              <Component id="jComboBox52" alignment="0" pref="81" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel154" pref="19" max="32767" attributes="0"/>
+                                  <Component id="jLabel154" pref="27" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox51" pref="78" max="32767" attributes="0"/>
+                                  <Component id="jComboBox51" pref="80" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel152" pref="82" max="32767" attributes="0"/>
+                                  <Component id="jLabel152" pref="84" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel145" pref="19" max="32767" attributes="0"/>
+                                  <Component id="jLabel145" pref="27" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox46" pref="78" max="32767" attributes="0"/>
+                                  <Component id="jComboBox46" pref="80" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel147" pref="82" max="32767" attributes="0"/>
+                                  <Component id="jLabel147" pref="84" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox47" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox50" alignment="0" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox47" alignment="0" pref="81" max="32767" attributes="0"/>
+                              <Component id="jComboBox50" alignment="0" pref="81" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel150" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel150" pref="32" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox49" pref="79" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel149" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel149" pref="32" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox48" pref="79" max="32767" attributes="0"/>
                               </Group>
@@ -3128,6 +3165,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -3202,6 +3240,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox46ActionPerformed"/>
@@ -3243,6 +3282,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -3317,6 +3357,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -3425,6 +3466,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -3463,6 +3505,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -3537,6 +3580,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -3575,6 +3619,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -3650,6 +3695,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f0" green="f0" red="f0" type="rgb"/>
                         </Property>
+                        <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Cerrado"/>
                       </Properties>
                       <Events>
@@ -3693,53 +3739,53 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jLabel163" alignment="1" pref="79" max="32767" attributes="0"/>
+                              <Component id="jLabel163" alignment="1" pref="80" max="32767" attributes="0"/>
                               <Component id="jLabel156" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel158" pref="100" max="32767" attributes="0"/>
+                                  <Component id="jLabel158" pref="101" max="32767" attributes="0"/>
                                   <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jLabel161" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox53" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox60" alignment="0" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox53" alignment="0" pref="80" max="32767" attributes="0"/>
+                              <Component id="jComboBox60" alignment="0" pref="80" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel164" pref="19" max="32767" attributes="0"/>
+                                  <Component id="jLabel164" linkSize="7" min="-2" pref="23" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox59" pref="78" max="32767" attributes="0"/>
+                                  <Component id="jComboBox59" linkSize="6" min="-2" pref="79" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel162" pref="79" max="32767" attributes="0"/>
+                                  <Component id="jLabel162" pref="80" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel155" pref="24" max="32767" attributes="0"/>
+                                  <Component id="jLabel155" linkSize="7" min="-2" pref="30" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox54" pref="82" max="32767" attributes="0"/>
+                                  <Component id="jComboBox54" linkSize="6" min="-2" pref="83" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel157" pref="70" max="32767" attributes="0"/>
+                                  <Component id="jLabel157" pref="80" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox55" alignment="0" pref="79" max="32767" attributes="0"/>
-                              <Component id="jComboBox58" alignment="0" pref="79" max="32767" attributes="0"/>
+                              <Component id="jComboBox55" alignment="0" pref="80" max="32767" attributes="0"/>
+                              <Component id="jComboBox58" alignment="0" pref="80" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel160" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel160" pref="31" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox57" pref="79" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel159" pref="30" max="32767" attributes="0"/>
+                                  <Component id="jLabel159" pref="31" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox56" pref="79" max="32767" attributes="0"/>
                               </Group>
@@ -3846,6 +3892,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -3920,6 +3967,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox54ActionPerformed"/>
@@ -3961,6 +4009,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4035,6 +4084,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4143,6 +4193,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4181,6 +4232,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4255,6 +4307,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4293,6 +4346,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4368,6 +4422,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f0" green="f0" red="f0" type="rgb"/>
                         </Property>
+                        <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Cerrado"/>
                         <Property name="name" type="java.lang.String" value="" noResource="true"/>
                         <Property name="opaque" type="boolean" value="true"/>
@@ -4413,7 +4468,7 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jLabel185" alignment="1" pref="85" max="32767" attributes="0"/>
+                              <Component id="jLabel185" alignment="1" pref="91" max="32767" attributes="0"/>
                               <Component id="jLabel178" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -4422,7 +4477,7 @@
                                   <Component id="jLabel180" max="32767" attributes="0"/>
                                   <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabel183" alignment="0" pref="102" max="32767" attributes="0"/>
+                              <Component id="jLabel183" alignment="0" pref="108" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -4435,18 +4490,18 @@
                                   <Component id="jLabel186" min="-2" pref="19" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox67" min="-2" pref="78" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel184" pref="74" max="32767" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jLabel166" pref="84" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel177" min="-2" pref="19" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox62" min="-2" pref="78" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel179" max="32767" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jLabel167" pref="84" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jComboBox63" alignment="0" min="-2" pref="79" max="-2" attributes="0"/>
                               <Component id="jComboBox66" alignment="0" min="-2" pref="79" max="-2" attributes="0"/>
@@ -4479,10 +4534,10 @@
                                   <Component id="jLabel178" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel180" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel177" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel179" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox61" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox62" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jComboBox63" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel167" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                                   <Component id="jComboBox64" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -4494,12 +4549,12 @@
                               <Component id="jLabel185" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel183" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel186" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel184" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel182" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jComboBox68" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jComboBox67" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jComboBox66" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jComboBox65" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel166" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -4521,15 +4576,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="24" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Fin"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel179">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial" size="24" style="0"/>
-                    </Property>
-                    <Property name="horizontalAlignment" type="int" value="4"/>
                     <Property name="text" type="java.lang.String" value="Fin"/>
                   </Properties>
                 </Component>
@@ -4566,6 +4612,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4640,6 +4687,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox62ActionPerformed"/>
@@ -4681,6 +4729,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4755,6 +4804,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4863,6 +4913,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4901,6 +4952,7 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -4975,6 +5027,7 @@
                         <StringItem index="59" value="59"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -5013,19 +5066,11 @@
                         <StringItem index="23" value="23"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel184">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial" size="24" style="0"/>
-                    </Property>
-                    <Property name="horizontalAlignment" type="int" value="4"/>
-                    <Property name="text" type="java.lang.String" value="Fin"/>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel185">
                   <Properties>
@@ -5091,6 +5136,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f0" green="f0" red="f0" type="rgb"/>
                         </Property>
+                        <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Cerrado"/>
                       </Properties>
                       <Events>
@@ -5114,6 +5160,24 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JLabel" name="jLabel166">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="24" style="0"/>
+                    </Property>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" value="Fin"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel167">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="24" style="0"/>
+                    </Property>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" value="Fin"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel2">
@@ -5132,7 +5196,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jButton2" pref="709" max="32767" attributes="0"/>
+                          <Component id="jButton2" pref="731" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>

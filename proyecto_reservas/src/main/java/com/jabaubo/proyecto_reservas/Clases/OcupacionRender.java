@@ -23,6 +23,7 @@ public class OcupacionRender extends JButton implements ListCellRenderer<Ocupaci
 
     @Override
     public Component getListCellRendererComponent(JList<? extends Ocupacion> list, Ocupacion value, int index, boolean isSelected, boolean cellHasFocus) {
+        //Formato texto del boton
        String base = "<html>\n" +
 "    <head>\n" +
 "        <style>\n" +

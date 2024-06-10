@@ -76,7 +76,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.MyViewHo
                     // Si ha sido click, pasamos el EditText, el objeto a cambiar y qué campo del objeto debe cambiar
                     clickHoras((EditText) v, data, "inicioM");
                     // Avisamos al adaptador de que ha cambiado el DataSet
-                    horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
+                    //horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
                 }
                 return false;
             }
@@ -90,7 +90,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.MyViewHo
                     // Si ha sido click, pasamos el EditText, el objeto a cambiar y qué campo del objeto debe cambiar
                     clickHoras((EditText) v, data, "finM");
                     // Avisamos al adaptador de que ha cambiado el DataSet
-                    horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
+                    //horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
                 }
                 return false;
             }
@@ -104,7 +104,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.MyViewHo
                     // Si ha sido click, pasamos el EditText, el objeto a cambiar y qué campo del objeto debe cambiar
                     clickHoras((EditText) v, data, "inicioT");
                     // Avisamos al adaptador de que ha cambiado el DataSet
-                    horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
+                    //horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
                 }
                 return false;
             }
@@ -118,7 +118,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.MyViewHo
                     // Si ha sido click, pasamos el EditText, el objeto a cambiar y qué campo del objeto debe cambiar
                     clickHoras((EditText) v, data, "finT");
                     // Avisamos al adaptador de que ha cambiado el DataSet
-                    horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
+                    //horarioFragment.getRvHorario().getAdapter().notifyDataSetChanged();
                 }
                 return false;
             }

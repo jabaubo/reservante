@@ -66,7 +66,10 @@ public class PanelCalendario extends javax.swing.JPanel {
         this.interfazPrincipal = interfazPrincipal;
         this.restaurante = restaurante;
         initComponents();
-        init();
+        cargarDatos();
+    }
+
+    public void cargarDatos() {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.MONTH, month - 1);
         c.set(Calendar.YEAR, year);
@@ -113,9 +116,6 @@ public class PanelCalendario extends javax.swing.JPanel {
                 jlFechaCalendario.setText("Error al obtener el mes");
                 break;
         }
-    }
-
-    public void init() {
         celdaLunes.setTitle(true);
         celdaMartes.setTitle(true);
         celdaMiercoles.setTitle(true);
@@ -1028,13 +1028,16 @@ public class PanelCalendario extends javax.swing.JPanel {
             Thread thread = new Thread(runnable);
             thread.start();
             thread.join();
-            if (json[0].toString().contains("restaurante cerrado")) {
+            if (json[0] == null) {
+                JOptionPane.showMessageDialog(panelCalendario, "No se han encontrado tramos , revise el horario , la duración de las reservas y los salones", "Error", JOptionPane.PLAIN_MESSAGE);
+            }
+            else if (json[0].toString().contains("restaurante cerrado")) {
                 jListOcupacionReservas.setModel(modelo);
                 JOptionPane.showMessageDialog(panelCalendario, "Ese día no está abierto el restaurante", "Aviso", JOptionPane.PLAIN_MESSAGE);
             } else if (json[0].toString().contains("restaurante de vacaciones")) {
                 jListOcupacionReservas.setModel(modelo);
                 JOptionPane.showMessageDialog(panelCalendario, "Ese día está dentro de un periódo vacaciconal", "Aviso", JOptionPane.PLAIN_MESSAGE);
-            } else {
+            } else if (json[0].getInt("codigo") == 1) {
                 System.out.println("RESPUESTA CARGA: " + json[0]);
                 JSONArray jsonArray = json[0].getJSONArray("reservas");
                 int n_salones = jsonArray.getJSONObject(0).getInt("n_salones");
@@ -1072,6 +1075,9 @@ public class PanelCalendario extends javax.swing.JPanel {
                     jListOcupacionReservas.setModel(modelo);
                 }
 
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Revise la duración de reservas, el horario y los salones","Error",JOptionPane.ERROR_MESSAGE);
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(PanelCalendario.class.getName()).log(Level.SEVERE, null, ex);
@@ -1156,7 +1162,7 @@ public class PanelCalendario extends javax.swing.JPanel {
             fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
             Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
             Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-            tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
+            tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 2];
             System.out.println("En teoría se ejecuta " + tramos.length);
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -1172,7 +1178,6 @@ public class PanelCalendario extends javax.swing.JPanel {
             if (fin_m.isBefore(tramo)) {
                 break;
             }
-
         }
         tramo = inicio_t;
         while (fin_t.isAfter(tramo)) {
