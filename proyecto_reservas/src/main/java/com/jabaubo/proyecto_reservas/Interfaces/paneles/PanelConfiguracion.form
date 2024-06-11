@@ -60,7 +60,11 @@
                                       <Group type="102" attributes="0">
                                           <Component id="jLabel2" linkSize="1" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
+<<<<<<< HEAD
                                           <Component id="tfNombre" max="32767" attributes="0"/>
+=======
+                                          <Component id="tfNombre" pref="377" max="32767" attributes="0"/>
+>>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <Component id="jLabel3" linkSize="1" min="-2" max="-2" attributes="0"/>
@@ -84,6 +88,7 @@
                                       <Component id="tfEmail" max="32767" attributes="0"/>
                                       <Component id="tfDireccion" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
+<<<<<<< HEAD
                                           <Component id="jcbHora" pref="0" max="32767" attributes="0"/>
                                           <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel105" min="-2" pref="19" max="-2" attributes="0"/>
@@ -93,6 +98,17 @@
                                           <Component id="jLabel106" min="-2" pref="19" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                                           <Component id="jcbSegundos" pref="0" max="32767" attributes="0"/>
+=======
+                                          <Component id="jcbHora" pref="176" max="32767" attributes="0"/>
+                                          <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel105" min="-2" pref="19" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jcbMinutos" pref="176" max="32767" attributes="0"/>
+                                          <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel106" min="-2" pref="19" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jcbSegundos" pref="178" max="32767" attributes="0"/>
+>>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd
                                       </Group>
                                   </Group>
                               </Group>

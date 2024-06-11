@@ -2262,8 +2262,13 @@ public class VacacionesDialog extends javax.swing.JDialog {
                                     + "}";
                             jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(idRestaurante));
                             jsonStr = jsonStr.replace("#PARAMNOMBRE#", nombre);
+<<<<<<< HEAD
                             jsonStr = jsonStr.replace("#PARAMINICIO#", fecha2);
                             jsonStr = jsonStr.replace("#PARAMFIN#", fecha1);
+=======
+                            jsonStr = jsonStr.replace("#PARAMINICIO#", fecha1);
+                            jsonStr = jsonStr.replace("#PARAMFIN#", fecha2);
+>>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd
                             osw.write(jsonStr);
                             System.out.println(jsonStr);
                             osw.flush();

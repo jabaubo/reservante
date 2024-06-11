@@ -1696,7 +1696,10 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox68.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox68.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+<<<<<<< HEAD
         jComboBox68.setEnabled(false);
+=======
+>>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd
 
         jLabel185.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel185.setText("Fin");
@@ -1875,7 +1878,7 @@ public class PanelHorario extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1427, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -2105,6 +2108,11 @@ public class PanelHorario extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_cbPropertyCambio
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd
 
     public JSONArray cargarHorarioAPI() {
         String[] responseStr = new String[1];

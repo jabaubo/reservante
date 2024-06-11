@@ -76,6 +76,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
             listaVacaciones.add(v);
             modelo.addElement(v);
         }
+<<<<<<< HEAD
         jListVacaciones.setModel(modelo);
         jListVacaciones.setCellRenderer(new VacacionesRender());
         jbInsertarSalones.setForeground(new Color(221, 221, 221));
@@ -86,6 +87,16 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         jbInsertarVacaciones.setBackground(new Color(109, 34, 109));
         jbGuardarDatos.setBackground(new Color(109, 34, 109));
 
+=======
+    
+        jbInsertarSalones.setForeground(new Color(221,221,221));
+        jbInsertarVacaciones.setForeground(new Color(221,221,221));
+        jbGuardarDatos.setForeground(new Color(221,221,221));
+        
+        jbInsertarSalones.setBackground(new Color(109, 34, 109));
+        jbInsertarVacaciones.setBackground(new Color(109, 34, 109));
+        jbGuardarDatos.setBackground(new Color(109, 34, 109));
+>>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd
     }
 
     /**
