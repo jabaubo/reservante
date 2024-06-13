@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\HorarioRender.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelInicio.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\CeldaCalendario.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\SalonRender.java
@@ -23,29 +21,3 @@ C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\co
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\VacacionesRender.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelHorario.java
 C:\Users\pokem\Documents\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\Ocupacion.java
-=======
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\ReservaFechas.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\CeldaCalendario.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\Login.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\ReservasDialog.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\Horario.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\Reserva.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\Salon.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelHorario.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\AdvertenciaDialog.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelReservas.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\VacacionesDialog.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\InterfazPrincipal.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\SalonDialog.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\Vacaciones.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelConfiguracion.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\VacacionesRender.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\SalonRender.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\HorarioRender.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelCalendario.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\Ocupacion.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\DatosReservaDialog.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\paneles\PanelInicio.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Clases\OcupacionRender.java
-E:\Proyectos\reservante\proyecto_reservas\src\main\java\com\jabaubo\proyecto_reservas\Interfaces\dialogs\Cargando.java
->>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd

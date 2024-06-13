@@ -689,151 +689,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public String leerTramos(String fecha) {
-        LocalDate fechaDate = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            fechaDate = LocalDate.parse(fecha);
-        }
-        final JSONArray[] horario = {new JSONArray()};
-        //Preparamos la petición
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // Conectamos a la pagina con el método que queramos
-                try {
-                    URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    connection.setDoOutput(true);
-                    connection.setRequestProperty("Content-Type", "application/json");
-                    connection.setRequestProperty("Accept", "application/json");
-                    //Escribimos el json
-                    OutputStream os = connection.getOutputStream();
-                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                    String jsonFecha = "{\n"
-                            + "    \"id\":\"#PARAMID#\"\n"
-                            + "}";
-                    jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
-                    osw.write(jsonFecha);
-                    osw.flush();
-                    int responseCode = connection.getResponseCode();
-//Ver si la respuesta es correcta
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        // Si es correcta la leemos
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
-                        StringBuilder response = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
-                        }
-                        reader.close();
-                        horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
-                        connection.disconnect();
-                    } else {
-                        connection.disconnect();
-                    }
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                } catch (ProtocolException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (JSONException e) {
-                }
-
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        //Vemos que dia hay que leer
-        int dia = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            dia = fechaDate.getDayOfWeek().getValue();
-        }
-        JSONObject jsonObject;
-        try {
-            jsonObject = (horario[0].getJSONObject(dia - 1));
-        } catch (JSONException e) {
-            return null;
-        }
-        //Leemos la duración de reservas y vemos que sea un valor válido
-        incremento = leerIncremento();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (incremento.getMinute() == 0 && incremento.getHour() == 0) {
-                return null;
-            }
-        }
-        LocalDateTime inicio_m;
-        LocalDateTime fin_m;
-        LocalDateTime inicio_t;
-        LocalDateTime fin_t;
-        LocalDateTime[] tramos;
-        DateTimeFormatter dateTimeFormatter = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            try {
-                //Cargamos los valores
-                inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
-                fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
-                inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
-                fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
-                //Calculamos la cantidad de tramos matutinos
-                Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                //Calculamos la cantidad de tramos de la tarde
-                Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-            int contador = 0;
-            //Cálculo de tramos matutinos
-            LocalDateTime tramo = inicio_m;
-            while (fin_m.isAfter(tramo)) {
-                tramos[contador] = tramo;
-                contador++;
-                tramo = tramo.plusHours(incremento.getHour());
-                tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_m.isBefore(tramo) || tramo.until(fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
-                    break;
-                }
-
-            }
-            //Cálculo de tramos de la tarde
-            tramo = inicio_t;
-            while (fin_t.isAfter(tramo)) {
-                tramos[contador] = tramo;
-                contador++;
-                tramo = tramo.plusHours(incremento.getHour());
-                tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_t.isBefore(tramo)) {
-                    break;
-                }
-            }
-            //Preparamos la consulta
-            String texto = "SELECT '#PARAM1#' AS value ";
-            for (LocalDateTime t : tramos) {
-                if (t != null) {
-                    if (texto.contains("#PARAM1#")) {
-                        texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
-                    } else {
-                        texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
-                    }
-                }
-            }
-            //Vemos si se ha preparado correctamente
-            if (texto.contains("#PARAM1#")) {
-                return null;
-            }
-            return texto;
-        }
-        return null;
-    }
-
 
     public LocalTime leerIncremento() {
         final LocalTime[] incremento = new LocalTime[1];
@@ -1237,7 +1092,158 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("Mido " + lista.size());
+        for (int i = 0; i < lista.size() ; i++){
+            System.out.println(lista.get(i) );
+        }
         return lista;
+    }
+
+    public String leerTramos(String fecha) {
+        LocalDate fechaDate = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            fechaDate = LocalDate.parse(fecha);
+        }
+        final JSONArray[] horario = {new JSONArray()};
+        //Preparamos la petición
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
+                    connection.setRequestProperty("Content-Type", "application/json");
+                    connection.setRequestProperty("Accept", "application/json");
+                    //Escribimos el json
+                    OutputStream os = connection.getOutputStream();
+                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                    String jsonFecha = "{\n"
+                            + "    \"id\":\"#PARAMID#\"\n"
+                            + "}";
+                    jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(((MainActivity) getActivity()).getIdRestaurante()));
+                    osw.write(jsonFecha);
+                    osw.flush();
+                    int responseCode = connection.getResponseCode();
+//Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
+                        connection.disconnect();
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (JSONException e) {
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        //Vemos que dia hay que leer
+        int dia = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dia = fechaDate.getDayOfWeek().getValue();
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = (horario[0].getJSONObject(dia - 1));
+        } catch (JSONException e) {
+            return null;
+        }
+        //Leemos la duración de reservas y vemos que sea un valor válido
+        incremento = leerIncremento();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (incremento.getMinute() == 0 && incremento.getHour() == 0) {
+                return null;
+            }
+        }
+        LocalDateTime inicio_m;
+        LocalDateTime fin_m;
+        LocalDateTime inicio_t;
+        LocalDateTime fin_t;
+        LocalDateTime[] tramos;
+        DateTimeFormatter dateTimeFormatter = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            try {
+                //Cargamos los valores
+                inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
+                fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
+                inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
+                fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
+                //Calculamos la cantidad de tramos matutinos
+                System.out.println((inicio_m.getHour()*60+inicio_m.getMinute())+"/"+ (incremento.getHour() * 60 + incremento.getMinute()));
+                Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+                System.out.println(tramos_m);
+                //Calculamos la cantidad de tramos de la tarde
+                Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+                tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 2];
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            int contador = 0;
+            //Cálculo de tramos matutinos
+            LocalDateTime tramo = inicio_m;
+            boolean fin = false;
+            while (!fin) {
+                tramos[contador] = tramo;
+                contador++;
+                tramo = tramo.plusHours(incremento.getHour());
+                tramo = tramo.plusMinutes(incremento.getMinute());
+                if (fin_m.isBefore(tramo) || tramo.until(fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
+                    break;
+                }
+            }
+            //Cálculo de tramos de la tarde
+            tramo = inicio_t;
+            while (fin_t.isAfter(tramo)) {
+                tramos[contador] = tramo;
+                contador++;
+                tramo = tramo.plusHours(incremento.getHour());
+                tramo = tramo.plusMinutes(incremento.getMinute());
+                if (fin_t.isBefore(tramo)) {
+                    break;
+                }
+            }
+            //Preparamos la consulta
+            String texto = "SELECT '#PARAM1#' AS value ";
+            for (LocalDateTime t : tramos) {
+                if (t != null) {
+                    if (texto.contains("#PARAM1#")) {
+                        texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
+                    } else {
+                        texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                    }
+                }
+            }
+            //Vemos si se ha preparado correctamente
+            if (texto.contains("#PARAM1#")) {
+                return null;
+            }
+            return texto;
+        }
+        return null;
     }
 
     public void comprobarBotones() {

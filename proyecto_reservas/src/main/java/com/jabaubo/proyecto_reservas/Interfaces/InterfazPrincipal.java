@@ -12,29 +12,14 @@ import com.jabaubo.proyecto_reservas.Interfaces.paneles.PanelReservas;
 import com.jabaubo.proyecto_reservas.Interfaces.paneles.PanelConfiguracion;
 import com.jabaubo.proyecto_reservas.Interfaces.paneles.PanelHorario;
 import com.jabaubo.proyecto_reservas.Interfaces.paneles.PanelCalendario;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Event;
-import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
-import javax.swing.plaf.IconUIResource;
 
 /**
  *
@@ -59,6 +44,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     public InterfazPrincipal() {
         Login login = new Login(this, true);
         login.setVisible(true);
+        //Mostramos el login , si inicia sesión ya mostramos la pantalla
         if (login.isLogin()) {
             initComponents();
             restaurante = login.getRestaurante();
@@ -71,13 +57,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }
 
     public void cargar(Cargando cargando) {
-
+        //Vamos modificando la barra de carga para hacer referencia a los distintos estados de carga de la app
         cargando.updateEtiqueta("Cargando configuración");
         cargando.updateBarra(15);
         panelConfiguracion = new PanelConfiguracion(this, restaurante);
         cargando.updateEtiqueta("Cargando calendario");
         cargando.updateBarra(30);
-        panelCalendario = new PanelCalendario(LocalDate.now().getMonthValue(), LocalDate.now().getYear(), this, restaurante);
+        panelCalendario = new PanelCalendario(this, restaurante);
         cargando.updateEtiqueta("Cargando Inicio");
         cargando.updateBarra(45);
         panelInicio = new PanelInicio(this);
@@ -89,7 +75,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         panelHorario = new PanelHorario(this.restaurante);
         cargando.updateEtiqueta("Terminando preparación");
         cargando.updateBarra(90);
-
+        //Almacenamos los botones , paneles y avisos en arrays , manteniendo el orden
         botones = new ArrayList<>();
         paneles = new ArrayList<>();
         avisos = new ArrayList<>();
@@ -106,7 +92,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         paneles.add(panelReservas);
         paneles.add(panelHorario);
 
-        avisos.add(new AdvertenciaDialog(this, true, "Ocupación de los próximos"));
+        avisos.add(new AdvertenciaDialog(this, true, "Ocupación de los próximos días"));
         avisos.add(new AdvertenciaDialog(this, true, "Seleccione fecha y hora"));
         avisos.add(new AdvertenciaDialog(this, true, "Defina los datos de su restaurante"));
         avisos.add(new AdvertenciaDialog(this, true, "Listado completo de las reservas"));
@@ -314,6 +300,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         selectedButton = jb;
         for (int i = 0; i < botones.size(); i++) {
             JButton boton = botones.get(i);
+            //Si el botón es el seleccionado le aplicamos el estilo de seleccionado y mostramos su vista
             if (boton == jb) {
                 boton.setForeground(new Color(109, 34, 109));
                 boton.setBackground(new Color(221, 221, 221));
@@ -323,11 +310,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 for (Component c : jpVista.getComponents()) {
                     c.setVisible(false);
                 }
-        paneles.add(panelInicio);
-        paneles.add(panelCalendario);
-        paneles.add(panelConfiguracion);
-        paneles.add(panelReservas);
-        paneles.add(panelHorario);
+                //Depende de cual sea el panel cargamso los datos necesarios
                 switch (i) {
                     case 0:
                         ((PanelInicio)panel).cargarDatos();
@@ -354,6 +337,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     av.setVisible(true);
                 }
             } else {
+                //A los no seleccionados les damos estilo normal
                 boton.setBackground(new Color(109, 34, 109));
                 boton.setForeground(new Color(221, 221, 221));
                 boton.setIcon(new ImageIcon(String.format("C:\\Users\\pokem\\Documents\\Proyectos\\reservante\\proyecto_reservas\\img\\%s.png", boton.getActionCommand())));

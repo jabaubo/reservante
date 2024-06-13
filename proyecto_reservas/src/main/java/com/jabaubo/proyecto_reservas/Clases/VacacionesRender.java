@@ -15,10 +15,6 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.text.Style;
 
-/**
- *
- * @author pokem
- */
 public class VacacionesRender extends JButton implements ListCellRenderer<Vacaciones> {
 
     @Override
@@ -30,8 +26,8 @@ public class VacacionesRender extends JButton implements ListCellRenderer<Vacaci
                 + "    </body>\n"
                 + "</html>";
         base = base.replace("#PARAMNOMBRE#", value.getNombre());
-        base = base.replace("#PARAMINICIO#", value.getFin().toString());
-        base = base.replace("#PARAMFIN#", value.getInicio().toString());
+        base = base.replace("#PARAMFIN#", value.getFin().toString());
+        base = base.replace("#PARAMINICIO#", value.getInicio().toString());
         this.setText(base);
         this.setFont(new Font("Segoe", Font.BOLD, 24));
 

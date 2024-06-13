@@ -31,15 +31,17 @@ public class SalonDialog extends javax.swing.JDialog {
     /**
      * Creates new form NewJDialog
      */
+    //Para insertar
     public SalonDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         this.interfazPrincipal = (InterfazPrincipal) parent;
         initComponents();
         jbBorrar.setEnabled(false);
         this.setLocationRelativeTo(null);
-        jlTitulo.setForeground(new ColorUIResource(221,221,221));
+        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
     }
 
+    //Para actualizar
     public SalonDialog(java.awt.Frame parent, boolean modal, Salon s) {
         super(parent, modal);
         this.interfazPrincipal = (InterfazPrincipal) parent;
@@ -48,7 +50,7 @@ public class SalonDialog extends javax.swing.JDialog {
         jtfNombre.setText(s.getNombre());
         jtfAforo.setText(String.valueOf(s.getAforo()));
         this.setLocationRelativeTo(null);
-        jlTitulo.setForeground(new ColorUIResource(221,221,221));
+        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
     }
 
     /**
@@ -138,30 +140,108 @@ public class SalonDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        // TODO add your handling code here:
-        if (salon != null) {
-            Salon actualizado = new Salon(salon.getId(), jtfNombre.getText(), Integer.valueOf(jtfAforo.getText()), salon.getIdRestaurante());
-            if (actualizado.toJson().equals(salon.toJson())) {
-                JOptionPane.showMessageDialog(this, "No hay diferencias", "", JOptionPane.PLAIN_MESSAGE);
+        // TODO add your handling code here
+        //Comprobamos modo
+        if (jtfAforo.getText().toString().matches("[0-9]*")) {
+            if (salon != null) {
+                Salon actualizado = new Salon(salon.getId(), jtfNombre.getText(), Integer.valueOf(jtfAforo.getText()), salon.getIdRestaurante());
+                //Comprobamos si hay diferencias
+                if (actualizado.toJson().equals(salon.toJson())) {
+                    JOptionPane.showMessageDialog(this, "No hay diferencias", "", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    Salon s = salon;
+                    s.setAforo(Integer.valueOf(jtfAforo.getText()));
+                    s.setNombre(jtfNombre.getText());
+                    final String[] responseStr = new String[1];
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            // Conectamos a la pagina con el método que queramos
+                            try {
+                                URL url = new URL("https://reservante.mjhudesings.com/slim/updatesalon");
+                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                connection.setRequestMethod("PUT");
+                                connection.setDoOutput(true);
+                                connection.setRequestProperty("Content-Type", "application/json");
+                                connection.setRequestProperty("Accept", "application/json");
+                                OutputStream os = connection.getOutputStream();
+                                OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                osw.write(s.toJson());
+                                osw.flush();
+                                int responseCode = connection.getResponseCode();
+                                //Ver si la respuesta es correcta
+                                if (responseCode == HttpURLConnection.HTTP_OK) {
+                                    // Si es correcta la leemos
+                                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                    String line;
+                                    StringBuilder response = new StringBuilder();
+                                    while ((line = reader.readLine()) != null) {
+                                        response.append(line);
+                                    }
+                                    reader.close();
+                                    responseStr[0] = response.toString();
+                                    System.out.println(s.toJson());
+                                    System.out.println(response.toString());
+                                    connection.disconnect();
+                                } else {
+                                    connection.disconnect();
+                                }
+                            } catch (MalformedURLException e) {
+                                throw new RuntimeException(e);
+                            } catch (ProtocolException e) {
+                                throw new RuntimeException(e);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                        }
+                    };
+                    Thread thread = new Thread(runnable);
+                    thread.start();
+                    try {
+                        thread.join();
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    try {
+                        //Comprobamos si se ha insertado correctamente el salón
+                        System.out.println(responseStr[0]);
+                        if (responseStr[0].contains("correctamente")) {
+                            JOptionPane.showMessageDialog(interfazPrincipal, "Salón actualizado", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(interfazPrincipal, "Error al insertar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+                        }
+                        this.setVisible(false);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             } else {
-                Salon s = salon;
-                s.setAforo(Integer.valueOf(jtfAforo.getText()));
-                s.setNombre(jtfNombre.getText());
                 final String[] responseStr = new String[1];
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
                         // Conectamos a la pagina con el método que queramos
                         try {
-                            URL url = new URL("https://reservante.mjhudesings.com/slim/updatesalon");
+                            URL url = new URL("https://reservante.mjhudesings.com/slim/addsalon");
                             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                            connection.setRequestMethod("PUT");
+                            connection.setRequestMethod("POST");
                             connection.setDoOutput(true);
                             connection.setRequestProperty("Content-Type", "application/json");
                             connection.setRequestProperty("Accept", "application/json");
                             OutputStream os = connection.getOutputStream();
+                            //Json para insertar
                             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                            osw.write(s.toJson());
+                            String jsonStr = "{\n"
+                                    + "    \"id_restaurante\":\"#PARAMID#\",\n"
+                                    + "    \"nombre\":\"#PARAMNOMBRE#\",\n"
+                                    + "    \"aforo\":\"#PARAMAFORO#\"\n"
+                                    + "}";
+                            jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
+                            jsonStr = jsonStr.replace("#PARAMNOMBRE#", jtfNombre.getText());
+                            jsonStr = jsonStr.replace("#PARAMAFORO#", String.valueOf(jtfAforo.getText()));
+                            osw.write(jsonStr);
+                            System.out.println(jsonStr);
                             osw.flush();
                             int responseCode = connection.getResponseCode();
                             //Ver si la respuesta es correcta
@@ -175,8 +255,6 @@ public class SalonDialog extends javax.swing.JDialog {
                                 }
                                 reader.close();
                                 responseStr[0] = response.toString();
-                                System.out.println(s.toJson());
-                                System.out.println(response.toString());
                                 connection.disconnect();
                             } else {
                                 connection.disconnect();
@@ -199,9 +277,10 @@ public class SalonDialog extends javax.swing.JDialog {
                     throw new RuntimeException(ex);
                 }
                 try {
+                    //Comprobamos si se ha insertado correctamente
                     System.out.println(responseStr[0]);
                     if (responseStr[0].contains("correctamente")) {
-                        JOptionPane.showMessageDialog(interfazPrincipal, "Salón actualizado", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(interfazPrincipal, "Salón insertado", "Mensaje", JOptionPane.PLAIN_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(interfazPrincipal, "Error al insertar", "Mensaje", JOptionPane.ERROR_MESSAGE);
                     }
@@ -210,76 +289,9 @@ public class SalonDialog extends javax.swing.JDialog {
                     throw new RuntimeException(e);
                 }
             }
-        } else {
-            final String[] responseStr = new String[1];
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Conectamos a la pagina con el método que queramos
-                    try {
-                        URL url = new URL("https://reservante.mjhudesings.com/slim/addsalon");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("POST");
-                        connection.setDoOutput(true);
-                        connection.setRequestProperty("Content-Type", "application/json");
-                        connection.setRequestProperty("Accept", "application/json");
-                        OutputStream os = connection.getOutputStream();
-                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                        String jsonStr = "{\n"
-                                + "    \"id_restaurante\":\"#PARAMID#\",\n"
-                                + "    \"nombre\":\"#PARAMNOMBRE#\",\n"
-                                + "    \"aforo\":\"#PARAMAFORO#\"\n"
-                                + "}";
-                        jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
-                        jsonStr = jsonStr.replace("#PARAMNOMBRE#", jtfNombre.getText());
-                        jsonStr = jsonStr.replace("#PARAMAFORO#", String.valueOf(jtfAforo.getText()));
-                        osw.write(jsonStr);
-                        System.out.println(jsonStr);
-                        osw.flush();
-                        int responseCode = connection.getResponseCode();
-                        //Ver si la respuesta es correcta
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            // Si es correcta la leemos
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            String line;
-                            StringBuilder response = new StringBuilder();
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            reader.close();
-                            responseStr[0] = response.toString();
-                            connection.disconnect();
-                        } else {
-                            connection.disconnect();
-                        }
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    } catch (ProtocolException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-            try {
-                System.out.println(responseStr[0]);
-                if (responseStr[0].contains("correctamente")) {
-                    JOptionPane.showMessageDialog(interfazPrincipal, "Salón insertado", "Mensaje", JOptionPane.PLAIN_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(interfazPrincipal, "Error al insertar", "Mensaje", JOptionPane.ERROR_MESSAGE);
-                }
-                this.setVisible(false);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
+        }
+        else{
+            JOptionPane.showMessageDialog(interfazPrincipal, "Inserte un aforo válido","Error",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbGuardarActionPerformed
 
@@ -316,7 +328,7 @@ public class SalonDialog extends javax.swing.JDialog {
                             reader.close();
                             responseStr[0] = response.toString();
                             System.out.println(salon.toJson());
-                            System.out.println("RESPUESTA BORRADO: "  +response.toString());
+                            System.out.println("RESPUESTA BORRADO: " + response.toString());
                             connection.disconnect();
                         } else {
                             connection.disconnect();
@@ -339,8 +351,7 @@ public class SalonDialog extends javax.swing.JDialog {
                 throw new RuntimeException(ex);
             }
             try {
-                System.out.println("JSON: "+ salon.toJson());
-                System.out.println("HOLA:" +    responseStr[0]);
+                //Comprobamos si se ha borrado crrectamente o no 
                 if (responseStr[0].contains("correctamente")) {
                     JOptionPane.showMessageDialog(interfazPrincipal, "Salón borrado", "Mensaje", JOptionPane.PLAIN_MESSAGE);
                 } else if (responseStr[0].contains("ERROR2")) {

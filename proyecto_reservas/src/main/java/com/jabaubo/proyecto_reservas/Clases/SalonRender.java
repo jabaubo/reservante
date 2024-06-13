@@ -15,10 +15,6 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.text.Style;
 
-/**
- *
- * @author pokem
- */
 public class SalonRender extends JButton implements ListCellRenderer<Salon> {
 
     @Override

@@ -45,7 +45,7 @@ public class PanelHorario extends javax.swing.JPanel {
     public PanelHorario(int idRestaurante) {
         this.idRestaurante = idRestaurante;
         initComponents();
-// Panel 3
+// Panel 1 Lunes
         jPanel3.setName("PanelLunes");
         jComboBox13.setName("ComboBoxHoraInicioM");
         jComboBox14.setName("ComboBoxMinutoInicioM");
@@ -56,7 +56,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jComboBox19.setName("ComboBoxMinutoInicioT");
         jComboBox20.setName("ComboBoxHoraInicioT");
 
-// Panel 4// Panel 4
+// Panel 2 Martes
         jPanel4.setName("PanelMartes");
         jComboBox21.setName("ComboBoxHoraInicioM");
         jComboBox22.setName("ComboBoxMinutoInicioM");
@@ -67,7 +67,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jComboBox27.setName("ComboBoxMinutoInicioT");
         jComboBox28.setName("ComboBoxHoraInicioT");
 
-// Panel 5 - Miércoles
+// Panel 3 Miércoles
         jPanel5.setName("PanelMiércoles");
         jComboBox29.setName("ComboBoxHoraInicioM");
         jComboBox30.setName("ComboBoxMinutoInicioM");
@@ -78,7 +78,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jComboBox35.setName("ComboBoxMinutoInicioT");
         jComboBox36.setName("ComboBoxHoraInicioT");
 
-// Panel 6 - Jueves
+// Panel 4 Jueves
         jPanel6.setName("PanelJueves");
         jComboBox37.setName("ComboBoxHoraInicioM");
         jComboBox38.setName("ComboBoxMinutoInicioM");
@@ -89,7 +89,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jComboBox43.setName("ComboBoxMinutoInicioT");
         jComboBox44.setName("ComboBoxHoraInicioT");
 
-// Panel 7 - Viernes
+// Panel 5 Viernes
         jPanel7.setName("PanelViernes");
         jComboBox45.setName("ComboBoxHoraInicioM");
         jComboBox46.setName("ComboBoxMinutoInicioM");
@@ -100,7 +100,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jComboBox51.setName("ComboBoxMinutoInicioT");
         jComboBox52.setName("ComboBoxHoraInicioT");
 
-// Panel 8 - Sábado
+// Panel 6 Sábado
         jPanel8.setName("PanelSábado");
         jComboBox53.setName("ComboBoxHoraInicioM");
         jComboBox54.setName("ComboBoxMinutoInicioM");
@@ -111,7 +111,7 @@ public class PanelHorario extends javax.swing.JPanel {
         jComboBox59.setName("ComboBoxMinutoInicioT");
         jComboBox60.setName("ComboBoxHoraInicioT");
 
-// Panel 9 - Domingo
+// Panel 7 Domingo
         jPanel9.setName("PanelDomingo");
         jComboBox61.setName("ComboBoxHoraInicioM");
         jComboBox62.setName("ComboBoxMinutoInicioM");
@@ -127,10 +127,10 @@ public class PanelHorario extends javax.swing.JPanel {
 
     public void cargarDatos(){
         JSONArray jsonArray = cargarHorarioAPI();
-        System.out.println(jsonArray);
         if (jsonArray != null) {
             ArrayList<Horario> lista = new ArrayList<>();
             DefaultListModel<Horario> modelo = new DefaultListModel<>();
+            //Recorremos el json y vamos rellenando los horarios
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -147,15 +147,15 @@ public class PanelHorario extends javax.swing.JPanel {
                     throw new RuntimeException(e);
                 }
             }
-            System.out.println("COMPONENTES");
             int horarioLeer = 0;
+            //Recorremos los componentes del panel
             for (Component c : jPanel1.getComponents()) {
+                //Los 7 primeros son horarios , el 8 es el botón de guardar
                 if (c.getClass().getName().equals("javax.swing.JPanel") && horarioLeer < 7) {
-                    System.out.println(((JPanel) c).getName());
                     JPanel panel = (JPanel) c;
                     Horario h = lista.get(horarioLeer);
                     for (Component child : panel.getComponents()) {
-
+                        //Comprobamos si es el panel de encabezado en el que está el checkbox
                         if (child.getClass().getName().equals("javax.swing.JPanel")) {
                             Component[] childList2 = ((JPanel) child).getComponents();
                             for (Component child2 : childList2) {
@@ -166,6 +166,7 @@ public class PanelHorario extends javax.swing.JPanel {
                         }
                         if (child.getClass().getName().equals("javax.swing.JComboBox")) {
                             JComboBox comboBox = (JComboBox) child;
+                            //Partimos las horas  y vamos rellenando en el correspondiente
                             String[] horaIncioMArray = h.getHora_inicio_m().split(":");
                             String[] horaFinMArray = h.getHora_fin_m().split(":");
                             String[] horaIncioTArray = h.getHora_inicio_t().split(":");
@@ -1696,10 +1697,7 @@ public class PanelHorario extends javax.swing.JPanel {
 
         jComboBox68.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox68.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-<<<<<<< HEAD
         jComboBox68.setEnabled(false);
-=======
->>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd
 
         jLabel185.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel185.setText("Fin");
@@ -1848,7 +1846,10 @@ public class PanelHorario extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(221, 221, 221));
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        jButton2.setText("jButton2");
+        jButton2.setBackground(new java.awt.Color(149, 42, 149));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(240, 240, 240));
+        jButton2.setText("Guardar");
         jButton2.setBorder(null);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1986,7 +1987,8 @@ public class PanelHorario extends javax.swing.JPanel {
             final String json = jsonArrayStr;
             if (!jsonArrayStr.contains("null")) {
                 try {
-                    Runnable runnable = new Runnable() {
+                    Runnable runnable;
+                    runnable = new Runnable() {
                         @Override
                         public void run() {
                             // Conectamos a la pagina con el método que queramos
@@ -2013,7 +2015,6 @@ public class PanelHorario extends javax.swing.JPanel {
                                     }
                                     reader.close();
                                     System.out.println("JSON: " + json);
-                                    System.out.println("Respuesta " + response);
                                 }
                                 connection.disconnect();
                             } catch (MalformedURLException e) {
@@ -2032,6 +2033,7 @@ public class PanelHorario extends javax.swing.JPanel {
                     Thread thread = new Thread(runnable);
                     thread.start();
                     thread.join();
+                    JOptionPane.showMessageDialog(this, "Horario actualizado","Aviso",JOptionPane.PLAIN_MESSAGE);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -2108,12 +2110,6 @@ public class PanelHorario extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_cbPropertyCambio
-<<<<<<< HEAD
-=======
-
-
->>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd
-
     public JSONArray cargarHorarioAPI() {
         String[] responseStr = new String[1];
         Runnable runnable = new Runnable() {

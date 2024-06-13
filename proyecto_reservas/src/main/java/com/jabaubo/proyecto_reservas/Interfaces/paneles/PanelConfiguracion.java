@@ -42,11 +42,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
     private InterfazPrincipal interfazPrincipal;
     private int restaurante;
 
-    /**
-     * Creates new form MiRestauranteUI
-     */
     public PanelConfiguracion(InterfazPrincipal interfazPrincipal, int restaurante) {
-
         this.interfazPrincipal = interfazPrincipal;
         this.restaurante = restaurante;
         initComponents();
@@ -55,29 +51,37 @@ public class PanelConfiguracion extends javax.swing.JPanel {
 
     public void cargarDatos() {
         JSONObject json = leerDatosRestaurante();
-        JSONObject jsonRestaurante = json.getJSONArray("resultado").getJSONObject(0);
         cargarSalones();
+        //Con el json de los datos del restaurante vamos rellenando el primer apartado
+        JSONObject jsonRestaurante = json.getJSONArray("resultado").getJSONObject(0);
         tfNombre.setText(jsonRestaurante.getString("nombre"));
         tfTlf1.setText(jsonRestaurante.getString("telefono1"));
-        tfTlf2.setText(jsonRestaurante.getString("telefono2"));
+        if (!jsonRestaurante.getString("telefono2").equals("0")) {
+            tfTlf2.setText(jsonRestaurante.getString("telefono2"));
+        }
         tfEmail.setText(jsonRestaurante.getString("email"));
         tfDireccion.setText(jsonRestaurante.getString("direccion"));
         String duracionStr[] = jsonRestaurante.getString("duracion_reservas").split(":");
         jcbHora.setSelectedItem(duracionStr[0]);
         jcbMinutos.setSelectedItem(duracionStr[1]);
         jcbSegundos.setSelectedItem(duracionStr[2]);
-
-        JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
-        DefaultListModel<Vacaciones> modelo = new DefaultListModel<>();
-        for (int i = 0; i < jsonArrayVacaciones.length(); i++) {
-            JSONObject jsonVacacion = jsonArrayVacaciones.getJSONObject(i);
-            System.out.println(jsonVacacion);
-            Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"), interfazPrincipal.getRestaurante(), jsonVacacion.getInt("id_vacacion"));
-            listaVacaciones.add(v);
-            modelo.addElement(v);
+        
+        //Vemos si hay vacaciones
+        if (json.toString().contains("resultado2")) {
+            //Si hay vamos recorriendo el array y almacenando
+            JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
+            DefaultListModel<Vacaciones> modelo = new DefaultListModel<>();
+            for (int i = 0; i < jsonArrayVacaciones.length(); i++) {
+                JSONObject jsonVacacion = jsonArrayVacaciones.getJSONObject(i);
+                System.out.println(jsonVacacion);
+                Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"), interfazPrincipal.getRestaurante(), jsonVacacion.getInt("id_vacacion"));
+                listaVacaciones.add(v);
+                modelo.addElement(v);
+            }
+            jListVacaciones.setModel(modelo);
         }
-<<<<<<< HEAD
-        jListVacaciones.setModel(modelo);
+        
+        
         jListVacaciones.setCellRenderer(new VacacionesRender());
         jbInsertarSalones.setForeground(new Color(221, 221, 221));
         jbInsertarVacaciones.setForeground(new Color(221, 221, 221));
@@ -86,17 +90,15 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         jbInsertarSalones.setBackground(new Color(109, 34, 109));
         jbInsertarVacaciones.setBackground(new Color(109, 34, 109));
         jbGuardarDatos.setBackground(new Color(109, 34, 109));
-
-=======
-    
-        jbInsertarSalones.setForeground(new Color(221,221,221));
-        jbInsertarVacaciones.setForeground(new Color(221,221,221));
-        jbGuardarDatos.setForeground(new Color(221,221,221));
-        
+        /*
         jbInsertarSalones.setBackground(new Color(109, 34, 109));
         jbInsertarVacaciones.setBackground(new Color(109, 34, 109));
         jbGuardarDatos.setBackground(new Color(109, 34, 109));
->>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd
+        */
+        jbInsertarSalones.setForeground(new Color(221, 221, 221));
+        jbInsertarVacaciones.setForeground(new Color(221, 221, 221));
+        jbGuardarDatos.setForeground(new Color(221, 221, 221));
+
     }
 
     /**
@@ -142,12 +144,12 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(538, 300));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("Nombre");
+        jLabel2.setText("Nombre *");
 
         tfNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setText("Teléfono 1");
+        jLabel3.setText("Teléfono 1*");
 
         tfTlf1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tfTlf1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -169,12 +171,12 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("Dirección");
+        jLabel6.setText("Dirección *");
 
         tfDireccion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel7.setText("Duración de las reservas");
+        jLabel7.setText("Duración de las reservas *");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Datos del restaurante");
@@ -233,7 +235,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tfNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
+                                        .addComponent(tfNombre))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -252,15 +254,15 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                                     .addComponent(tfEmail)
                                     .addComponent(tfDireccion)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jcbHora, 0, 176, Short.MAX_VALUE)
+                                        .addComponent(jcbHora, 0, 1, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel105, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jcbMinutos, 0, 176, Short.MAX_VALUE)
+                                        .addComponent(jcbMinutos, 0, 1, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel106, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jcbSegundos, 0, 178, Short.MAX_VALUE)))))
+                                        .addComponent(jcbSegundos, 0, 1, Short.MAX_VALUE)))))
                         .addContainerGap())))
         );
 
@@ -437,6 +439,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Accept", "application/json");
+                    //Json a mandar
                     OutputStream os = connection.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                     String jsonStr = "{\n"
@@ -483,7 +486,7 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         }
         JSONArray jsonArray;
         try {
-            System.out.println("Respuesta json: " + responseStr[0]);
+            //Cargamos el array, leemos y cargamos los datos formateados al modelo
             jsonArray = new JSONObject(responseStr[0]).getJSONArray("aforo");
             ArrayList<Salon> lista = new ArrayList<>();
             DefaultListModel<Salon> modelo = new DefaultListModel<>();
@@ -497,97 +500,130 @@ public class PanelConfiguracion extends javax.swing.JPanel {
             jListSalones.setCellRenderer(new SalonRender());
 
         } catch (JSONException e) {
-            System.out.println("No hay salones");
+            jListSalones.setModel(new DefaultListModel<>());
+
         }
     }
     private void jbGuardarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarDatosActionPerformed
         // TODO add your handling code here:
+        //Leemos los valores
         String nombre = tfNombre.getText();
         String tlf1Str = tfTlf1.getText();
         String tlf2Str = tfTlf2.getText();
         String direccion = tfDireccion.getText();
         String email = tfEmail.getText();
         String duracion = jcbHora.getSelectedItem() + ":" + jcbMinutos.getSelectedItem() + ":" + jcbSegundos.getSelectedItem();
+        boolean todoOk = true;
+        //Comprobamos la duración de las reservas
+        if (duracion.equals("00:00:00")) {
+            JOptionPane.showMessageDialog(this, "Inserte una duración de reservas correcta","Aviso",JOptionPane.ERROR_MESSAGE);
+            todoOk = false;
+        }
+        //Comprobamos el TLF1
+        if (!tlf1Str.matches("[0-9]{9}")) {
+            JOptionPane.showMessageDialog(this, "Inserte un Teléfono1 correcto","Aviso",JOptionPane.ERROR_MESSAGE);
+            todoOk = false;
+        }
+        //Comprobamos si hay TLF2 ,  si hay vemos que tenga el formato correcto
+        if (!tlf2Str.equals("")) {
+            if (!tlf2Str.matches("[0-9]{9}")) {
+                JOptionPane.showMessageDialog(this, "Inserte un Teléfono2 correcto","Aviso",JOptionPane.ERROR_MESSAGE);
+                todoOk = false;
+            }
+        }
+        //Comprobamos si hay correo ,  si hay vemos que tenga el formato correcto
+        if (!email.equals("")) {
+            if (!email.matches("[^\\^$.\\|?*+()\\]\\[}{]{8,16}[@][a-z][.][a-z]{2,3}")) {
+                JOptionPane.showMessageDialog(this, "Inserte un correo correcto","Aviso",JOptionPane.ERROR_MESSAGE);
+                todoOk = false;
+            }
+        }
+        if (nombre.isEmpty() || tlf1Str.isEmpty() || direccion.isEmpty() || duracion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Algún campo necesario está vacío","Aviso",JOptionPane.ERROR_MESSAGE);
+            todoOk  = false;
+        }
+        //Si todo es correcto formateamos el json y hacemos la petición
+        if (todoOk) {
+            String json = "        {\n"
+                    + "             \"id\": \"#PARAMID#\",\n"
+                    + "            \"nombre\": \"#PARAMPRUEBAS#\",\n"
+                    + "            \"telefono1\": \"#PARAMTLF1#\",\n"
+                    + "            \"telefono2\": \"#PARAMTLF2#\",\n"
+                    + "            \"email\": \"#PARAMEMAIL#\",\n"
+                    + "            \"direccion\": \"#PARAMDIR#\",\n"
+                    + "            \"duracion_reservas\": \"#PARAMDUR#\"\n"
+                    + "        }";
 
-        String json = "        {\n"
-                + "             \"id\": \"#PARAMID#\",\n"
-                + "            \"nombre\": \"#PARAMPRUEBAS#\",\n"
-                + "            \"telefono1\": \"#PARAMTLF1#\",\n"
-                + "            \"telefono2\": \"#PARAMTLF2#\",\n"
-                + "            \"email\": \"#PARAMEMAIL#\",\n"
-                + "            \"direccion\": \"#PARAMDIR#\",\n"
-                + "            \"duracion_reservas\": \"#PARAMDUR#\"\n"
-                + "        }";
-
-        json = json.replace("#PARAMPRUEBAS#", nombre)
-                .replace("#PARAMTLF1#", tlf1Str)
-                .replace("#PARAMTLF2#", tlf2Str)
-                .replace("#PARAMEMAIL#", email)
-                .replace("#PARAMDIR#", direccion)
-                .replace("#PARAMDUR#", duracion)
-                .replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
-        final String jsonF = json;
-        final String[] responseStr = new String[1];
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // Conectamos a la pagina con el método que queramos
-                try {
-                    URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("PUT");
-                    connection.setDoOutput(true);
-                    connection.setRequestProperty("Content-Type", "application/json");
-                    connection.setRequestProperty("Accept", "application/json");
-                    OutputStream os = connection.getOutputStream();
-                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                    osw.write(jsonF);
-                    System.out.println(jsonF);
-                    osw.flush();
-                    int responseCode = connection.getResponseCode();
-                    //Ver si la respuesta es correcta
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        // Si es correcta la leemos
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
-                        StringBuilder response = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
+            json = json.replace("#PARAMPRUEBAS#", nombre)
+                    .replace("#PARAMTLF1#", tlf1Str)
+                    .replace("#PARAMTLF2#", tlf2Str)
+                    .replace("#PARAMEMAIL#", email)
+                    .replace("#PARAMDIR#", direccion)
+                    .replace("#PARAMDUR#", duracion)
+                    .replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
+            final String jsonF = json;
+            final String[] responseStr = new String[1];
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Conectamos a la pagina con el método que queramos
+                    try {
+                        URL url = new URL("https://reservante.mjhudesings.com/slim/updatedatos");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("PUT");
+                        connection.setDoOutput(true);
+                        connection.setRequestProperty("Content-Type", "application/json");
+                        connection.setRequestProperty("Accept", "application/json");
+                        OutputStream os = connection.getOutputStream();
+                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        osw.write(jsonF);
+                        System.out.println(jsonF);
+                        osw.flush();
+                        int responseCode = connection.getResponseCode();
+                        //Ver si la respuesta es correcta
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            // Si es correcta la leemos
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String line;
+                            StringBuilder response = new StringBuilder();
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            reader.close();
+                            responseStr[0] = response.toString();
+                            connection.disconnect();
+                        } else {
+                            connection.disconnect();
                         }
-                        reader.close();
-                        responseStr[0] = response.toString();
-                        connection.disconnect();
-                    } else {
-                        connection.disconnect();
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                } catch (ProtocolException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+
                 }
-
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
             }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
-        }
-        try {
-            System.out.println(responseStr[0]);
-            if (responseStr[0].contains("correctamente")) {
-                JOptionPane.showMessageDialog(interfazPrincipal, "Datos actualizados", "Mensaje", JOptionPane.PLAIN_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(interfazPrincipal, "Error al actualizar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+            try {
+                System.out.println(responseStr[0]);
+                if (responseStr[0].contains("correctamente")) {
+                    JOptionPane.showMessageDialog(interfazPrincipal, "Datos actualizados", "Mensaje", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(interfazPrincipal, "Error al actualizar", "Mensaje", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
             }
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
 
+        }
     }//GEN-LAST:event_jbGuardarDatosActionPerformed
 
     private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
@@ -596,8 +632,10 @@ public class PanelConfiguracion extends javax.swing.JPanel {
 
     private void jbInsertarVacacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInsertarVacacionesActionPerformed
         // TODO add your handling code here:
+        //Abrimos el Dialog
         VacacionesDialog insertarVacacion = new VacacionesDialog(interfazPrincipal, true);
         insertarVacacion.setVisible(true);
+        //Refrescamos los datos
         JSONObject json = leerDatosRestaurante();
         try {
             JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
@@ -619,8 +657,10 @@ public class PanelConfiguracion extends javax.swing.JPanel {
     private void jListVacacionesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListVacacionesValueChanged
         // TODO add your handling code here:
         if (jListVacaciones.getSelectedIndex() >= 0) {
+            //Cargamos el dialog con la vacación seleccionada
             VacacionesDialog insertarVacacion = new VacacionesDialog(interfazPrincipal, true, jListVacaciones.getSelectedValue());
             insertarVacacion.setVisible(true);
+            //Refrescamos los datos
             JSONObject json = leerDatosRestaurante();
             try {
                 JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
@@ -644,16 +684,19 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         // TODO add your handling code here:
         SalonDialog sd = new SalonDialog(interfazPrincipal, true);
         sd.setVisible(true);
+        //Refrescamos los datos
         cargarSalones();
     }//GEN-LAST:event_jbInsertarSalonesActionPerformed
 
     private void jListSalonesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListSalonesValueChanged
         // TODO add your handling code here:
         if (jListSalones.getSelectedIndex() >= 0) {
+            //Abrimos el dialog
             SalonDialog sd = new SalonDialog(interfazPrincipal, true, jListSalones.getSelectedValue());
+            //Refrescamos los datos
             sd.setVisible(true);
-            cargarSalones();
         }
+        cargarSalones();
     }//GEN-LAST:event_jListSalonesValueChanged
 
     private void jcbMinutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMinutosActionPerformed

@@ -21,10 +21,6 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import org.json.JSONObject;
 
-/**
- *
- * @author pokem
- */
 public class DatosReservaDialog extends javax.swing.JDialog {
 
     /**
@@ -33,24 +29,19 @@ public class DatosReservaDialog extends javax.swing.JDialog {
     private Reserva reserva;
     private String hora;
     private String fecha;
-    
+
     public DatosReservaDialog(java.awt.Frame parent, boolean modal, String[] salones, String fecha, String hora) {
         super(parent, modal);
         initComponents();
         this.hora = hora;
         this.fecha = fecha;
-        NumberFormat numberFormat = NumberFormat.getInstance();
-        NumberFormatter formatter = new NumberFormatter(numberFormat);
-        formatter.setValueClass(Integer.class);
-        formatter.setAllowsInvalid(false);
-        formatter.setCommitsOnValidEdit(true);
+        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
+        //Carga de los salones
         for (String s : salones) {
             if (!s.equals("--- Seleccione filtro ---")) {
                 jcbSalon.addItem(s);
             }
         }
-        jtfComensales.setFormatterFactory(new DefaultFormatterFactory(formatter));
-        jlTitulo.setForeground(new ColorUIResource(221,221,221));
         setLocationRelativeTo(null);
     }
 
@@ -58,24 +49,20 @@ public class DatosReservaDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         NumberFormat numberFormat = NumberFormat.getInstance();
-        NumberFormatter formatter = new NumberFormatter(numberFormat);
-        formatter.setValueClass(Integer.class);
-        formatter.setAllowsInvalid(false);
-        formatter.setCommitsOnValidEdit(true);
         this.reserva = reserva;
-        jtfComensales.setFormatterFactory(new DefaultFormatterFactory(formatter));
+        //Carga de los datos de la reserva en caso de estar en modo de edición
         jtfCliente.setText(reserva.getNombre_apellidos());
         jtfComensales.setText(String.valueOf(reserva.getN_personas()));
         jtfEmail.setText(reserva.getEmail());
         jtfTelefono.setText(reserva.getTelefono());
         jtfObservaciones.setText(reserva.getObservaciones());
+        //Carga de los salones
         for (String s : salones) {
             if (!s.equals("--- Seleccione filtro ---")) {
                 jcbSalon.addItem(s);
             }
         }
-        jtfComensales.setFormatterFactory(new DefaultFormatterFactory(formatter));
-        jlTitulo.setForeground(new ColorUIResource(221,221,221));
+        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
         setLocationRelativeTo(null);
 
     }
@@ -101,8 +88,8 @@ public class DatosReservaDialog extends javax.swing.JDialog {
         jcbSalon = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jtfComensales = new javax.swing.JFormattedTextField();
         jlTitulo = new javax.swing.JLabel();
+        jtfComensales = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -131,13 +118,6 @@ public class DatosReservaDialog extends javax.swing.JDialog {
             }
         });
 
-        jtfComensales.setText("jFormattedTextField1");
-        jtfComensales.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfComensalesActionPerformed(evt);
-            }
-        });
-
         jlTitulo.setBackground(new java.awt.Color(109, 34, 109));
         jlTitulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jlTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -155,31 +135,32 @@ public class DatosReservaDialog extends javax.swing.JDialog {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jtfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtfComensales))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jcbSalon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtfObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtfTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jtfComensales))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jcbSalon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jtfObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, Short.MAX_VALUE))))
                 .addContainerGap())
             .addComponent(jlTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -224,35 +205,84 @@ public class DatosReservaDialog extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        boolean completo = !jtfCliente.getText().equals("") & !jtfTelefono.getText().equals("") & jcbSalon.getSelectedIndex() >= 0 & !jtfComensales.equals("") & !jtfObservaciones.equals("") & !jtfEmail.equals("");
-        if (completo) {
-            String cliente = jtfCliente.getText();
-            String telefono = jtfTelefono.getText();
-            Integer idSalon = Integer.valueOf(jcbSalon.getSelectedItem().toString().substring(0, jcbSalon.getSelectedItem().toString().indexOf("-") - 1));
-            Integer comensales;
-            if (jtfComensales.getText().contains(".")) {
-                comensales = Integer.valueOf(jtfComensales.getText().replace(".", ""));
-            } else {
-                comensales = Integer.valueOf(jtfComensales.getText());
-            }
-            String observaciones = jtfObservaciones.getText();
-            String email = jtfEmail.getText();
-            //Actualizando
-            if (reserva != null) {
-                int aforoNuevo;
-                if (idSalon == reserva.getId_salon()) {
-                    aforoNuevo = comensales - reserva.getN_personas();
-                } else {
-                    aforoNuevo = comensales;
-                }
-                String salon = jcbSalon.getSelectedItem().toString();
-                Integer aforoLibre = Integer.valueOf(salon.substring(salon.indexOf(":") + 2, salon.indexOf("/")));
-                System.out.println(String.format("Hay %d quieren meter %d", aforoLibre, aforoNuevo));
-                if (aforoNuevo > aforoLibre) {
-                    int response = JOptionPane.showConfirmDialog(rootPane, "Vas a exceder el aforo de tu salón \n¿Estás seguro?");
-                    if (response == JOptionPane.OK_OPTION) {
-                        String json = crearJsonActualizar();
-                        System.out.println(json);
+        //Comprobación de que los comensales sean un número válido
+        if (!jtfComensales.getText().matches("[0-9]*") || jtfComensales.getText().equals("0") ) {
+            JOptionPane.showMessageDialog(this, "Inserte un número de comensales válido", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            //Comprobación de que todos los campos necesarios estén rellenos
+            boolean completo = !jtfCliente.getText().equals("") & !jtfTelefono.getText().equals("") & jcbSalon.getSelectedIndex() >= 0 & !jtfComensales.equals("") & !jtfObservaciones.equals("") & !jtfEmail.equals("");
+            if (completo) {
+                String cliente = jtfCliente.getText();
+                String telefono = jtfTelefono.getText();
+                Integer idSalon = Integer.valueOf(jcbSalon.getSelectedItem().toString().substring(0, jcbSalon.getSelectedItem().toString().indexOf("-") - 1));
+                Integer comensales = Integer.valueOf(jtfComensales.getText());
+                //Actualizando
+                if (reserva != null) {
+                    int aforoNuevo;
+                    if (idSalon == reserva.getId_salon()) {
+                        aforoNuevo = comensales - reserva.getN_personas();
+                    } else {
+                        aforoNuevo = comensales;
+                    }
+                    String salon = jcbSalon.getSelectedItem().toString();
+                    Integer aforoLibre = Integer.valueOf(salon.substring(salon.indexOf(":") + 2, salon.indexOf("/")));
+                    System.out.println(String.format("Hay %d quieren meter %d", aforoLibre, aforoNuevo));
+                    //Comprobamos el aforo , si excede pedimos confirmación
+                    if (aforoNuevo > aforoLibre) {
+                        int response = JOptionPane.showConfirmDialog(rootPane, "Vas a exceder el aforo de tu salón \n¿Estás seguro?");
+                        if (response == JOptionPane.OK_OPTION) {
+                            String json = crearJsonActualizar();
+                            System.out.println(json);
+                            Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Conectamos a la pagina con el método que queramos
+                                    try {
+                                        URL url = new URL("https://reservante.mjhudesings.com/slim/updatereserva");
+                                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                        connection.setRequestMethod("PUT");
+                                        connection.setDoOutput(true);
+                                        OutputStream os = connection.getOutputStream();
+                                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                        osw.write(json);
+                                        osw.flush();
+                                        int responseCode = connection.getResponseCode();
+                                        //Ver si la respuesta es correcta
+                                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                                            // Si es correcta la leemos
+                                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                            String line;
+                                            StringBuilder response = new StringBuilder();
+                                            while ((line = reader.readLine()) != null) {
+                                                response.append(line);
+                                            }
+                                            reader.close();
+                                            System.out.println(response);
+                                        }
+                                        connection.disconnect();
+                                    } catch (MalformedURLException e) {
+                                        throw new RuntimeException(e);
+                                    } catch (ProtocolException e) {
+                                        throw new RuntimeException(e);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                            };
+                            Thread thread = new Thread(runnable);
+                            thread.start();
+                            try {
+                                thread.join();
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+                    String json = crearJsonActualizar();
+                    //Comprobamos si los datos de la reserva no han cambiado 
+                    if (json.equals("No hay diferencias")) {
+                        JOptionPane.showMessageDialog(this.getParent(), "No hay diferencias");
+                    } else {
                         Runnable runnable = new Runnable() {
                             @Override
                             public void run() {
@@ -297,180 +327,131 @@ public class DatosReservaDialog extends javax.swing.JDialog {
                             throw new RuntimeException(e);
                         }
                     }
-                }
-                String json = crearJsonActualizar();
-                System.out.println("JSON actualizar: " + json);
-                if (json.equals("No hay diferencias")) {
-                    JOptionPane.showMessageDialog(this.getParent(), "No hay diferencias");
-                } else {
-                    System.out.println(json);
-                    Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            // Conectamos a la pagina con el método que queramos
-                            try {
-                                URL url = new URL("https://reservante.mjhudesings.com/slim/updatereserva");
-                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                                connection.setRequestMethod("PUT");
-                                connection.setDoOutput(true);
-                                OutputStream os = connection.getOutputStream();
-                                OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                                osw.write(json);
-                                osw.flush();
-                                int responseCode = connection.getResponseCode();
-                                //Ver si la respuesta es correcta
-                                if (responseCode == HttpURLConnection.HTTP_OK) {
-                                    // Si es correcta la leemos
-                                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                    String line;
-                                    StringBuilder response = new StringBuilder();
-                                    while ((line = reader.readLine()) != null) {
-                                        response.append(line);
+                } //Insertando
+                else {
+                    int aforoNuevo = comensales;
+                    String salon = jcbSalon.getSelectedItem().toString();
+                    Integer aforoLibre = Integer.valueOf(salon.substring(salon.indexOf(":") + 2, salon.indexOf("/")));
+                    if (aforoNuevo > aforoLibre) {
+                        int response = JOptionPane.showConfirmDialog(rootPane, "Vas a exceder el aforo de tu salón \n¿Estás seguro?");
+                        if (response == JOptionPane.OK_OPTION) {
+                            String json = crearJsonInsertar();
+                            Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Conectamos a la pagina con el método que queramos
+                                    try {
+                                        URL url = new URL("https://reservante.mjhudesings.com/slim/addreserva");
+                                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                        connection.setRequestMethod("POST");
+                                        connection.setDoOutput(true);
+                                        OutputStream os = connection.getOutputStream();
+                                        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                        osw.write(json);
+                                        osw.flush();
+                                        int responseCode = connection.getResponseCode();
+
+                                        //Ver si la respuesta es correcta
+                                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                                            // Si es correcta la leemos
+                                            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                            String line;
+                                            StringBuilder response = new StringBuilder();
+                                            while ((line = reader.readLine()) != null) {
+                                                response.append(line);
+                                            }
+                                            System.out.println(response);
+                                            reader.close();
+                                            connection.disconnect();
+                                        } else {
+                                            connection.disconnect();
+                                        }
+                                    } catch (MalformedURLException e) {
+                                        throw new RuntimeException(e);
+                                    } catch (ProtocolException e) {
+                                        throw new RuntimeException(e);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
                                     }
-                                    reader.close();
-                                    System.out.println(response);
+
                                 }
-                                connection.disconnect();
-                            } catch (MalformedURLException e) {
-                                throw new RuntimeException(e);
-                            } catch (ProtocolException e) {
-                                throw new RuntimeException(e);
-                            } catch (IOException e) {
+                            };
+                            Thread thread = new Thread(runnable);
+                            thread.start();
+                            try {
+                                thread.join();
+                            } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
                         }
-                    };
-                    Thread thread = new Thread(runnable);
-                    thread.start();
-                    try {
-                        thread.join();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } //Insertando
-            else {
-                int aforoNuevo = comensales;
-                String salon = jcbSalon.getSelectedItem().toString();
-                Integer aforoLibre = Integer.valueOf(salon.substring(salon.indexOf(":") + 2, salon.indexOf("/")));
-                if (aforoNuevo > aforoLibre) {
-                    int response = JOptionPane.showConfirmDialog(rootPane, "Vas a exceder el aforo de tu salón \n¿Estás seguro?");
-                    if (response == JOptionPane.OK_OPTION) {
+                    } else {
                         String json = crearJsonInsertar();
                         Runnable runnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        // Conectamos a la pagina con el método que queramos
-                                        try {
-                                            URL url = new URL("https://reservante.mjhudesings.com/slim/addreserva");
-                                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                                            connection.setRequestMethod("POST");
-                                            connection.setDoOutput(true);
-                                            OutputStream os = connection.getOutputStream();
-                                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                                            osw.write(json);
-                                            osw.flush();
-                                            int responseCode = connection.getResponseCode();
-
-                                            //Ver si la respuesta es correcta
-                                            if (responseCode == HttpURLConnection.HTTP_OK) {
-                                                // Si es correcta la leemos
-                                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                                String line;
-                                                StringBuilder response = new StringBuilder();
-                                                while ((line = reader.readLine()) != null) {
-                                                    response.append(line);
-                                                }
-                                                System.out.println(response);
-                                                reader.close();
-                                                connection.disconnect();
-                                            } else {
-                                                connection.disconnect();
-                                            }
-                                        } catch (MalformedURLException e) {
-                                            throw new RuntimeException(e);
-                                        } catch (ProtocolException e) {
-                                            throw new RuntimeException(e);
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
-
-                                    }
-                                };
-                                Thread thread = new Thread(runnable);
-                                thread.start();
+                            @Override
+                            public void run() {
+                                // Conectamos a la pagina con el método que queramos
                                 try {
-                                    thread.join();
-                                } catch (InterruptedException e) {
+                                    URL url = new URL("https://reservante.mjhudesings.com/slim/addreserva");
+                                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                    connection.setRequestMethod("POST");
+                                    connection.setDoOutput(true);
+                                    OutputStream os = connection.getOutputStream();
+                                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                                    osw.write(json);
+                                    osw.flush();
+                                    int responseCode = connection.getResponseCode();
+
+                                    //Ver si la respuesta es correcta
+                                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                                        // Si es correcta la leemos
+                                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                        String line;
+                                        StringBuilder response = new StringBuilder();
+                                        while ((line = reader.readLine()) != null) {
+                                            response.append(line);
+                                        }
+                                        System.out.println(response);
+                                        reader.close();
+                                        connection.disconnect();
+                                    } else {
+                                        connection.disconnect();
+                                    }
+                                } catch (MalformedURLException e) {
+                                    throw new RuntimeException(e);
+                                } catch (ProtocolException e) {
+                                    throw new RuntimeException(e);
+                                } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
+
+                            }
+                        };
+                        Thread thread = new Thread(runnable);
+                        thread.start();
+                        try {
+                            thread.join();
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                } else {
-                    String json = crearJsonInsertar();
-                        Runnable runnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        // Conectamos a la pagina con el método que queramos
-                                        try {
-                                            URL url = new URL("https://reservante.mjhudesings.com/slim/addreserva");
-                                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                                            connection.setRequestMethod("POST");
-                                            connection.setDoOutput(true);
-                                            OutputStream os = connection.getOutputStream();
-                                            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                                            osw.write(json);
-                                            osw.flush();
-                                            int responseCode = connection.getResponseCode();
 
-                                            //Ver si la respuesta es correcta
-                                            if (responseCode == HttpURLConnection.HTTP_OK) {
-                                                // Si es correcta la leemos
-                                                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                                                String line;
-                                                StringBuilder response = new StringBuilder();
-                                                while ((line = reader.readLine()) != null) {
-                                                    response.append(line);
-                                                }
-                                                System.out.println(response);
-                                                reader.close();
-                                                connection.disconnect();
-                                            } else {
-                                                connection.disconnect();
-                                            }
-                                        } catch (MalformedURLException e) {
-                                            throw new RuntimeException(e);
-                                        } catch (ProtocolException e) {
-                                            throw new RuntimeException(e);
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }
-
-                                    }
-                                };
-                                Thread thread = new Thread(runnable);
-                                thread.start();
-                                try {
-                                    thread.join();
-                                } catch (InterruptedException e) {
-                                    throw new RuntimeException(e);
-                                }
                 }
-
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this.getParent(), "Falta algún campo por rellenar");
             }
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(this.getParent(), "Falta algún campo por rellenar");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public String crearJsonActualizar() {
-        //SELECT SUM(n_personas),(SELECT SUM(aforo) FROM salones) FROM reservas WHERE fecha = '2024-04-08' AND hora = '17:00';
+        //Leemos los campos
         String nombre_n = jtfCliente.getText().toString();
         String tlf_n = jtfTelefono.getText().toString();
         String email_n = jtfEmail.getText().toString();
         String n_personas_n = jtfComensales.getText().toString();
         String id_salon_n = jcbSalon.getSelectedItem().toString().substring(0, jcbSalon.getSelectedItem().toString().indexOf(" -"));
         String observaciones_n = jtfObservaciones.getText().toString();
+        //Si hay algún cambio vamos remplazando
         if (!nombre_n.equals(reserva.getNombre_apellidos()) || !tlf_n.equals(reserva.getTelefono()) || !email_n.equals(reserva.getEmail()) || !n_personas_n.equals(reserva.getN_personas()) || !id_salon_n.equals(reserva.getId_salon()) || !observaciones_n.equals(reserva.getObservaciones())) {
             String json = "{\n"
                     + "\"id_reserva\": \"#PARAMid_reserva#\",\n"
@@ -499,6 +480,7 @@ public class DatosReservaDialog extends javax.swing.JDialog {
     }
 
     public String crearJsonInsertar() {
+        //Leemos los campos
         String nombre = jtfCliente.getText().toString();
         String tlf = jtfTelefono.getText().toString();
         String email = jtfEmail.getText().toString();
@@ -515,6 +497,7 @@ public class DatosReservaDialog extends javax.swing.JDialog {
                 + "\"hora\": \"#PARAMhora#\",\n"
                 + "\"observaciones\": \"#PARAMobservaciones#\"\n"
                 + "}";
+        //Vamos remplazando
         json = json.replace("#PARAMnombre_apellidos#", nombre);
         json = json.replace("#PARAMtelefono#", tlf);
         json = json.replace("#PARAMemail#", email);
@@ -531,10 +514,6 @@ public class DatosReservaDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfClienteActionPerformed
 
-    private void jtfComensalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfComensalesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfComensalesActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -550,7 +529,7 @@ public class DatosReservaDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> jcbSalon;
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JTextField jtfCliente;
-    private javax.swing.JFormattedTextField jtfComensales;
+    private javax.swing.JTextField jtfComensales;
     private javax.swing.JTextField jtfEmail;
     private javax.swing.JTextField jtfObservaciones;
     private javax.swing.JTextField jtfTelefono;

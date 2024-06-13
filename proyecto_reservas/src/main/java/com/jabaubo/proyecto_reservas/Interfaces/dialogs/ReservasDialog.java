@@ -31,10 +31,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- *
- * @author pokem
- */
 public class ReservasDialog extends javax.swing.JDialog {
 
     /**
@@ -50,6 +46,7 @@ public class ReservasDialog extends javax.swing.JDialog {
     public ReservasDialog(java.awt.Frame parent, boolean modal, LocalDate fecha, LocalTime tramo, ArrayList<Reserva> lista, int id) {
         super(parent, modal);
         initComponents();
+        //Cargamos los campos
         this.id = id;
         this.fecha = fecha.toString();
         this.tramo = tramo.toString();
@@ -58,6 +55,7 @@ public class ReservasDialog extends javax.swing.JDialog {
         this.listaCompleta = lista;
         salones = leerSalones();
         cargarReservas();
+        //Desactivamos los botones hasta que se seleccione una reserva
         jbActualizar.setEnabled(false);
         jbBorrar.setEnabled(false);
         jbCorreo.setEnabled(false);
@@ -66,6 +64,7 @@ public class ReservasDialog extends javax.swing.JDialog {
     }
 
     public ReservasDialog(java.awt.Frame parent, boolean modal, LocalDate fecha, LocalTime tramo, int id) {
+        //Cargamos los campos
         super(parent, modal);
         initComponents();
         this.id = id;
@@ -74,8 +73,8 @@ public class ReservasDialog extends javax.swing.JDialog {
         jlTitulo.setText(String.format("FECHA: %s TRAMO: %s", fecha.toString(), tramo.toString()));
         this.lista = new ArrayList<>();
         this.listaCompleta = lista;
-
         salones = leerSalones();
+        //Desactivamos los botones hasta que se seleccione una reserva
         jbActualizar.setEnabled(false);
         jbBorrar.setEnabled(false);
         jbCorreo.setEnabled(false);
@@ -84,6 +83,7 @@ public class ReservasDialog extends javax.swing.JDialog {
     }
 
     public void cargarReservas() {
+        //Vamos recorriendo la lista para ir añadiendo al modelo
         DefaultListModel<String> modelo = new DefaultListModel<>();
         for (int i = 0; i < lista.size(); i++) {
             Reserva r = lista.get(i);
@@ -92,72 +92,7 @@ public class ReservasDialog extends javax.swing.JDialog {
         jListReservas.setModel(modelo);
     }
 
-    /*
-    public String[] leerSalones() {
-        final JSONArray[] jsonArray = new JSONArray[1];
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // Conectamos a la pagina con el método que queramos
-                try {
-                    URL url = new URL("https://reservante.mjhudesings.com/slim/getsalones");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    int responseCode = connection.getResponseCode();
-                    System.out.println("Respuesta insertar aforo" + (responseCode == HttpURLConnection.HTTP_OK));
-                    //Ver si la respuesta es correcta
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        // Si es correcta la leemos
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
-                        StringBuilder response = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
-                        }
-                        reader.close();
-                        connection.disconnect();
-                        System.out.println("Respuesta insertar aforo" + response);
-                        jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
-                        System.out.println(jsonArray[0]);
-                    } else {
-                        connection.disconnect();
-                    }
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                } catch (ProtocolException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        String[] textos = new String[jsonArray[0].length() + 1];
-        textos[0] = "--- Seleccione filtro ---";
-        for (int i = 0; i < jsonArray[0].length(); i++) {
-            try {
-                JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
-                System.out.println("SALON json" + jsonObject);
-                textos[i + 1] = String.format("%s - %s", jsonObject.getString("id_salon"), jsonObject.getString("nombre"));
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        for (String s : textos) {
-            jcbFiltro.addItem(s);
-        }
-        return textos;
-    }
-     */
+    
     public String[] leerSalones() {
         final JSONArray[] jsonArray = new JSONArray[1];
         Runnable runnable = new Runnable() {
@@ -171,6 +106,7 @@ public class ReservasDialog extends javax.swing.JDialog {
                     connection.setDoOutput(true);
                     OutputStream os = connection.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                    //Preparamos le json
                     String json = "{\n"
                             + "    \"fecha\":\"#FECHA#\",\n"
                             + "    \"id\":\"#PARAMID#\",\n"
@@ -180,10 +116,8 @@ public class ReservasDialog extends javax.swing.JDialog {
                     json = json.replace("#HORA#", tramo);
                     json = json.replace("#PARAMID#", String.valueOf(id));
                     osw.write(json);
-                    System.out.println("MANDO :" + json);
                     osw.flush();
                     int responseCode = connection.getResponseCode();
-                    System.out.println("Respuesta insertar aforo" + (responseCode == HttpURLConnection.HTTP_OK));
                     //Ver si la respuesta es correcta
                     if (responseCode == HttpURLConnection.HTTP_OK) {
                         // Si es correcta la leemos
@@ -220,10 +154,12 @@ public class ReservasDialog extends javax.swing.JDialog {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        //Comprobamos la respuesta
         if (jsonArray[0] == null) {
             JOptionPane.showMessageDialog(this.getParent(), "No hay reservas", "Aviso", JOptionPane.PLAIN_MESSAGE);
             return null;
         } else {
+            //Si hay reservas cargamos el filtro
             String[] textos = new String[jsonArray[0].length() + 1];
             textos[0] = "--- Seleccione filtro ---";
             for (int i = 0; i < jsonArray[0].length(); i++) {
@@ -231,12 +167,11 @@ public class ReservasDialog extends javax.swing.JDialog {
                     JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
                     System.out.println(jsonObject);
                     textos[i + 1] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
-                    textos[i + 1] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
-
             }
+            //Cargamos en el comboBox
             jcbFiltro.removeAllItems();
             for (String s : textos) {
                 jcbFiltro.addItem(s);
@@ -496,11 +431,14 @@ public class ReservasDialog extends javax.swing.JDialog {
 
     private void jbInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInsertarActionPerformed
         // TODO add your handling code here:
+        //Preparamos el dialog
         DatosReservaDialog dialog = new DatosReservaDialog((Frame) this.getParent(), true, salones, fecha, tramo);
         dialog.setVisible(true);
         System.out.println("INSERTANDO");
+        //Una vez termine , volvemos a cargar la lista de reservas
         listaCompleta = verReservas(fecha, tramo);
         System.out.println(listaCompleta.size());
+        //Ponemos el filtro para ver todo
         jcbFiltro.setSelectedIndex(0);
         lista = listaCompleta;
         cargarReservas();
@@ -510,23 +448,25 @@ public class ReservasDialog extends javax.swing.JDialog {
 
     private void jbActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarActionPerformed
         // TODO add your handling code here:
+        //Abrimos el dialog con la reserva cargada
         DatosReservaDialog dialog = new DatosReservaDialog((Frame) this.getParent(), true, lista.get(jListReservas.getSelectedIndex()), salones);
         dialog.setVisible(true);
         Reserva r = lista.get(0);
         System.out.println("Actualizando");
+        //Recargamos la reserva
         listaCompleta = verReservas(r.getFecha(), r.getHora());
         jcbFiltro.setSelectedIndex(0);
         lista = listaCompleta;
         cargarReservas();
         salones = leerSalones();
         jListReservas.repaint();
-        System.out.println("LISTA");
     }//GEN-LAST:event_jbActualizarActionPerformed
 
     private void jListReservasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListReservasValueChanged
         // TODO add your handling code here:
         if (jListReservas.getSelectedIndex() >= 0) {
             Reserva r = lista.get(jListReservas.getSelectedIndex());
+            //Vamos leyendo los atributos , si alguno está vacío sustituimos por un espacio
             if (r.getNombre_apellidos().equals("")) {
                 jlCliente.setText(" ");
             } else {
@@ -576,6 +516,7 @@ public class ReservasDialog extends javax.swing.JDialog {
     private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
         // TODO add your handling code here:
         Reserva r = lista.get(jListReservas.getSelectedIndex());
+        //Avisamos
         int response = JOptionPane.showConfirmDialog(this.getParent(), "¿Quieres borrar la reserva de " + r.getNombre_apellidos() + " ?", "Advertencia", JOptionPane.WARNING_MESSAGE);
         if (response == JOptionPane.OK_OPTION) {
             lista.remove(r);
@@ -644,6 +585,7 @@ public class ReservasDialog extends javax.swing.JDialog {
         if (jcbFiltro.getSelectedItem() != null) {
             String filtro = jcbFiltro.getSelectedItem().toString();
             if (!filtro.equals("--- Seleccione filtro ---")) {
+                //Vemos la id del salon
                 String id = filtro.substring(0, filtro.indexOf("-") - 1);
                 lista = new ArrayList<>();
                 for (Reserva r : listaCompleta) {
@@ -667,7 +609,7 @@ public class ReservasDialog extends javax.swing.JDialog {
         Desktop desktop;
         if (Desktop.isDesktopSupported() && (desktop = Desktop.getDesktop()).isSupported(Desktop.Action.MAIL)) {
             try {
-                String uri = "mailto:#CORREO#?subject=Hello%20World";
+                String uri = "mailto:#CORREO#?subject=Correo de Reservante";
                 uri = uri.replace("#CORREO#", jlEmail.getText());
                 URI mailto = new URI(uri);
                 desktop.mail(mailto);
@@ -682,8 +624,7 @@ public class ReservasDialog extends javax.swing.JDialog {
     public ArrayList<Reserva> verReservas(String fecha, String hora) {
         final JSONArray[] jsonArray = new JSONArray[1];
         ArrayList<Reserva> lista = new ArrayList<>();
-        try {
-            System.out.println("Pa dentro");
+        try {      
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -720,6 +661,7 @@ public class ReservasDialog extends javax.swing.JDialog {
                             reader.close();
                             System.out.println(response);
                             jsonArray[0] = new JSONObject(response.toString()).getJSONArray("reservas");
+                            //Vamos recorriendo el arraylist
                             for (int i = 0; i < jsonArray[0].length(); i++) {
                                 Reserva r = new Reserva();
                                 JSONObject json = jsonArray[0].getJSONObject(i);
@@ -733,7 +675,6 @@ public class ReservasDialog extends javax.swing.JDialog {
                                 r.setTelefono(json.getString("telefono"));
                                 r.setEmail(json.getString("email"));
                                 lista.add(r);
-                                System.out.println(r);
                             }
                             connection.disconnect();
                         } else {

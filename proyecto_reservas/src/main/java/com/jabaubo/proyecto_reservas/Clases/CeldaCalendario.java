@@ -14,11 +14,6 @@ import java.util.HashSet;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.plaf.ColorUIResource;
-
-/**
- *
- * @author pokem
- */
 public class CeldaCalendario extends JButton{
     private Date date;
     private boolean title;

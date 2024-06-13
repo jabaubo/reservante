@@ -49,16 +49,21 @@ public class PanelReservas extends javax.swing.JPanel {
         initComponents();
         this.interfazPrincipal = interfazPrincipal;
         this.idRestaurante = interfazPrincipal.getRestaurante();
-       cargarDatos();
+        cargarDatos();
     }
-    public void cargarDatos(){
+
+    public void cargarDatos() {
+        //Cargamos las reservas en la lista
         listaReservasCompleta = leerReservas();
         listaReservas = listaReservasCompleta;
+        //Cargamos la lista de salones
         salones = leerSalones();
+        //Desactivamos los botones hasya seleccion
         jButton3.setEnabled(false);
         jbActualizar2.setEnabled(false);
         jbBorrar2.setEnabled(false);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -362,6 +367,7 @@ public class PanelReservas extends javax.swing.JPanel {
     private void jListReservas2ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListReservas2ValueChanged
         // TODO add your handling code here:
         if (jListReservas2.getSelectedIndex() >= 0) {
+            //Si se ha seleccionado algo , cargamos los datos
             Reserva r = listaReservas.get(jListReservas2.getSelectedIndex());
             jlCliente3.setText(r.getNombre_apellidos());
             jlComensales3.setText(String.valueOf(r.getN_personas()));
@@ -374,14 +380,14 @@ public class PanelReservas extends javax.swing.JPanel {
             jbActualizar2.setEnabled(true);
             jbBorrar2.setEnabled(true);
             jButton3.setEnabled(true);
-        }
-        else{
+        } else {
+            //Si se ha seleccionado algo , cargamos espacios
             jlCliente3.setText(" ");
             jlComensales3.setText(" ");
             jlEmail3.setText(" ");
             jlSalon3.setText(" ");
             jlObservaciones3.setText(" ");
-            jlTelefono3.setText(" " );
+            jlTelefono3.setText(" ");
             jlFecha.setText(" ");
             jlHora.setText(" ");
             jbActualizar2.setEnabled(false);
@@ -395,9 +401,11 @@ public class PanelReservas extends javax.swing.JPanel {
     }//GEN-LAST:event_jcbFiltro2ActionPerformed
 
     private void jcbFiltro2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jcbFiltro2PropertyChange
-        // TODO add your handling code here:
+        // TODO add your handling code here
+        //Comprobamos que se haya seleccionado un valor
         if (jcbFiltro2.getSelectedItem() != null) {
             String filtro = jcbFiltro2.getSelectedItem().toString();
+            jcbFiltro2.removeAllItems();
             if (!filtro.equals("--- Seleccione filtro ---")) {
                 String id = filtro.substring(0, filtro.indexOf("-") - 1);
                 listaReservas = new ArrayList<>();
@@ -415,10 +423,11 @@ public class PanelReservas extends javax.swing.JPanel {
 
     private void jbActualizar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizar2ActionPerformed
         // TODO add your handling code here:
+        //Cargamos la reserva seleccionada en un dialog
         DatosReservaDialog dialog = new DatosReservaDialog(interfazPrincipal, true, listaReservas.get(jListReservas2.getSelectedIndex()), salones);
         dialog.setVisible(true);
         Reserva r = listaReservas.get(0);
-        System.out.println("Actualizando");
+        //Recargamos las reservas
         listaReservasCompleta = leerReservas();
         jcbFiltro2.setSelectedIndex(0);
         listaReservas = listaReservasCompleta;
@@ -435,6 +444,7 @@ public class PanelReservas extends javax.swing.JPanel {
         Desktop desktop;
         if (Desktop.isDesktopSupported() && (desktop = Desktop.getDesktop()).isSupported(Desktop.Action.MAIL)) {
             try {
+                //Correo
                 String uri = "mailto:#CORREO#?subject=Hello%20World";
                 uri = uri.replace("#CORREO#", jlEmail3.getText());
                 URI mailto = new URI(uri);
@@ -450,6 +460,7 @@ public class PanelReservas extends javax.swing.JPanel {
     private void jbBorrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrar2ActionPerformed
         // TODO add your handling code here:
         Reserva r = listaReservas.get(jListReservas2.getSelectedIndex());
+        //Pedimos confirmación
         int response = JOptionPane.showConfirmDialog(this.getParent(), "¿Quieres borrar la reserva de " + r.getNombre_apellidos() + " ?", "Advertencia", JOptionPane.WARNING_MESSAGE);
         if (response == JOptionPane.OK_OPTION) {
             listaReservas.remove(r);
@@ -534,6 +545,7 @@ public class PanelReservas extends javax.swing.JPanel {
 
     private void jbRecargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRecargarActionPerformed
         // TODO add your handling code here:
+        //Cargamos la lista completa , ponemos el filtro en el primero y recgarmos
         listaReservas = listaReservasCompleta;
         jcbFiltro2.setSelectedIndex(0);
         cargarListaReservas();
@@ -595,6 +607,7 @@ public class PanelReservas extends javax.swing.JPanel {
         JSONArray jsonArray;
         try {
             System.out.println("RESPUESTA JSON RESERVAS: " + responseStr[0]);
+            //Recorremos el array y vamos rellenando
             jsonArray = new JSONObject(responseStr[0]).getJSONArray("horarios");
             ArrayList<Reserva> lista = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -624,18 +637,18 @@ public class PanelReservas extends javax.swing.JPanel {
     }
 
     private void cargarListaReservas() {
+        //Recorremos la lista a cargar y vamos dando formato
         DefaultListModel<String> modelo = new DefaultListModel<>();
         if (listaReservas != null) {
-        for (int i = 0; i < listaReservas.size(); i++) {
-            Reserva r = listaReservas.get(i);
-            modelo.addElement("Cliente : " + r.getNombre_apellidos() + " Comensales : " + r.getN_personas());
-            System.out.println("Cliente : " + r.getNombre_apellidos() + " Comensales : " + r.getN_personas());
-        }
-        jListReservas2.setModel(modelo);
-            
+            for (int i = 0; i < listaReservas.size(); i++) {
+                Reserva r = listaReservas.get(i);
+                modelo.addElement("Cliente : " + r.getNombre_apellidos() + " Comensales : " + r.getN_personas());
+            }
+            jListReservas2.setModel(modelo);
+
         }
     }
-
+    
     public String[] leerSalones() {
         final JSONArray[] jsonArray = new JSONArray[1];
         Runnable runnable = new Runnable() {
@@ -670,8 +683,10 @@ public class PanelReservas extends javax.swing.JPanel {
                         reader.close();
                         connection.disconnect();
                         System.out.println("Respuesta insertar aforo" + response);
-                        jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
-                        System.out.println(jsonArray[0]);
+                        if (new JSONObject(String.valueOf(response)).getInt("codigo") == 1) {
+                            jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
+                            System.out.println(jsonArray[0]);
+                        }
                     } else {
                         connection.disconnect();
                     }
@@ -695,7 +710,7 @@ public class PanelReservas extends javax.swing.JPanel {
             throw new RuntimeException(e);
         }
         if (jsonArray[0] == null) {
-            JOptionPane.showMessageDialog(this.getParent(), "No hay reservas", "Aviso", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(this.getParent(), "No hay salones", "Aviso", JOptionPane.PLAIN_MESSAGE);
             return null;
         } else {
             String[] textos = new String[jsonArray[0].length() + 1];
@@ -710,6 +725,7 @@ public class PanelReservas extends javax.swing.JPanel {
                 }
 
             }
+            jcbFiltro2.removeAllItems();
             for (String s : textos) {
                 jcbFiltro2.addItem(s);
             }

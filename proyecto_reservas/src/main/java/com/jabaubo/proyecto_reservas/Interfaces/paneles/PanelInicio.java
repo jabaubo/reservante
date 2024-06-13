@@ -40,7 +40,7 @@ import org.json.JSONObject;
 public class PanelInicio extends javax.swing.JPanel {
 
     private InterfazPrincipal interfazPrincipal;
-
+    boolean haySalones = true;
     /**
      * Creates new form PanelInicio
      */
@@ -224,132 +224,8 @@ public class PanelInicio extends javax.swing.JPanel {
     }//GEN-LAST:event_jListOcupacionReservas1MouseClicked
 
 
-    /*
     public String leerTramos(String fecha) {
         LocalDate fechaDate = LocalDate.parse(fecha);
-        final JSONArray[] horario = {new JSONArray()};
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // Conectamos a la pagina con el método que queramos
-                try {
-                    URL url = new URL("https://reservante.mjhudesings.com/slim/gethorario");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    connection.setDoOutput(true);
-                    connection.setRequestProperty("Content-Type", "application/json");
-                    connection.setRequestProperty("Accept", "application/json");
-                    OutputStream os = connection.getOutputStream();
-                    System.out.println("TETica");
-                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                    String jsonFecha = "{\n"
-                            + "    \"id\":\"#PARAMID#\"\n"
-                            + "}";
-                    jsonFecha = jsonFecha.replace("#PARAMID#", String.valueOf(interfazPrincipal.getRestaurante()));
-                    osw.write(jsonFecha);
-                    osw.flush();
-                    int responseCode = connection.getResponseCode();
-                    //Ver si la respuesta es correcta
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        // Si es correcta la leemos
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
-                        StringBuilder response = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
-                        }
-                        reader.close();
-                        System.out.println("Respuesta leer tramos " + response);
-                        horario[0] = new JSONObject(response.toString()).getJSONArray("horarios");
-                        connection.disconnect();
-                    } else {
-                        connection.disconnect();
-                    }
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                } catch (ProtocolException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (JSONException e) {
-                }
-
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        int dia = fechaDate.getDayOfWeek().getValue();
-        if (horario[0].length() > 0) {
-            JSONObject jsonObject;
-            jsonObject = (horario[0].getJSONObject(dia - 1));
-            LocalTime incremento = leerIncremento();
-            LocalDateTime inicio_m;
-            LocalDateTime fin_m;
-            LocalDateTime inicio_t;
-            LocalDateTime fin_t;
-            LocalDateTime[] tramos;
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            try {
-                inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
-                fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
-                inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
-                fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
-                Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
-                System.out.println("En teoría se ejecuta " + tramos.length);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-            int contador = 0;
-            LocalDateTime tramo = inicio_m;
-            while (fin_m.isAfter(tramo)) {
-                tramos[contador] = tramo;
-                System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
-                contador++;
-                tramo = tramo.plusHours(incremento.getHour());
-                tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_m.isBefore(tramo)) {
-                    break;
-                }
-
-            }
-            tramo = inicio_t;
-            while (fin_t.isAfter(tramo)) {
-                tramos[contador] = tramo;
-                System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
-                contador++;
-                tramo = tramo.plusHours(incremento.getHour());
-                tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_t.isBefore(tramo)) {
-                    break;
-                }
-            }
-            String texto = "SELECT '#PARAM1#' AS value ";
-            for (LocalDateTime t : tramos) {
-                if (t != null) {
-                    if (texto.contains("'#PARAM1#'")) {
-                        texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
-                    } else {
-                        texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
-                    }
-                }
-            }
-            System.out.println(texto);
-            return texto;
-        }
-        JOptionPane.showMessageDialog(interfazPrincipal, "Error en el calculo de tramos","Error",JOptionPane.ERROR_MESSAGE);
-        return "Error";
-    }
-     */
-    public String leerTramos(String fecha) {
-        LocalDate fechaDate = null;
-        fechaDate = LocalDate.parse(fecha);
         final JSONArray[] horario = {new JSONArray()};
         //Preparamos la petición
         Runnable runnable = new Runnable() {
@@ -412,7 +288,6 @@ public class PanelInicio extends javax.swing.JPanel {
         JSONObject jsonObject;
         try {
             jsonObject = (horario[0].getJSONObject(dia - 1));
-            System.out.println("JSON;" + jsonObject);
         } catch (JSONException e) {
             return null;
         }
@@ -421,73 +296,67 @@ public class PanelInicio extends javax.swing.JPanel {
         if (incremento.getMinute() == 0 && incremento.getHour() == 0) {
             return null;
         }
-        if (jsonObject.getInt("cerrado") != 1) {
-            LocalDateTime inicio_m;
-            LocalDateTime fin_m;
-            LocalDateTime inicio_t;
-            LocalDateTime fin_t;
-            LocalDateTime[] tramos;
-            DateTimeFormatter dateTimeFormatter = null;
-            dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            try {
-                //Cargamos los valores
-                inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
-                fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
-                inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
-                fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
-                //Calculamos la cantidad de tramos matutinos
-                Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                System.out.println(tramos_m);
-                //Calculamos la cantidad de tramos de la tarde
-                Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                System.out.println(tramos_t);
-                tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-            int contador = 0;
-            //Cálculo de tramos matutinos
-            LocalDateTime tramo = inicio_m;
-            while (fin_m.isAfter(tramo)) {
-                tramos[contador] = tramo;
-                contador++;
-                tramo = tramo.plusHours(incremento.getHour());
-                tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_m.isBefore(tramo) || tramo.until(fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
-                    break;
-                }
-
-            }
-            //Cálculo de tramos de la tarde
-            tramo = inicio_t;
-            while (fin_t.isAfter(tramo)) {
-                tramos[contador] = tramo;
-                contador++;
-                tramo = tramo.plusHours(incremento.getHour());
-                tramo = tramo.plusMinutes(incremento.getMinute());
-                if (fin_t.isBefore(tramo)) {
-                    break;
-                }
-            }
-            //Preparamos la consulta
-            String texto = "SELECT '#PARAM1#' AS value ";
-            for (LocalDateTime t : tramos) {
-                if (t != null) {
-                    if (texto.contains("#PARAM1#")) {
-                        texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
-                    } else {
-                        texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
-                    }
-                }
-            }
-            //Vemos si se ha preparado correctamente
-            if (texto.contains("#PARAM1#")) {
-                System.out.println("Me salgo aquí");
-                return null;
-            }
-            return texto;
+        LocalDateTime inicio_m;
+        LocalDateTime fin_m;
+        LocalDateTime inicio_t;
+        LocalDateTime fin_t;
+        LocalDateTime[] tramos;
+        DateTimeFormatter dateTimeFormatter = null;
+        dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try {
+            //Cargamos los valores
+            inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
+            fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
+            inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
+            fin_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_t"), dateTimeFormatter);
+            //Calculamos la cantidad de tramos matutinos
+            Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+            //Calculamos la cantidad de tramos de la tarde
+            Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
+            tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 2];
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
-        return "Error";
+        int contador = 0;
+        //Cálculo de tramos matutinos
+        LocalDateTime tramo = inicio_m;
+        while (fin_m.isAfter(tramo)) {
+            tramos[contador] = tramo;
+            contador++;
+            tramo = tramo.plusHours(incremento.getHour());
+            tramo = tramo.plusMinutes(incremento.getMinute());
+            if (fin_m.isBefore(tramo) || tramo.until(fin_m, ChronoUnit.MINUTES) < (incremento.getHour() * 60 + incremento.getMinute())) {
+                break;
+            }
+
+        }
+        //Cálculo de tramos de la tarde
+        tramo = inicio_t;
+        while (fin_t.isAfter(tramo)) {
+            tramos[contador] = tramo;
+            contador++;
+            tramo = tramo.plusHours(incremento.getHour());
+            tramo = tramo.plusMinutes(incremento.getMinute());
+            if (fin_t.isBefore(tramo)) {
+                break;
+            }
+        }
+        //Preparamos la consulta
+        String texto = "SELECT '#PARAM1#' AS value ";
+        for (LocalDateTime t : tramos) {
+            if (t != null) {
+                if (texto.contains("#PARAM1#")) {
+                    texto = texto.replace("#PARAM1#", t.toLocalTime().toString());
+                } else {
+                    texto += " UNION SELECT '" + t.toLocalTime().toString() + "'";
+                }
+            }
+        }
+        //Vemos si se ha preparado correctamente
+        if (texto.contains("#PARAM1#")) {
+            return null;
+        }
+        return texto;
     }
 
     public LocalTime leerIncremento() {
@@ -552,7 +421,7 @@ public class PanelInicio extends javax.swing.JPanel {
     }
 
     public void cargarOcupacion(String fecha, JList<Ocupacion> lista) {
-        System.out.println("HOLA BUENAS TARDES");
+        //Vemos la consulta
         String tramos = leerTramos(fecha);
         if (tramos != null) {
             if (!tramos.equals("Error")) {
@@ -569,8 +438,8 @@ public class PanelInicio extends javax.swing.JPanel {
                                 connection.setDoOutput(true);
                                 connection.setRequestProperty("Content-Type", "application/json");
                                 connection.setRequestProperty("Accept", "application/json");
+                                //Preparamos el json
                                 OutputStream os = connection.getOutputStream();
-                                System.out.println("TETica");
                                 OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                                 String consulta = leerTramos(fecha);
                                 String jsonFecha = "{\n"
@@ -597,14 +466,11 @@ public class PanelInicio extends javax.swing.JPanel {
                                     }
                                     reader.close();
                                     System.out.println(response);
+                                    //Comprobamos si hay salones
                                     if (!response.toString().contains("No hay salones")) {
                                         JSONArray jsonArray = new JSONObject(response.toString()).getJSONArray("reservas");
                                         int n_salones = jsonArray.getJSONObject(0).getInt("n_salones");
-                                        System.out.println("tope :" + n_salones);
-                                        System.out.println("JSON ARRAY: " + jsonArray);
-                                        System.out.println("JSON ARRAY LENGTH: " + jsonArray.length());
-                                        System.out.println("Respuesta inicio " + response);
-                                        //while ()
+                                        //Si hay recorremos el array y vamos cargando
                                         for (int i = 0; i < jsonArray.length(); i += n_salones) {
                                             int reservasTotal = 0;
                                             String ocupacion = "";
@@ -658,12 +524,11 @@ public class PanelInicio extends javax.swing.JPanel {
             }
         }
     }
-
+    
     public ArrayList<Reserva> verReservas(String fecha, String hora) {
         final JSONArray[] jsonArray = new JSONArray[1];
         ArrayList<Reserva> lista = new ArrayList<>();
         try {
-            System.out.println("Pa dentro");
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -675,6 +540,7 @@ public class PanelInicio extends javax.swing.JPanel {
                         connection.setDoOutput(true);
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        //Json a mandar
                         String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\",\"id\":\"#PARAMID#\"}";
                         jsonRequest = jsonRequest.replace("#PARAMFECHA#", fecha);
                         jsonRequest = jsonRequest.replace("#PARAMHORA#", hora);
@@ -695,6 +561,7 @@ public class PanelInicio extends javax.swing.JPanel {
                             }
                             reader.close();
                             jsonArray[0] = new JSONObject(response.toString()).getJSONArray("reservas");
+                            //Recorremos el array y rellenamos
                             for (int i = 0; i < jsonArray[0].length(); i++) {
                                 Reserva r = new Reserva();
                                 JSONObject json = jsonArray[0].getJSONObject(i);

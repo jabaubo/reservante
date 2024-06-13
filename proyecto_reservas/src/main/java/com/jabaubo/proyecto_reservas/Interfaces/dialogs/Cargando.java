@@ -8,10 +8,6 @@ import com.jabaubo.proyecto_reservas.Interfaces.InterfazPrincipal;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
-/**
- *
- * @author pokem
- */
 public class Cargando extends javax.swing.JDialog {
 
     /**

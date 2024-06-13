@@ -56,13 +56,15 @@ public class PanelCalendario extends javax.swing.JPanel {
 
     public PanelCalendario() {
         initComponents();
+//Arrancamos en la fecha actual
         month = LocalDate.now().getMonth().getValue();
         year = LocalDate.now().getYear();
     }
 
-    public PanelCalendario(int month, int year, InterfazPrincipal interfazPrincipal, int restaurante) {
-        this.month = month;
-        this.year = year;
+    public PanelCalendario(InterfazPrincipal interfazPrincipal, int restaurante) {
+        //Arrancamos en la fecha actual
+        this.month = LocalDate.now().getMonthValue();
+        this.year = LocalDate.now().getYear();
         this.interfazPrincipal = interfazPrincipal;
         this.restaurante = restaurante;
         initComponents();
@@ -70,11 +72,13 @@ public class PanelCalendario extends javax.swing.JPanel {
     }
 
     public void cargarDatos() {
+        //Creamos un calendar con el mes actual
         Calendar c = Calendar.getInstance();
         c.set(Calendar.MONTH, month - 1);
         c.set(Calendar.YEAR, year);
         month = c.get(Calendar.MONTH) + 1;
         year = c.get(Calendar.YEAR);
+        //Depende del mes ponemos un título u otro en la etiqueta
         switch (c.get(Calendar.MONTH)) {
             case Calendar.JANUARY:
                 jlFechaCalendario.setText("Enero de " + c.get(Calendar.YEAR));
@@ -116,6 +120,7 @@ public class PanelCalendario extends javax.swing.JPanel {
                 jlFechaCalendario.setText("Error al obtener el mes");
                 break;
         }
+        //Marcamos como título los días de la semana
         celdaLunes.setTitle(true);
         celdaMartes.setTitle(true);
         celdaMiercoles.setTitle(true);
@@ -128,17 +133,22 @@ public class PanelCalendario extends javax.swing.JPanel {
     }
 
     public void setDate() {
+        //Creamos un calendario para la fecha de hoy
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
+        //Calculamos desde que dia empezamos
         int start = calendar.get(Calendar.DAY_OF_WEEK) - 2;
+        //Si el mes empieza en domingo hay que empezar una semana antes
         if (start < 0) {
             calendar.add(Calendar.DATE, -7);
         }
         calendar.add(Calendar.DATE, -start);
+        //Vamos recorriendo el panel
         for (Component com : panelCalendario.getComponents()) {
             CeldaCalendario c = (CeldaCalendario) com;
+            //Si la celda es de día formateamos en base a día y mes
             if (!c.isTitle()) {
                 c.setFocusPainted(true);
                 c.setText(calendar.get(Calendar.DATE) + "");
@@ -146,6 +156,7 @@ public class PanelCalendario extends javax.swing.JPanel {
                 c.setBackground(new ColorUIResource(243, 244, 248));
                 c.currentMonth(calendar.get(Calendar.MONTH) == month - 1);
                 calendar.add(Calendar.DATE, 1);
+           //Si no , damos formato de cabecera
             } else {
                 c.setBackground(new ColorUIResource(109, 34, 109));
                 c.setForeground(Color.WHITE);
@@ -163,8 +174,8 @@ public class PanelCalendario extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbAnterior = new javax.swing.JButton();
+        jbSiguiente = new javax.swing.JButton();
         jlFechaCalendario = new javax.swing.JLabel();
         jlFechaSeleccionada = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -226,17 +237,17 @@ public class PanelCalendario extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(125, 59, 125));
         jPanel1.setOpaque(false);
 
-        jButton1.setText("Mes anterior");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbAnterior.setText("Mes anterior");
+        jbAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbAnteriorActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Mes siguiente");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jbSiguiente.setText("Mes siguiente");
+        jbSiguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jbSiguienteActionPerformed(evt);
             }
         });
 
@@ -257,11 +268,11 @@ public class PanelCalendario extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(jbAnterior)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jlFechaCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jlFechaSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -271,8 +282,8 @@ public class PanelCalendario extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(jbSiguiente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jlFechaSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jlFechaCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -771,14 +782,16 @@ public class PanelCalendario extends javax.swing.JPanel {
         cargarOcupacion(celda.fechaFormateada());
     }//GEN-LAST:event_onClickDia
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jbSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSiguienteActionPerformed
         // TODO add your handling code here:
+        //Pasar al mes siguiente
         Calendar c = Calendar.getInstance();
         c.set(Calendar.MONTH, month - 1);
         c.set(Calendar.YEAR, year);
         c.add(Calendar.MONTH, 1);
         month = c.get(Calendar.MONTH) + 1;
         year = c.get(Calendar.YEAR);
+        //Cargamos el mes en base al valor
         switch (c.get(Calendar.MONTH)) {
             case Calendar.JANUARY:
                 jlFechaCalendario.setText("Enero de " + c.get(Calendar.YEAR));
@@ -820,10 +833,11 @@ public class PanelCalendario extends javax.swing.JPanel {
                 jlFechaCalendario.setText("Error al obtener el mes");
                 break;
         }
+        //Formateamos las celdas otra vez
         setDate();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jbSiguienteActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAnteriorActionPerformed
         // TODO add your handling code here:
         Calendar c = Calendar.getInstance();
         c.set(Calendar.MONTH, month - 1);
@@ -831,6 +845,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         c.add(Calendar.MONTH, -1);
         month = c.get(Calendar.MONTH) + 1;
         year = c.get(Calendar.YEAR);
+        //Cargamos el titulo en base al valor del mes
         switch (c.get(Calendar.MONTH)) {
             case Calendar.JANUARY:
                 jlFechaCalendario.setText("Enero de " + c.get(Calendar.YEAR));
@@ -872,30 +887,35 @@ public class PanelCalendario extends javax.swing.JPanel {
                 jlFechaCalendario.setText("Error al obtener el mes");
                 break;
         }
+        //Formateamos las celdas
         setDate();
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jbAnteriorActionPerformed
 
     private void jListOcupacionReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListOcupacionReservasMouseClicked
         // TODO add your handling code here:
+        //Comprobamos la elegida y vemos las reservas para esa fecha y hora
         Ocupacion o = jListOcupacionReservas.getSelectedValue();
         ArrayList<Reserva> lista = verReservas(o.getFecha().toString(), o.getHora().toString());
+        //Vemos si hay reservas
         if (lista.size() <= 0) {
+            //Si hay, abrimos el dialog con reservas
             ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), interfazPrincipal.getRestaurante());
             reservasDialog.setVisible(true);
             cargarOcupacion(o.getFecha().toString());
         } else {
+            //Si no, abrimos el dialog vacío
             ReservasDialog reservasDialog = new ReservasDialog(interfazPrincipal, true, o.getFecha(), o.getHora(), lista, interfazPrincipal.getRestaurante());
             reservasDialog.setVisible(true);
             cargarOcupacion(o.getFecha().toString());
         }
     }//GEN-LAST:event_jListOcupacionReservasMouseClicked
-
+    
     public ArrayList<Reserva> verReservas(String fecha, String hora) {
         final JSONArray[] jsonArray = new JSONArray[1];
+        //Lista en la que se van a almacenar las reservas
         ArrayList<Reserva> lista = new ArrayList<>();
         try {
-            System.out.println("Pa dentro");
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -905,13 +925,13 @@ public class PanelCalendario extends javax.swing.JPanel {
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("POST");
                         connection.setDoOutput(true);
+                        //Json petición
                         OutputStream os = connection.getOutputStream();
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String jsonRequest = "{\"fecha\": \"#PARAMFECHA#\",\"hora\":\"#PARAMHORA#\",\"id\":\"#PARAMID#\"}";
                         jsonRequest = jsonRequest.replace("#PARAMFECHA#", fecha);
                         jsonRequest = jsonRequest.replace("#PARAMHORA#", hora);
                         jsonRequest = jsonRequest.replace("#PARAMID#", String.valueOf(restaurante));
-                        System.out.println("jsonRequest " + jsonRequest);
                         osw.write(jsonRequest);
                         osw.flush();
                         int responseCode = connection.getResponseCode();
@@ -927,6 +947,7 @@ public class PanelCalendario extends javax.swing.JPanel {
                             }
                             reader.close();
                             jsonArray[0] = new JSONObject(response.toString()).getJSONArray("reservas");
+                            //Recorremos el array y vamos rellenando
                             for (int i = 0; i < jsonArray[0].length(); i++) {
                                 Reserva r = new Reserva();
                                 JSONObject json = jsonArray[0].getJSONObject(i);
@@ -966,6 +987,7 @@ public class PanelCalendario extends javax.swing.JPanel {
     }
 
     public void cargarOcupacion(String fecha) {
+        //Modelo en el q vamos a almacenar la ocupación
         DefaultListModel<Ocupacion> modelo = new DefaultListModel<>();
         JSONObject[] json = new JSONObject[1];
         try {
@@ -981,8 +1003,8 @@ public class PanelCalendario extends javax.swing.JPanel {
                         connection.setRequestProperty("Content-Type", "application/json");
                         connection.setRequestProperty("Accept", "application/json");
                         OutputStream os = connection.getOutputStream();
-                        System.out.println("TETica");
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                        //Calculamos los tramos y generamos una serie de valores en base a estos
                         String consulta = leerTramos(fecha);
                         String jsonFecha = "{\n"
                                 + "    \"consulta\":\"SELECT range_values.value,salones.nombre,(SELECT COUNT(*) FROM salones WHERE id_restaurante = #PARAMID#) as n_salones,COUNT(reservas.id_salon) AS n_reservas,COALESCE(SUM(reservas.n_personas), 0) AS n_personas,salones.aforo AS aforo  FROM (#TRAMOS#) AS range_values  CROSS JOIN salones on salones.id_salon in (SELECT id_salon FROM salones WHERE id_restaurante = #PARAMID#) LEFT JOIN reservas ON range_values.value = reservas.hora AND reservas.fecha = '#PARAMFECHA#' AND salones.id_salon = reservas.id_salon  GROUP BY range_values.value, salones.id_salon  ORDER BY range_values.value ASC\",\n"
@@ -1007,9 +1029,7 @@ public class PanelCalendario extends javax.swing.JPanel {
                                 response.append(line);
                             }
                             reader.close();
-                            System.out.println("RESPUESTA api " + response);
                             json[0] = new JSONObject(response.toString());
-                            System.out.println("JSON en ARRAY hilo: " + json[0]);
                         }
                         connection.disconnect();
                     } catch (MalformedURLException e) {
@@ -1028,24 +1048,19 @@ public class PanelCalendario extends javax.swing.JPanel {
             Thread thread = new Thread(runnable);
             thread.start();
             thread.join();
+            //Comprobamos las respuestas
             if (json[0] == null) {
-                JOptionPane.showMessageDialog(panelCalendario, "No se han encontrado tramos , revise el horario , la duración de las reservas y los salones", "Error", JOptionPane.PLAIN_MESSAGE);
-            }
-            else if (json[0].toString().contains("restaurante cerrado")) {
+                JOptionPane.showMessageDialog(interfazPrincipal, "No se han encontrado tramos , revise el horario , la duración de las reservas y los salones", "Error", JOptionPane.PLAIN_MESSAGE);
+            } else if (json[0].toString().contains("restaurante cerrado")) {
                 jListOcupacionReservas.setModel(modelo);
-                JOptionPane.showMessageDialog(panelCalendario, "Ese día no está abierto el restaurante", "Aviso", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(interfazPrincipal, "Ese día no está abierto el restaurante", "Aviso", JOptionPane.PLAIN_MESSAGE);
             } else if (json[0].toString().contains("restaurante de vacaciones")) {
                 jListOcupacionReservas.setModel(modelo);
-                JOptionPane.showMessageDialog(panelCalendario, "Ese día está dentro de un periódo vacaciconal", "Aviso", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(interfazPrincipal, "Ese día está dentro de un periódo vacaciconal", "Aviso", JOptionPane.PLAIN_MESSAGE);
             } else if (json[0].getInt("codigo") == 1) {
-                System.out.println("RESPUESTA CARGA: " + json[0]);
                 JSONArray jsonArray = json[0].getJSONArray("reservas");
                 int n_salones = jsonArray.getJSONObject(0).getInt("n_salones");
-                System.out.println("tope :" + n_salones);
-                System.out.println("JSON ARRAY: " + jsonArray);
-                System.out.println("JSON ARRAY LENGTH: " + jsonArray.length());
-
-                //while ()
+                //Vamos recorriendo el array y rellenando
                 for (int i = 0; i < jsonArray.length(); i += n_salones) {
                     int reservasTotal = 0;
                     String ocupacion = "";
@@ -1056,6 +1071,7 @@ public class PanelCalendario extends javax.swing.JPanel {
                         reservasTotal += Integer.valueOf(nReservas);
                         String nPersonas = jsonObject.getString("n_personas");
                         String aforoSalon = jsonObject.getString("aforo");
+                        //Formateamos ocupación en base a %
                         float ratio = Float.parseFloat(nPersonas) / Float.parseFloat(aforoSalon);
                         if (ratio < 0.33f) {
                             ocupacion += String.format("%s <font color='#008000'>%s</font>/%s<br></br>", nombreSalon, nPersonas, aforoSalon);
@@ -1072,12 +1088,10 @@ public class PanelCalendario extends javax.swing.JPanel {
                     o.setOcupacion(ocupacion);
                     o.setFecha(LocalDate.parse(fecha));
                     modelo.addElement(o);
-                    jListOcupacionReservas.setModel(modelo);
                 }
-
-            }
-            else{
-                JOptionPane.showMessageDialog(this, "Revise la duración de reservas, el horario y los salones","Error",JOptionPane.ERROR_MESSAGE);
+                jListOcupacionReservas.setModel(modelo);
+            } else {
+                JOptionPane.showMessageDialog(this, "Revise la duración de reservas, el horario y los salones", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(PanelCalendario.class.getName()).log(Level.SEVERE, null, ex);
@@ -1141,6 +1155,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        //Leemos el horario del día que nos interese
         int dia = fechaDate.getDayOfWeek().getValue();
         JSONObject jsonObject;
         try {
@@ -1148,6 +1163,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+        
         LocalTime incremento = leerIncremento();
         LocalDateTime inicio_m;
         LocalDateTime fin_m;
@@ -1156,6 +1172,7 @@ public class PanelCalendario extends javax.swing.JPanel {
         LocalDateTime[] tramos;
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
+            //Cargamos los topes y calculamos la cantidad de tramos
             inicio_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_m"), dateTimeFormatter);
             fin_m = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_fin_m"), dateTimeFormatter);
             inicio_t = LocalDateTime.parse(fecha + " " + jsonObject.getString("hora_inicio_t"), dateTimeFormatter);
@@ -1163,33 +1180,37 @@ public class PanelCalendario extends javax.swing.JPanel {
             Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
             Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
             tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 2];
-            System.out.println("En teoría se ejecuta " + tramos.length);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
         int contador = 0;
+        //Empezamos en el inicio de la mañana
         LocalDateTime tramo = inicio_m;
         while (fin_m.isAfter(tramo)) {
             tramos[contador] = tramo;
-            System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_m);
             contador++;
+            //Sumamos el incremento
             tramo = tramo.plusHours(incremento.getHour());
             tramo = tramo.plusMinutes(incremento.getMinute());
             if (fin_m.isBefore(tramo)) {
+                //Si nos hemos salido de la mañana , nos salimos del bucle
                 break;
             }
         }
+        //Vamos al inicio de la tarde
         tramo = inicio_t;
         while (fin_t.isAfter(tramo)) {
             tramos[contador] = tramo;
-            System.out.println(tramo + " ejecucion " + (contador + 1) + " tope " + fin_t);
             contador++;
+            //Sumamos el incremento
             tramo = tramo.plusHours(incremento.getHour());
             tramo = tramo.plusMinutes(incremento.getMinute());
             if (fin_t.isBefore(tramo)) {
+                //Si nos hemos salido de la tarde , nos salimos del bucle
                 break;
             }
         }
+        //Preparamos la subconsulta con los tramos
         String texto = "SELECT '#PARAM1#' AS value ";
         for (LocalDateTime t : tramos) {
             if (t != null) {
@@ -1200,7 +1221,6 @@ public class PanelCalendario extends javax.swing.JPanel {
                 }
             }
         }
-        System.out.println(texto);
         return texto;
     }
 
@@ -1218,8 +1238,8 @@ public class PanelCalendario extends javax.swing.JPanel {
                         connection.setDoOutput(true);
                         connection.setRequestProperty("Content-Type", "application/json");
                         connection.setRequestProperty("Accept", "application/json");
+                        //Json a mandar
                         OutputStream os = connection.getOutputStream();
-                        System.out.println("TETica");
                         OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                         String jsonFecha = "{\n"
                                 + "    \"id\":\"#PARAMID#\"\n"
@@ -1314,12 +1334,12 @@ public class PanelCalendario extends javax.swing.JPanel {
     private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaMiercoles;
     private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaSabado;
     private com.jabaubo.proyecto_reservas.Clases.CeldaCalendario celdaViernes;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JList<Ocupacion> jListOcupacionReservas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbAnterior;
+    private javax.swing.JButton jbSiguiente;
     private javax.swing.JLabel jlFechaCalendario;
     private javax.swing.JLabel jlFechaSeleccionada;
     private javax.swing.JPanel panelCalendario;

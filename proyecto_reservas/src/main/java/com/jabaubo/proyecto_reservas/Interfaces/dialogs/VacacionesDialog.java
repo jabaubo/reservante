@@ -29,10 +29,6 @@ import javax.swing.plaf.ColorUIResource;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- *
- * @author pokem
- */
 public class VacacionesDialog extends javax.swing.JDialog {
 
     private Vacaciones vacacion;
@@ -54,6 +50,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
         }
         initComponents();
         jbBorrar.setEnabled(false);
+        //Preparamos los calendarios
         calendar1 = Calendar.getInstance();
         calendar2 = Calendar.getInstance();
         celdaLunes.setTitle(true);
@@ -86,11 +83,12 @@ public class VacacionesDialog extends javax.swing.JDialog {
             System.exit(200);
         }
         initComponents();
-        calendar1 = Calendar.getInstance();
-        System.out.println(v.getInicio().toEpochDay());
-        calendar1.setTimeInMillis(v.getInicio().toEpochDay() * 24 * 3600000);
+        //Preparamos los calendarios
         calendar2 = Calendar.getInstance();
-        calendar2.setTimeInMillis(v.getFin().toEpochDay() * 24 * 3600000);
+        System.out.println(v.getInicio().toEpochDay());
+        calendar2.setTimeInMillis(v.getInicio().toEpochDay() * 24 * 3600000);
+        calendar1 = Calendar.getInstance();
+        calendar1.setTimeInMillis(v.getFin().toEpochDay() * 24 * 3600000);
         System.out.println(v.getFin().toEpochDay());
         celdaLunes.setTitle(true);
         celdaMartes.setTitle(true);
@@ -116,6 +114,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
 
     public void setDate(Calendar calendarValues, JPanel panelCalendario, JLabel etiqueta) {
         Calendar calendar = (Calendar) calendarValues.clone();
+        //Mes y año a la etiqueta
         switch (calendarValues.get(Calendar.MONTH)) {
             case Calendar.JANUARY:
                 etiqueta.setText("Enero de " + calendar.get(Calendar.YEAR));
@@ -162,6 +161,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
         if (start < 0) {
             calendar.add(Calendar.DATE, -7);
         }
+        //Vamos recorriendo el panel configurando los botones que no son los indicadores de día
         calendar.add(Calendar.DATE, -start);
         for (Component com : panelCalendario.getComponents()) {
             CeldaCalendario c = (CeldaCalendario) com;
@@ -317,7 +317,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
         jlTitulo.setBackground(new java.awt.Color(109, 34, 109));
         jlTitulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jlTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlTitulo.setText("FECHA : 30-04-2024 TRAMO 12:30");
+        jlTitulo.setText("Vacacion");
         jlTitulo.setOpaque(true);
 
         jLabel1.setText("Nombre");
@@ -1341,7 +1341,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
+    
     private void celdaLunesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_celdaLunesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_celdaLunesActionPerformed
@@ -2162,19 +2162,16 @@ public class VacacionesDialog extends javax.swing.JDialog {
         final String nombre = jtfNombre.getText();
         final String fecha1 = seleccionada1.fechaFormateada();
         final String fecha2 = seleccionada2.fechaFormateada();
-        System.out.println("INICIO " + LocalDate.parse(fecha2));
-        System.out.println("FIN " + LocalDate.parse(fecha1));
-        System.out.println("CONDICIÓN " + LocalDate.parse(fecha2).isAfter(LocalDate.parse(fecha1)));
+        //Comprobamos que las fechas sean lógicas
         if (!LocalDate.parse(fecha1).isAfter(LocalDate.parse(fecha2))) {
             JOptionPane.showMessageDialog(interfazPrincipal, "La fecha de inicio no puede ser posterior a la de fin", "Advertencia", JOptionPane.ERROR_MESSAGE);
         } else {
-            System.out.println("INICIO VACACIÓN " + fecha1);
-            System.out.println("FIN VACACIÓN " + fecha2);
+            //Actualizando
             if (editando) {
-                Vacaciones v = new Vacaciones(nombre, fecha1, fecha2, vacacion.getIdRestaurante(), vacacion.getId());
-                System.out.println(v.toJson());
+                Vacaciones v = new Vacaciones(nombre,  fecha2,fecha1, vacacion.getIdRestaurante(), vacacion.getId());
+                //Comprobamos diferencias
                 if (v.toJson().equals(vacacion.toJson())) {
-                    JOptionPane.showMessageDialog(interfazPrincipal, "aNo hay cambios", "Aviso", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(interfazPrincipal, "No hay cambios", "Aviso", JOptionPane.PLAIN_MESSAGE);
                 } else {
                     final String[] responseStr = new String[1];
                     Runnable runnable = new Runnable() {
@@ -2226,7 +2223,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
                         throw new RuntimeException(ex);
                     }
                     try {
-                        System.out.println(responseStr[0]);
+                        //Comprobamos si se ha hecho correctamente;
                         if (responseStr[0].contains("correctamente")) {
                             JOptionPane.showMessageDialog(interfazPrincipal, "Vacación actualizada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
                         } else {
@@ -2239,6 +2236,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
 
                 }
             } else {
+                //Inserción
                 final int idRestaurante = interfazPrincipal.getRestaurante();
                 final String[] responseStr = new String[1];
                 Runnable runnable = new Runnable() {
@@ -2262,13 +2260,8 @@ public class VacacionesDialog extends javax.swing.JDialog {
                                     + "}";
                             jsonStr = jsonStr.replace("#PARAMID#", String.valueOf(idRestaurante));
                             jsonStr = jsonStr.replace("#PARAMNOMBRE#", nombre);
-<<<<<<< HEAD
                             jsonStr = jsonStr.replace("#PARAMINICIO#", fecha2);
                             jsonStr = jsonStr.replace("#PARAMFIN#", fecha1);
-=======
-                            jsonStr = jsonStr.replace("#PARAMINICIO#", fecha1);
-                            jsonStr = jsonStr.replace("#PARAMFIN#", fecha2);
->>>>>>> cb46421069677fe786747d8bc1b2a45aabb2cdcd
                             osw.write(jsonStr);
                             System.out.println(jsonStr);
                             osw.flush();
@@ -2306,7 +2299,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
                     throw new RuntimeException(ex);
                 }
                 try {
-                    System.out.println(responseStr[0]);
+                    //Comprobamos que todo ha ido correctamente
                     if (responseStr[0].contains("correctamente")) {
                         JOptionPane.showMessageDialog(interfazPrincipal, "Vacación insertada", "Mensaje", JOptionPane.PLAIN_MESSAGE);
                     } else {

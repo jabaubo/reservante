@@ -6,10 +6,6 @@ package com.jabaubo.proyecto_reservas.Clases;
 
 import java.time.LocalDate;
 
-/**
- *
- * @author pokem
- */
 public class Vacaciones {
     private int id;
     private int idRestaurante;
@@ -79,6 +75,7 @@ public class Vacaciones {
     }
     public String toJson(){
         String json = String.format("{\"id_restaurante\":\"%d\",\"inicio\":\"%s\",\"fin\":\"%s\",\"id_vacacion\":\"%d\",\"nombre\":\"%s\"}\n", this.idRestaurante,this.Inicio.toString(),this.Fin.toString(),this.id,this.nombre);
+        System.out.println(json);
         return  json;
     };
 }

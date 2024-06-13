@@ -922,7 +922,7 @@ public class ReservasFragmentFechas extends Fragment {
                 //Calculamos las cantidades de tramos
                 Long tramos_m = inicio_m.until(fin_m, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
                 Long tramos_t = inicio_t.until(fin_t, ChronoUnit.MINUTES) / (incremento.getHour() * 60 + incremento.getMinute());
-                tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 1];
+                tramos = new LocalDateTime[(int) (tramos_m + tramos_t) + 2];
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
