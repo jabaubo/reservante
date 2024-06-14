@@ -1196,151 +1196,7 @@ public class VacacionesDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public VacacionesDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        this.interfazPrincipal = (InterfazPrincipal) parent;
-        if (interfazPrincipal == null) {
-            System.exit(200);
-        }
-        initComponents();
-        jbBorrar.setEnabled(false);
-        //Preparamos los calendarios
-        calendar1 = Calendar.getInstance();
-        calendar2 = Calendar.getInstance();
-        celdaLunes.setTitle(true);
-        celdaMartes.setTitle(true);
-        celdaMiercoles.setTitle(true);
-        celdaJueves.setTitle(true);
-        celdaViernes.setTitle(true);
-        celdaSabado.setTitle(true);
-        celdaDomingo.setTitle(true);
-
-        celdaLunes1.setTitle(true);
-        celdaMartes1.setTitle(true);
-        celdaMiercoles1.setTitle(true);
-        celdaJueves1.setTitle(true);
-        celdaViernes1.setTitle(true);
-        celdaSabado1.setTitle(true);
-        celdaDomingo1.setTitle(true);
-        setDate(calendar1, panelCalendario1, jlMes1);
-        setDate(calendar2, panelCalendario2, jlMes2);
-        this.setLocationRelativeTo(null);
-        jlTitulo.setForeground(new Color(221, 221, 221));
-    }
-
-    public VacacionesDialog(java.awt.Frame parent, boolean modal, Vacaciones v) {
-        super(parent, modal);
-        this.vacacion = v;
-        this.editando = true;
-        this.interfazPrincipal = (InterfazPrincipal) parent;
-        if (interfazPrincipal == null) {
-            System.exit(200);
-        }
-        initComponents();
-        //Preparamos los calendarios
-        calendar2 = Calendar.getInstance();
-        System.out.println(v.getInicio().toEpochDay());
-        calendar2.setTimeInMillis(v.getInicio().toEpochDay() * 24 * 3600000);
-        calendar1 = Calendar.getInstance();
-        calendar1.setTimeInMillis(v.getFin().toEpochDay() * 24 * 3600000);
-        System.out.println(v.getFin().toEpochDay());
-        celdaLunes.setTitle(true);
-        celdaMartes.setTitle(true);
-        celdaMiercoles.setTitle(true);
-        celdaJueves.setTitle(true);
-        celdaViernes.setTitle(true);
-        celdaSabado.setTitle(true);
-        celdaDomingo.setTitle(true);
-
-        celdaLunes1.setTitle(true);
-        celdaMartes1.setTitle(true);
-        celdaMiercoles1.setTitle(true);
-        celdaJueves1.setTitle(true);
-        celdaViernes1.setTitle(true);
-        celdaSabado1.setTitle(true);
-        celdaDomingo1.setTitle(true);
-        setDate(calendar1, panelCalendario1, jlMes1);
-        setDate(calendar2, panelCalendario2, jlMes2);
-        jtfNombre.setText(v.getNombre());
-        this.setLocationRelativeTo(null);
-        jlTitulo.setForeground(new Color(221, 221, 221));
-    }
-
-    public void setDate(Calendar calendarValues, JPanel panelCalendario, JLabel etiqueta) {
-        Calendar calendar = (Calendar) calendarValues.clone();
-        //Mes y año a la etiqueta
-        switch (calendarValues.get(Calendar.MONTH)) {
-            case Calendar.JANUARY:
-                etiqueta.setText("Enero de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.FEBRUARY:
-                etiqueta.setText("Febrero de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.MARCH:
-                etiqueta.setText("Marzo de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.APRIL:
-                etiqueta.setText("Abril de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.MAY:
-                etiqueta.setText("Mayo de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.JUNE:
-                etiqueta.setText("Junio de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.JULY:
-                etiqueta.setText("Julio de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.AUGUST:
-                etiqueta.setText("Agosto de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.SEPTEMBER:
-                etiqueta.setText("Septiembre de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.OCTOBER:
-                etiqueta.setText("Octubre de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.NOVEMBER:
-                etiqueta.setText("Noviembre de " + calendar.get(Calendar.YEAR));
-                break;
-            case Calendar.DECEMBER:
-                etiqueta.setText("Diciembre de " + calendar.get(Calendar.YEAR));
-                break;
-            default:
-                etiqueta.setText("Error al obtener el mes");
-                break;
-        }
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        int start = calendar.get(Calendar.DAY_OF_WEEK) - 2;
-        if (start < 0) {
-            calendar.add(Calendar.DATE, -7);
-        }
-        //Vamos recorriendo el panel configurando los botones que no son los indicadores de día
-        calendar.add(Calendar.DATE, -start);
-        for (Component com : panelCalendario.getComponents()) {
-            CeldaCalendario c = (CeldaCalendario) com;
-            if (!c.isTitle()) {
-                c.setFocusPainted(true);
-                c.setText(calendar.get(Calendar.DATE) + "");
-                c.setDate(calendar.getTime());
-                if (calendar.get(Calendar.DAY_OF_YEAR) == calendarValues.get(Calendar.DAY_OF_YEAR)) {
-                    c.setBackground(new Color(128, 49, 128));
-                    if (seleccionada1 != null) {
-                        seleccionada2 = c;
-                    } else {
-                        seleccionada1 = c;
-                    }
-                } else {
-                    c.setBackground(new ColorUIResource(243, 244, 248));
-                }
-                c.currentMonth(calendar.get(Calendar.MONTH) == calendarValues.get(Calendar.MONTH));
-                calendar.add(Calendar.DATE, 1);
-            } else {
-                c.setBackground(new ColorUIResource(109, 34, 109));
-                c.setForeground(Color.WHITE);
-            }
-        }
-    }
+    
     
     private void celdaLunesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_celdaLunesActionPerformed
         // TODO add your handling code here:
@@ -2126,7 +1982,151 @@ public class VacacionesDialog extends javax.swing.JDialog {
         celdaSrc.setBackground(new Color(128, 49, 128));
         seleccionada2 = celdaSrc;
     }//GEN-LAST:event_celdaCalendario91onClickDia
+public VacacionesDialog(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        this.interfazPrincipal = (InterfazPrincipal) parent;
+        if (interfazPrincipal == null) {
+            System.exit(200);
+        }
+        initComponents();
+        jbBorrar.setEnabled(false);
+        //Preparamos los calendarios
+        calendar1 = Calendar.getInstance();
+        calendar2 = Calendar.getInstance();
+        celdaLunes.setTitle(true);
+        celdaMartes.setTitle(true);
+        celdaMiercoles.setTitle(true);
+        celdaJueves.setTitle(true);
+        celdaViernes.setTitle(true);
+        celdaSabado.setTitle(true);
+        celdaDomingo.setTitle(true);
 
+        celdaLunes1.setTitle(true);
+        celdaMartes1.setTitle(true);
+        celdaMiercoles1.setTitle(true);
+        celdaJueves1.setTitle(true);
+        celdaViernes1.setTitle(true);
+        celdaSabado1.setTitle(true);
+        celdaDomingo1.setTitle(true);
+        setDate(calendar1, panelCalendario1, jlMes1);
+        setDate(calendar2, panelCalendario2, jlMes2);
+        this.setLocationRelativeTo(null);
+        jlTitulo.setForeground(new Color(221, 221, 221));
+    }
+
+    public VacacionesDialog(java.awt.Frame parent, boolean modal, Vacaciones v) {
+        super(parent, modal);
+        this.vacacion = v;
+        this.editando = true;
+        this.interfazPrincipal = (InterfazPrincipal) parent;
+        if (interfazPrincipal == null) {
+            System.exit(200);
+        }
+        initComponents();
+        //Preparamos los calendarios
+        calendar2 = Calendar.getInstance();
+        System.out.println(v.getInicio().toEpochDay());
+        calendar2.setTimeInMillis(v.getInicio().toEpochDay() * 24 * 3600000);
+        calendar1 = Calendar.getInstance();
+        calendar1.setTimeInMillis(v.getFin().toEpochDay() * 24 * 3600000);
+        System.out.println(v.getFin().toEpochDay());
+        celdaLunes.setTitle(true);
+        celdaMartes.setTitle(true);
+        celdaMiercoles.setTitle(true);
+        celdaJueves.setTitle(true);
+        celdaViernes.setTitle(true);
+        celdaSabado.setTitle(true);
+        celdaDomingo.setTitle(true);
+
+        celdaLunes1.setTitle(true);
+        celdaMartes1.setTitle(true);
+        celdaMiercoles1.setTitle(true);
+        celdaJueves1.setTitle(true);
+        celdaViernes1.setTitle(true);
+        celdaSabado1.setTitle(true);
+        celdaDomingo1.setTitle(true);
+        setDate(calendar1, panelCalendario1, jlMes1);
+        setDate(calendar2, panelCalendario2, jlMes2);
+        jtfNombre.setText(v.getNombre());
+        this.setLocationRelativeTo(null);
+        jlTitulo.setForeground(new Color(221, 221, 221));
+    }
+
+    public void setDate(Calendar calendarValues, JPanel panelCalendario, JLabel etiqueta) {
+        Calendar calendar = (Calendar) calendarValues.clone();
+        //Mes y año a la etiqueta
+        switch (calendarValues.get(Calendar.MONTH)) {
+            case Calendar.JANUARY:
+                etiqueta.setText("Enero de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.FEBRUARY:
+                etiqueta.setText("Febrero de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.MARCH:
+                etiqueta.setText("Marzo de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.APRIL:
+                etiqueta.setText("Abril de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.MAY:
+                etiqueta.setText("Mayo de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.JUNE:
+                etiqueta.setText("Junio de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.JULY:
+                etiqueta.setText("Julio de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.AUGUST:
+                etiqueta.setText("Agosto de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.SEPTEMBER:
+                etiqueta.setText("Septiembre de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.OCTOBER:
+                etiqueta.setText("Octubre de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.NOVEMBER:
+                etiqueta.setText("Noviembre de " + calendar.get(Calendar.YEAR));
+                break;
+            case Calendar.DECEMBER:
+                etiqueta.setText("Diciembre de " + calendar.get(Calendar.YEAR));
+                break;
+            default:
+                etiqueta.setText("Error al obtener el mes");
+                break;
+        }
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        int start = calendar.get(Calendar.DAY_OF_WEEK) - 2;
+        if (start < 0) {
+            calendar.add(Calendar.DATE, -7);
+        }
+        //Vamos recorriendo el panel configurando los botones que no son los indicadores de día
+        calendar.add(Calendar.DATE, -start);
+        for (Component com : panelCalendario.getComponents()) {
+            CeldaCalendario c = (CeldaCalendario) com;
+            if (!c.isTitle()) {
+                c.setFocusPainted(true);
+                c.setText(calendar.get(Calendar.DATE) + "");
+                c.setDate(calendar.getTime());
+                if (calendar.get(Calendar.DAY_OF_YEAR) == calendarValues.get(Calendar.DAY_OF_YEAR)) {
+                    c.setBackground(new Color(128, 49, 128));
+                    if (seleccionada1 != null) {
+                        seleccionada2 = c;
+                    } else {
+                        seleccionada1 = c;
+                    }
+                } else {
+                    c.setBackground(new ColorUIResource(243, 244, 248));
+                }
+                c.currentMonth(calendar.get(Calendar.MONTH) == calendarValues.get(Calendar.MONTH));
+                calendar.add(Calendar.DATE, 1);
+            } else {
+                c.setBackground(new ColorUIResource(109, 34, 109));
+                c.setForeground(Color.WHITE);
+            }
+        }
+    }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         calendar2.add(Calendar.MONTH, 1);
         setDate(calendar2, panelCalendario2, jlMes2);        // TODO add your handling code here:

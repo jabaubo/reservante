@@ -341,7 +341,6 @@ public class ReservasDialog extends javax.swing.JDialog {
         jListReservas.setModel(modelo);
     }
 
-
     public String[] leerSalones() {
         final JSONArray[] jsonArray = new JSONArray[1];
         Runnable runnable = new Runnable() {

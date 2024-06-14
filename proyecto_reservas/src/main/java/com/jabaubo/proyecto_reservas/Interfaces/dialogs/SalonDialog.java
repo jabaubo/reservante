@@ -31,27 +31,6 @@ public class SalonDialog extends javax.swing.JDialog {
     /**
      * Creates new form NewJDialog
      */
-    //Para insertar
-    public SalonDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        this.interfazPrincipal = (InterfazPrincipal) parent;
-        initComponents();
-        jbBorrar.setEnabled(false);
-        this.setLocationRelativeTo(null);
-        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
-    }
-
-    //Para actualizar
-    public SalonDialog(java.awt.Frame parent, boolean modal, Salon s) {
-        super(parent, modal);
-        this.interfazPrincipal = (InterfazPrincipal) parent;
-        this.salon = s;
-        initComponents();
-        jtfNombre.setText(s.getNombre());
-        jtfAforo.setText(String.valueOf(s.getAforo()));
-        this.setLocationRelativeTo(null);
-        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -138,6 +117,27 @@ public class SalonDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    //Para insertar
+    public SalonDialog(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        this.interfazPrincipal = (InterfazPrincipal) parent;
+        initComponents();
+        jbBorrar.setEnabled(false);
+        this.setLocationRelativeTo(null);
+        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
+    }
+
+    //Para actualizar
+    public SalonDialog(java.awt.Frame parent, boolean modal, Salon s) {
+        super(parent, modal);
+        this.interfazPrincipal = (InterfazPrincipal) parent;
+        this.salon = s;
+        initComponents();
+        jtfNombre.setText(s.getNombre());
+        jtfAforo.setText(String.valueOf(s.getAforo()));
+        this.setLocationRelativeTo(null);
+        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
+    }
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         // TODO add your handling code here
