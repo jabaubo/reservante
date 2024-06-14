@@ -405,7 +405,6 @@ public class PanelReservas extends javax.swing.JPanel {
         //Comprobamos que se haya seleccionado un valor
         if (jcbFiltro2.getSelectedItem() != null) {
             String filtro = jcbFiltro2.getSelectedItem().toString();
-            jcbFiltro2.removeAllItems();
             if (!filtro.equals("--- Seleccione filtro ---")) {
                 String id = filtro.substring(0, filtro.indexOf("-") - 1);
                 listaReservas = new ArrayList<>();
@@ -728,6 +727,9 @@ public class PanelReservas extends javax.swing.JPanel {
             jcbFiltro2.removeAllItems();
             for (String s : textos) {
                 jcbFiltro2.addItem(s);
+            }
+            for (int i = 0 ; i < textos.length ; i++) {
+                System.out.println(jcbFiltro2.getItemAt(i));;
             }
             return textos;
         }

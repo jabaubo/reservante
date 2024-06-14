@@ -43,142 +43,6 @@ public class ReservasDialog extends javax.swing.JDialog {
     private int id;
     private String[] salones;
 
-    public ReservasDialog(java.awt.Frame parent, boolean modal, LocalDate fecha, LocalTime tramo, ArrayList<Reserva> lista, int id) {
-        super(parent, modal);
-        initComponents();
-        //Cargamos los campos
-        this.id = id;
-        this.fecha = fecha.toString();
-        this.tramo = tramo.toString();
-        jlTitulo.setText(String.format("FECHA: %s TRAMO: %s", fecha.toString(), tramo.toString()));
-        this.lista = lista;
-        this.listaCompleta = lista;
-        salones = leerSalones();
-        cargarReservas();
-        //Desactivamos los botones hasta que se seleccione una reserva
-        jbActualizar.setEnabled(false);
-        jbBorrar.setEnabled(false);
-        jbCorreo.setEnabled(false);
-        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
-        setLocationRelativeTo(null);
-    }
-
-    public ReservasDialog(java.awt.Frame parent, boolean modal, LocalDate fecha, LocalTime tramo, int id) {
-        //Cargamos los campos
-        super(parent, modal);
-        initComponents();
-        this.id = id;
-        this.fecha = fecha.toString();
-        this.tramo = tramo.toString();
-        jlTitulo.setText(String.format("FECHA: %s TRAMO: %s", fecha.toString(), tramo.toString()));
-        this.lista = new ArrayList<>();
-        this.listaCompleta = lista;
-        salones = leerSalones();
-        //Desactivamos los botones hasta que se seleccione una reserva
-        jbActualizar.setEnabled(false);
-        jbBorrar.setEnabled(false);
-        jbCorreo.setEnabled(false);
-        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
-        setLocationRelativeTo(null);
-    }
-
-    public void cargarReservas() {
-        //Vamos recorriendo la lista para ir añadiendo al modelo
-        DefaultListModel<String> modelo = new DefaultListModel<>();
-        for (int i = 0; i < lista.size(); i++) {
-            Reserva r = lista.get(i);
-            modelo.addElement("Cliente : " + r.getNombre_apellidos() + " Comensales : " + r.getN_personas());
-        }
-        jListReservas.setModel(modelo);
-    }
-
-    
-    public String[] leerSalones() {
-        final JSONArray[] jsonArray = new JSONArray[1];
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // Conectamos a la pagina con el método que queramos
-                try {
-                    URL url = new URL("https://reservante.mjhudesings.com/slim/getaforotramo");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    connection.setDoOutput(true);
-                    OutputStream os = connection.getOutputStream();
-                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-                    //Preparamos le json
-                    String json = "{\n"
-                            + "    \"fecha\":\"#FECHA#\",\n"
-                            + "    \"id\":\"#PARAMID#\",\n"
-                            + "    \"hora\":\"#HORA#\"   \n"
-                            + "}";
-                    json = json.replace("#FECHA#", fecha);
-                    json = json.replace("#HORA#", tramo);
-                    json = json.replace("#PARAMID#", String.valueOf(id));
-                    osw.write(json);
-                    osw.flush();
-                    int responseCode = connection.getResponseCode();
-                    //Ver si la respuesta es correcta
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        // Si es correcta la leemos
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String line;
-                        StringBuilder response = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
-                        }
-                        reader.close();
-                        connection.disconnect();
-                        System.out.println("Respuesta insertar aforo" + response);
-                        jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
-                        System.out.println(jsonArray[0]);
-                    } else {
-                        connection.disconnect();
-                    }
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                } catch (ProtocolException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        //Comprobamos la respuesta
-        if (jsonArray[0] == null) {
-            JOptionPane.showMessageDialog(this.getParent(), "No hay reservas", "Aviso", JOptionPane.PLAIN_MESSAGE);
-            return null;
-        } else {
-            //Si hay reservas cargamos el filtro
-            String[] textos = new String[jsonArray[0].length() + 1];
-            textos[0] = "--- Seleccione filtro ---";
-            for (int i = 0; i < jsonArray[0].length(); i++) {
-                try {
-                    JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
-                    System.out.println(jsonObject);
-                    textos[i + 1] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            //Cargamos en el comboBox
-            jcbFiltro.removeAllItems();
-            for (String s : textos) {
-                jcbFiltro.addItem(s);
-            }
-            return textos;
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -428,6 +292,142 @@ public class ReservasDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    public ReservasDialog(java.awt.Frame parent, boolean modal, LocalDate fecha, LocalTime tramo, ArrayList<Reserva> lista, int id) {
+        super(parent, modal);
+        initComponents();
+        //Cargamos los campos
+        this.id = id;
+        this.fecha = fecha.toString();
+        this.tramo = tramo.toString();
+        jlTitulo.setText(String.format("FECHA: %s TRAMO: %s", fecha.toString(), tramo.toString()));
+        this.lista = lista;
+        this.listaCompleta = lista;
+        salones = leerSalones();
+        cargarReservas();
+        //Desactivamos los botones hasta que se seleccione una reserva
+        jbActualizar.setEnabled(false);
+        jbBorrar.setEnabled(false);
+        jbCorreo.setEnabled(false);
+        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
+        setLocationRelativeTo(null);
+    }
+
+    public ReservasDialog(java.awt.Frame parent, boolean modal, LocalDate fecha, LocalTime tramo, int id) {
+        //Cargamos los campos
+        super(parent, modal);
+        initComponents();
+        this.id = id;
+        this.fecha = fecha.toString();
+        this.tramo = tramo.toString();
+        jlTitulo.setText(String.format("FECHA: %s TRAMO: %s", fecha.toString(), tramo.toString()));
+        this.lista = new ArrayList<>();
+        this.listaCompleta = lista;
+        salones = leerSalones();
+        //Desactivamos los botones hasta que se seleccione una reserva
+        jbActualizar.setEnabled(false);
+        jbBorrar.setEnabled(false);
+        jbCorreo.setEnabled(false);
+        jlTitulo.setForeground(new ColorUIResource(221, 221, 221));
+        setLocationRelativeTo(null);
+    }
+
+    public void cargarReservas() {
+        //Vamos recorriendo la lista para ir añadiendo al modelo
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        for (int i = 0; i < lista.size(); i++) {
+            Reserva r = lista.get(i);
+            modelo.addElement("Cliente : " + r.getNombre_apellidos() + " Comensales : " + r.getN_personas());
+        }
+        jListReservas.setModel(modelo);
+    }
+
+
+    public String[] leerSalones() {
+        final JSONArray[] jsonArray = new JSONArray[1];
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Conectamos a la pagina con el método que queramos
+                try {
+                    URL url = new URL("https://reservante.mjhudesings.com/slim/getaforotramo");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
+                    OutputStream os = connection.getOutputStream();
+                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                    //Preparamos le json
+                    String json = "{\n"
+                            + "    \"fecha\":\"#FECHA#\",\n"
+                            + "    \"id\":\"#PARAMID#\",\n"
+                            + "    \"hora\":\"#HORA#\"   \n"
+                            + "}";
+                    json = json.replace("#FECHA#", fecha);
+                    json = json.replace("#HORA#", tramo);
+                    json = json.replace("#PARAMID#", String.valueOf(id));
+                    osw.write(json);
+                    osw.flush();
+                    int responseCode = connection.getResponseCode();
+                    //Ver si la respuesta es correcta
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Si es correcta la leemos
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuilder response = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                        reader.close();
+                        connection.disconnect();
+                        System.out.println("Respuesta insertar aforo" + response);
+                        jsonArray[0] = new JSONObject(String.valueOf(response)).getJSONArray("aforo");
+                        System.out.println(jsonArray[0]);
+                    } else {
+                        connection.disconnect();
+                    }
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (ProtocolException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        //Comprobamos la respuesta
+        if (jsonArray[0] == null) {
+            JOptionPane.showMessageDialog(this.getParent(), "No hay reservas", "Aviso", JOptionPane.PLAIN_MESSAGE);
+            return null;
+        } else {
+            //Si hay reservas cargamos el filtro
+            String[] textos = new String[jsonArray[0].length() + 1];
+            textos[0] = "--- Seleccione filtro ---";
+            for (int i = 0; i < jsonArray[0].length(); i++) {
+                try {
+                    JSONObject jsonObject = (JSONObject) jsonArray[0].get(i);
+                    System.out.println(jsonObject);
+                    textos[i + 1] = String.format("%s - %s libre: %s/%s ", jsonObject.getString("id_salon"), jsonObject.getString("nombre"), jsonObject.getString("disponible"), jsonObject.getString("aforo"));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            //Cargamos en el comboBox
+            jcbFiltro.removeAllItems();
+            for (String s : textos) {
+                jcbFiltro.addItem(s);
+            }
+            return textos;
+        }
+    }
 
     private void jbInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInsertarActionPerformed
         // TODO add your handling code here:
@@ -609,7 +609,7 @@ public class ReservasDialog extends javax.swing.JDialog {
         Desktop desktop;
         if (Desktop.isDesktopSupported() && (desktop = Desktop.getDesktop()).isSupported(Desktop.Action.MAIL)) {
             try {
-                String uri = "mailto:#CORREO#?subject=Correo de Reservante";
+                String uri = "mailto:#CORREO#?subject=Reservante";
                 uri = uri.replace("#CORREO#", jlEmail.getText());
                 URI mailto = new URI(uri);
                 desktop.mail(mailto);

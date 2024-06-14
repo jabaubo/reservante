@@ -32,7 +32,7 @@
                 <executions>
                     <execution>
                         <phase>package</phase>
-                        <goals>
+                        <goals> 
                             <goal>shade</goal>
                         </goals>
                         <configuration>
@@ -43,7 +43,7 @@
                             </transformers>
                         </configuration>
                     </execution>
-                </executions>
+                </executions> 
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

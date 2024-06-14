@@ -42,65 +42,6 @@ public class PanelConfiguracion extends javax.swing.JPanel {
     private InterfazPrincipal interfazPrincipal;
     private int restaurante;
 
-    public PanelConfiguracion(InterfazPrincipal interfazPrincipal, int restaurante) {
-        this.interfazPrincipal = interfazPrincipal;
-        this.restaurante = restaurante;
-        initComponents();
-        cargarDatos();
-    }
-
-    public void cargarDatos() {
-        JSONObject json = leerDatosRestaurante();
-        cargarSalones();
-        //Con el json de los datos del restaurante vamos rellenando el primer apartado
-        JSONObject jsonRestaurante = json.getJSONArray("resultado").getJSONObject(0);
-        tfNombre.setText(jsonRestaurante.getString("nombre"));
-        tfTlf1.setText(jsonRestaurante.getString("telefono1"));
-        if (!jsonRestaurante.getString("telefono2").equals("0")) {
-            tfTlf2.setText(jsonRestaurante.getString("telefono2"));
-        }
-        tfEmail.setText(jsonRestaurante.getString("email"));
-        tfDireccion.setText(jsonRestaurante.getString("direccion"));
-        String duracionStr[] = jsonRestaurante.getString("duracion_reservas").split(":");
-        jcbHora.setSelectedItem(duracionStr[0]);
-        jcbMinutos.setSelectedItem(duracionStr[1]);
-        jcbSegundos.setSelectedItem(duracionStr[2]);
-        
-        //Vemos si hay vacaciones
-        if (json.toString().contains("resultado2")) {
-            //Si hay vamos recorriendo el array y almacenando
-            JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
-            DefaultListModel<Vacaciones> modelo = new DefaultListModel<>();
-            for (int i = 0; i < jsonArrayVacaciones.length(); i++) {
-                JSONObject jsonVacacion = jsonArrayVacaciones.getJSONObject(i);
-                System.out.println(jsonVacacion);
-                Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"), interfazPrincipal.getRestaurante(), jsonVacacion.getInt("id_vacacion"));
-                listaVacaciones.add(v);
-                modelo.addElement(v);
-            }
-            jListVacaciones.setModel(modelo);
-        }
-        
-        
-        jListVacaciones.setCellRenderer(new VacacionesRender());
-        jbInsertarSalones.setForeground(new Color(221, 221, 221));
-        jbInsertarVacaciones.setForeground(new Color(221, 221, 221));
-        jbGuardarDatos.setForeground(new Color(221, 221, 221));
-
-        jbInsertarSalones.setBackground(new Color(109, 34, 109));
-        jbInsertarVacaciones.setBackground(new Color(109, 34, 109));
-        jbGuardarDatos.setBackground(new Color(109, 34, 109));
-        /*
-        jbInsertarSalones.setBackground(new Color(109, 34, 109));
-        jbInsertarVacaciones.setBackground(new Color(109, 34, 109));
-        jbGuardarDatos.setBackground(new Color(109, 34, 109));
-        */
-        jbInsertarSalones.setForeground(new Color(221, 221, 221));
-        jbInsertarVacaciones.setForeground(new Color(221, 221, 221));
-        jbGuardarDatos.setForeground(new Color(221, 221, 221));
-
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -425,6 +366,63 @@ public class PanelConfiguracion extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+public PanelConfiguracion(InterfazPrincipal interfazPrincipal, int restaurante) {
+        this.interfazPrincipal = interfazPrincipal;
+        this.restaurante = restaurante;
+        initComponents();
+        cargarDatos();
+    }
+
+    public void cargarDatos() {
+        JSONObject json = leerDatosRestaurante();
+        cargarSalones();
+        //Con el json de los datos del restaurante vamos rellenando el primer apartado
+        JSONObject jsonRestaurante = json.getJSONArray("resultado").getJSONObject(0);
+        tfNombre.setText(jsonRestaurante.getString("nombre"));
+        tfTlf1.setText(jsonRestaurante.getString("telefono1"));
+        if (!jsonRestaurante.getString("telefono2").equals("0")) {
+            tfTlf2.setText(jsonRestaurante.getString("telefono2"));
+        }
+        tfEmail.setText(jsonRestaurante.getString("email"));
+        tfDireccion.setText(jsonRestaurante.getString("direccion"));
+        String duracionStr[] = jsonRestaurante.getString("duracion_reservas").split(":");
+        jcbHora.setSelectedItem(duracionStr[0]);
+        jcbMinutos.setSelectedItem(duracionStr[1]);
+        jcbSegundos.setSelectedItem(duracionStr[2]);
+
+        //Vemos si hay vacaciones
+        if (json.toString().contains("resultado2")) {
+            //Si hay vamos recorriendo el array y almacenando
+            JSONArray jsonArrayVacaciones = json.getJSONArray("resultado2");
+            DefaultListModel<Vacaciones> modelo = new DefaultListModel<>();
+            for (int i = 0; i < jsonArrayVacaciones.length(); i++) {
+                JSONObject jsonVacacion = jsonArrayVacaciones.getJSONObject(i);
+                System.out.println(jsonVacacion);
+                Vacaciones v = new Vacaciones(jsonVacacion.getString("nombre"), jsonVacacion.getString("inicio"), jsonVacacion.getString("fin"), interfazPrincipal.getRestaurante(), jsonVacacion.getInt("id_vacacion"));
+                listaVacaciones.add(v);
+                modelo.addElement(v);
+            }
+            jListVacaciones.setModel(modelo);
+        }
+
+        jListVacaciones.setCellRenderer(new VacacionesRender());
+        jbInsertarSalones.setForeground(new Color(221, 221, 221));
+        jbInsertarVacaciones.setForeground(new Color(221, 221, 221));
+        jbGuardarDatos.setForeground(new Color(221, 221, 221));
+
+        jbInsertarSalones.setBackground(new Color(109, 34, 109));
+        jbInsertarVacaciones.setBackground(new Color(109, 34, 109));
+        jbGuardarDatos.setBackground(new Color(109, 34, 109));
+        /*
+        jbInsertarSalones.setBackground(new Color(109, 34, 109));
+        jbInsertarVacaciones.setBackground(new Color(109, 34, 109));
+        jbGuardarDatos.setBackground(new Color(109, 34, 109));
+         */
+        jbInsertarSalones.setForeground(new Color(221, 221, 221));
+        jbInsertarVacaciones.setForeground(new Color(221, 221, 221));
+        jbGuardarDatos.setForeground(new Color(221, 221, 221));
+
+    }
 
     public void cargarSalones() {
         String[] responseStr = new String[1];
@@ -516,31 +514,31 @@ public class PanelConfiguracion extends javax.swing.JPanel {
         boolean todoOk = true;
         //Comprobamos la duración de las reservas
         if (duracion.equals("00:00:00")) {
-            JOptionPane.showMessageDialog(this, "Inserte una duración de reservas correcta","Aviso",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Inserte una duración de reservas correcta", "Aviso", JOptionPane.ERROR_MESSAGE);
             todoOk = false;
         }
         //Comprobamos el TLF1
         if (!tlf1Str.matches("[0-9]{9}")) {
-            JOptionPane.showMessageDialog(this, "Inserte un Teléfono1 correcto","Aviso",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Inserte un Teléfono1 correcto", "Aviso", JOptionPane.ERROR_MESSAGE);
             todoOk = false;
         }
         //Comprobamos si hay TLF2 ,  si hay vemos que tenga el formato correcto
         if (!tlf2Str.equals("")) {
             if (!tlf2Str.matches("[0-9]{9}")) {
-                JOptionPane.showMessageDialog(this, "Inserte un Teléfono2 correcto","Aviso",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Inserte un Teléfono2 correcto", "Aviso", JOptionPane.ERROR_MESSAGE);
                 todoOk = false;
             }
         }
         //Comprobamos si hay correo ,  si hay vemos que tenga el formato correcto
         if (!email.equals("")) {
             if (!email.matches("[^\\^$.\\|?*+()\\]\\[}{]{8,16}[@][a-z][.][a-z]{2,3}")) {
-                JOptionPane.showMessageDialog(this, "Inserte un correo correcto","Aviso",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Inserte un correo correcto", "Aviso", JOptionPane.ERROR_MESSAGE);
                 todoOk = false;
             }
         }
         if (nombre.isEmpty() || tlf1Str.isEmpty() || direccion.isEmpty() || duracion.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Algún campo necesario está vacío","Aviso",JOptionPane.ERROR_MESSAGE);
-            todoOk  = false;
+            JOptionPane.showMessageDialog(this, "Algún campo necesario está vacío", "Aviso", JOptionPane.ERROR_MESSAGE);
+            todoOk = false;
         }
         //Si todo es correcto formateamos el json y hacemos la petición
         if (todoOk) {

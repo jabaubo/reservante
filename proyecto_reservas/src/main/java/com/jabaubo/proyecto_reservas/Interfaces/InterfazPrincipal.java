@@ -41,67 +41,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form UI
      */
-    public InterfazPrincipal() {
-        Login login = new Login(this, true);
-        login.setVisible(true);
-        //Mostramos el login , si inicia sesión ya mostramos la pantalla
-        if (login.isLogin()) {
-            initComponents();
-            restaurante = login.getRestaurante();
-            login.dispose();
-            System.out.println(login.isActive());
-            Cargando cargando = new Cargando(this, true);
-        } else {
-            System.exit(2);
-        }
-    }
-
-    public void cargar(Cargando cargando) {
-        //Vamos modificando la barra de carga para hacer referencia a los distintos estados de carga de la app
-        cargando.updateEtiqueta("Cargando configuración");
-        cargando.updateBarra(15);
-        panelConfiguracion = new PanelConfiguracion(this, restaurante);
-        cargando.updateEtiqueta("Cargando calendario");
-        cargando.updateBarra(30);
-        panelCalendario = new PanelCalendario(this, restaurante);
-        cargando.updateEtiqueta("Cargando Inicio");
-        cargando.updateBarra(45);
-        panelInicio = new PanelInicio(this);
-        cargando.updateEtiqueta("Cargando reservas");
-        cargando.updateBarra(60);
-        panelReservas = new PanelReservas(this);
-        cargando.updateEtiqueta("Cargando horario");
-        cargando.updateBarra(75);
-        panelHorario = new PanelHorario(this.restaurante);
-        cargando.updateEtiqueta("Terminando preparación");
-        cargando.updateBarra(90);
-        //Almacenamos los botones , paneles y avisos en arrays , manteniendo el orden
-        botones = new ArrayList<>();
-        paneles = new ArrayList<>();
-        avisos = new ArrayList<>();
-        jbInicio.setSelected(true);
-        botones.add(jbInicio);
-        botones.add(jbAgenda);
-        botones.add(jbConfiguracion);
-        botones.add(jbReservas);
-        botones.add(jbHorario);
-
-        paneles.add(panelInicio);
-        paneles.add(panelCalendario);
-        paneles.add(panelConfiguracion);
-        paneles.add(panelReservas);
-        paneles.add(panelHorario);
-
-        avisos.add(new AdvertenciaDialog(this, true, "Ocupación de los próximos días"));
-        avisos.add(new AdvertenciaDialog(this, true, "Seleccione fecha y hora"));
-        avisos.add(new AdvertenciaDialog(this, true, "Defina los datos de su restaurante"));
-        avisos.add(new AdvertenciaDialog(this, true, "Listado completo de las reservas"));
-        avisos.add(new AdvertenciaDialog(this, true, "Defina su horario"));
-
-        selected(jbInicio);
-        cargando.dispose();
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -257,44 +196,71 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public InterfazPrincipal() {
+        Login login = new Login(this, true);
+        login.setVisible(true);
+        //Mostramos el login , si inicia sesión ya mostramos la pantalla
+        if (login.isLogin()) {
+            initComponents();
+            restaurante = login.getRestaurante();
+            login.dispose();
+            System.out.println(login.isActive());
+            Cargando cargando = new Cargando(this, true);
+        } else {
+            System.exit(2);
+        }
+    }
+
+    public void cargar(Cargando cargando) {
+        //Vamos modificando la barra de carga para hacer referencia a los distintos estados de carga de la app
+        cargando.updateEtiqueta("Cargando configuración");
+        cargando.updateBarra(15);
+        panelConfiguracion = new PanelConfiguracion(this, restaurante);
+        cargando.updateEtiqueta("Cargando calendario");
+        cargando.updateBarra(30);
+        panelCalendario = new PanelCalendario(this, restaurante);
+        cargando.updateEtiqueta("Cargando Inicio");
+        cargando.updateBarra(45);
+        panelInicio = new PanelInicio(this);
+        cargando.updateEtiqueta("Cargando reservas");
+        cargando.updateBarra(60);
+        panelReservas = new PanelReservas(this);
+        cargando.updateEtiqueta("Cargando horario");
+        cargando.updateBarra(75);
+        panelHorario = new PanelHorario(this.restaurante);
+        cargando.updateEtiqueta("Terminando preparación");
+        cargando.updateBarra(90);
+        //Almacenamos los botones , paneles y avisos en arrays , manteniendo el orden
+        botones = new ArrayList<>();
+        paneles = new ArrayList<>();
+        avisos = new ArrayList<>();
+        jbInicio.setSelected(true);
+        botones.add(jbInicio);
+        botones.add(jbAgenda);
+        botones.add(jbConfiguracion);
+        botones.add(jbReservas);
+        botones.add(jbHorario);
+
+        paneles.add(panelInicio);
+        paneles.add(panelCalendario);
+        paneles.add(panelConfiguracion);
+        paneles.add(panelReservas);
+        paneles.add(panelHorario);
+
+        avisos.add(new AdvertenciaDialog(this, true, "Ocupación de los próximos días"));
+        avisos.add(new AdvertenciaDialog(this, true, "Seleccione fecha y hora"));
+        avisos.add(new AdvertenciaDialog(this, true, "Defina los datos de su restaurante"));
+        avisos.add(new AdvertenciaDialog(this, true, "Listado completo de las reservas"));
+        avisos.add(new AdvertenciaDialog(this, true, "Defina su horario"));
+
+        selected(jbInicio);
+        cargando.dispose();
+    }
+
     private void cambioDePanel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambioDePanel
         // TODO add your handling code here:
         selected((JButton) evt.getSource());
     }//GEN-LAST:event_cambioDePanel
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        
-        try {
-            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                InterfazPrincipal ui = new InterfazPrincipal();
-                ui.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                ui.setVisible(true);
-            }
-        });
-    }
 
     public void selected(JButton jb) {
         selectedButton = jb;
@@ -348,6 +314,41 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     public int getRestaurante() {
         return restaurante;
     }
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        
+        try {
+            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                InterfazPrincipal ui = new InterfazPrincipal();
+                ui.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                ui.setVisible(true);
+            }
+        });
+    }
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
