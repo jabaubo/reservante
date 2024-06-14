@@ -42,173 +42,6 @@ public class PanelHorario extends javax.swing.JPanel {
      */
     private int idRestaurante;
 
-    public PanelHorario(int idRestaurante) {
-        this.idRestaurante = idRestaurante;
-        initComponents();
-// Panel 1 Lunes
-        jPanel3.setName("PanelLunes");
-        jComboBox13.setName("ComboBoxHoraInicioM");
-        jComboBox14.setName("ComboBoxMinutoInicioM");
-        jComboBox15.setName("ComboBoxHoraFinM");
-        jComboBox16.setName("ComboBoxMinutoFinM");
-        jComboBox17.setName("ComboBoxMinutoFinT");
-        jComboBox18.setName("ComboBoxHoraFinT");
-        jComboBox19.setName("ComboBoxMinutoInicioT");
-        jComboBox20.setName("ComboBoxHoraInicioT");
-
-// Panel 2 Martes
-        jPanel4.setName("PanelMartes");
-        jComboBox21.setName("ComboBoxHoraInicioM");
-        jComboBox22.setName("ComboBoxMinutoInicioM");
-        jComboBox23.setName("ComboBoxHoraFinM");
-        jComboBox24.setName("ComboBoxMinutoFinM");
-        jComboBox25.setName("ComboBoxMinutoFinT");
-        jComboBox26.setName("ComboBoxHoraFinT");
-        jComboBox27.setName("ComboBoxMinutoInicioT");
-        jComboBox28.setName("ComboBoxHoraInicioT");
-
-// Panel 3 Miércoles
-        jPanel5.setName("PanelMiércoles");
-        jComboBox29.setName("ComboBoxHoraInicioM");
-        jComboBox30.setName("ComboBoxMinutoInicioM");
-        jComboBox31.setName("ComboBoxHoraFinM");
-        jComboBox32.setName("ComboBoxMinutoFinM");
-        jComboBox33.setName("ComboBoxMinutoFinT");
-        jComboBox34.setName("ComboBoxHoraFinT");
-        jComboBox35.setName("ComboBoxMinutoInicioT");
-        jComboBox36.setName("ComboBoxHoraInicioT");
-
-// Panel 4 Jueves
-        jPanel6.setName("PanelJueves");
-        jComboBox37.setName("ComboBoxHoraInicioM");
-        jComboBox38.setName("ComboBoxMinutoInicioM");
-        jComboBox39.setName("ComboBoxHoraFinM");
-        jComboBox40.setName("ComboBoxMinutoFinM");
-        jComboBox41.setName("ComboBoxMinutoFinT");
-        jComboBox42.setName("ComboBoxHoraFinT");
-        jComboBox43.setName("ComboBoxMinutoInicioT");
-        jComboBox44.setName("ComboBoxHoraInicioT");
-
-// Panel 5 Viernes
-        jPanel7.setName("PanelViernes");
-        jComboBox45.setName("ComboBoxHoraInicioM");
-        jComboBox46.setName("ComboBoxMinutoInicioM");
-        jComboBox47.setName("ComboBoxHoraFinM");
-        jComboBox48.setName("ComboBoxMinutoFinM");
-        jComboBox49.setName("ComboBoxMinutoFinT");
-        jComboBox50.setName("ComboBoxHoraFinT");
-        jComboBox51.setName("ComboBoxMinutoInicioT");
-        jComboBox52.setName("ComboBoxHoraInicioT");
-
-// Panel 6 Sábado
-        jPanel8.setName("PanelSábado");
-        jComboBox53.setName("ComboBoxHoraInicioM");
-        jComboBox54.setName("ComboBoxMinutoInicioM");
-        jComboBox55.setName("ComboBoxHoraFinM");
-        jComboBox56.setName("ComboBoxMinutoFinM");
-        jComboBox57.setName("ComboBoxMinutoFinT");
-        jComboBox58.setName("ComboBoxHoraFinT");
-        jComboBox59.setName("ComboBoxMinutoInicioT");
-        jComboBox60.setName("ComboBoxHoraInicioT");
-
-// Panel 7 Domingo
-        jPanel9.setName("PanelDomingo");
-        jComboBox61.setName("ComboBoxHoraInicioM");
-        jComboBox62.setName("ComboBoxMinutoInicioM");
-        jComboBox63.setName("ComboBoxHoraFinM");
-        jComboBox64.setName("ComboBoxMinutoFinM");
-        jComboBox65.setName("ComboBoxMinutoFinT");
-        jComboBox66.setName("ComboBoxHoraFinT");
-        jComboBox67.setName("ComboBoxMinutoInicioT");
-        jComboBox68.setName("ComboBoxHoraInicioT");
-
-        cargarDatos();
-    }
-
-    public void cargarDatos(){
-        JSONArray jsonArray = cargarHorarioAPI();
-        if (jsonArray != null) {
-            ArrayList<Horario> lista = new ArrayList<>();
-            DefaultListModel<Horario> modelo = new DefaultListModel<>();
-            //Recorremos el json y vamos rellenando los horarios
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    String dia = jsonObject.getString("dia");
-                    Boolean cerrado = jsonObject.getInt("cerrado") == 1;
-                    String hora_inicio_m = jsonObject.getString("hora_inicio_m").substring(0, jsonObject.getString("hora_inicio_m").lastIndexOf(":"));
-                    String hora_fin_m = jsonObject.getString("hora_fin_m").substring(0, jsonObject.getString("hora_fin_m").lastIndexOf(":"));
-                    String hora_inicio_t = jsonObject.getString("hora_inicio_t").substring(0, jsonObject.getString("hora_inicio_t").lastIndexOf(":"));
-                    String hora_fin_t = jsonObject.getString("hora_fin_t").substring(0, jsonObject.getString("hora_fin_t").lastIndexOf(":"));
-                    Horario h = new Horario(dia, cerrado, hora_inicio_m, hora_fin_m, hora_inicio_t, hora_fin_t, idRestaurante);
-                    lista.add(h);
-                    modelo.addElement(h);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            int horarioLeer = 0;
-            //Recorremos los componentes del panel
-            for (Component c : jPanel1.getComponents()) {
-                //Los 7 primeros son horarios , el 8 es el botón de guardar
-                if (c.getClass().getName().equals("javax.swing.JPanel") && horarioLeer < 7) {
-                    JPanel panel = (JPanel) c;
-                    Horario h = lista.get(horarioLeer);
-                    for (Component child : panel.getComponents()) {
-                        //Comprobamos si es el panel de encabezado en el que está el checkbox
-                        if (child.getClass().getName().equals("javax.swing.JPanel")) {
-                            Component[] childList2 = ((JPanel) child).getComponents();
-                            for (Component child2 : childList2) {
-                                if (child2.getClass().getName().equals("javax.swing.JCheckBox")) {
-                                    ((JCheckBox) child2).setSelected(h.getCerrado());
-                                }
-                            }
-                        }
-                        if (child.getClass().getName().equals("javax.swing.JComboBox")) {
-                            JComboBox comboBox = (JComboBox) child;
-                            //Partimos las horas  y vamos rellenando en el correspondiente
-                            String[] horaIncioMArray = h.getHora_inicio_m().split(":");
-                            String[] horaFinMArray = h.getHora_fin_m().split(":");
-                            String[] horaIncioTArray = h.getHora_inicio_t().split(":");
-                            String[] horaFinTArray = h.getHora_fin_t().split(":");
-                            comboBox.setEnabled(!h.getCerrado());
-                            switch (comboBox.getName()) {
-                                case "ComboBoxHoraInicioM":
-                                    comboBox.setSelectedItem(horaIncioMArray[0]);
-                                    break;
-                                case "ComboBoxMinutoInicioM":
-                                    comboBox.setSelectedItem(horaIncioMArray[1]);
-                                    break;
-                                case "ComboBoxHoraFinM":
-                                    comboBox.setSelectedItem(horaFinMArray[0]);
-                                    break;
-                                case "ComboBoxMinutoFinM":
-                                    comboBox.setSelectedItem(horaFinMArray[1]);
-                                    break;
-                                case "ComboBoxHoraInicioT":
-                                    comboBox.setSelectedItem(horaIncioTArray[0]);
-                                    break;
-                                case "ComboBoxMinutoInicioT":
-                                    comboBox.setSelectedItem(horaIncioTArray[1]);
-                                    break;
-                                case "ComboBoxHoraFinT":
-                                    comboBox.setSelectedItem(horaFinTArray[0]);
-                                    break;
-                                case "ComboBoxMinutoFinT":
-                                    comboBox.setSelectedItem(horaFinTArray[1]);
-                                    break;
-                                default:
-                                    throw new AssertionError();
-                            }
-                        } else {
-                            System.out.println(child.getClass().getName());
-                        }
-                    }
-                    horarioLeer++;
-                }
-            }
-        }
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1889,6 +1722,175 @@ public class PanelHorario extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    public PanelHorario(int idRestaurante) {
+        this.idRestaurante = idRestaurante;
+        initComponents();
+// Panel 1 Lunes
+        jPanel3.setName("PanelLunes");
+        jComboBox13.setName("ComboBoxHoraInicioM");
+        jComboBox14.setName("ComboBoxMinutoInicioM");
+        jComboBox15.setName("ComboBoxHoraFinM");
+        jComboBox16.setName("ComboBoxMinutoFinM");
+        jComboBox17.setName("ComboBoxMinutoFinT");
+        jComboBox18.setName("ComboBoxHoraFinT");
+        jComboBox19.setName("ComboBoxMinutoInicioT");
+        jComboBox20.setName("ComboBoxHoraInicioT");
+
+// Panel 2 Martes
+        jPanel4.setName("PanelMartes");
+        jComboBox21.setName("ComboBoxHoraInicioM");
+        jComboBox22.setName("ComboBoxMinutoInicioM");
+        jComboBox23.setName("ComboBoxHoraFinM");
+        jComboBox24.setName("ComboBoxMinutoFinM");
+        jComboBox25.setName("ComboBoxMinutoFinT");
+        jComboBox26.setName("ComboBoxHoraFinT");
+        jComboBox27.setName("ComboBoxMinutoInicioT");
+        jComboBox28.setName("ComboBoxHoraInicioT");
+
+// Panel 3 Miércoles
+        jPanel5.setName("PanelMiércoles");
+        jComboBox29.setName("ComboBoxHoraInicioM");
+        jComboBox30.setName("ComboBoxMinutoInicioM");
+        jComboBox31.setName("ComboBoxHoraFinM");
+        jComboBox32.setName("ComboBoxMinutoFinM");
+        jComboBox33.setName("ComboBoxMinutoFinT");
+        jComboBox34.setName("ComboBoxHoraFinT");
+        jComboBox35.setName("ComboBoxMinutoInicioT");
+        jComboBox36.setName("ComboBoxHoraInicioT");
+
+// Panel 4 Jueves
+        jPanel6.setName("PanelJueves");
+        jComboBox37.setName("ComboBoxHoraInicioM");
+        jComboBox38.setName("ComboBoxMinutoInicioM");
+        jComboBox39.setName("ComboBoxHoraFinM");
+        jComboBox40.setName("ComboBoxMinutoFinM");
+        jComboBox41.setName("ComboBoxMinutoFinT");
+        jComboBox42.setName("ComboBoxHoraFinT");
+        jComboBox43.setName("ComboBoxMinutoInicioT");
+        jComboBox44.setName("ComboBoxHoraInicioT");
+
+// Panel 5 Viernes
+        jPanel7.setName("PanelViernes");
+        jComboBox45.setName("ComboBoxHoraInicioM");
+        jComboBox46.setName("ComboBoxMinutoInicioM");
+        jComboBox47.setName("ComboBoxHoraFinM");
+        jComboBox48.setName("ComboBoxMinutoFinM");
+        jComboBox49.setName("ComboBoxMinutoFinT");
+        jComboBox50.setName("ComboBoxHoraFinT");
+        jComboBox51.setName("ComboBoxMinutoInicioT");
+        jComboBox52.setName("ComboBoxHoraInicioT");
+
+// Panel 6 Sábado
+        jPanel8.setName("PanelSábado");
+        jComboBox53.setName("ComboBoxHoraInicioM");
+        jComboBox54.setName("ComboBoxMinutoInicioM");
+        jComboBox55.setName("ComboBoxHoraFinM");
+        jComboBox56.setName("ComboBoxMinutoFinM");
+        jComboBox57.setName("ComboBoxMinutoFinT");
+        jComboBox58.setName("ComboBoxHoraFinT");
+        jComboBox59.setName("ComboBoxMinutoInicioT");
+        jComboBox60.setName("ComboBoxHoraInicioT");
+
+// Panel 7 Domingo
+        jPanel9.setName("PanelDomingo");
+        jComboBox61.setName("ComboBoxHoraInicioM");
+        jComboBox62.setName("ComboBoxMinutoInicioM");
+        jComboBox63.setName("ComboBoxHoraFinM");
+        jComboBox64.setName("ComboBoxMinutoFinM");
+        jComboBox65.setName("ComboBoxMinutoFinT");
+        jComboBox66.setName("ComboBoxHoraFinT");
+        jComboBox67.setName("ComboBoxMinutoInicioT");
+        jComboBox68.setName("ComboBoxHoraInicioT");
+
+        cargarDatos();
+    }
+
+    public void cargarDatos(){
+        JSONArray jsonArray = cargarHorarioAPI();
+        if (jsonArray != null) {
+            ArrayList<Horario> lista = new ArrayList<>();
+            DefaultListModel<Horario> modelo = new DefaultListModel<>();
+            //Recorremos el json y vamos rellenando los horarios
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String dia = jsonObject.getString("dia");
+                    Boolean cerrado = jsonObject.getInt("cerrado") == 1;
+                    String hora_inicio_m = jsonObject.getString("hora_inicio_m").substring(0, jsonObject.getString("hora_inicio_m").lastIndexOf(":"));
+                    String hora_fin_m = jsonObject.getString("hora_fin_m").substring(0, jsonObject.getString("hora_fin_m").lastIndexOf(":"));
+                    String hora_inicio_t = jsonObject.getString("hora_inicio_t").substring(0, jsonObject.getString("hora_inicio_t").lastIndexOf(":"));
+                    String hora_fin_t = jsonObject.getString("hora_fin_t").substring(0, jsonObject.getString("hora_fin_t").lastIndexOf(":"));
+                    Horario h = new Horario(dia, cerrado, hora_inicio_m, hora_fin_m, hora_inicio_t, hora_fin_t, idRestaurante);
+                    lista.add(h);
+                    modelo.addElement(h);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            int horarioLeer = 0;
+            //Recorremos los componentes del panel
+            for (Component c : jPanel1.getComponents()) {
+                //Los 7 primeros son horarios , el 8 es el botón de guardar
+                if (c.getClass().getName().equals("javax.swing.JPanel") && horarioLeer < 7) {
+                    JPanel panel = (JPanel) c;
+                    Horario h = lista.get(horarioLeer);
+                    for (Component child : panel.getComponents()) {
+                        //Comprobamos si es el panel de encabezado en el que está el checkbox
+                        if (child.getClass().getName().equals("javax.swing.JPanel")) {
+                            Component[] childList2 = ((JPanel) child).getComponents();
+                            for (Component child2 : childList2) {
+                                if (child2.getClass().getName().equals("javax.swing.JCheckBox")) {
+                                    ((JCheckBox) child2).setSelected(h.getCerrado());
+                                }
+                            }
+                        }
+                        if (child.getClass().getName().equals("javax.swing.JComboBox")) {
+                            JComboBox comboBox = (JComboBox) child;
+                            //Partimos las horas  y vamos rellenando en el correspondiente
+                            String[] horaIncioMArray = h.getHora_inicio_m().split(":");
+                            String[] horaFinMArray = h.getHora_fin_m().split(":");
+                            String[] horaIncioTArray = h.getHora_inicio_t().split(":");
+                            String[] horaFinTArray = h.getHora_fin_t().split(":");
+                            comboBox.setEnabled(!h.getCerrado());
+                            switch (comboBox.getName()) {
+                                case "ComboBoxHoraInicioM":
+                                    comboBox.setSelectedItem(horaIncioMArray[0]);
+                                    break;
+                                case "ComboBoxMinutoInicioM":
+                                    comboBox.setSelectedItem(horaIncioMArray[1]);
+                                    break;
+                                case "ComboBoxHoraFinM":
+                                    comboBox.setSelectedItem(horaFinMArray[0]);
+                                    break;
+                                case "ComboBoxMinutoFinM":
+                                    comboBox.setSelectedItem(horaFinMArray[1]);
+                                    break;
+                                case "ComboBoxHoraInicioT":
+                                    comboBox.setSelectedItem(horaIncioTArray[0]);
+                                    break;
+                                case "ComboBoxMinutoInicioT":
+                                    comboBox.setSelectedItem(horaIncioTArray[1]);
+                                    break;
+                                case "ComboBoxHoraFinT":
+                                    comboBox.setSelectedItem(horaFinTArray[0]);
+                                    break;
+                                case "ComboBoxMinutoFinT":
+                                    comboBox.setSelectedItem(horaFinTArray[1]);
+                                    break;
+                                default:
+                                    throw new AssertionError();
+                            }
+                        } else {
+                            System.out.println(child.getClass().getName());
+                        }
+                    }
+                    horarioLeer++;
+                }
+            }
+        }
+    }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ArrayList<Horario> listaMandar = new ArrayList<>();
         boolean todoOk = true;

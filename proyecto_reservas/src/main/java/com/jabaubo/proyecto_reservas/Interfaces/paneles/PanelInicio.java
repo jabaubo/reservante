@@ -44,33 +44,6 @@ public class PanelInicio extends javax.swing.JPanel {
     /**
      * Creates new form PanelInicio
      */
-    public PanelInicio(InterfazPrincipal interfazPrincipal) {
-        initComponents();
-        this.interfazPrincipal = interfazPrincipal;
-        jListOcupacionReservas.setCellRenderer(new OcupacionRender());
-        jListOcupacionReservas1.setCellRenderer(new OcupacionRender());
-        jListOcupacionReservas2.setCellRenderer(new OcupacionRender());
-        jListOcupacionReservas3.setCellRenderer(new OcupacionRender());
-        cargarDatos();
-    }
-
-    public void cargarDatos() {
-        LocalDate fecha = LocalDate.now();
-        System.out.println("Carga1");
-        cargarOcupacion(fecha.toString(), jListOcupacionReservas);
-        jlFecha1.setText(fecha.toString());
-        System.out.println("Carga2");
-        cargarOcupacion(fecha.plusDays(1).toString(), jListOcupacionReservas1);
-        jlFecha2.setText(fecha.plusDays(1).toString());
-        System.out.println("Carga3");
-        cargarOcupacion(fecha.plusDays(2).toString(), jListOcupacionReservas2);
-        jlFecha3.setText(fecha.plusDays(2).toString());
-        System.out.println("Carga4");
-        cargarOcupacion(fecha.plusDays(3).toString(), jListOcupacionReservas3);
-        jlFecha4.setText(fecha.plusDays(3).toString());
-
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -202,6 +175,33 @@ public class PanelInicio extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    public PanelInicio(InterfazPrincipal interfazPrincipal) {
+        initComponents();
+        this.interfazPrincipal = interfazPrincipal;
+        jListOcupacionReservas.setCellRenderer(new OcupacionRender());
+        jListOcupacionReservas1.setCellRenderer(new OcupacionRender());
+        jListOcupacionReservas2.setCellRenderer(new OcupacionRender());
+        jListOcupacionReservas3.setCellRenderer(new OcupacionRender());
+        cargarDatos();
+    }
+
+    public void cargarDatos() {
+        LocalDate fecha = LocalDate.now();
+        System.out.println("Carga1");
+        cargarOcupacion(fecha.toString(), jListOcupacionReservas);
+        jlFecha1.setText(fecha.toString());
+        System.out.println("Carga2");
+        cargarOcupacion(fecha.plusDays(1).toString(), jListOcupacionReservas1);
+        jlFecha2.setText(fecha.plusDays(1).toString());
+        System.out.println("Carga3");
+        cargarOcupacion(fecha.plusDays(2).toString(), jListOcupacionReservas2);
+        jlFecha3.setText(fecha.plusDays(2).toString());
+        System.out.println("Carga4");
+        cargarOcupacion(fecha.plusDays(3).toString(), jListOcupacionReservas3);
+        jlFecha4.setText(fecha.plusDays(3).toString());
+
+    }
 
     private void jListOcupacionReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListOcupacionReservasMouseClicked
         // TODO add your handling code here:

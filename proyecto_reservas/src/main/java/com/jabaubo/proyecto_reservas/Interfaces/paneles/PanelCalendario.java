@@ -54,115 +54,6 @@ public class PanelCalendario extends javax.swing.JPanel {
     private Calendar fecha;
     private InterfazPrincipal interfazPrincipal;
 
-    public PanelCalendario() {
-        initComponents();
-//Arrancamos en la fecha actual
-        month = LocalDate.now().getMonth().getValue();
-        year = LocalDate.now().getYear();
-    }
-
-    public PanelCalendario(InterfazPrincipal interfazPrincipal, int restaurante) {
-        //Arrancamos en la fecha actual
-        this.month = LocalDate.now().getMonthValue();
-        this.year = LocalDate.now().getYear();
-        this.interfazPrincipal = interfazPrincipal;
-        this.restaurante = restaurante;
-        initComponents();
-        cargarDatos();
-    }
-
-    public void cargarDatos() {
-        //Creamos un calendar con el mes actual
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.MONTH, month - 1);
-        c.set(Calendar.YEAR, year);
-        month = c.get(Calendar.MONTH) + 1;
-        year = c.get(Calendar.YEAR);
-        //Depende del mes ponemos un título u otro en la etiqueta
-        switch (c.get(Calendar.MONTH)) {
-            case Calendar.JANUARY:
-                jlFechaCalendario.setText("Enero de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.FEBRUARY:
-                jlFechaCalendario.setText("Febrero de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.MARCH:
-                jlFechaCalendario.setText("Marzo de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.APRIL:
-                jlFechaCalendario.setText("Abril de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.MAY:
-                jlFechaCalendario.setText("Mayo de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.JUNE:
-                jlFechaCalendario.setText("Junio de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.JULY:
-                jlFechaCalendario.setText("Julio de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.AUGUST:
-                jlFechaCalendario.setText("Agosto de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.SEPTEMBER:
-                jlFechaCalendario.setText("Septiembre de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.OCTOBER:
-                jlFechaCalendario.setText("Octubre de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.NOVEMBER:
-                jlFechaCalendario.setText("Noviembre de " + c.get(Calendar.YEAR));
-                break;
-            case Calendar.DECEMBER:
-                jlFechaCalendario.setText("Diciembre de " + c.get(Calendar.YEAR));
-                break;
-            default:
-                jlFechaCalendario.setText("Error al obtener el mes");
-                break;
-        }
-        //Marcamos como título los días de la semana
-        celdaLunes.setTitle(true);
-        celdaMartes.setTitle(true);
-        celdaMiercoles.setTitle(true);
-        celdaJueves.setTitle(true);
-        celdaViernes.setTitle(true);
-        celdaSabado.setTitle(true);
-        celdaDomingo.setTitle(true);
-        jListOcupacionReservas.setCellRenderer(new OcupacionRender());
-        setDate();
-    }
-
-    public void setDate() {
-        //Creamos un calendario para la fecha de hoy
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, month - 1);
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        //Calculamos desde que dia empezamos
-        int start = calendar.get(Calendar.DAY_OF_WEEK) - 2;
-        //Si el mes empieza en domingo hay que empezar una semana antes
-        if (start < 0) {
-            calendar.add(Calendar.DATE, -7);
-        }
-        calendar.add(Calendar.DATE, -start);
-        //Vamos recorriendo el panel
-        for (Component com : panelCalendario.getComponents()) {
-            CeldaCalendario c = (CeldaCalendario) com;
-            //Si la celda es de día formateamos en base a día y mes
-            if (!c.isTitle()) {
-                c.setFocusPainted(true);
-                c.setText(calendar.get(Calendar.DATE) + "");
-                c.setDate(calendar.getTime());
-                c.setBackground(new ColorUIResource(243, 244, 248));
-                c.currentMonth(calendar.get(Calendar.MONTH) == month - 1);
-                calendar.add(Calendar.DATE, 1);
-           //Si no , damos formato de cabecera
-            } else {
-                c.setBackground(new ColorUIResource(109, 34, 109));
-                c.setForeground(Color.WHITE);
-            }
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -775,6 +666,117 @@ public class PanelCalendario extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_celdaMartesActionPerformed
 
+        public PanelCalendario() {
+        initComponents();
+//Arrancamos en la fecha actual
+        month = LocalDate.now().getMonth().getValue();
+        year = LocalDate.now().getYear();
+    }
+
+    public PanelCalendario(InterfazPrincipal interfazPrincipal, int restaurante) {
+        //Arrancamos en la fecha actual
+        this.month = LocalDate.now().getMonthValue();
+        this.year = LocalDate.now().getYear();
+        this.interfazPrincipal = interfazPrincipal;
+        this.restaurante = restaurante;
+        initComponents();
+        cargarDatos();
+    }
+
+    public void cargarDatos() {
+        //Creamos un calendar con el mes actual
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.MONTH, month - 1);
+        c.set(Calendar.YEAR, year);
+        month = c.get(Calendar.MONTH) + 1;
+        year = c.get(Calendar.YEAR);
+        //Depende del mes ponemos un título u otro en la etiqueta
+        switch (c.get(Calendar.MONTH)) {
+            case Calendar.JANUARY:
+                jlFechaCalendario.setText("Enero de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.FEBRUARY:
+                jlFechaCalendario.setText("Febrero de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.MARCH:
+                jlFechaCalendario.setText("Marzo de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.APRIL:
+                jlFechaCalendario.setText("Abril de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.MAY:
+                jlFechaCalendario.setText("Mayo de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.JUNE:
+                jlFechaCalendario.setText("Junio de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.JULY:
+                jlFechaCalendario.setText("Julio de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.AUGUST:
+                jlFechaCalendario.setText("Agosto de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.SEPTEMBER:
+                jlFechaCalendario.setText("Septiembre de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.OCTOBER:
+                jlFechaCalendario.setText("Octubre de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.NOVEMBER:
+                jlFechaCalendario.setText("Noviembre de " + c.get(Calendar.YEAR));
+                break;
+            case Calendar.DECEMBER:
+                jlFechaCalendario.setText("Diciembre de " + c.get(Calendar.YEAR));
+                break;
+            default:
+                jlFechaCalendario.setText("Error al obtener el mes");
+                break;
+        }
+        //Marcamos como título los días de la semana
+        celdaLunes.setTitle(true);
+        celdaMartes.setTitle(true);
+        celdaMiercoles.setTitle(true);
+        celdaJueves.setTitle(true);
+        celdaViernes.setTitle(true);
+        celdaSabado.setTitle(true);
+        celdaDomingo.setTitle(true);
+        jListOcupacionReservas.setCellRenderer(new OcupacionRender());
+        setDate();
+    }
+
+    public void setDate() {
+        //Creamos un calendario para la fecha de hoy
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        //Calculamos desde que dia empezamos
+        int start = calendar.get(Calendar.DAY_OF_WEEK) - 2;
+        //Si el mes empieza en domingo hay que empezar una semana antes
+        if (start < 0) {
+            calendar.add(Calendar.DATE, -7);
+        }
+        calendar.add(Calendar.DATE, -start);
+        //Vamos recorriendo el panel
+        for (Component com : panelCalendario.getComponents()) {
+            CeldaCalendario c = (CeldaCalendario) com;
+            //Si la celda es de día formateamos en base a día y mes
+            if (!c.isTitle()) {
+                c.setFocusPainted(true);
+                c.setText(calendar.get(Calendar.DATE) + "");
+                c.setDate(calendar.getTime());
+                c.setBackground(new ColorUIResource(243, 244, 248));
+                c.currentMonth(calendar.get(Calendar.MONTH) == month - 1);
+                calendar.add(Calendar.DATE, 1);
+           //Si no , damos formato de cabecera
+            } else {
+                c.setBackground(new ColorUIResource(109, 34, 109));
+                c.setForeground(Color.WHITE);
+            }
+        }
+    }
+
+    
     private void onClickDia(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onClickDia
         CeldaCalendario celda = (CeldaCalendario) evt.getSource();
         jlFechaSeleccionada.setText("Fecha :" + celda.fechaFormateada());

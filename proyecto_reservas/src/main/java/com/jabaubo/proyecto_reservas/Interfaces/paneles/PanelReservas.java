@@ -45,24 +45,6 @@ public class PanelReservas extends javax.swing.JPanel {
     private int idRestaurante;
     private String[] salones;
 
-    public PanelReservas(InterfazPrincipal interfazPrincipal) {
-        initComponents();
-        this.interfazPrincipal = interfazPrincipal;
-        this.idRestaurante = interfazPrincipal.getRestaurante();
-        cargarDatos();
-    }
-
-    public void cargarDatos() {
-        //Cargamos las reservas en la lista
-        listaReservasCompleta = leerReservas();
-        listaReservas = listaReservasCompleta;
-        //Cargamos la lista de salones
-        salones = leerSalones();
-        //Desactivamos los botones hasya seleccion
-        jButton3.setEnabled(false);
-        jbActualizar2.setEnabled(false);
-        jbBorrar2.setEnabled(false);
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -364,6 +346,26 @@ public class PanelReservas extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public PanelReservas(InterfazPrincipal interfazPrincipal) {
+        initComponents();
+        this.interfazPrincipal = interfazPrincipal;
+        this.idRestaurante = interfazPrincipal.getRestaurante();
+        cargarDatos();
+    }
+
+    public void cargarDatos() {
+        //Cargamos las reservas en la lista
+        listaReservasCompleta = leerReservas();
+        listaReservas = listaReservasCompleta;
+        //Cargamos la lista de salones
+        salones = leerSalones();
+        //Desactivamos los botones hasya seleccion
+        jButton3.setEnabled(false);
+        jbActualizar2.setEnabled(false);
+        jbBorrar2.setEnabled(false);
+    }
+
+    
     private void jListReservas2ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListReservas2ValueChanged
         // TODO add your handling code here:
         if (jListReservas2.getSelectedIndex() >= 0) {
